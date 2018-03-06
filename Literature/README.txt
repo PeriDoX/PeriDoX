@@ -27,30 +27,10 @@ Contact:   Martin Rädel,  martin.raedel@dlr.de
 - Do not add any non-peridynamic related publications in this .bib-file
 
 # ---------------------------
-# Saving documents
-# ---------------------------
-
-- Conventions:
-    - Save the pdf according to the scheme already employed
-	- Order:
-	    1. Last name of first author
-		2. Initials of first author first name
-		3. Underscore
-		4. Title separated by underscores instead of spaces
-        5. Replace all "Umlaut" sign with the proper combination of ae,oe,ue
-
-# ---------------------------
 # The .bib-file
 # ---------------------------
 
-- Several projects use the file "PeridynamicLiterature.bib" from this folder.
-  These are:
-	- ~\src\Publications\Doc\Peridigm_Installation_Guide\
-	- ~\src\Publications\Doc\Peridigm_Models_and_Verification_Guide\
-	- ~\src\Publications\Doc\Peridigm_Theory_Guide\
-	- ~\src\Publications\Doc\Peridigm_Users_Guide\
-	- ~\src\Projects\2017_DFG\
-	- ~\src\Projects\2017_Helmholtz_NFG\
+- Several projects use the file "PeridynamicLiterature.bib" from this folder
 - Do's:
     - In case you add a pdf to one of the Literature subfolders, please add the proper BibTeX-entry in the .bib-file right away
         - Usually literature sources allow some kind of BibTeX-export:

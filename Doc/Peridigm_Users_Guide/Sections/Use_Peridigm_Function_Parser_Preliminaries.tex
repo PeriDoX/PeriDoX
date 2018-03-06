@@ -1,0 +1,27 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{Preliminaries}
+
+\leveldown{Description}
+
+You can use functions inside a \marktool{\toolname} input deck. This means, it is possible to use algebraic expressions, e.g. for the definition of boundary conditions. \toolname{} uses the \href{https://github.com/trilinos/Trilinos/tree/master/packages/pamgen/rtcompiler}{RTCompiler} function parser to process C-style expressions for the specification of input parameters, including initial and boundary conditions. The RTCompiler (RTC) is used via the \trilinosname{} PG\_RuntimeCompiler class.
+
+\levelstay{History}
+
+The internal mechanism for processing functions used to be \href{https://sourceforge.net/projects/muparser/}{muParser}, and was recently changed to rtcompiler, see \href{https://github.com/peridigm/peridigm/commit/02dc1bb21b17e6ed406bf084442541f3723ab368}{this commit}.

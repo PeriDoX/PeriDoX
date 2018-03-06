@@ -1,0 +1,61 @@
+\begin{filecontents}{\tabledir\jobname-materialpropertyconversionltxtable.tex}
+% \begin{longtable}{@{}lX@{}}
+\begin{longtable}{@{}Xcr@{}lc@{}}%Xrll}
+% Caption
+\caption{Material property conversion}\\
+% \label{tab:Use_Peridigm_Material_property_conversion}\\
+\label{tab:Peridigm:QRG:Preliminaries:PDCMConversion}\\
+% ---------------------------
+% Header & Footer
+% ---------------------------
+%
+% Header
+% -----------------
+% 1st head
+\toprule
+Description & Dim. & \multicolumn{2}{l}{Equation} & Source\\
+\midrule
+\endfirsthead
+% Last head
+\multicolumn{5}{@{}l}{\ldots continued}\\
+\toprule
+Description & Dim. & \multicolumn{2}{l}{Equation} & Source\\
+\midrule
+\endhead
+%
+% Footer
+% -----------------
+% n-th foot
+\bottomrule
+\multicolumn{5}{r@{}}{continued \ldots}\\
+\endfoot
+% last foot
+\bottomrule
+\endlastfoot
+% ---------------------------
+% Content
+% ---------------------------\kappa_{3D}=\kappa_{2D}=\kappa_{1D}=\mu=
+\idxPDKwBulkModulus{} & 3D & $\glssymbol{symb:scalar:mat:modulus:bulk}_{3D}=$ & $\dfrac{\glssymbol{symb:scalar:mat:modulus:young}}{3\left(1-2\glssymbol{symb:scalar:mat:poissonratio}\right)}$ & \\[2ex]
+& 2D & $\glssymbol{symb:scalar:mat:modulus:bulk}_{2D}=$ & $\begin{cases}
+\dfrac{\glssymbol{symb:scalar:mat:modulus:young}}{2\left(1-\glssymbol{symb:scalar:mat:poissonratio}\right)}  & \text{, plane stress} \\[2ex]
+\dfrac{\glssymbol{symb:scalar:mat:modulus:young}}{2\left(1-\glssymbol{symb:scalar:mat:poissonratio}-2\glssymbol{symb:scalar:mat:poissonratio}^2\right)} & \text{, plane strain}
+\end{cases}$ & \cite{BobaruF2017} \\[4ex]
+& 1D & $\glssymbol{symb:scalar:mat:modulus:bulk}_{1D}=$ & $\glssymbol{symb:scalar:mat:modulus:young}$  & \\[2ex]
+\idxPDKwShearModulus{} & all & $\glssymbol{symb:scalar:mat:modulus:shear}=$ & $\dfrac{\glssymbol{symb:scalar:mat:modulus:young}}{2\left(1+\glssymbol{symb:scalar:mat:poissonratio}\right)}$ & \\[2ex]
+% 
+\multicolumn{4}{@{}l}{\idxPDKwBondConstant{} - bond based, constant influence function} \\
+& 3D & $\glssymbol{symb:scalar:pd:bond:constant}_{\mbox{3D}}=$ & $\dfrac{18\glssymbol{symb:scalar:mat:modulus:bulk}}{\pi\glssymbol{symb:scalar:pd:horizon}^4}=\dfrac{30\glssymbol{symb:scalar:mat:modulus:shear}}{\pi\glssymbol{symb:scalar:pd:horizon}^4}$ & \cite{SillingSA2005,MadenciE2014,BobaruF2017}\footnote{\cite[p.30]{BobaruF2017}, \cite[p.1529]{SillingSA2005}, \cite[p.37]{MadenciE2014}} \\[2ex]%\cite[p.1529]{SillingSA2005}\newline\cite[p.37]{MadenciE2014} \\[2ex]
+& 2D & $\glssymbol{symb:scalar:pd:bond:constant}_{\mbox{2D}}=$ & $\dfrac{12\glssymbol{symb:scalar:mat:modulus:bulk}}{\pi \glssymbol{symb:scalar:thickness}\glssymbol{symb:scalar:pd:horizon}^3}=\dfrac{\glssymbol{symb:scalar:mat:modulus:shear}}{\pi \glssymbol{symb:scalar:thickness}\glssymbol{symb:scalar:pd:horizon}^3}\cdot\begin{cases}20&\text{plane strain}\\24&\text{plane stress}\end{cases}$ & \cite{BobaruF2017} \\[2ex]
+& 1D & $\glssymbol{symb:scalar:pd:bond:constant}_{\mbox{1D}}=$ & $\dfrac{2\glssymbol{symb:scalar:mat:modulus:bulk}}{\glssymbol{symb:scalar:geo:2D:surface}\glssymbol{symb:scalar:pd:horizon}^2}$  & \cite{BobaruF2017} \\[2ex]
+% 
+\multicolumn{4}{@{}l}{\idxPDKwCriticalStretch{} - bond based} & \cite{HuangD2015}\footnote{\cite[p.114]{HuangD2015}} \\[3ex]
+& 3D & $\glssymbol{symb:scalar:pd:stretch}_{\glssymbol{symb:index:critical}\mbox{3D}}=$ & $\sqrt{\dfrac{5\glssymbol{symb:scalar:mat:energyreleaserate:critical}}{9\glssymbol{symb:scalar:mat:modulus:bulk}_{3D}\glssymbol{symb:scalar:pd:horizon}}}=\sqrt{\dfrac{10\glssymbol{symb:scalar:mat:energyreleaserate:critical}}{\pi \glssymbol{symb:scalar:pd:bond:constant}_{3D}\glssymbol{symb:scalar:pd:horizon}^5}}$ & \cite{SillingSA2005,BobaruF2017} \\[2ex]
+& 2D & $\glssymbol{symb:scalar:pd:stretch}_{\glssymbol{symb:index:critical}\mbox{2D}}=$ & $\sqrt{\dfrac{\pi \glssymbol{symb:scalar:mat:energyreleaserate:critical}}{3\glssymbol{symb:scalar:mat:modulus:bulk}_{2D}\glssymbol{symb:scalar:pd:horizon}}}=\sqrt{\dfrac{4\glssymbol{symb:scalar:mat:energyreleaserate:critical}}{\glssymbol{symb:scalar:pd:bond:constant}_{2D}\glssymbol{symb:scalar:thickness}\glssymbol{symb:scalar:pd:horizon}^4}}$  & \cite{BobaruF2017} \\[2ex]
+& 1D & $\glssymbol{symb:scalar:pd:stretch}_{\glssymbol{symb:index:critical}\mbox{1D}}=$ & $\sqrt{\dfrac{3\glssymbol{symb:scalar:mat:energyreleaserate:critical}}{\glssymbol{symb:scalar:mat:modulus:bulk}_{1D}\glssymbol{symb:scalar:pd:horizon}}}=\sqrt{\dfrac{6\glssymbol{symb:scalar:mat:energyreleaserate:critical}}{\glssymbol{symb:scalar:pd:bond:constant}_{1D}\glssymbol{symb:scalar:geo:2D:surface}\glssymbol{symb:scalar:pd:horizon}^3}}$ & \cite{BobaruF2017} \\[2ex]
+% 
+\multicolumn{5}{@{}l}{\idxPDKwCriticalStretch{} - state based} \\
+& 3D & $\glssymbol{symb:scalar:pd:stretch}_{\glssymbol{symb:index:critical}\mbox{3D}}=$ & $\sqrt{\dfrac{\glssymbol{symb:scalar:mat:energyreleaserate:critical}}{\left[3\glssymbol{symb:scalar:mat:modulus:shear}+\left(\frac34\right)^4\left(\glssymbol{symb:scalar:mat:modulus:bulk}-\frac{5\glssymbol{symb:scalar:mat:modulus:shear}}{3}\right)\right]\glssymbol{symb:scalar:pd:horizon}}}$ & \cite{MadenciE2014,MadenciE2016}\footnote{\cite[p.120]{MadenciE2014}} \\[2ex]%\label{ftn:MadenciCriticalStretch}
+& 2D & $\glssymbol{symb:scalar:pd:stretch}_{\glssymbol{symb:index:critical}\mbox{2D}}=$ & $\sqrt{\dfrac{\glssymbol{symb:scalar:mat:energyreleaserate:critical}}{\left[\frac{6}{\pi}\glssymbol{symb:scalar:mat:modulus:shear}+\frac{16}{9\pi^2}\left(\glssymbol{symb:scalar:mat:modulus:bulk}-2\glssymbol{symb:scalar:mat:modulus:shear}\right)\right]\glssymbol{symb:scalar:pd:horizon}}}$ & \cite{MadenciE2014,MadenciE2016}        \\[2ex]%\footnotemark{\ref{ftn:MadenciCriticalStretch}}
+& 1D & $\glssymbol{symb:scalar:pd:stretch}_{\glssymbol{symb:index:critical}\mbox{1D}}=$ & \\
+\end{longtable}
+\end{filecontents}

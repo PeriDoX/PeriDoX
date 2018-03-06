@@ -1,0 +1,95 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This file handles all things considering the hyperref package
+%
+% Requirements:
+%
+% - use of either Pref_Language_English.tex or Pref_Language_German.tex before this file
+% 
+% Revisions: 2017-04-10 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---------------------------
+% Load package
+% ---------------------------
+
+% https://tex.stackexchange.com/questions/17218/make-hyperref-take-pdfinfo-from-title-and-author
+\makeatletter
+\@ifpackageloaded{hyperref}{}{
+  \usepackage[%
+    % These options must be set at the time of \usepackage and can not be set using \hypersetup
+    bookmarks = true,
+    pdfusetitle,%
+  ]{hyperref}
+}
+\makeatother
+
+% ---------------------------
+% Package options
+% ---------------------------
+
+\makeatletter%
+  \@ifclassloaded{elsarticle}{}{% elsarticle works with natbib instead of BibLaTeX
+    \hypersetup{%
+      colorlinks = true,%
+      linkcolor  = black,%
+      citecolor  = black,%
+      urlcolor   = blue,%
+      pdfstartview = Fit,%
+      pdfmenubar = true,%
+      pdftoolbar = true,%
+      %
+      bookmarksopen = false,
+      %bookmarksopenlevel = 1,
+    }
+  }
+\makeatother
+
+% ---------------------------
+% Renewcommand hyperref autorefnames
+% ---------------------------
+
+%cross references to equations with parenthesis
+%\newcommand{\RefEq}[1]{\equationautorefname~\eqref{#1}}
+
+%cross references to figures
+%\newcommand{\RefFig}[1]{\figureautorefname~\ref{#1}}
+
+%cross references to tables
+%\newcommand{\RefTab}[1]{\tableautorefname~\ref{#1}}
+
+% http://tex.stackexchange.com/questions/36575/autorefs-inserted-text-has-not-the-correct-case
+\iflanguage{english}{
+  \AtBeginDocument{
+    \renewcommand*{\equationautorefname}{Equation}
+    \renewcommand*{\figureautorefname}{Figure}
+    \renewcommand*{\tableautorefname}{Table}
+  }
+}
+
+\iflanguage{ngerman}{
+  \AtBeginDocument{
+    \renewcommand*{\equationautorefname}{Gleichung}
+    \renewcommand*{\figureautorefname}{Abbildung}
+    \renewcommand*{\tableautorefname}{Tabelle}
+  }
+}
+
+% ---------------------------
+% Packages after Hyperref
+% ---------------------------
+
+\usepackage{attachfile}

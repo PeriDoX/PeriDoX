@@ -1,0 +1,485 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This file handles all things considering the pgfplots package
+% 
+% Revisions: 2017-04-10 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---------------------------
+% Load package
+% ---------------------------
+
+% Pgfplots
+\makeatletter
+\@ifpackageloaded{pgfplots}{
+  \usepgfplotslibrary{fillbetween}
+  \usepgfplotslibrary{groupplots}
+  \usepgfplotslibrary{patchplots}
+}{
+  \usepackage{pgfplots}
+  \usepgfplotslibrary{fillbetween}
+  \usepgfplotslibrary{groupplots}
+  \usepgfplotslibrary{patchplots}
+}
+\makeatother
+
+% Pgfplotstable
+\makeatletter
+\@ifpackageloaded{pgfplotstable}{}{
+  \usepackage{pgfplotstable}
+}
+\makeatother
+
+
+% Temporary fix for pgfplots & forest problems reported in September 2016
+% here: http://tex.stackexchange.com/questions/328972/presence-of-pgfplots-package-breaks-forest-environment-w-folder-option-en
+% \makeatletter
+% \let\pgfmathModX=\pgfmathMod@
+% \usepackage{pgfplots}%
+% \let\pgfmathMod@=\pgfmathModX
+% \makeatother
+
+% ---------------------------
+% Pgf version
+% ---------------------------
+
+\pgfplotsset{compat=1.14}
+
+% ---------------------------
+% colormaps
+% ---------------------------
+
+\pgfplotsset{
+  colormap={abaqusblueredcolormap}{
+    rgb255( 0cm)=(  0,  0,255);
+    rgb255( 1cm)=(  0, 93,255);
+    rgb255( 2cm)=(  0,185,255);
+    rgb255( 3cm)=(  0,255,232);
+    rgb255( 4cm)=(  0,255,139);
+    rgb255( 5cm)=(  0,255,139);
+    rgb255( 6cm)=(  0,255, 46);
+    rgb255( 7cm)=( 46,255,  0);
+    rgb255( 8cm)=(139,255,  0);
+    rgb255( 9cm)=(232,255,  0);
+    rgb255(10cm)=(255,185,  0);
+    rgb255(11cm)=(255, 93,  0);
+    rgb255(12cm)=(255,  0,  0);
+  }
+}
+
+\pgfplotsset{
+  colormap={paraviewblueredcolormap}{
+    rgb255( 0cm)=(  0,  0,255);
+    rgb255( 1cm)=(  0, 93,255);
+    rgb255( 2cm)=(  0,185,255);
+    rgb255( 3cm)=(  0,255,232);
+    rgb255( 4cm)=(  0,255,139);
+    rgb255( 5cm)=(  0,255,139);
+    rgb255( 6cm)=(  0,255, 46);
+    rgb255( 7cm)=( 46,255,  0);
+    rgb255( 8cm)=(139,255,  0);
+    rgb255( 9cm)=(232,255,  0);
+    rgb255(10cm)=(255,185,  0);
+    rgb255(11cm)=(255, 93,  0);
+    rgb255(12cm)=(255,  0,  0);
+  }
+}
+
+\pgfplotsset{
+  colormap={whiteblack}{color(0cm)=(white);color(1cm)=(black)}
+}
+
+% ---------------------------
+% pgfplotsset
+% ---------------------------
+
+%~~~~~ Number format ~~~~~~~~
+
+% call with e.g.: y tick label style={numberformatfixed={3}}
+\pgfplotsset{
+    numberformatfixed/.style 2 args={
+      /pgf/number format/fixed,
+      /pgf/number format/fixed zerofill,% Allow trailing zeros
+      /pgf/number format/precision=#1,   % Nr of decimal digits
+    },
+    numberformatfixed/.default={2}
+}
+
+%~~~~~ Colorbar ~~~~~~~~~~~~~
+
+\pgfplotsset{
+  basecolorbaraxis style/.style={
+    hide axis,
+    scale only axis,
+    colormap/bluered,                         % Colormap preset
+    colorbar sampled,                         % Steps in colorbar
+  }
+}
+
+\pgfplotsset{
+  damageaxis style/.style={
+    basecolorbaraxis style,
+    point meta min=0.0,                       % Minimum value colorbar
+    point meta max=1.0,                       % Maximum value colorbar
+  }
+}
+
+\pgfplotsset{
+  damagefigureaxis style/.style={
+    %basecolorbaraxis style,
+    %point meta min=0.0,                       % Minimum value colorbar
+    %point meta max=1.0,                       % Maximum value colorbar
+    damageaxis style,
+    enlargelimits=false,                      % Do not add margins
+    axis equal image,                         % Keep aspect ratio
+  }
+}
+
+\pgfplotsset{
+  mybarundertensionaxis style/.style={
+    hide axis,
+    scale only axis,
+    %anchor=east,
+    anchor=west,
+    height=0.125\textheight,
+    %xshift=0.25cm,
+    xshift=-1.0cm,
+    colormap/bluered, % Colormap preset
+    colorbar sampled, % Steps in colorbar
+    colorbar right, % Activate colorbar
+  }
+}
+
+\pgfplotsset{
+  damagecolorbar style/.style={
+    separate axis lines,
+    samples=256,                              % Number of steps+1
+  }
+}
+
+\pgfplotsset{
+  abaqusdiscrete12colorbar style/.style={
+    separate axis lines,
+    samples=13,                               % Number of steps+1
+  }
+}
+
+\pgfplotsset{
+  abaqusdiscrete256colorbar style/.style={
+    separate axis lines,
+    samples=256,                              % Number of steps+1
+  }
+}
+
+\pgfplotsset{
+  ansysdiscrete9colorbar style/.style={
+    separate axis lines,
+    samples=10,                               % Number of steps+1
+  }
+}
+
+\pgfplotsset{
+  paraviewdiscrete256colorbar style/.style={
+    separate axis lines,
+    samples=256,                              % Number of steps+1
+  }
+}
+
+%~~~~~ Chart Style ~~~~~~~~~~
+
+\pgfplotsset{
+  chart style/.style={
+    width=0.7\linewidth,
+    height=0.3\textheight,
+    axis x line=middle,                       % Middle x-axis
+    axis y line=left,
+    enlarge x limits={auto,upper},            % Add this at positive x
+    enlarge y limits,                         % Add this at y
+    x label style={                           % xlabel style
+      at={(axis description cs:0.5,-0.025)},  % Position
+      anchor=north                            % Anchor
+    },
+    y label style={                           % ylabel style
+      anchor=south                            % Anchor
+    },
+    x tick label style={
+      /pgf/number format/fixed,
+      /pgf/number format/precision=5,         % Nr of decimal digits
+    },
+    y tick label style={
+      /pgf/number format/fixed,
+      /pgf/number format/fixed zerofill,      % Allow trailing zeros
+      /pgf/number format/precision=1,         % Nr of decimal digits
+    },
+    scaled ticks=false,
+    legend columns=1,                         % Nr of colums in legend
+    legend style={
+      draw=none,                              % No border
+      fill=none,                              % No fill color
+      at={(1.025,0.5)},                       % Position
+      anchor=west,                            % Anchor
+      /tikz/row 2/.style={
+        row sep=5pt,
+      }
+    }
+  }
+}
+
+\pgfplotsset{
+  xaxis style/.style={
+    each nth point=1,
+    restrict expr to domain={rawx}{0:5},      % restrict x-axis values
+  }
+}
+
+%~~~~~ WaveChart Style ~~~~~~~~~~
+
+\pgfplotsset{
+  wavechart style/.style={
+    chart style,
+    xlabel={Time [ms]},
+    ylabel={Displacement [mm]},
+    ylabel near ticks,
+    xticklabel={%
+      \pgfkeys{/pgf/fpu=true}%               % Allow numbers > 16383.99
+      \pgfmathparse{\tick*1000}%             % Scale s to ms
+      \pgfkeys{/pgf/fpu=false}%              % Switch of fpu
+      $\pgfmathprintnumber[
+        fixed,                               % Number format
+        precision=1,                         % Nr of decimal digits
+      ]{\pgfmathresult}$%
+    },
+    yticklabel={%
+      \pgfkeys{/pgf/fpu=true}%               % Allow numbers > 16383.99
+      \pgfmathparse{\tick*1000}%             % Scale m to mm
+      \pgfkeys{/pgf/fpu=false}%              % Switch of fpu
+      $\pgfmathprintnumber[
+        fixed,                               % Number format
+        precision=1,                         % Nr of decimal digits
+      ]{\pgfmathresult}$%
+    },
+  }
+}
+
+\pgfplotsset{
+  wavexaxis style/.style={
+    each nth point=1,
+    restrict expr to domain={rawx}{0:0.005},   % restrict x-axis values [ms]
+  }
+}
+
+%~~~~~ Tension chart ~~~~~~~~~
+
+\pgfplotsset{
+  tensionchart style/.style={
+    chart style,
+    enlarge y limits={auto,upper},           % Add this at positive y
+    xlabel={Time [s]},
+    ylabel={Displacement [mm]},
+    xlabel near ticks,
+    ylabel near ticks,
+    yticklabel={%
+      \pgfkeys{/pgf/fpu=true}%               % Allow numbers > 16383.99
+      \pgfmathparse{\tick*1000}%             % Scale m to mm
+      \pgfkeys{/pgf/fpu=false}%              % Switch of fpu
+      $\pgfmathprintnumber[
+        fixed,                               % Number format
+        precision=1,                         % Nr of decimal digits
+      ]{\pgfmathresult}$%
+    },
+  }
+}
+
+\pgfplotsset{
+  tensionchart2 style/.style={
+    tensionchart style,
+    xlabel={Position bar in $x$-direction [m]},
+    ylabel={Displacement [mm]},
+  }
+}
+
+\pgfplotsset{
+  dispxaxis style/.style={
+    each nth point=1,
+  }
+}
+
+%~~~~~ Energy chart ~~~~~~~~~
+
+\pgfplotsset{
+  energychart style/.style={
+    chart style,
+    xlabel={Time [ms]},
+    ylabel={Energy [J]},
+    xlabel near ticks,
+    ylabel near ticks,
+    enlarge y limits={auto,upper},            % Add this at positive y
+    %x tick label style={
+    %  /pgf/number format/fixed,
+    %  /pgf/number format/precision=5,         % Nr of decimal digits
+    %},
+    y tick label style={
+      /pgf/number format/fixed,
+      %/pgf/number format/fixed zerofill,      % Allow trailing zeros
+      /pgf/number format/precision=0,         % Nr of decimal digits
+    },
+    legend cell align=left,
+    cycle list name=color list,               % colors !!! use addplot+ to cycle through colors !!!
+    scaled x ticks=false,
+    xticklabel={%
+      \pgfkeys{/pgf/fpu=true}%               % Allow numbers > 16383.99
+      \pgfmathparse{\tick*1000}%             % Scale s to ms
+      \pgfkeys{/pgf/fpu=false}%              % Switch of fpu
+      $\pgfmathprintnumber[
+        fixed,                               % Number format
+        precision=1,                         % Nr of decimal digits
+      ]{\pgfmathresult}$%
+    },
+  }
+}
+
+\pgfplotsset{
+  advenergychart style/.style={
+    energychart style,
+    scaled y ticks=false,
+    yticklabel={%
+      \pgfkeys{/pgf/fpu=true}%               % Allow numbers > 16383.99
+      \pgfmathparse{\tick/1000}%             % Scale mJ to J
+      \pgfkeys{/pgf/fpu=false}%              % Switch of fpu
+      $\pgfmathprintnumber[
+        fixed,                               % Number format
+        precision=0,                         % Nr of decimal digits
+      ]{\pgfmathresult}$%
+    }
+  }
+}
+
+%~~~~~ Displacement chart ~~~
+
+\pgfplotsset{
+  displchart style/.style={
+    chart style,
+    xlabel={Time [ms]},
+    ylabel={Displacement [mm]},
+    xlabel near ticks,
+    ylabel near ticks,
+    enlarge y limits={auto,upper},            % Add this at positive y
+    %x tick label style={
+    %  /pgf/number format/fixed,
+    %  /pgf/number format/precision=5,         % Nr of decimal digits
+    %},
+    y tick label style={
+      /pgf/number format/fixed,
+      %/pgf/number format/fixed zerofill,      % Allow trailing zeros
+      /pgf/number format/precision=1,         % Nr of decimal digits
+    },
+    legend cell align=left,
+    scaled x ticks=false,
+    xticklabel={%
+      \pgfkeys{/pgf/fpu=true}%               % Allow numbers > 16383.99
+      \pgfmathparse{\tick*1000}%             % Scale s to ms
+      \pgfkeys{/pgf/fpu=false}%              % Switch of fpu
+      $\pgfmathprintnumber[
+        fixed,                               % Number format
+        precision=1,                         % Nr of decimal digits
+      ]{\pgfmathresult}$%
+    },
+  }
+}
+
+%~~~~~ uva chart ~~~~~~~~~~~~
+
+\pgfplotsset{
+  uvachartstyle/.style={
+    axis lines=middle,
+    ticks=none,
+    domain=\xn:\xf,
+    %restrict x to domain=\xn:\xf,
+    restrict y to domain=\yn:\yf,
+    xmin=\xn,
+    xmax=\xf,
+    ymin=\yn,
+    ymax=\yf,
+    width=\linewidth,
+    height=\linewidth,
+    xlabel=\xlabel,
+    ylabel=\ylabel,
+    every axis x label/.style={
+      at={(ticklabel* cs:1.01)},
+      anchor=west,
+    },
+    every axis y label/.style={
+      at={(ticklabel* cs:1.01)},
+      anchor=south,
+    },
+    no markers,				% equivalent to mark=none for all addplots
+  },
+}
+
+\pgfplotsset{
+  unode style/.style={
+    each nth point=1,
+    filter discard warning = false,
+  }
+}
+
+\pgfplotsset{
+  xfemnode style/.style={
+    unode style,
+    %mymark={o}{solid},                      % equal spaced marks
+  }
+}
+
+\pgfplotsset{
+  xfemmarkednode style/.style={
+    xfemnode style,
+    mymark={o}{solid},                      % equal spaced marks
+  }
+}
+
+\pgfplotsset{
+  perinode style/.style={
+    unode style,
+    dashed,
+  }
+}
+
+\pgfplotsset{
+  perimarkednode style/.style={
+    perinode style,
+    mymark={x}{solid},                      % equal spaced marks
+  }
+}
+
+%~~~~~ InfluenceFunction ~~~~
+
+\pgfplotsset{
+  influencefunctionaxis style/.style={
+    xlabel=\figxlabel,
+    ylabel=\figylabel,
+    width=\figwidth,
+    height=\figheight,
+    xmin=0,
+    xmax=1.1,
+    ymin=0,
+    ymax=1.1,
+    domain=0:1,
+    samples=25,
+    no markers,
+    thick,
+    label style={font=\figurefontsize},
+  }
+}

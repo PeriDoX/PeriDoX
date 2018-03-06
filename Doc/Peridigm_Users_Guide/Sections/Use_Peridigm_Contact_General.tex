@@ -1,0 +1,190 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{General options}
+\label{sec:Peridigm:QRG:Contact:General}
+
+\leveldown{Description}
+
+Define contact for the model. Contact forces in Peridigm are not applied for nodes that are bonded. This avoids the situation where two nodes interact via both contact and the constitutive model.
+
+\begin{itemize}[noitemsep]
+  \item From David Littlewood:
+  \begin{itemize}
+    \item Be aware also that the input deck syntax for contact is not representative of what's actually in the code. [...] As far as I remember, what's actually implemented in Peridigm is a all-to-all contact model that is active for any pair of nodes that are not bonded to each other. So, there is no consideration of blocks, node sets, etc., and basically both self contact and general contact are always on.
+    \item The portion of the input deck in which contact interactions are specified is not currently functional.  Contact only operates in two modes:  either completely off, or on for everything.  By ``on for everything'' I mean that every node interacts with every other node, regardless of material block or what is specified in the input deck.  This is obviously not ideal and is confusing to users.  The contact portion of the code underwent a significant refactor a few years ago.  A good deal of progress was made with respect to performance and I/O, but unfortunately the code ended up in a partially refactored state. One part that was not completed is user-defined per-block contact interactions. The parsing was set up but the internal logic was not implemented. The contact code in general needs significant work IMHO. 
+  \end{itemize}
+  \item From James O'Grady:\\
+  Nodes that are initially bonded will never interact via the contact model, even after the bond between them is broken. I'm not sure whether that includes bonds broken by a pre-crack.
+\end{itemize}
+
+\levelstay{Code}
+
+\leveldown{Release version}
+
+Available from \href{\toolrepoversiononetwo}{version 1.2}.
+
+\levelstay{Required compiler options}
+
+-
+
+\levelstay{Routines}
+
+\begin{itemize}[noitemsep]
+%   \item IO:
+%   \begin{itemize}[noitemsep]
+  \item \verb+/src/core/Peridigm_ContactManager.cpp+
+  \item \verb+/src/core/Peridigm_ContactManager.hpp+
+%   \end{itemize}
+%   \item Computation:
+%   \begin{itemize}[noitemsep]
+%     \item \verb+/src/materials/elastic.cxx+
+%     \item \verb+/src/materials/elastic.h+
+%   \end{itemize}
+\end{itemize}
+
+\levelup{Input parameters}
+
+\leveldown{List}
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name              & Type   & Required   & Default     & Description           \\
+\midrule
+Search Radius     & double & \checkmark & $\num{0.0}$ & Radius for contact search \\
+Search Frequency  & int    & \checkmark & $\num{0}$   & Contact rebalancing frequency in steps   \\
+Models            & list   & \checkmark &             & Contact models, see section \ref{sec:Peridigm:QRG:Contact:Models}   \\
+Interactions      & list   & \checkmark &             & List defining the interaction options, see section \ref{sec:Peridigm:QRG:Contact:Interactions}   \\
+\bottomrule
+\end{tabularx}
+
+\levelstay{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item Contact is enabled only for the explicit solver (\idxPDKwVerlet). In case any other solver is used, the contact definition has no effect.
+  \item 
+%   \item \label{enm:Peridigm:QRG:Materials:Elastic:Remark:One} The stiffness can be defined either by the Lam\'{e} coefficients ($K$,$G$) or the engineering constants ($E$,$\nu$,$G$)
+%   \item \label{enm:Peridigm:QRG:Materials:Elastic:Remark:Two} In case engineering constants are used, only two of the three values \textit{Young's Modulus}, \textit{Poisson's Ratio} and \textit{Shear Modulus} have to be specified. The missing value is calculated from
+%   \begin{align*}
+%   G&=\dfrac{E}{2\cdot\left(1+\nu\right)}
+%   \end{align*}
+%   Internally, the engineering constants are converted to Lam\'{e} coefficients.
+%   \item Consider the general remarks on non-correspondence materials in section \ref{sec:Peridigm:QRG:Materials:Preliminaries:NonCorrespondence}
+\end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}
+
+All blocks contact:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Contact">
+  <Parameter name="Verbose" type="bool" value="true"/>
+  <Parameter name="Search Radius" type="double" value="0.08"/>
+  <Parameter name="Search Frequency" type="int" value="1"/>
+  <ParameterList name="Models">
+    <ParameterList name="My Contact Model">
+      <Parameter name="Contact Model" type="string" value="Short Range Force"/>
+      <Parameter name="Contact Radius" type="double" value="0.08"/>
+      <Parameter name="Spring Constant" type="double" value="2000.0e3"/>
+    </ParameterList>
+  </ParameterList>
+  <ParameterList name="Interactions">
+    <ParameterList name="General Contact">
+      <Parameter name="Contact Model" type="string" value="My Contact Model"/>
+    </ParameterList>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+Specific block contact:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Contact">
+  <Parameter name="Search Radius" type="double" value="0.6"/>
+  <Parameter name="Search Frequency" type="int" value="50"/>
+  <ParameterList name="Models">
+    <ParameterList name="My Contact Model">
+      <Parameter name="Contact Model" type="string" value="Short Range Force"/>
+      <Parameter name="Contact Radius" type="double" value="0.2"/>
+      <Parameter name="Spring Constant" type="double" value="1950.0e3"/>
+    </ParameterList>
+  </ParameterList>
+  <ParameterList name="Interactions">
+    <ParameterList name="Interaction Projectile with Target">
+      <Parameter name="First Block" type="string" value="block_1"/>
+      <Parameter name="Second Block" type="string" value="block_2"/>
+        <Parameter name="Contact Model" type="string" value="My Contact Model"/>
+    </ParameterList>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+\levelstay{Free format}
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+Contact
+  Verbose "true"
+  Search Radius {0.8*MODEL_ESIZE_FIBRE}
+  Search Frequency 1
+  Models
+    My Contact Model
+      Contact Model "Short Range Force"
+      Contact Radius {0.8*MODEL_ESIZE_FIBRE}
+      Spring Constant 2000.001e3
+  Interactions
+    General Contact
+      Contact Model "My Contact Model"
+\end{code}
+\endgroup
+
+\levelstay{YAML format}
+
+-
+
+\levelup{List of examples}
+
+\begin{itemize}[noitemsep]
+%   \item From \texttt{examples/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{examples/tensile\_test/tensile\_test.peridigm}
+%   \end{itemize}
+  \item From \texttt{test/regression/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Contact\_Cubes/Contact\_Cubes.xml}
+    \item \texttt{Contact\_Cubes\_Interaction\_Blocks/Contact\_Cubes\_Interaction\_Blocks.xml}
+    \item \texttt{Contact\_Perforation/Contact\_Perforation.xml}
+    \item \texttt{Contact\_Perforation\_With\_Restart/Contact\_Perforation\_With\_Restart.xml}
+    \item \texttt{Contact\_Ring/Contact\_Ring.xml}
+  \end{itemize}
+  \item From \texttt{test/verification/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Contact\_2x1x1/Contact\_2x1x1.xml} 
+    \item \texttt{Contact\_Friction/Contact\_Friction.xml}
+    \item \texttt{Contact\_Friction\_Time\_Dependent\_Coefficient/Contact\_Friction\_Time\_Dependent\_Coefficient.xml}
+  \end{itemize}
+\end{itemize}

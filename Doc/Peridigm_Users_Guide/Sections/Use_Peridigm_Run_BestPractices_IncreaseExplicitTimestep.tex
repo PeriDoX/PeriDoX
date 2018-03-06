@@ -1,0 +1,56 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{Increase timestep in explicit solver}
+
+The critical time step calculation is performed in the  \texttt{PeridigmNS::ComputeCriticalTimeStep} method in the class \texttt{/src/core/Peridigm\_CriticalTimeStep.cpp}. The calculation is carried out for each block as requested in \texttt{PeridigmNS::Peridigm::executeExplicit} of \texttt{src/core/Peridigm.cpp}. The minimum of all block values is taken as the final critical time step.
+
+The equation used for the determination of the critical time step is
+
+\begin{align}
+\glssymbol{symb:scalar:timestep}_{\mbox{Block}} &= \sqrt{\dfrac{2\glssymbol{symb:scalar:mat:density}}{\glssymbol{symb:scalar:timestep}_{\mbox{Denominator}}}}
+\end{align}
+
+The time step denominator itself is a function of the collocation point volume,  neighbor distance and ``bond'' stiffness. Despite implementing the state-based peridynamics, \marktool{\toolname} uses the bond constant for 3D bond-based peridynamics from \autoref{tab:Peridigm:QRG:Preliminaries:PDCMConversion} as the the ``bond'' stiffness. Thus
+
+\begin{align}
+\glssymbol{symb:scalar:timestep}_{\mbox{Denominator}} &= f\left(
+\glssymbol{symb:operator:Delta}x,
+\glssymbol{symb:scalar:mat:modulus:bulk},
+%\dfrac{1}{\glssymbol{symb:scalar:pd:horizon}^{4}}
+\glssymbol{symb:scalar:pd:horizon}^{-4}
+\right)
+\end{align}
+
+The following actions can be taken to influence the time step:
+
+\begin{itemize}[noitemsep]
+  \item Increase material density
+    \begin{itemize}[noitemsep]
+      \item For quasi-static simulations a certain amount is possible
+      \item Reduces oscillation effects due to increased mass intertia
+      \item Limit is aperiodic boundary case
+    \end{itemize}
+  \item Increase element size:
+  \begin{itemize}[noitemsep]
+    \item A larger element size increases the volume associated with each peridynamic collocation point
+    \item On the other hand the initial distance between points is increased
+    \item Thus, do not expect a linear response of the time step for changing mesh sizes
+  \end{itemize}
+  \item Increase horizon
+\end{itemize}

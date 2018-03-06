@@ -1,0 +1,49 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelstay{Conversion between peridynamic and finite element values}
+
+\paragraph{Material properties}
+
+\begin{itemize}[noitemsep]
+ \item 3D \tabto{0.25\linewidth} Without plane stress or strain assumptions
+ \item 2D \tabto{0.25\linewidth} With plane stress or strain assumptions
+\end{itemize}
+
+Note, that in case of bond-based analysis, the conversion is problem-dependent:
+
+\begin{equation}
+\glssymbol{symb:scalar:mat:poissonratio}=\begin{cases}\frac14&\text{3D \& 2D plane strain}\\\frac13&\text{2D plane stress}\end{cases}
+\end{equation}
+
+\input{\peridoccommonpath/Tables/Peridynamic_Material_Property_Conversion}
+
+\begingroup
+\LTXtable{\linewidth}{\tabledir\jobname-materialpropertyconversionltxtable.tex}
+\endgroup
+
+Internally, \toolname{} uses $\glssymbol{symb:scalar:mat:modulus:bulk}$, $\glssymbol{symb:scalar:mat:modulus:shear}$ for the stiffness description. The conversion between engineering constants and $\glssymbol{symb:scalar:mat:modulus:bulk}$, $\glssymbol{symb:scalar:mat:modulus:shear}$ is performed in methods
+
+\begin{itemize}[noitemsep]
+  \item \verb+PeridigmNS::Material::calculateBulkModulus+
+  \item \verb+PeridigmNS::Material::calculateShearModulus+
+\end{itemize}
+
+in class \verb+/src/Materials/Peridigm_Material.cpp+.
+
+Currently, \toolname{} only uses the 3D formulation of the peridynamics, e.g. for surface correction factors. Therefore, only the 3D equations shall be used for material modelling.

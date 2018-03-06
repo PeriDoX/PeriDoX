@@ -1,0 +1,112 @@
+\begin{filecontents}{\tabledir\jobname-unitsystemsltxtable.tex}
+\begin{longtable}{@{}Xccccc@{}}
+% Caption
+\caption{Consistent unit systems according to \protect\marktool{\ansysname} /UNITS command}\\
+\label{tab:Unit_systems}\\
+% ---------------------------
+% Header & Footer
+% ---------------------------
+%
+% Header
+% -----------------
+% 1st head
+\toprule
+\multirow{2}{*}{Value}                 & \multicolumn{5}{c}{Unit system}        \\
+%         & \multicolumn{5}{c}{Unit system}        \\
+& SI        & CGS        & MPA        & BFT        & BIN        \\
+\midrule
+\endfirsthead
+% n-th head
+\multicolumn{6}{@{}l}{\ldots continued}\\
+\toprule
+%\multirow{2}{*}{Value}                 & \multicolumn{5}{c}{Unit system}        \\
+& SI        & CGS        & MPA        & BFT        & BIN        \\
+\midrule
+\endhead
+%
+% Footer
+% -----------------
+% n-th foot
+\bottomrule
+\multicolumn{6}{r@{}}{continued \ldots}\\
+\endfoot
+% last foot
+\bottomrule
+\endlastfoot
+% ---------------------------
+% Content
+% ---------------------------
+Mass                                    &
+$\left[\si{\kilo\gram}\right]$          &
+$\left[\si{\gram}\right]$               &
+$\left[\si{\tonne}\right]$              &
+$\left[\si{slug}\right]$                &
+$\frac{\left[\si{lbf}\right]\left[\si{\second}\right]^2}{\left[\si{\inch}\right]}$                  \\[1em]
+Length                                  &
+$\left[\si{\meter}\right]$              &
+$\left[\si{\centi\meter}\right]$        &
+$\left[\si{\milli\meter}\right]$        &
+$\left[\si{\foot}\right]$               &
+$\left[\si{\inch}\right]$               \\[1em]
+Time                                    &
+$\left[\si{\second}\right]$             &
+$\left[\si{\second}\right]$             &
+$\left[\si{\second}\right]$             &
+$\left[\si{\second}\right]$             &
+$\left[\si{\second}\right]$             \\[1em]
+Temperature                             &
+$\left[\si{\kelvin}\right]$             &
+$\left[\si{\kelvin}\right]$             &
+$\left[\si{\kelvin}\right]$             &
+$\left[\si{\degreeRankine}\right]$      &
+$\left[\si{\degreeRankine}\right]$      \\[1em]
+Velocity                                                               &
+$\frac{\left[\si{\meter}\right]}{\left[\si{\second}\right]}$           &
+$\frac{\left[\si{\centi\meter}\right]}{\left[\si{\second}\right]}$     &
+$\frac{\left[\si{\milli\meter}\right]}{\left[\si{\second}\right]}$     &
+$\frac{\left[\si{\foot}\right]}{\left[\si{\second}\right]}$            &
+$\frac{\left[\si{\inch}\right]}{\left[\si{\second}\right]}$            \\[1em]
+Acceleration                                                           &
+$\frac{\left[\si{\meter}\right]}{\left[\si{\second}\right]^2}$         &
+$\frac{\left[\si{\centi\meter}\right]}{\left[\si{\second}\right]^2}$   &
+$\frac{\left[\si{\milli\meter}\right]}{\left[\si{\second}\right]^2}$   &
+$\frac{\left[\si{\foot}\right]}{\left[\si{\second}\right]^2}$          &
+$\frac{\left[\si{\inch}\right]}{\left[\si{\second}\right]^2}$          \\[1em]
+Force                                                                  &
+$\left[\si{\newton}\right]$                                            &
+$\left[\si{\dyn}\right]$                                               &
+$\left[\si{\newton}\right]$                                            &
+$\left[\si{\poundforce}\right]$                                        &
+$\left[\si{\poundforce}\right]$                                        \\[1em]
+Moment                                                                 &
+$\left[\si{\newton}\right]\left[\si{\meter}\right]$                    &
+$\left[\si{\dyn}\right]\left[\si{\centi\meter}\right]$                 &
+$\left[\si{\newton}\right]\left[\si{\milli\meter}\right]$              &
+$\left[\si{\poundforce}\right]\left[\si{\foot}\right]$                 &
+$\left[\si{\poundforce}\right]\left[\si{\inch}\right]$                 \\[1em]
+Pressure                                                               &
+$\left[\si{\pascal}\right]$                                            & $\left[\si{\barye}\right]$                                             &
+$\left[\si{\mega\pascal}\right]$                                       &
+$\left[\si{\poundforce}\right]/\left[\si{\foot}\right]^2$              &
+$\left[\si{\psi}\right]$                                               \\[1em]
+Density                                                                &
+$\frac{\left[\si{\kilo\gram}\right]}{\left[\si{\meter}\right]^3}$      &
+$\frac{\left[\si{\gram}\right]}{\left[\si{\centi\meter}\right]^3}$     &
+$\frac{\left[\si{\tonne}\right]}{\left[\si{\milli\meter}\right]^3}$    &
+$\frac{\left[\si{\slug}\right]}{\left[\si{\foot}\right]^3}$            &
+$\frac{\left[\si{\poundforce}\right]\left[\si{\second}\right]^2/\left[\si{\inch}\right]}{\left[\si{\inch}\right]^3}$                                           \\[1em]
+Energy                                                                 &
+$\left[\si{\joule}\right]$                                             &
+$\left[\si{\erg}\right]$                                               &
+$\left[\si{\milli\joule}\right]$                                       &
+$\left[\si{\foot}\right]\left[\si{\poundforce}\right]$                 &
+$\left[\si{\inch}\right]\left[\si{\poundforce}\right]$                 \\[1em]
+Energy release rate                                                    &
+$\frac{\left[\si{\joule}\right]}{\left[\si{\meter}\right]^2}=%
+\frac{\left[\si{\newton}\right]}{\left[\si{\meter}\right]}$            &
+$\frac{\left[\si{\erg}\right]}{\left[\si{\centi\meter}\right]^2}$      &
+$\frac{\left[\si{\milli\joule}\right]}{\left[\si{\milli\meter}\right]^2}=%
+\frac{\left[\si{\newton}\right]}{\left[\si{\milli\meter}\right]}$      &
+\\
+\end{longtable}
+\end{filecontents}

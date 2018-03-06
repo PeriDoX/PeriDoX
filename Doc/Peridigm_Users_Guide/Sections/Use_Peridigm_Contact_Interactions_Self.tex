@@ -1,0 +1,120 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{\idxPDKwSelfContact}
+\label{sec:Peridigm:QRG:Contact:Interaction:Self}
+\myindex[\idxPDKeywordName]{\idxPDKwSelfContact}
+
+\leveldown{Description}
+
+Define self contact. This type of interaction is activated by setting the parameter list name to \idxPDKwSelfContact.
+
+\levelstay{Literature}
+
+-
+% \begin{itemize}[noitemsep]
+%   \item \cite{SillingSA2005}
+%   \item \cite{PeridigmUserGuide100}
+% \end{itemize}
+
+\levelstay{Code}
+
+\leveldown{Release version}
+
+Available from \href{\toolrepoversiononetwo}{version 1.2}.
+
+\levelstay{Required compiler options}
+
+-
+
+\levelstay{Routines}
+
+-
+% \begin{itemize}[noitemsep]
+%   \item IO:
+%   \begin{itemize}[noitemsep]
+%   \item \texttt{/src/contact/Peridigm_ShortRangeForceContactModel.cpp+
+%   \item \texttt{/src/contact/Peridigm_ShortRangeForceContactModel.hpp+
+%   \end{itemize}
+%   \item Computation:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{/src/materials/elastic.cxx+
+%     \item \texttt{/src/materials/elastic.h+
+%   \end{itemize}
+% \end{itemize}
+
+\levelup{Input parameters}
+
+\leveldown{List}%\mbox{}\\
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name                 & Type   & Required      & Default     & Description           \\
+\midrule
+Contact Model\myindex[\idxPDKeywordName]{\idxPDKwContactModel}        & string & \checkmark    & -           & Contact model type from section \ref{sec:Peridigm:QRG:Contact:Models} \\
+\bottomrule
+\end{tabularx}
+
+\levelstay{Remarks}%\mbox{}\\
+
+-
+% \begin{enumerate}[noitemsep]
+%   \item \label{enm:Peridigm:QRG:Contact:Model:ShortRangeForce:Remark:One} In case \texttt{Friction Coefficient} is not defined, no friction is applied by using the default value
+% \end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}%\mbox{}\\
+
+-
+% \begingroup
+% \lstset{breaklines=true}
+% \begin{code}
+% <ParameterList name="Interactions">
+%   <ParameterList name="General Contact">
+%     <Parameter name="Contact Model" type="string" value="My Contact Model"/>
+%   </ParameterList>
+% </ParameterList>
+% \end{code}
+% \endgroup
+
+\levelstay{Free format}%\mbox{}\\
+
+-
+
+\levelstay{YAML format}%\mbox{}\\
+
+-
+
+\levelup{List of examples}
+
+-
+% \begin{itemize}[noitemsep]
+%   \item From \texttt{examples/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{examples/tensile\_test/tensile\_test.peridigm}
+%   \end{itemize}
+%   \item From \texttt{test/regression/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Contact\_Cubes/Contact\_Cubes.xml}
+%   \end{itemize}
+%   \item From \texttt{test/verification/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{CompressionInitDisp\_2x1x1/CompressionInitDisp\_2x1x1.xml}
+%   \end{itemize}
+% \end{itemize}

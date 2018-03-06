@@ -1,0 +1,86 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{Prescribed Acceleration}
+\label{sec:QRG:BoundaryConditions:PrescribedAcceleration}
+% \index[\idxPDKeywordName]{Prescribed Acceleration}
+
+\leveldown{Description}
+
+Prescribed acceleration is not available as an individual keyword. The behavior can be reproduced using the keyword \texttt{Prescribed Displacement} from \autoref{sec:Peridigm:QRG:BoundaryConditions:PrescribedDisplacement} by application of \autoref{eq:Peridigm:QRG:BoundaryConditions:Preliminaries:uva} in combination with the function parser and the time variable $\glssymbol{symb:scalar:time}$.
+
+\levelstay{Sketch}
+
+% General variables for following plots
+\def\xn{0.0}
+\def\xi{4.0}
+\def\xf{11.0}
+\def\yn{0.0}
+\def\yi{10.0}
+\def\yf{11.0}
+% Charts
+% \begin{figure}[htbp]
+\input{Figures/Theory/Boundary_Conditions_Prescribed_Displacement_ConstantAcceleration}
+% \caption{Displacement, velocity and acceleration for constant acceleration}
+% \end{figure}
+
+\levelstay{Code}
+
+See \autoref{sec:Peridigm:QRG:BoundaryConditions:PrescribedDisplacement}
+
+\levelstay{Input parameters}
+
+See \autoref{sec:Peridigm:QRG:BoundaryConditions:PrescribedDisplacement}
+
+\levelstay{Exemplary input section}
+
+\leveldown{XML format}
+
+-
+
+\levelstay{Free format}
+
+-
+
+\levelstay{YAML format}
+
+\begin{code}
+Boundary Conditions:
+  My Prescribed Acceleration:
+    Type: "Prescribed Displacement"
+    Node Set: "My Node Set"
+    Coordinate: "x"
+    Value: "value = 5.0*t^2"
+\end{code}
+
+\levelup{List of examples}
+
+% \begin{itemize}[noitemsep]
+%   \item From \verb+examples/+:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{examples/tensile\_test/tensile\_test.peridigm}
+%   \end{itemize}
+%   \item From \texttt{test/regression/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Contact\_Cubes/Contact\_Cubes.xml}
+%   \end{itemize}
+%   \item From \texttt{test/verification/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{CompressionInitDisp\_2x1x1/CompressionInitDisp\_2x1x1.xml}
+%   \end{itemize}
+% \end{itemize}

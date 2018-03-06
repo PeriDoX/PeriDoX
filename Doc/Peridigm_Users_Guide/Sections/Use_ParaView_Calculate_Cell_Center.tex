@@ -1,0 +1,39 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{Cell center}
+\label{sec:ParaView:Calculate:Cell:Center}
+
+\begin{enumerate}[noitemsep]
+\item Import your model and create a selection if only specific cell volumes are of interest.
+\item Select the model or selection in the \textit{Pipeline Browser}
+\item From the menu bar:
+  \begin{itemize}[noitemsep]
+  \item Click Filters
+  \item Click Alphabetical
+  \item Click \textit{Cell centers}
+  \end{itemize}
+\item In the \textit{Properties} tab
+  \begin{itemize}[noitemsep]
+    \item Select all blocks of interest in the \textit{Composite Data Set Index}
+  \end{itemize}
+\item Click \textit{Apply}
+\item Open a new \textit{Spreadsheet View}
+\item In the \textit{Showing} combobox select your \textit{Cell Center Filter Name} and \textit{Point Data} in the \textit{Attribute} combobox
+\item Column \textit{points} shows the cell center
+\end{enumerate}

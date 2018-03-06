@@ -1,0 +1,57 @@
+\begin{frame}
+
+\begin{itemize}
+ \item Video demonstration: just click on the disk
+ \item Works with Adobe Reader on Windows and ? on Linux
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}
+  % Axis style
+  \pgfplotsset{
+    myaxis style/.style={
+      hide axis,
+      scale only axis,
+      point meta min=0.0,                       % Minimum value colorbar
+      point meta max=1.0,                       % Maximum value colorbar
+      colormap/bluered,                         % Colormap preset
+      colorbar sampled,                         % Steps in colorbar
+    }
+  }
+  % Colorbar style
+  \pgfplotsset{
+    mycolorbar style/.style={
+      separate axis lines,
+      samples=256,                              % Number of steps
+    }
+  }
+  % Video
+  \node (video) {
+    \includemedia[
+      height=0.65\textheight,
+      width=0.65\textwidth,
+      keepaspectratio,
+      activate=pageopen,
+      addresource=Videos/Peridigm_Disk_Impact_Damage.mp4,
+      flashvars={source=Videos/Peridigm_Disk_Impact_Damage.mp4}
+      ]{}{VPlayer.swf}
+  };
+  % Colorbar right
+  \begin{axis}[%
+    myaxis style,
+    at={(video.east)},
+    anchor=east,
+    height=0.65\textheight,
+    xshift=0.25cm,
+    colorbar right,                           % Activate colorbar
+    colorbar style={
+      mycolorbar style,
+      ylabel=Damage variable [-],             % Label
+    },
+  ]
+    \addplot [draw=none] coordinates {(0,0)}; % Dummy plot
+  \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\end{frame}

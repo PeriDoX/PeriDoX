@@ -1,0 +1,111 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{\idxPDKwComputeClassParameters{} for node sets}
+\label{sec:Peridigm:QRG:ComputeClassParameters:Nodeset}
+\myindex[\idxPDKeywordName]{\idxPDKwComputeClassParameters!\idxPDKwNodeSet}
+
+\leveldown{Description}
+
+Define user defined calculation data for nodesets. These quantities can later be output, see section \ref{sec:Peridigm:QRG:Output:User:Nodeset}.
+
+\levelstay{Code}
+
+\begin{itemize}[noitemsep]
+  \item \texttt{/src/compute/Peridigm\_Compute\_Node\_Set\_Data.cpp}
+  \item \texttt{/src/compute/Peridigm\_Compute\_Node\_Set\_Data.cpp}
+\end{itemize}
+
+\levelstay{Input parameters}
+\label{sec:Peridigm:QRG:ComputeClassParameters:Nodeset:Parameters}
+
+\leveldown{List}%\mbox{ }\\
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name            & Type          & Required      & Default               & Description           \\
+\midrule
+Compute Class   & string        & \checkmark    &                       & ``Node\_Set\_Data''   \\
+Calculation Type& string        & \checkmark    & -                     & ``Minimum'' | ``Maximum'' | ``Sum''   \\
+Node Set        & string        & \checkmark    & -                     & Node set name         \\
+Variable        & string        & \checkmark\textsuperscript{1,3}& -    & Output variable       \\
+Output Label    & string        & \checkmark\textsuperscript{2} & -     & Output label for output section       \\
+\bottomrule
+\end{tabularx}
+
+\levelstay{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item The output value identifier are defined in \texttt{src/io/mesh\_output/Field.h}. Possible values are defined in \autoref{sec:Peridigm:QRG:Output:Variables}.
+  \item For the output to have any effect, the output label must be defined in the ``Output'' section of the input deck.
+  \item \input{Sections/Use_Peridigm_Output_User_All_Remark_GlobalOutputVariable}
+\end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}
+
+from \texttt{test/regression/Contact\_Ring/Contact\_Ring.xml}:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Compute Class Parameters">
+  <ParameterList name="Node Set 10 Stored Elastic Energy">
+    <Parameter name="Compute Class" type="string" value="Node_Set_Data"/>
+    <Parameter name="Calculation Type" type="string" value="Sum"/>
+    <Parameter name="Node Set" type="string" value="nodelist_10"/>
+    <Parameter name="Variable" type="string" value="Stored_Elastic_Energy"/>
+    <Parameter name="Output Label" type="string" value="NS_10_Stored_Elastic_Energy"/>      
+  </ParameterList>
+  <ParameterList name="Node Set 11 Stored Elastic Energy">
+    <Parameter name="Compute Class" type="string" value="Node_Set_Data"/>
+    <Parameter name="Calculation Type" type="string" value="Sum"/>
+    <Parameter name="Node Set" type="string" value="nodelist_11"/>
+    <Parameter name="Variable" type="string" value="Stored_Elastic_Energy"/>
+    <Parameter name="Output Label" type="string" value="NS_11_Stored_Elastic_Energy"/>      
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+\levelstay{Free format}
+
+-
+
+\levelstay{YAML format}
+
+-
+
+\levelup{List of examples}
+
+\begin{itemize}[noitemsep]
+%   \item From \texttt{examples/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{examples/tensile\_test/tensile\_test.peridigm}
+%   \end{itemize}
+  \item From \texttt{test/regression/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Contact\_Ring/Contact\_Ring.xml}
+    \item \texttt{WaveInBar\_MultiBlock/WaveInBar\_MultiBlock.xml}
+  \end{itemize}
+%   \item From \texttt{test/verification/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{MultipleHorizons/MultipleHorizons.xml}
+%   \end{itemize}
+\end{itemize}

@@ -1,0 +1,403 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Preference file for everything considering glossaries
+% 
+% Revisions: 2017-04-10 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Package                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[
+%   nonumberlist,   %keine Seitenzahlen anzeigen
+  acronym,        %ein Abkürzungsverzeichnis erstellen
+  nomain,         %don’t use the main glossary
+  toc,            %Einträge im Inhaltsverzeichnis
+  %translate=babel,
+  %section=\glossarytoclevel   % kapitelweise Verzeichniserstellung
+%   section,        %im Inhaltsverzeichnis auf section-Ebene erscheinen
+%   savewrites,     % minimise the number of write registers used
+]{glossaries}
+
+% \usepackage{scrwfile} % No \newwrite and therefore limitations on registers
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Redefine package options         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Den Punkt am Ende jeder Beschreibung deaktivieren
+\renewcommand*{\glspostdescription}{}
+% \renewcommand*{\glspostdescription}{\dotfill}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Own styles                       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% -----------------
+% Acronym-styles
+% -----------------
+
+\newglossarystyle{myacronymstyle}{%
+  \renewenvironment{theglossary}%
+    {\begin{longtabu} to \linewidth {lX}}%
+    {\end{longtabu}}%
+  % Header line
+  \renewcommand*{\glossaryheader}{%
+%     % Requires booktabs
+%     \toprule%
+%     Abbreviation & Description%
+%     \tabularnewline%
+%     \midrule%
+%     \endhead%
+%     \bottomrule%
+%     \endfoot%
+  }%
+  % indicate what to do at the start of each logical group
+  %\renewcommand*{\glsgroupheading}[1]{}%
+  %\renewcommand*{\glsgroupskip}{}% What to do between groups
+  \renewcommand*{\glsgroupskip}{\tabularnewline}% What to do between groups
+  \renewcommand*{\glossaryentryfield}[5]{%
+    \glsentryitem{##1}\glstarget{##1}{##2} 
+     %\glstarget{##2}{##2}% Name
+      & ##3\glspostdescription ##5% Description
+      \\% end of row
+  }
+}
+
+
+    \newglossarystyle{myglostyle}{%
+      \renewcommand*{\glsclearpage}{}%
+      \renewenvironment{theglossary}%
+        {\begin{longtabu} to \linewidth {cX}}%
+        {\end{longtabu}}%
+      % Header line
+      \renewcommand*{\glossaryheader}{%
+        \textbf{Symbol} & \textbf{Description}%
+        \tabularnewline%
+        \tabularnewline%
+        \endhead%
+        \endfoot%
+      }%
+      \renewcommand*{\glsgroupskip}{\tabularnewline}
+      \renewcommand*{\glossentry}[1]{%
+        \glsentryitem{##1}
+        \glstarget{##1}{\glossentrysymbol{##1}} &
+        \glossentrydesc{##1}        %& % Description
+        \tabularnewline%
+      }%
+    }
+
+% -----------------
+% Coordinate-system style
+% -----------------
+
+\newglossarystyle{mycoordinatesystemstyle}{%
+  %\renewcommand{\glossarysection}[2][]{}% no title
+  \renewcommand*{\glsclearpage}{}% avoid page break before glossary
+  \renewenvironment{theglossary}%
+    % \extrarowsep=1mm
+    {\begin{longtabu} to \linewidth {cX}}%
+    {\end{longtabu}}%
+  % Header line
+  \renewcommand*{\glossaryheader}{%
+    % Requires booktabs
+    %\toprule%
+    \textbf{Symbol} & \textbf{Description}%
+    \tabularnewline%
+    \tabularnewline%
+    %\midrule%
+    \endhead%
+    %\bottomrule%
+    \endfoot%
+  }%
+  % indicate what to do at the start of each logical group
+  %\renewcommand*{\glsgroupheading}[1]{}%
+  %\renewcommand*{\glsgroupskip}{}% What to do between groups
+  \renewcommand*{\glsgroupskip}{\tabularnewline}% What to do between groups
+%   \renewcommand*{\glossaryentryfield}[5]{%
+%     \glsentryitem{##1}\glstarget{##1}{##2} 
+%      %\glstarget{##2}{##2}% Name
+%       & ##3\glspostdescription ##5% Description
+%       \\% end of row
+%   }
+  \renewcommand*{\glossentry}[1]{%
+    \glsentryitem{##1}% Entry number if required
+    \glstarget{##1}{\glossentrysymbol{##1}} &
+    %\glossentrysymbol{##1}	& % Symbol
+    %\glossentryname{##1}	& % Name
+    \glossentrydesc{##1}	%& % Description
+    %\glsentryuseri{##1}%	  % Unit in User1-Variable
+    \tabularnewline%
+  }%
+}
+
+% -----------------
+% Symbols-styles
+% -----------------
+
+\newglossarystyle{mysymbolstyle}{%
+  %\renewcommand{\glossarysection}[2][]{}% no title
+  \renewcommand*{\glsclearpage}{}% avoid page break before glossary
+  \renewenvironment{theglossary}%
+    % \extrarowsep=1mm
+    {\begin{longtabu} to \linewidth {clX}}%c}}%
+    {\end{longtabu}}%
+%     {\begin{longtable}{@{}p{0.1\linewidth}p{0.8\linewidth}p{0.1\linewidth}@{}}}%
+%     {\end{longtable}}%
+  % Header line
+  \renewcommand*{\glossaryheader}{%
+    % Requires booktabs
+    %\toprule%
+    \textbf{Symbol} & \textbf{Name} & \textbf{Description}% & \textbf{Unit}%
+    \tabularnewline%
+    \tabularnewline%
+    %\midrule%
+    \endhead%
+    %\bottomrule%
+    \endfoot%
+  }%
+  % indicate what to do at the start of each logical group
+  %\renewcommand*{\glsgroupheading}[1]{}%
+  %\renewcommand*{\glsgroupskip}{}% What to do between groups
+  \renewcommand*{\glsgroupskip}{\tabularnewline}% What to do between groups
+%   \renewcommand*{\glossaryentryfield}[5]{%
+%     \glsentryitem{##1}\glstarget{##1}{##2} 
+%      %\glstarget{##2}{##2}% Name
+%       & ##3\glspostdescription ##5% Description
+%       \\% end of row
+%   }
+  \renewcommand*{\glossentry}[1]{%
+    \glsentryitem{##1}% Entry number if required
+    \glstarget{##1}{\glossentrysymbol{##1}} &
+    %\glossentrysymbol{##1}	& % Symbol
+    \glossentryname{##1}	& % Name
+    \glossentrydesc{##1}	%& % Description
+    %\glsentryuseri{##1}%	  % Unit in User1-Variable
+    \tabularnewline%
+  }%
+}
+
+% -----------------
+% Symbols-styles for papers
+% -----------------
+
+\newglossarystyle{myonecolpapersymbolstyle}{%
+  %\renewcommand{\glossarysection}[2][]{}% no title
+  \renewcommand*{\glsclearpage}{}% avoid page break before glossary
+  \renewenvironment{theglossary}%
+    {\begin{longtabu} to \linewidth {clXcl}}%c}}%
+    {\end{longtabu}}%
+  % Header line
+  \renewcommand*{\glossaryheader}{}%
+  %\renewcommand*{\glsgroupheading}[1]{}% indicate what to do at the start of each logical group
+  \renewcommand*{\glsgroupskip}{}% What to do between groups -> no skip
+  \renewcommand*{\glossentry}[1]{% How the entry looks like
+    \glsentryitem{##1}% Entry number if required
+    \glstarget{##1}{\glossentrysymbol{##1}} & % Symbol
+    \glossentryname{##1}        %& % Name
+    \tabularnewline%
+  }%
+}
+
+% https://tex.stackexchange.com/a/216434/44634
+% needs: \usepackage{multicol}
+\newglossarystyle{mytwocolpapersymbolstyle}{%
+  %\renewcommand{\glossarysection}[2][]{}% no title
+  \renewenvironment{theglossary}%
+    {\begin{multicols}{2}\raggedright}
+    {\end{multicols}}
+  % Header line
+  \renewcommand*{\glossaryheader}{}%
+  \renewcommand*{\glsgroupheading}[1]{}% indicate what to do at the start of each logical group
+  \renewcommand*{\glsgroupskip}{}% What to do between groups -> no skip
+  \renewcommand*{\glsclearpage}{}% avoid page break before glossary 
+  % set how each entry should appear:
+  \renewcommand*{\glossentry}[2]{
+    \noindent\makebox[2.5em][c]{\glstarget{##1}{\glossentrysymbol{##1}}}% Symbol
+    \glossentryname{##1}% Name
+    \newline
+  }
+%   \renewcommand*{\subglossentry}[3]{%
+%     \glossentry{##2}{##3}
+%   }
+}
+
+% -----------------
+% Exponent-styles
+% -----------------
+
+\newglossarystyle{myexponentstyle}{%
+  %\renewcommand{\glossarysection}[2][]{}% no title
+  \renewcommand*{\glsclearpage}{}% avoid page break before glossary
+  \renewenvironment{theglossary}%
+    % \extrarowsep=1mm
+    {%
+      \begingroup
+      \renewcommand{\arraystretch}{1.4}
+      \begin{longtabu} to \linewidth {@{\ \ }r@{}lX}
+    }{%
+      \end{longtabu}
+      \endgroup
+    }%
+%     {\begin{longtable}{@{}p{0.1\linewidth}p{0.8\linewidth}p{0.1\linewidth}@{}}}%
+%     {\end{longtable}}%
+  % Header line
+  \renewcommand*{\glossaryheader}{%
+    % Requires booktabs
+    %\toprule%
+    %\textbf{Symbol} & \textbf{Name} & \textbf{Description}%
+    \multicolumn{2}{@{}c@{}}{\textbf{Symbol}} & \textbf{Description}%
+    \tabularnewline%
+    \tabularnewline%
+    %\midrule%
+    \endhead%
+    %\bottomrule%
+    \endfoot%
+  }%
+  % indicate what to do at the start of each logical group
+  %\renewcommand*{\glsgroupheading}[1]{}%
+  %\renewcommand*{\glsgroupskip}{}% What to do between groups
+  \renewcommand*{\glsgroupskip}{\tabularnewline}% What to do between groups
+%   \renewcommand*{\glossaryentryfield}[5]{%
+%     \glsentryitem{##1}\glstarget{##1}{##2} 
+%      %\glstarget{##2}{##2}% Name
+%       & ##3\glspostdescription ##5% Description
+%       \\% end of row
+%   }
+  \renewcommand*{\glossentry}[1]{%
+    \glsentryitem{##1}% Entry number if required
+    \protect\ensuremath{\protect\left(\protect\phantom{a}\protect\right)} &
+    \glstarget{##1}{\protect\ensuremath{\protect\vphantom{a}^{\glossentrysymbol{##1}}}} &
+    %\glossentrysymbol{##1}     & % Symbol
+    %\glossentryname{##1}       & % Name
+    \glossentrydesc{##1}        %& % Description
+    %\glsentryuseri{##1}%         % Unit in User1-Variable
+    \tabularnewline%
+  }%
+}
+
+% -----------------
+% Index-styles
+% -----------------
+
+\newglossarystyle{myindexstyle}{%
+  %\renewcommand{\glossarysection}[2][]{}% no title
+  \renewcommand*{\glsclearpage}{}% avoid page break before glossary
+  \renewenvironment{theglossary}%
+    % \extrarowsep=1mm
+    {%
+      \begingroup
+      \renewcommand{\arraystretch}{1.4}
+      \begin{longtabu} to \linewidth {@{\ \ }r@{}lX}
+    }{%
+      \end{longtabu}
+      \endgroup
+    }%
+%     {\begin{longtable}{@{}p{0.1\linewidth}p{0.8\linewidth}p{0.1\linewidth}@{}}}%
+%     {\end{longtable}}%
+  % Header line
+  \renewcommand*{\glossaryheader}{%
+    % Requires booktabs
+    %\toprule%
+    %\textbf{Symbol} & \textbf{Name} & \textbf{Description}%
+    \multicolumn{2}{@{}c@{}}{\textbf{Symbol}} & \textbf{Description}%
+    \tabularnewline%
+    \tabularnewline%
+    %\midrule%
+    \endhead%
+    %\bottomrule%
+    \endfoot%
+  }%
+  % indicate what to do at the start of each logical group
+  %\renewcommand*{\glsgroupheading}[1]{}%
+  %\renewcommand*{\glsgroupskip}{}% What to do between groups
+  \renewcommand*{\glsgroupskip}{\tabularnewline}% What to do between groups
+%   \renewcommand*{\glossaryentryfield}[5]{%
+%     \glsentryitem{##1}\glstarget{##1}{##2} 
+%      %\glstarget{##2}{##2}% Name
+%       & ##3\glspostdescription ##5% Description
+%       \\% end of row
+%   }
+  \renewcommand*{\glossentry}[1]{%
+    \glsentryitem{##1}% Entry number if required
+    \protect\ensuremath{\protect\left(\protect\phantom{a}\protect\right)} &
+    %\glstarget{##1}{\glossentrysymbol{##1}} &
+    \glstarget{##1}{\protect\ensuremath{\protect\vphantom{a}_{\glossentrysymbol{##1}}}} &
+    %\glossentrysymbol{##1}	& % Symbol
+    %\glossentryname{##1}	& % Name
+    \glossentrydesc{##1}	%& % Description
+    %\glsentryuseri{##1}%	  % Unit in User1-Variable
+    \tabularnewline%
+  }%
+}
+
+% -----------------
+% Operator style
+% -----------------
+
+\newglossarystyle{myoperatorstyle}{%
+  %\renewcommand{\glossarysection}[2][]{}% no title
+  \renewcommand*{\glsclearpage}{}% avoid page break before glossary
+  \renewenvironment{theglossary}%
+    % \extrarowsep=1mm
+    {%
+      \begingroup%
+      \renewcommand{\arraystretch}{1.4}%
+      %\begin{longtabu} to \linewidth {cX}
+      \begin{longtabu} to \linewidth {@{\ \;}r@{}c@{}lX}
+    }%
+    {%
+      \end{longtabu}
+      \endgroup
+    }%
+  % Header line
+  \renewcommand*{\glossaryheader}{%
+    % Requires booktabs
+    %\toprule%
+    %\textbf{Symbol} & \textbf{Description}%
+    \multicolumn{3}{@{}c@{}}{\textbf{Symbol}} & \textbf{Description}%
+    \tabularnewline%
+    \tabularnewline%
+    %\midrule%
+    \endhead%
+    %\bottomrule%
+    \endfoot%
+  }%
+  % indicate what to do at the start of each logical group
+  %\renewcommand*{\glsgroupheading}[1]{}%
+  %\renewcommand*{\glsgroupskip}{}% What to do between groups
+  \renewcommand*{\glsgroupskip}{\tabularnewline}% What to do between groups
+%   \renewcommand*{\glossaryentryfield}[5]{%
+%     \glsentryitem{##1}\glstarget{##1}{##2} 
+%      %\glstarget{##2}{##2}% Name
+%       & ##3\glspostdescription ##5% Description
+%       \\% end of row
+%   }
+  \renewcommand*{\glossentry}[1]{%
+    \glsentryitem{##1}% Entry number if required
+    %\glstarget{##1}{\glossentrysymbol{##1}} &
+    %\glstarget{##1}{\glossentrysymbol{##1}}&
+    \glsentryuseri{##1} &
+    \glsentryuserii{##1} &
+    \glsentryuseriii{##1} &
+    %\glossentrysymbol{##1}	& % Symbol
+    %\glossentryname{##1}	& % Name
+    \glossentrydesc{##1}	%& % Description
+    %\glsentryuseri{##1}%	  % Unit in User1-Variable
+    \tabularnewline%
+  }%
+}

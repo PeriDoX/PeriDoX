@@ -1,0 +1,62 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This file handles all things considering indices
+% 
+% Requirements:
+%
+% - This file must be included before a possible tikz/pgfplots externalization command
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---------------------------
+% Load package
+% ---------------------------
+
+% \usepackage{multind}
+\usepackage{imakeidx}
+% \usepackage[splitindex]{imakeidx}
+
+% ---------------------------
+% Index name keywords
+% ---------------------------
+
+% Expansion of macros, see https://tex.stackexchange.com/a/399451/44634
+\newcommand{\myindex}[2][]{\index[#1]{#2}}
+
+% Keyword index name
+\newcommand{\idxPDKeywordName}{PDKeyword}
+
+% ---------------------------
+% Setup
+% ---------------------------
+
+\indexsetup{%
+  level=\chapter*,%
+  toclevel=chapter,%
+  %noclearpage,%
+}
+
+% ---------------------------
+% Create individual indices
+% ---------------------------
+
+\makeindex[%
+  name=\idxPDKeywordName,%
+  %title=\idxPDKeywordName{} index,
+  title=Peridigm keyword index,
+  intoc,
+]

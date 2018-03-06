@@ -1,0 +1,94 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{User defined results for nearest neighbor points}
+\label{sec:Peridim:QRG:Output:User:NearestNeighbor}
+\myindex[\idxPDKeywordName]{\idxPDKwOutput!\idxPDKwNearestPoint}
+
+\leveldown{Description}
+
+User defined output for the nearest point to a given spatial coordinate  using \texttt{Compute Class Parameters}.
+
+\levelstay{Exemplary input section}
+
+Requirement is the definition of the respective \idxPDKwComputeClassParameters{} from section \ref{sec:Peridigm:QRG:ComputeClassParameters:NearestPoint}.
+
+\leveldown{XML-format}
+
+from \texttt{test/verification/NeighborhoodVolume/NeighborhoodVolume.xml}:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Output">
+  <Parameter name="Output File Type" type="string" value="ExodusII"/>
+  <Parameter name="Output Filename" type="string" value="NeighborhoodVolume"/>
+  <Parameter name="Output Frequency" type="int" value="1"/>
+  <ParameterList name="Output Variables">
+    ...
+    <Parameter name="Horizon" type="bool" value="true"/>
+    <Parameter name="Neighborhood_Volume" type="bool" value="true"/>
+    ...
+    <Parameter name="Horizon_Point_A" type="bool" value="true"/>
+    <Parameter name="Neighborhood_Volume_Point_A" type="bool" value="true"/>
+    ...
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+\levelstay{Free format}
+
+from \texttt{examples/tensile\_test/tensile\_test.peridigm}:
+
+\begin{code}
+Output
+  Output File Type "ExodusII"
+  Output Filename "tensile_test"
+  Output Frequency 1
+  Output Variables
+    ...
+    Displacement "true"
+    ...
+    Gage_Top_Initial_Position "true"
+    ...
+    Gage_Top_Displacement "true"
+    ...
+\end{code}
+
+\levelstay{YAML format}
+
+-
+
+\levelup{List of examples}
+
+\begin{itemize}[noitemsep]
+  \item From \texttt{examples/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{examples/tensile\_test/tensile\_test.peridigm}
+  \end{itemize}
+%   \item From \texttt{test/regression/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Pals\_Simple\_Shear/Pals\_Simple\_Shear.xml}
+%   \end{itemize}
+  \item From \texttt{test/verification/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{NeighborhoodVolume/NeighborhoodVolume.xml}
+    \item \texttt{SurfaceFactorCube/SurfaceFactorCube.xml}
+  \end{itemize}
+\end{itemize}

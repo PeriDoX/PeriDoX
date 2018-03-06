@@ -1,0 +1,91 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \levelstay{Format-specific remarks}
+\levelstay{Formats}
+\label{sec:Peridigm:QRG:InputFileFormat:FormatSpecificRemarks}
+
+\toolname{} currently supports three different input file formats:
+
+\begin{itemize}[noitemsep]
+  \item XML format
+  \item Free format
+  \item YAML format
+\end{itemize}
+
+Both, XML and free format are more or less obsolete and will not be part of future developments. For version 1.5 and beyond the focus is on the YAML format.
+
+\leveldown{XML format}
+\label{sec:Peridigm:QRG:InputFileFormat:FormatSpecificRemarks:XML}
+
+\paragraph{Comment sign}
+
+A comment line or block is started with \lstinline[style=inlinecodestyle]+<!--+ and ends with \lstinline[style=inlinecodestyle]+-->+
+
+\subparagraph{Single-line comment} \lstinline[style=inlinecodestyle]+<!-------Your comment----->+
+
+\subparagraph{Multi-line comment example} from a generic xml file
+
+\begin{code}
+<detail>
+  <band height="20">
+  <!--
+    Hello,
+       I am a multi-line XML comment
+    <staticText>
+      <reportElement x="180" y="0" width="200" height="20"/>
+      <text><![CDATA[Hello World!]]></text>
+    </staticText>
+  -->
+  </band>
+</detail>
+\end{code}
+
+\paragraph{Format interference with the function parser}
+
+When you write a xml format document, you cannot use ``>'' or ``<'' directly. When you edit a xml document, you should use ``\&gt;'' replace ``>'' and ``\&lt;'' replace ``<'', e.g.
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<Parameter name="Value" type="string" value="if(t &lt;= 10.0e-6)\{value=45.8216*t;\} else \{value=0;\}"/>
+\end{code}
+\endgroup
+
+instead of
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<Parameter name="Value" type="string" value="if(t <= 10.0e-6)\{value=45.8216*t;\} else \{ value=0;\}"/>
+\end{code}
+\endgroup
+
+\levelstay{Free format}
+\label{sec:Peridigm:QRG:InputFileFormat:FormatSpecificRemarks:Free}
+
+\paragraph{Comment sign}
+
+A comment line is started with the hash sign: \#.
+
+\levelstay{YAML format}
+\label{sec:Peridigm:QRG:InputFileFormat:FormatSpecificRemarks:YAML}
+
+\paragraph{Comment sign}
+
+A comment line is started with the hash sign: \#. Comments can start anywhere on a line, and continue until the end of the line. YAML does not support block comments.

@@ -1,0 +1,209 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{\idxPDKwElasticPartialVolume}
+\label{sec:Peridigm:QRG:Materials:ElasticPartialVolume}
+\myindex[\idxPDKeywordName]{\idxPDKwElasticPartialVolume}
+\myindex[\idxPDKeywordName]{\idxPDKwMaterials!\idxPDKwElasticPartialVolume|see{\idxPDKwElasticPartialVolume}}
+
+
+\leveldown{Description}
+
+An isotropic, partial volume linear elastic material model.
+
+\levelstay{Literature}
+
+-
+% \begin{itemize}[noitemsep]
+%   \item \cite{MitchellJA2015}
+% \end{itemize}
+
+\levelstay{Stiffness model sketch}
+
+\begin{figure}[htbp]
+  \begin{subfigure}{0.49\linewidth}
+    \centering
+    \tikzexternalenable
+    \tikzsetnextfilename{Material_Model_Elastic-Linear-K}
+    \input{Figures/Theory/Material_Model_Elastic-Linear-K}
+    \tikzexternaldisable
+    \caption{Axial}
+    \label{fig:Material_Models_PVLinearElastic-E}
+  \end{subfigure}%
+  \begin{subfigure}{0.49\linewidth}
+    \centering
+    \tikzexternalenable
+    \tikzsetnextfilename{Material_Model_Elastic-Linear-G}
+    \input{Figures/Theory/Material_Model_Elastic-Linear-G}
+    \tikzexternaldisable
+    \caption{Shear}
+    \label{fig:Material_Models_PVLinearElastic-G}
+  \end{subfigure}%
+  \caption{Partial-volume linear-elastic material model}
+  \label{fig:Material_Models_PVLinearElastic}
+\end{figure}
+
+\levelstay{Code}
+
+\leveldown{Release version}
+
+?% Available from version 1.5.
+
+\levelstay{Required compiler options}
+
+use \texttt{-D USE\_PV:BOOL=ON} %and specify/adapt the following path:
+
+% \begin{code}
+% -D USE_LCM:BOOL=ON
+% -D LCM_INCLUDE_DIR:PATH=/Users/djlittl/Albany/src/LCM
+% -D LCM_LIBRARY_DIR:PATH=/Users/djlittl/Albany/GCC_4.7.2_OPT/src
+% \end{code}
+
+\levelstay{Routines}
+
+% \begin{itemize}[noitemsep]
+%   \item IO:
+%   \begin{itemize}[noitemsep]
+%     \item \verb+/src/materials/Peridigm_Pals_Model.cpp+
+%     \item \verb+/src/materials/Peridigm_Pals_Model.hpp+
+%   \end{itemize}
+%   \item Computation:
+%   \begin{itemize}[noitemsep]
+%     \item \verb+/src/materials/pals.cxx+
+%     \item \verb+/src/materials/pals.h+
+%   \end{itemize}
+% \end{itemize}
+
+\levelup{Input parameters}
+
+\leveldown{List}
+
+% \begin{tabularx}{\linewidth}{lcccX}
+% \toprule
+% Name            & Type          & Required      & Default       & Description           \\
+% \midrule
+\begin{filecontents}{\tabledir\jobname-parammatelasticpvltxtable.tex}
+\begin{longtable}{@{}lcccX@{}}
+% ---------------------------
+% Header & Footer
+% ---------------------------
+%
+% Header
+% -----------------
+% 1st head
+\toprule
+Name          & Type          & Required      & Default       & Description           \\
+\midrule
+\endfirsthead
+% Last head
+\multicolumn{5}{@{}l}{\ldots continued}\\
+\toprule
+Name          & Type          & Required      & Default       & Description           \\
+\midrule
+\endhead
+%
+% Footer
+% -----------------
+% n-th foot
+\bottomrule
+\multicolumn{5}{r@{}}{continued \ldots}\\
+\endfoot
+% last foot
+\bottomrule
+\endlastfoot
+% ---------------------------
+% Content
+% ---------------------------
+Material Model  & string & \checkmark & - & Material type ``\idxPDKwElasticPartialVolume''        \\
+Density         & double & \checkmark & - & Material density      \\
+Bulk modulus    & double & \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:Materials:ElasticPartialVolume:Remark:Modulus:One},\ref{enm:Peridigm:QRG:Materials:ElasticPartialVolume:Remark:Modulus:Two}}       & -             & Volumetric elasticity\\
+Shear Modulus   & double & \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:Materials:ElasticPartialVolume:Remark:Modulus:One},\ref{enm:Peridigm:QRG:Materials:ElasticPartialVolume:Remark:Modulus:Two}}       & -             & Shear elasticity or engineering constant for shear stiffness\\
+Young\verb+'+s Modulus & double & \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:Materials:ElasticPartialVolume:Remark:Modulus:One},\ref{enm:Peridigm:QRG:Materials:ElasticPartialVolume:Remark:Modulus:Two}}       & -             & Engineering constant for axial stiffness\\
+Poisson\verb+'+s Ratio & double & \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:Materials:ElasticPartialVolume:Remark:Modulus:One},\ref{enm:Peridigm:QRG:Materials:ElasticPartialVolume:Remark:Modulus:Two}}       & -             & Engineering constant for transverse contraction\\
+\end{longtable}
+\end{filecontents}
+% \bottomrule
+% \end{tabularx}
+
+\begingroup
+\LTXtable{\linewidth}{\tabledir\jobname-parammatelasticpvltxtable.tex}
+\endgroup
+
+\levelstay{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item \label{enm:Peridigm:QRG:Materials:ElasticPartialVolume:Remark:Modulus:One} The stiffness can be defined by either elastic modulus combination: Volumetric and shear elasticity ($\glssymbol{symb:scalar:mat:modulus:bulk}$,$\glssymbol{symb:scalar:mat:modulus:shear}$) or the engineering constants ($\glssymbol{symb:scalar:mat:modulus:young}$,$\glssymbol{symb:scalar:mat:poissonratio}$,$\glssymbol{symb:scalar:mat:modulus:shear}$)
+  \item \label{enm:Peridigm:QRG:Materials:ElasticPartialVolume:Remark:Modulus:Two} In case engineering constants are used, only two of the three values \textit{Young's Modulus}, \textit{Poisson's Ratio} and \textit{Shear Modulus} have to be specified. The missing value is calculated from
+  \begin{align*}
+  \glssymbol{symb:scalar:mat:modulus:shear}&=\dfrac{\glssymbol{symb:scalar:mat:modulus:young}}{2\cdot\left(1+\glssymbol{symb:scalar:mat:poissonratio}\right)}
+  \end{align*}
+  Internally, the engineering constants are converted to ($\glssymbol{symb:scalar:mat:modulus:bulk}$,$\glssymbol{symb:scalar:mat:modulus:shear}$).
+  \item Consider the general remarks on non-correspondence materials in section \ref{sec:Peridigm:QRG:Materials:Preliminaries:NonCorrespondence}
+\end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}
+
+-
+
+\levelstay{Free format}
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+Materials
+  LPS Material
+    Material Model "Elastic Partial Volume"
+    Density 8.05
+    Bulk Modulus 160.0e10
+    Shear Modulus 79.3e10
+\end{code}
+\endgroup
+
+\levelstay{YAML format}
+
+-
+  
+\levelup{Additional output variables for the material model}
+
+% \begin{multicols}{2}
+% \begin{itemize}[noitemsep]
+%   \item Deviatoric\_Normalization
+%   \item Dilatation
+%   \item Dilatation\_Normalization
+%   \item Lagrange\_Multiplier\_Dilatation\_{1-6}
+% \end{itemize}
+% \end{multicols}
+
+\levelstay{List of examples}
+
+\begin{itemize}[noitemsep]
+%   \item From \texttt{examples/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{fragmenting\_cylinder/fragmenting\_cylinder.peridigm}
+%   \end{itemize}
+%   \item From \texttt{test/regression/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{WaveInBar/WaveInBar.xml}
+%   \end{itemize}
+  \item From \texttt{test/verification/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{LinearLPSBar/LinearLPSBar.peridigm}
+  \end{itemize}
+\end{itemize}

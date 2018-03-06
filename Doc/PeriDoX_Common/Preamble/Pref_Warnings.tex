@@ -1,0 +1,47 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---------------------------
+% Load package
+% ---------------------------
+
+\usepackage{silence}
+
+% ---------------------------
+% Package options
+% ---------------------------
+
+% ---------------------------
+% Settings
+% ---------------------------
+
+% Suppress: Overwriting file 'xxxx.xxx'.
+% needs: \usepackage{silence}
+\WarningFilter{latex}{Overwriting file}
+
+% Suppress: PDF inclusion: multiple PDFs with page group
+% https://tex.stackexchange.com/a/198590
+\begingroup\expandafter\expandafter\expandafter\endgroup
+\expandafter\ifx\csname pdfsuppresswarningpagegroup\endcsname\relax
+\else
+  \pdfsuppresswarningpagegroup=1\relax
+\fi
+
+% Suppress: PDF inclusion: multiple pdfs with page group included in a single page
+
+\pdfsuppresswarningpagegroup=1

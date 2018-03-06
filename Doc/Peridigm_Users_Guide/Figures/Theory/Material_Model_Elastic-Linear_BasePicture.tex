@@ -1,0 +1,84 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Math
+\pgfkeys{/pgf/fpu}
+\pgfmathsetmacro{\yieldstraint}{\yieldstresst/\modulus}
+\pgfmathsetmacro{\yieldstrainc}{\yieldstressc/\modulus}
+\pgfkeys{/pgf/fpu=false}
+% Shapes
+\tikzset{%
+  myarrowdecoration1/.style={%
+    postaction={%
+      decorate,%
+      decoration={%
+        markings,%
+        mark=between positions .4 and .6 step .1pt with {\draw [thin] circle (.1pt);},%
+        mark=at position .6 with {\arrow[thin,xshift=1pt]{latex}},%
+        raise=-0.7ex,%
+      }%
+    }%
+  },
+  myarrowdecoration2/.style={
+    postaction={%
+      decorate,%
+      decoration={%
+        markings,%
+        mark=between positions .4 and .6 step .1pt with {\draw [thin] circle (.1pt);},%
+        mark=at position .4 with {\arrow[thin,xshift=1pt]{latex reversed}},%
+        raise=0.7ex,%
+      }%
+    }%
+  },
+}
+% Axis
+\begin{axis}[
+%     scale only axis,
+  axis lines=middle,
+  ticks=none,
+  %restrict y to domain=-\ultimatestrength:\ultimatestrength,
+  xmin=-1.2*\yieldstrainc,
+  xmax= 1.2*\yieldstraint,
+  ymin=-1.5*\yieldstressc,
+  ymax= 1.5*\yieldstresst,
+  width=0.99\textwidth,
+  height=0.99\textwidth,
+  xlabel=\xlabel,
+  ylabel=\ylabel,
+  every axis x label/.style={
+    at={(ticklabel* cs:1.005)},
+    anchor=west,
+  },
+  every axis y label/.style={
+    at={(ticklabel* cs:1.005)},
+    anchor=south,
+  },
+]
+  % Coordinates
+  \coordinate (origin)     at (0,0);
+  \coordinate (yieldt)     at ( \yieldstraint, \yieldstresst);
+  \coordinate (yieldc)     at (-\yieldstrainc,-\yieldstressc);
+  % Lines
+  \draw[thick,draw=\plotcolor,myarrowdecoration1,myarrowdecoration2] (origin) -- node[pos=0.8, pin=-60:{\pinlabel}](ELabel){} (yieldt);
+  \draw[thick,draw=\plotcolor,myarrowdecoration1,myarrowdecoration2] (origin) -- (yieldc);
+  % Label
+  \iftoggle{tclabel}{%
+    \node[anchor=north east] (tensionlabel) at (rel axis cs:1,1) {\footnotesize tension};
+    \node[anchor=south west] (compressionlabel) at (rel axis cs:0,0) {\footnotesize compression};
+  }{}
+\end{axis}

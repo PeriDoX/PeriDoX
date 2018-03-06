@@ -1,0 +1,120 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{\idxPDKwInitialVelocity}
+\label{sec:Peridigm:QRG:BoundaryConditions:InitialVelocity}
+\myindex[\idxPDKeywordName]{\idxPDKwInitialVelocity}
+\myindex[\idxPDKeywordName]{\idxPDKwBoundaryConditions!\idxPDKwInitialVelocity|see{\idxPDKwInitialVelocity}}
+
+\leveldown{Description}
+
+Application of a velocity at time $\glssymbol{symb:scalar:time}=0$ to the application region. For $\glssymbol{symb:scalar:time}>0$ this boundary condition is inactive.
+
+\levelstay{Code}
+
+\begin{itemize}[noitemsep]
+  \item \verb+/src/core/Peridigm_BoundaryAndInitialConditionManager.cpp+
+  \item \verb+/src/core/Peridigm_BoundaryAndInitialConditionManager.hpp+
+  \item \verb+/src/core/Peridigm_BoundaryCondition.cpp+
+  \item \verb+/src/core/Peridigm_BoundaryCondition.hpp+
+  \item \verb+/src/core/Peridigm_Enums.cpp+
+  \item \verb+/src/core/Peridigm_Enums.hpp+
+\end{itemize}
+
+\levelstay{Input parameters}
+
+\paragraph{List}
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name		& Type		& Required	& Default	& Description		\\
+\midrule
+Type		& string	& \checkmark	& -		& ``\idxPDKwInitialVelocity''	\\
+Node Set        & string        & \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:BoundaryConditions:InitialVelocity:Remark:NodeSet}}    & -             & Application region name | ``Full Domain'' | ``All Sets''      \\
+Coordinate	& string	& \checkmark	& -		& ``x'' | ``y'' | ``z'' 	\\
+Value		& string	& \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:BoundaryConditions:InitialVelocity:Remark:Value}}	& -		& String with function for function parser	\\
+\bottomrule
+\end{tabularx}
+
+\paragraph{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item It is not totally clear what happens when a prescribed displacement and an initial displacement/velocity are applied to the same application region. Who wins?. See \verb+BoundaryCondition.cpp+ lines 136-138.
+  \item \label{enm:Peridigm:QRG:BoundaryConditions:InitialVelocity:Remark:NodeSet} Any string that is not ``Full Domain'' or ``All Sets'' will be considered a custom node set name in the model or mesh file, dependent of the discretization type.
+  \item \label{enm:Peridigm:QRG:BoundaryConditions:InitialVelocity:Remark:Value} The string in the variable \textit{Value} should start with \verb+value = +. If it does not, \toolname{} will automatically add it for the function parser to work.
+\end{enumerate}
+
+\levelstay{Exemplary input section}
+
+\leveldown{XML format}
+
+\begin{code}
+<ParameterList name="Boundary Conditions">
+  <ParameterList name="Left Side Initial Velocity">
+    <Parameter name="Type" type="string" value="Initial Velocity"/>
+    <Parameter name="Node Set" type="string" value="nodelist_1"/>
+    <Parameter name="Coordinate" type="string" value="x"/>
+    <Parameter name="Value" type="string" value="-100.0"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+
+\levelstay{Free format}
+
+Using ``Full domain'' for the node set definition instead of a pre-defined node set name, from \texttt{examples/fragmenting\_cylinder/fragmenting\_cylinder.peridigm}:
+
+\begin{code}
+Boundary Conditions
+  Initial Velocity X
+    Type "Initial Velocity"
+    Node Set "Full Domain"
+    Coordinate "x"
+    Value "(200 - 50*((z/0.05)-1)^2)*cos(atan2(y,x))"
+  Initial Velocity Y
+    Type "Initial Velocity"
+    Node Set "Full Domain"
+    Coordinate "y"
+    Value "(200 - 50*((z/0.05)-1)^2)*sin(atan2(y,x))"
+  Initial Velocity Z
+    Type "Initial Velocity"
+    Node Set "Full Domain"
+    Coordinate "z"
+    Value "(100*((z/0.05)-1))"
+\end{code}
+
+\levelstay{YAML format}
+
+-
+
+\levelup{List of examples}
+
+\begin{itemize}[noitemsep]
+  \item From \texttt{examples/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{fragmenting\_cylinder/fragmenting\_cylinder.peridigm}
+  \end{itemize}
+  \item From \texttt{test/regression/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{WaveInBar/WaveInBar.xml}
+  \end{itemize}
+%   \item From \texttt{test/verification/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{NeighborhoodVolume/NeighborhoodVolume.xml}
+%     \item \texttt{IsotropicHardeningPlasticFullyPrescribedTension\_NoFlaw/IsotropicHardeningPlasticFullyPrescribedTension\_NoFlaw.xml}
+%   \end{itemize}
+\end{itemize}

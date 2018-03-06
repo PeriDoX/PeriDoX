@@ -1,0 +1,194 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Secondpage in case bootstrap_dlrreprt
+% is used as documentclass
+% 
+% Revisions: 2017-04-10 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%
+% Provide a language switch according to babel
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+\AtBeginDocument{
+  \@ifpackageloaded{babel}{
+    \let\secondpage@iflanguage\iflanguage}{
+    \def\secondpage@iflanguage#1#2#3{#3}
+  }
+}
+\makeatother
+
+%
+% The actual \secondpage command uses commands like \secondpage@german
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+\newcommand{\secondpage}{
+  \@ifundefined{languagename}{%                   % If babel is not loaded
+    \secondpage@english%                          % ... use english version
+  }{%                                             % else
+    \@ifundefined{secondpage@\languagename}{%     % ... if specialized version is not there
+      \PackageWarning{bootstrap_dlrreprt.cls}%    % ... ... output a warning and
+      {The implementation for the language is missing!}{}%
+      \secondpage@english%                        % ... ... use english version
+    }{%                                           % ... else
+      \csname secondpage@\languagename\endcsname% % ... ... use specialized version
+    }%                                            % ... done.
+  }%                                              % done.
+}%   
+\makeatother
+
+%
+% Define output commands for german language
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+\newcommand{\secondpage@ngerman}{\secondpage@german}
+\makeatother
+
+\makeatletter
+\newcommand{\secondpage@german}{
+  % Header
+  \markboth{Dokument-Identifikation}{Dokument-Identifikation}
+  
+  % Actual page
+  \begin{minipage}{0.7\linewidth}
+    \noindent
+    {\bfseries Deutsches Zentrum f\"ur Luft- und Raumfahrt e.V.}\\%
+    Faserverbundleichtbau und Adaptronik\\%
+    Strukturmechanik\\%
+    Dr. Tobias Wille\\%
+    38108 Braunschweig\\%
+    \begin{tabular}{@{}ll}
+  %   \begin{tabular}{@{}cl}
+  %   \phone      & \telprefix3701\\% requires \usepackage{marvosym}
+  %   \Faxmachine & \telprefix3702\\
+  %   \Mundus     & \href{\webprefix}{\webprefix}
+    Tel: & \telprefix3701\\
+    Fax: & \telprefix3702\\
+    Web: & \href{\dlraddress}{\dlraddress}
+    \end{tabular}
+  \end{minipage}
+  \begin{minipage}{0.29\linewidth}
+    \centering
+    {%
+      \hypersetup{colorlinks=false,linkcolor=black}
+      \dlrqrcode
+    }
+  \end{minipage}
+  
+  \vspace{1em}
+  
+  \theauthor\\[0.5em]%
+  \begin{tabular}{@{}p{2.5em}l}
+%   \begin{tabular}{@{}cl}
+%   \phone      & \telprefix\\%\thetelnumber\\
+%   \Faxmachine & \telprefix\\%\thefaxnumber\\
+%   \Letter     & %\email%
+  Tel:  & \telprefix\thetelnumber\\
+  Fax:  & \telprefix\thefaxnumber\\
+  Mail: & \theemail
+  \end{tabular}%
+    
+
+  \vfill
+}
+\makeatother
+
+%
+% Define output commands for english language
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+\newcommand{\secondpage@english}{
+
+  % Header
+  \markboth{Document Identification}{Document Identification}
+  
+  % Actual page
+  \begin{minipage}{0.7\linewidth}
+    \noindent
+    {\bfseries DLR German Aerospace Center}\\%
+    Composite Structures and Adaptive Systems\\%
+    Structural Mechanics\\%
+    Dr. Tobias Wille\\[0.5em]%
+    38108 Braunschweig\\%
+    Germany\\[0.5em]%
+    \begin{tabular}{@{}p{2.5em}l}
+  %   \begin{tabular}{@{}cl}
+  %   \phone      & \telprefix3701\\
+  %   \Faxmachine & \telprefix3702\\
+  %   \Mundus     & \href{\webprefix/en}{\webprefix/en}
+    Tel: & \telprefix3701\\
+    Fax: & \telprefix3702\\
+    %Web: & \href{\webprefix/en}{\webprefix/en}
+    Web: & \href{\dlraddress}{\dlraddress}
+    \end{tabular}
+  \end{minipage}
+  \begin{minipage}{0.29\linewidth}
+    \centering
+    {%
+      \hypersetup{colorlinks=false,linkcolor=black}
+      \dlrqrcode
+    }
+  \end{minipage}
+  
+  \vspace{1em}
+  
+  \theauthor\\[0.5em]%
+  \begin{tabular}{@{}p{2.5em}l}
+%   \begin{tabular}{@{}cl}
+%   \phone      & \telprefix\\%\thetelnumber\\
+%   \Faxmachine & \telprefix\\%\thefaxnumber\\
+%   \Letter     & %\email%
+  Tel:  & \telprefix\thetelnumber\\
+  Fax:  & \telprefix\thefaxnumber\\
+  Mail: & \theemail
+  \end{tabular}%
+  
+  \vspace{3em}
+  
+  % Repository infos
+  \begin{minipage}{0.7\linewidth}
+    {\bfseries Repository}\\%
+    This document is part of the \reponame{} repository.\\
+    The complete repository can be found at:
+    
+    \href{\repoaddress}{\repoaddress}
+  \end{minipage}
+  \begin{minipage}{0.29\linewidth}
+    \centering
+    \centering
+    {%
+      \hypersetup{colorlinks=false,linkcolor=black}
+      \repoqrcode
+    }
+  \end{minipage}
+  
+  \vspace{3em}
+  
+  % Citing
+  \begin{minipage}{\linewidth}
+    {\bfseries Citing}\\%
+    When citing this document, please reference the following:\\
+    Martin R{\"a}del, Christian Willberg, Peridigm Users Guide, DLR-IB-FA-BS-2018-23, DLR Report, 2018
+  \end{minipage}
+  
+  \vfill
+  
+  {\bfseries Disclaimer}\\%
+%   This software and documentation is provided ``as is'' and any expressed or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the regents or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.
+  The contents of this document are provided ``AS IS''.  This information could contain technical inaccuracies, typographical errors and out-of-date information. This document may be updated or changed without notice at any time. Use of the information is therefore at your own risk. In no event shall the DLR be liable for special, indirect, incidental or consequential damages resulting from or related to the use of this document.
+}
+\makeatother

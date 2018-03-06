@@ -1,0 +1,176 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{Preliminaries}
+
+\leveldown{Types}
+
+The following boundary condition types are defined in \toolname{}:
+
+\begin{itemize}[noitemsep]
+  \item Prescribed\_Displacement
+  \item Prescribed\_Fluid\_Pressure\_U
+  \item Prescribed\_Temperature
+  \item Initial\_Temperature
+  \item Initial\_Displacement
+  \item Initial\_Velocity
+  \item Initial\_Fluid\_Pressure\_U
+  \item Body\_Force
+\end{itemize}
+
+They are parsed in \verb+~\src\core\Peridigm_BoundaryAndInitialConditionManager.cpp+. The names are defined in \verb+~\src\core\Peridigm_Enums.cpp+. The input of keywords seems to be case-insensitive.
+
+In general only ``Prescribed Displacement'' can be applied in \toolname{} for the application of homogeneous or inhomogeneous kinematic boundary conditions. There is no discrete command for prescribed velocities or accelerations, despite ``Initial Velocity''. However, using the function parser it is still possible to apply these kinds of boundary conditions using the time variable $t$.
+
+Generally it is possible to apply any kind of velocity $\glssymbol{symb:scalar:velocity}$ or acceleration $\glssymbol{symb:scalar:acceleration}$ boundary conditions by considering the relationship to the displacement $\glssymbol{symb:scalar:displacement}$:
+
+\begin{equation}
+\label{eq:Peridigm:QRG:BoundaryConditions:Preliminaries:uva}
+\glssymbol{symb:scalar:acceleration}(\glssymbol{symb:scalar:time})=\dot{\glssymbol{symb:scalar:velocity}}(\glssymbol{symb:scalar:time})=\ddot{\glssymbol{symb:scalar:displacement}}(\glssymbol{symb:scalar:time})
+\end{equation}
+
+\levelstay{Application region}
+\myindex[\idxPDKeywordName]{\idxPDKwNodeSet}
+
+Usually the boundary conditions have to be applied to particular material points for example at the free end of the body. Therefore, a nodeset has to be defined in order to list the material points to which the boundary condition has to be applied to.
+
+If an \exodusname{} finite element mesh is used as a discretisation the nodesets might already be defined in the mesh file. However, it is possible to define new nodesets in the \toolname{} input deck as well as it is required for the discretisation via text file.
+
+In order to define nodesets for the discretisation via a .txt file there are two options described in the next two segments
+
+\paragraph{Definition in individual text file}
+
+\subparagraph{Description}
+
+A .txt file has to be generated which contains the numbers of the desired boundary material points from the discretisation .txt file in a column.
+
+% \paragraph{Example}
+% \subparagraph{Description}
+
+Let the .txt files "nodeset\_1.txt" and "nodeset\_2.txt" be given as
+
+% \begin{tabularx}{\linewidth}{XcX}
+\begin{minipage}{0.425\linewidth}
+\begin{code}
+1
+2
+3
+4
+\end{code}
+\end{minipage}
+% &%
+\hfill%
+and %
+\hfill%
+% &%
+\begin{minipage}{0.425\linewidth}
+\begin{code}
+9
+10
+11
+12
+\end{code}
+\end{minipage}
+% \end{tabularx}
+
+and define the Parameter names ``Node Set One'' and ``Node Set Two'' as
+
+\begin{code}
+<Parameter name="Node Set One" type="string" value="nodeset_1.txt"/>
+<Parameter name="Node Set Two" type="string" value="nodeset_2.txt"/>
+\end{code}
+
+Thus, the boundary condition can be applied to these particular material points by entering the name of the nodeset into the input deck section "Boundary Conditions".
+
+\subparagraph{XML format}%\mbox{}\\
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Boundary Conditions">
+  <Parameter name="Node Set One" type="string" value="nodeset_1.txt"/>
+  <Parameter name="Node Set Two" type="string" value="nodeset_2.txt"/>
+  <ParameterList name="Prescribed Displacement Min X Face">
+    <Parameter name="Type" type="string" value="Prescribed Displacement"/>
+    <Parameter name="Node Set" type="string" value="Node Set One"/>
+    <Parameter name="Coordinate" type="string" value="x"/>
+    <Parameter name="Value" type="string" value="0.0"/>
+  </ParameterList>
+  <ParameterList name="Prescribed Displacement Max X Face">
+    <Parameter name="Type" type="string" value="Prescribed Displacement"/>
+    <Parameter name="Node Set" type="string" value="Node Set Two"/>
+    <Parameter name="Coordinate" type="string" value="x"/>
+    <Parameter name="Value" type="string" value="-0.1*t/0.00005"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+\subparagraph{Free format}%\mbox{}\\
+
+In the free format, it is important, that the node set name ends with the term \texttt{Node Set}:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+Boundary Conditions
+  nset_NSET-BC_BOT_SIDE Node Set "nset_NSET-BC_BOT_SIDE.txt"
+  Displacement-1-D-x
+    Type "Prescribed Displacement"
+    Node Set "nset_NSET-BC_BOT_SIDE Node Set"
+    Coordinate "x"
+    Value "0.0"
+\end{code}
+\endgroup
+
+\paragraph{Definition inside the model file}
+
+The other possibility to define the nodeset is to list the number of the desired nodes explicitly, i. e. as
+
+\begin{code}
+<Parameter name="Node Set Three" type="string" value="2 4"/>
+<Parameter name="Node Set Four" type="string" value="1 2"/>
+\end{code}
+
+The value of \texttt{Parameter name} can now be used as shown in the previous example.
+
+Free format example:
+
+\begin{code}
+Boundary Conditions
+  Min X Node Set "1"
+  Max X Node Set "2"
+  Initial Velocity Min X Face
+    Type "Initial Velocity"
+    Node Set "Min X Node Set"
+    Coordinate "x"
+    Value "1.0"
+  Initial Velocity Max X Face
+    Type "Initial Velocity"
+    Node Set "Max X Node Set"
+    Coordinate "x"
+    Value "-1.0"
+\end{code}
+
+\paragraph{Remarks}
+
+\begin{enumerate}[noitemsep]
+%  \item The parameter names for the nodesets have to be ``Node Set One'', ``Node Set Two'', \dots
+ \item Dependent on the chosen discretisation type, a base FE mesh or the direct specification of the peridynamic collocation points in a textfile, the application region is either the finite element node id or the peridynamic collocation point id.
+ \item In case you use a FE mesh as discretisation type and try to define a nodeset in the model file, the base mesh node numbers do not necessarily represent the peridynamic representation collocation point numbers
+\end{enumerate}

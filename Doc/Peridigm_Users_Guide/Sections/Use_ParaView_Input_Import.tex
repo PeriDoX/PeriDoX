@@ -1,0 +1,41 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{Input \& Import}
+
+\marktool{\toolname} creates result files in the \marktool{Exodus} format. This format can read by \marktool{\paraviewname}. It is basically the same format as the \marktool{\exodusname} finite element mesh discretization. Therefore, also the underlying \marktool{\exodusname} mesh can be visualized in \marktool{\paraviewname}.
+
+If multiple processors are used for the execution of \marktool{\toolname} each MPI core creates an individual \marktool{Exodus} output file. The individual result files must be merged before the output can be used in \marktool{\paraviewname}. For the proper procedure please consult section \ref{sec:Peridigm:Run:Execution:Local:MergeOutput}.
+
+To import a file to \marktool{\paraviewname} perform the following steps
+
+\begin{enumerate}[noitemsep]
+\item From the menu bar:
+  \begin{itemize}[noitemsep]
+  \item Click File
+  \item Click Open
+  \item Select the .g/.e-\marktool{\toolname} input or output file
+  \end{itemize}
+  or click \includegraphics[width=\iconsize]{Figures/Icons/pqOpen32} in the Main Controls toolbar
+\item In the newly opened \textit{Properties} tab:
+  \begin{itemize}[noitemsep]
+  \item Choose the variables you want to use for post-processing
+  \item Choose the blocks, assemblies and material regions you want to include
+  \item Click \textit{Apply}
+  \end{itemize}
+\end{enumerate}

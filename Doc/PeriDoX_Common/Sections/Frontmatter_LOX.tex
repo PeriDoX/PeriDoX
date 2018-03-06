@@ -1,0 +1,31 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Frontmatter things regarding conditional List of Figures, Tables, Listings
+%
+% Revisions: 2016-03-06 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-----------------------------------
+% List of Figures, List of Tables
+%-----------------------------------
+
+\clearpage
+\conditionalLoF                       % Insert List of Figures if figures are present
+\let\LaTeXStandardClearpage\clearpage
+\let\clearpage\relax                  % Do nothing when a \clearpage command appears
+\conditionalLoT                       % Insert List of Figures if figures are present
+\conditionalLoL                       % Insert List of Listings if figures are present
+\let\clearpage\LaTeXStandardClearpage % Return to the old definition

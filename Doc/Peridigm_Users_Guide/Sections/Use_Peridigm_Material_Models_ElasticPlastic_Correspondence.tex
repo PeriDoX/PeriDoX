@@ -1,0 +1,221 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{\idxPDKwElasticPlasticCorrespondence}
+\label{sec:Peridigm:QRG:Materials:ElasticPlasticCorrespondence}
+\myindex[\idxPDKeywordName]{\idxPDKwElasticPlasticCorrespondence}
+\myindex[\idxPDKeywordName]{\idxPDKwMaterials!\idxPDKwElasticPlasticCorrespondence|see{\idxPDKwElasticPlasticCorrespondence}}
+
+\leveldown{Description}
+
+An isotropic, linear elastic perfectly plastic correspondence material model.
+
+\levelstay{Stiffness model sketch}
+
+\begin{figure}[htbp]
+  \begin{subfigure}{0.49\linewidth}
+    \centering
+    \input{Figures/Theory/Material_Model_ElasticPlastic-Linear-Perfect-K}
+    \caption{Axial}
+    \label{fig:Material_Models_LinearElasticPerfectlyPlasticCorrespondence-K}
+  \end{subfigure}%
+  \begin{subfigure}{0.49\linewidth}
+    \centering
+    \input{Figures/Theory/Material_Model_ElasticPlastic-Linear-Perfect-G}
+    \caption{Shear}
+    \label{fig:Material_Models_LinearElasticPerfectlyPlasticCorrespondence-G}
+  \end{subfigure}%
+  \caption{Linear-elastic perfectly-plastic correspondence material model}
+  \label{fig:Material_Models_LinearElasticPerfectlyPlasticCorrespondence}
+\end{figure}
+
+\levelstay{Code}
+
+\leveldown{Release version}
+
+Available from \href{\toolrepoversiononetwo}{version 1.2}.
+
+\levelstay{Required compiler options}
+
+-
+
+\levelstay{Routines}
+
+\begin{itemize}[noitemsep]
+  \item IO:
+  \begin{itemize}[noitemsep]
+  \item \verb+/src/materials/Peridigm_ElasticPlasticCorrespondenceMaterial.cpp+
+  \item \verb+/src/materials/Peridigm_ElasticPlasticCorrespondenceMaterial.hpp+
+  \end{itemize}
+  \item Computation:
+  \begin{itemize}[noitemsep]
+    \item \verb+/src/materials/elastic_plastic_correspondence.cxx+
+    \item \verb+/src/materials/elastic_plastic_correspondence.h+
+  \end{itemize}
+\end{itemize}
+
+\levelup{Input parameters}
+
+\leveldown{List}
+
+% \begin{tabularx}{\linewidth}{lcccX}
+% \toprule
+% Name            & Type          & Required      & Default       & Description           \\
+% \midrule
+\begin{filecontents}{\tabledir\jobname-parammatelasticplasticcorrespondenceltxtable.tex}
+\begin{longtable}{@{}lcccX@{}}
+% ---------------------------
+% Header & Footer
+% ---------------------------
+%
+% Header
+% -----------------
+% 1st head
+\toprule
+Name          & Type          & Required      & Default       & Description           \\
+\midrule
+\endfirsthead
+% Last head
+\multicolumn{5}{@{}l}{\ldots continued}\\
+\toprule
+Name          & Type          & Required      & Default       & Description           \\
+\midrule
+\endhead
+%
+% Footer
+% -----------------
+% n-th foot
+\bottomrule
+\multicolumn{5}{r@{}}{continued \ldots}\\
+\endfoot
+% last foot
+\bottomrule
+\endlastfoot
+% ---------------------------
+% Content
+% ---------------------------
+Material Model & string & -          & - & Material type ``\idxPDKwElasticPlasticCorrespondence''  \\
+Density        & double & \checkmark & - & Material density \\
+Bulk modulus   & double & \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:Materials:ElasticPlasticCorrespondence:Remark:Modulus:One},\ref{enm:Peridigm:QRG:Materials:ElasticPlasticCorrespondence:Remark:Modulus:Two}} & -  & Volumetric elasticity\\
+Shear Modulus  & double & \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:Materials:ElasticPlasticCorrespondence:Remark:Modulus:One},\ref{enm:Peridigm:QRG:Materials:ElasticPlasticCorrespondence:Remark:Modulus:Two}} & -  & Shear elasticity or engineering constant for shear stiffness\\
+Young\verb+'+s Modulus & double & \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:Materials:ElasticPlasticCorrespondence:Remark:Modulus:One},\ref{enm:Peridigm:QRG:Materials:ElasticPlasticCorrespondence:Remark:Modulus:Two}}   & -             & Engineering constant for axial stiffness \\
+Poisson\verb+'+s Ratio & double & \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:Materials:ElasticPlasticCorrespondence:Remark:Modulus:One},\ref{enm:Peridigm:QRG:Materials:ElasticPlasticCorrespondence:Remark:Modulus:Two}}   & -             & Engineering constant for transverse contraction\\
+Yield Stress                  & double & \checkmark & -    & Yield stress\\
+Apply Shear Correction Factor & bool   & -          & true & \\
+% Apply Automatic Differentiation Jacobian& bool & - & ? &   \\
+Hourglass Coefficient\textsuperscript{\ref{enm:Peridigm:QRG:Materials:ElasticPlasticCorrespondence:Remark:HourglassCoefficient}}    & double & \checkmark &    \\
+Disable Plasticity            & bool   & -          & false  & \\
+\end{longtable}
+\end{filecontents}
+% \bottomrule
+% \end{tabularx}
+
+\begingroup
+\LTXtable{\linewidth}{\tabledir\jobname-parammatelasticplasticcorrespondenceltxtable.tex}
+\endgroup
+
+\levelstay{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item \label{enm:Peridigm:QRG:Materials:ElasticPlasticCorrespondence:Remark:Modulus:One} The stiffness can be defined by either elastic modulus combination: Volumetric and shear elasticity ($\glssymbol{symb:scalar:mat:modulus:bulk}$,$\glssymbol{symb:scalar:mat:modulus:shear}$) or the engineering constants ($\glssymbol{symb:scalar:mat:modulus:young}$,$\glssymbol{symb:scalar:mat:poissonratio}$,$\glssymbol{symb:scalar:mat:modulus:shear}$)
+  \item \label{enm:Peridigm:QRG:Materials:ElasticPlasticCorrespondence:Remark:Modulus:Two} In case engineering constants are used, only two of the three values \textit{Young's Modulus}, \textit{Poisson's Ratio} and \textit{Shear Modulus} have to be specified. The missing value is calculated from
+  \begin{align*}
+  \glssymbol{symb:scalar:mat:modulus:shear}&=\dfrac{\glssymbol{symb:scalar:mat:modulus:young}}{2\cdot\left(1+\glssymbol{symb:scalar:mat:poissonratio}\right)}
+  \end{align*}
+  Internally, the engineering constants are converted to ($\glssymbol{symb:scalar:mat:modulus:bulk}$,$\glssymbol{symb:scalar:mat:modulus:shear}$).
+  \item Yield stress is an equivalent uniaxial stress and therefore applicable to axial, shear as well as mixed stress states.
+  \item \label {enm:Peridigm:QRG:Materials:ElasticPlasticCorrespondence:Remark:HourglassCoefficient} Hourglass coefficient is usually between $\num{0.0}$ and $\num{0.05}$
+  \item Automatic Differentiation is not supported for the correspondence material model
+  \item Shear Correction Factor is not supported for the correspondence material model
+  \item Thermal expansion is not currently supported for the correspondence material model
+  \item Consider the general remarks on correspondence materials in section \ref{sec:Peridigm:QRG:Materials:Preliminaries:Correspondence}
+\end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Materials">
+  <ParameterList name="My Elastic Plastic Correspondence Material">
+    <Parameter name="Material Model" type="string" value="Elastic Plastic Correspondence"/>
+    <Parameter name="Density" type="double" value="7800.0"/>
+    <Parameter name="Young's Modulus" type="double" value="200.0e9"/>
+    <Parameter name="Poisson's Ratio" type="double" value="0.0"/>   <!-- One-dimensional simulation -->
+    <Parameter name="Hourglass Coefficient" type="double" value="0.0"/>
+    <Parameter name="Yield Stress" type="double" value="150.0e6"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+\levelstay{Free format}
+
+-
+
+\levelstay{YAML format}
+
+-
+  
+\levelup{Possible output variables for the material model}
+
+\begin{multicols}{2}
+\begin{itemize}[noitemsep]
+  \item Bond\_Damage
+  \item Coordinates
+  \item Damage
+  \item Deviatoric\_Plastic\_Extension
+  \item Dilatation
+  \item Force\_Density
+  \item Lambda
+  \item Model\_Coordinates
+  \item Volume
+  \item Weighted\_Volume
+\end{itemize}
+\end{multicols}
+
+Additional correspondence material output variables:
+
+\begin{multicols}{2}
+\begin{itemize}[noitemsep]
+  \item Equivalent\_Plastic\_Strain
+  \item Unrotated\_Cauchy\_Stress
+  \item Unrotated\_Rate\_Of\_Deformation
+  \item Von\_Mises\_Stress
+\end{itemize}
+\end{multicols}
+
+\levelstay{List of examples}
+
+\begin{itemize}[noitemsep]
+%   \item From \texttt{examples/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{examples/tensile\_test/tensile\_test.peridigm}
+%   \end{itemize}
+%   \item From \texttt{test/regression/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Contact\_Ring/Contact\_Ring.xml}
+%     \item \texttt{WaveInBar\_MultiBlock/WaveInBar\_MultiBlock.xml}
+%   \end{itemize}
+  \item From \texttt{test/verification/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{ElasticPlasticCorrespondenceFullyPrescribedTension/ElasticPlasticCorrespondenceFullyPrescribedTension.xml}
+  \end{itemize}
+\end{itemize}

@@ -1,0 +1,96 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{On a local machine or a virtual box}
+\label{sec:Peridigm:Run:Execution:Local}
+
+\leveldown{Input}
+\label{sec:Peridigm:Run:Execution:Local:Input}
+
+\marktool{\toolname} is run from the command line and requires both an input deck (text file) and a discretization. Input decks may be in either of the formats described in section \ref{sec:Peridigm:Basics:InputFileFormat:Model}.
+
+\marktool{\toolname} is capable of operating on several types of discretizations. The different types of discretizations are described in section \ref{sec:Peridigm:Basics:InputFileFormat:Discretization}.%, including \marktool{Exodus}/ \marktool{Genesis} mesh files and user-generated text files. The most common use case is to generate a hexahedron and/or tetrahedron mesh using the Cubit mesh generator. In this case, hexahedron and/or tetrahedron elements are converted automatically by \marktool{\toolname} into a meshless peridynamic discretization, i.e., a set of nodal volumes stored as (x, y, z, volume, block\_id) data. Alternatively, users may supply a discretization via a text file in which (x, y, z, volume, block\_id) data are stored directly. This option is provided for users who wish to construct discretizations, for example, using an in-house pre-processing code.
+
+An example command for running \marktool{\toolname} from the command line:
+
+\begin{code}
+Peridigm my_input.peridigm
+\end{code}
+
+\marktool{\toolname} is meant to be run in a massively parallel setting. In order to use multiple processors in combination with \marktool{Exodus}/\marktool{Genesis} mesh files (*.g) parallel decomposition of these files has to performed first as a pre-processing step when running multi-processor \marktool{\toolname} simulations. The \marktool{decomp} utility, provided by the \marktool{SEACAS} \marktool{Trilinos} package, provides a mechanism for decomposing an \marktool{Exodus}/\marktool{Genesis} mesh file. An example command for partitioning an \marktool{Exodus}/\marktool{Genesis} mesh file with \marktool{decomp} for four processors:
+
+\begin{code}
+decomp -p 4 my_mesh.g
+\end{code}
+
+If the \marktool{decomp} tool is not available in the \verb+PATH+ variable use:
+
+\begin{code}
+/usr/local/bin/trilinos-12.4.2/bin/decomp -p 4 my_mesh.g
+\end{code}
+
+Afterwards, \marktool{\toolname} can be run in parallel with the same amount of threads with:
+
+\begin{code}
+mpirun -np 4 Peridigm my_input.peridigm
+\end{code}
+
+Text file discretizations do not require this pre-processing step, they are partitioned automatically by \marktool{\toolnameshort}.
+
+\levelstay{Output}
+
+\leveldown{Preliminary informations}
+
+\marktool{\toolname} generates output in the \marktool{Exodus} file format. The content of an \marktool{Exodus} output file is dictated by the \verb+Output+ section of a \marktool{\toolname} input deck. Output may include primal quantities such a nodal displacements and velocities, as well as derived quantities such as stored elastic energy. The \marktool{\paraviewname} visualization code is recommended for viewing \marktool{\toolname} results. Additional options for parsing output data are available within the \marktool{SEACAS} \marktool{\trilinosname} package.
+
+\marktool{Exodus} is based upon \marktool{\netcdfname}, and also includes the nemesis parallel extensions. \marktool{Exodus} is fundamentally a serial output format, and each MPI process will open and write its own Exodus database for all the elements that it owns.  If a load rebalance occurs during the course of a parallel simulation, each MPI process must close its Exodus database and open a new database containing the elements owned by that process after the rebalance.  The net effect is that many \marktool{Exodus} output files  may  be  generated  during the course of a parallel simulation. Tools in the \marktool{SEACAS} package to help in merging these separate files together into a single Exodus database.
+
+\levelstay{Merge result files of MPI executions of \marktool{\toolnameshort}}
+\label{sec:Peridigm:Run:Execution:Local:MergeOutput}
+
+To automate the merging of result files for MPI executions of \marktool{\toolnameshort}, a python script is distributed with \marktool{\toolnameshort}. The file is located in \verb+../scripts/MergeFiles.py+ of the \marktool{\toolname} installation directory. This script will produce a single \marktool{Exodus} database file containing the complete simulation output.
+
+Before you can access the script you have to add read and execution rights to the \marktool{\toolname} folders as root:
+
+\begin{code}
+chmod -R go+rx /usr/local/src/Peridigm-1.4.1*
+\end{code}
+
+To use the script, create a symbolic link in the model directory, where the individual output files in the \marktool{Exodus} format are located:
+
+\begin{code}
+ln -sf /usr/local/src/Peridigm-1.4.1/scripts/MergeFiles.py
+\end{code}
+
+Afterwards, execute the script with the number of processors and the model name as parameters.
+
+\begin{code}
+./MergeFiles.py <File Base Name> <# of Processors>
+\end{code}
+
+For the \verb+fragmented_cylinder.peridigm+ example from the \marktool{\toolname} examples directory and an initial calculation using four processors, the call to the script is
+
+\begin{code}
+./MergeFiles.py fragmented_cylinder 4
+\end{code}
+
+which merges the result files \verb+fragmented_cylinder.e.0+ $\ldots$ \verb+fragmented_cylinder.e.3+ of each individual processor to \verb+fragmented_cylinder.e+. This is the final results file and should be used for postprocessing in \marktool{\paraviewname}.
+
+\levelup{Examples}
+
+The most effective way to learn how to use \marktool{\toolname} is to run the example problems in the \marktool{\toolnameshort} \verb+/examples/+ directory. These simulations were designed to highlight the most commonly-used features of \marktool{\toolnameshort}, including constitutive models, bond-failure rules, contact, explicit and implicit time integration, and I/O commands.

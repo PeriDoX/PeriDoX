@@ -1,0 +1,129 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% 
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{\protect\LaTeX{} scripts}
+\setcounter{currentlevel}{6}
+
+\leveldown{Single external pictures with colorbar}	\label{sec:Single_pic_with_colorbar}
+
+Below is the \LaTeX{} code to produce figure \ref{fig:Peridigm_Disk_Impact_47_Damage_ct}. In order to use that script you need to specify \colorbox{verbgray}{\lstinline[style=inlinetexstyle]+\\usepackage\{pgfplots\}+} in the preamble of your \LaTeX{} document. Change all script values to your needs.
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=texstyle,
+  caption=\LaTeX{} code for single external pictures with custom colorbar,
+  label=lst:singleplotwithcolorbar,
+  ]{Figures/Examples/Disk_Impact/Peridigm_Disk_Impact_47_Damage.tex}
+\endgroup
+
+\ifpdf
+You can \textattachfile[author=raed_ma, color=0 0 1]{Figures/Examples/Disk_Impact/Peridigm_Disk_Impact_47_Damage.tex}{download} the file from within this document.
+\fi
+
+\newpage
+
+\levelstay{Multiple external pictures with one common colorbar}	\label{sec:Multiple_pics_with_common_colorbar}
+
+Below is the \LaTeX{} code to produce figure \ref{fig:Peridigm_Disk_Impact_Development_Damage}. In order to use that script you need to specify \colorbox{verbgray}{\lstinline[style=inlinetexstyle]+\\usepackage\{pgfplots\}+} in the preamble of your \LaTeX{} document. Change all script values to your needs.
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=texstyle,
+  linerange={9-47,63-85,89-102,107-131},
+  caption=\LaTeX{} code for multiple external pictures with one common colorbar,
+  label=lst:groupplotcodewithonecolorbar,
+  ]{Figures/Examples/Disk_Impact/Peridigm_Disk_Impact_Multiple_Damage.tex}
+\endgroup
+
+\ifpdf
+You can \textattachfile[author=raed_ma, color=0 0 1]{Figures/Examples/Disk_Impact/Peridigm_Disk_Impact_Multiple_Damage.tex}{download} the file from within this document.
+\fi
+
+\newpage
+
+\levelstay{Labels in and on external pictures}	\label{sec:Labels_on_external_graphics_Example}
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=texstyle,
+  caption=\LaTeX{} code for labels on external picture,
+  label=lst:labelsonexternalpictures,
+  ]{Figures/LaTeX/Labels_on_external_graphics_Example.tex}
+\endgroup
+
+\ifpdf
+You can \textattachfile[author=raed_ma, color=0 0 1]{Figures/LaTeX/Labels_on_external_graphics_Example.tex}{download} the file from within this document.
+\fi
+
+\newpage
+
+\levelstay{Nice charts}	\label{sec:Nice_Charts}
+
+\leveldown{\texttt{pgfplotsset}}	\label{sec:Nice_Charts_plotssets}
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=texstyle,
+  caption=Pgfplotssets for charts,
+  label=lst:chart_example_plotssets,
+  ]{Figures/LaTeX/Chart_Example_plotssets}
+\endgroup
+
+\ifpdf
+You can \textattachfile[author=raed_ma, color=0 0 1]{Figures/LaTeX/Chart_Example_plotssets.tex}{download} the file from within this document.
+\fi
+
+\levelstay{Figure code}	\label{sec:Nice_Charts_Figure}
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=texstyle,
+  caption=Pgfplots chart example,
+  label=lst:chart_example,
+  ]{Figures/LaTeX/Chart_Example}
+\endgroup
+
+\ifpdf
+You can \textattachfile[author=raed_ma, color=0 0 1]{Figures/LaTeX/Chart_Example.tex}{download} the file from within this document.
+\fi
+
+\newpage
+
+\levelstay{\protect\LaTeX{} beamer video with custom colorbar}	\label{sec:Beamer_Video}
+
+Below is the \LaTeX{} code to produce figure \ref{fig:Peridigm_Disk_Impact_Development_Damage_Video}. In order to use that script you need to specify \colorbox{verbgray}{\lstinline[style=inlinetexstyle]+\\usepackage\{media9\}+} in the preamble of your \LaTeX{} document. Change all script values to your needs.
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=texstyle,
+  caption=\LaTeX{} beamer code for a frame with video,
+  label=lst:beamer_frame_with_video,
+  ]{Sections/Slide_Disc_Impact_Damage_Video.tex}
+\endgroup
+
+\ifpdf
+You can \textattachfile[author=raed_ma, color=0 0 1]{Sections/Slide_Disc_Impact_Damage_Video.tex}{download} the file from within this document.
+\fi

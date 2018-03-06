@@ -1,0 +1,73 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelstay{Damage plot on nodes as spheres}
+\label{sec:ParaView_Damage_Plots_on_Nodes_as_Spheres}
+
+Commonly, the \marktool{\toolname} results are plotted on so called \texttt{Glyphs} in \marktool{\paraviewname}. A \texttt{Glyph} is a geometric object with a specific size, a direction and a color, which is drawn at certain positions within the vector field. \texttt{Glyph} shapes can be an
+
+\begin{multicols}{4}
+\begin{itemize}
+\addtolength\itemsep{-2ex}
+\item Arrow
+\item Cone
+\item Box
+\item Cylinder
+\item Line
+\item Sphere
+\item 2D glyph
+\end{itemize}
+\end{multicols}
+
+A natural choice for peridynamic nodes is the sphere. Unfortunately, cell data can not be plotted directly in a \texttt{Glyph} plot. Therefore, the cell data has to be converted to point data first.
+
+\begin{enumerate}[noitemsep]
+\item Import result file to \marktool{\paraviewname}
+\item Left-click on the result file once in the Pipeline Browser (mark the result file)
+\item From the menu bar:
+  \begin{itemize}[noitemsep]
+  \item Click Filters
+  \item Click Alphabetical
+  \item Click \textit{Cell Data to Point Data}
+  \end{itemize}
+\item Left-click on the new item \textit{Cell Data to Point Data} in the Pipeline Browser
+\item From the menu bar:
+  \begin{itemize}[noitemsep]
+  \item Click Filters
+  \item Click Common
+  \item Click \textit{Glyph}
+  \end{itemize}
+  or choose the \textit{Glyph}-symbol from the common filter icon toolbar
+\item In the \textit{Glyph} properties window choose:
+  \begin{itemize}[noitemsep]
+  \item Glyph Type:	\tab \textit{Sphere}
+  \item Scalars:	\tab \textit{Damage}
+  \item Vectors:	\tab \textit{Displacement}
+  \item Scale factor:	\tab Choose according to your needs
+  \item Glyph mode:	\tab \textit{All Points}
+  \item Coloring:	\tab \textit{Damage}
+  \end{itemize}
+  and click \textit{Apply}
+\item Afterwards, return to the properties window, go to the \texttt{Display} section and choose:
+  \begin{itemize}[noitemsep]
+  \item Representation:	\tab \textit{Surface}
+  \item Coloring:	\tab \textit{Damage}
+  \end{itemize}
+\end{enumerate}
+
+Afterwards, you can skip through the time steps of your analysis in the Current Time Controls toolbar. It maybe necessary to adjust the range of the legend to the current time step minimum or maximum.

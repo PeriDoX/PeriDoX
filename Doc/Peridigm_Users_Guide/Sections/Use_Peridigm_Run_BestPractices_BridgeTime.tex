@@ -1,0 +1,62 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{Bridge ``time'' until failure occurs}
+
+For stability reasons it is currently benefitial to calculate the damage behavior of a structure using the explicit solver. Dependent on the material properties and loads, the model has to sustain a certain amount of displacement before initial failure occurs. The solution domain is commonly of little interest. Thus, some ways are proposed to get to the state where failure occurs faster.
+
+\leveldown{Use a combination of multiple solvers}
+
+Use a sequence of a quasi-static and an explicit solver as described in \autoref{sec:Peridigm:QRG:Solver:Sequence}.
+
+This way might not be possible in case the model and therefore stiffness matrix is too large for the computational hardware. In this case, the tangent stiffness matrix cannot be allocated for the quasi-static solver. Instead, the idea proposed in the next section can be applied.
+
+\levelstay{Use an initial displacement}
+
+If a continuous displacement field is present before failure, e.g. bridging the gap between an impactor and the structure or a uniform tensile test, an initial displacement can be applied on the collocation point nodes of the \textit{complete} moving structure.
+
+It is not possible to just apply the initial displacement on the boundary condition region. If the initial displacement is larger than the horizon, the model will fall apart.
+
+To get the correct offset
+
+\begin{code}
+#{OFFSETORIGINX=-23.0/2.0}
+#{FAILUREDISPLACEMENTINIT=0.900}
+#{FAILUREDISPLACEMENTFINAL=1.100}
+...
+Boundary Conditions
+  ...
+  InitialDisplacement-3-D-x
+    Type "Initial Displacement"
+    Node Set "moving_x"
+    Coordinate "x"
+    Value "value={FAILUREDISPLACEMENTINIT}*(x-{OFFSETORIGINX})"
+  Displacement-1-V-x
+    Type "Prescribed Displacement"
+    Node Set "bc_load"
+    Coordinate "x"
+    Value "value={FAILUREDISPLACEMENTINIT}+{VELOCITY}*t"
+...
+Solver
+  Verbose "true"
+  Final Time {(FAILUREDISPLACEMENTFINAL-FAILUREDISPLACEMENTINIT)/VELOCITY}
+  Verlet
+    Safety Factor 0.9
+
+\end{code}
+

@@ -1,0 +1,90 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{Sequence of solvers}
+\label{sec:Peridigm:QRG:Solver:Sequence}
+\myindex[\idxPDKeywordName]{\idxPDKwSolver!Sequence}
+
+You can use multiple solvers in a sequence. These must not be identical in type of integration scheme. The sequence is defined by the keyword \verb+Solver+ plus a counter id, e.g. \verb+Solver1+, \verb+Solver2+, ...
+
+\paragraph{Exemplary input section}
+
+\subparagraph{XML-format}\mbox{}\\
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Solver1">
+  <Parameter name="Verbose" type="bool" value="false"/>
+  <Parameter name="Initial Time" type="double" value="0.0"/>
+  <Parameter name="Final Time" type="double" value="0.00005"/> 
+  <ParameterList name="QuasiStatic">
+    <Parameter name="Number of Load Steps" type="int" value="20"/>
+    <Parameter name="Absolute Tolerance" type="double" value="1.0e-2"/>
+    <Parameter name="Maximum Solver Iterations" type="int" value="10"/>
+  </ParameterList>
+</ParameterList>
+<ParameterList name="Solver2">
+  <Parameter name="Verbose" type="bool" value="false"/>
+  <Parameter name="Initial Time" type="double" value="0.00005"/>
+  <Parameter name="Final Time" type="double" value="0.0001"/> 
+  <ParameterList name="Verlet">
+    <Parameter name="Fixed dt" type="double" value="1.0e-7"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+\subparagraph{Free format}\mbox{}\\
+
+\begin{code}
+Solver1
+  Verbose "false"
+  Initial Time 0.0
+  Final Time {TWIST_FINAL_TIME}
+  QuasiStatic
+    Number of Load Steps {NUMBER_OF_QS_STEPS}
+    Absolute Tolerance 1.0
+    Maximum Solver Iterations 100
+Solver2
+  Verbose "false"
+  Initial Time {TWIST_FINAL_TIME}
+  Final Time {PULL_FINAL_TIME}
+  Verlet
+    Safety Factor 0.8
+\end{code}
+
+\subparagraph{YAML format}\mbox{}\\
+
+\paragraph{List of examples}
+
+\begin{itemize}[noitemsep]
+  \item From \texttt{examples/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{twist\_and\_pull/twist\_and\_pull.peridigm}
+  \end{itemize}
+  \item From \texttt{test/regression/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Compression\_QS\_Explicit\_3x2x2/Compression\_QS\_Explicit\_3x2x2.xml}
+    \item \texttt{Compression\_QS\_Explicit\_MultiFreqOutput\_3x2x2/Compression\_QS\_Explicit\_MultiFreqOutput\_3x2x2.xml}
+  \end{itemize}
+%   \item From \texttt{test/verification/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{ElasticCorrespondenceFullyPrescribedTension/ElasticCorrespondenceFullyPrescribedTension.xml}
+%   \end{itemize}
+\end{itemize}

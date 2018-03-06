@@ -1,0 +1,48 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelstay{Biber}
+
+\begin{description}[leftmargin=\parindent,labelindent=\parindent,style=nextline]
+% 
+\item[I get an error running \marktool{biber} that says something like \texttt{encoding 'ascii': ascii ``\textbackslash xE2'' does not map to Unicode at ...}. What does that error mean. What can I do? ]\mbox{}\\[-2.5\baselineskip]
+  \begin{itemize}[noitemsep]
+  \item There probably is a character in your bib-file that can not be read because it is not a Unicode character. This character must be replaced by proper \LaTeX-syntax before the bib-file can be used.
+  \item To find non-ASCII characters use either of the following possibilites:
+    \begin{itemize}[noitemsep]
+    \item Solution 1:
+      \begin{itemize}[noitemsep]
+      \item Open \marktool{Notepad++}
+      \item In the menu bar go to \textit{Search} $\rightarrow$ \textit{Find characters in range} $\rightarrow$ \textit{Non-ASCII Characters (128-255)}
+      \end{itemize}
+    \item Solution 2:
+      \begin{itemize}[noitemsep]
+      \item Open \marktool{Notepad++}
+      \item Open a search (STRG-F)
+      \item Add expression \verb|[^\x00-\x7F]|
+      \item In \textit{Search Mode} check \textit{Regular Expression}
+      \item Click \textit{Find Next}
+      \end{itemize}
+    \end{itemize}
+  \item Replace all non-ASCII characters and retry running \marktool{biber}
+  \end{itemize}
+%
+\end{description}
+
+
+

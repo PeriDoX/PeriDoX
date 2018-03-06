@@ -1,0 +1,118 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{Exporting}
+\leveldown{Quick Screenshot}
+
+Screenshot are taken from the current view you see in \marktool{\paraviewname} render view. Therefore, perform all adjustments to the view to your needs before creating a screenshot.
+
+To save a screenshot from \marktool{\paraviewname} perform the following steps:
+
+\begin{enumerate}[noitemsep]
+\item Click \textit{File} in the menubar
+\item Click \textit{Save Screenshot}
+\item Set plot preferences:
+  \begin{itemize}[noitemsep]
+  \item Uncheck \textit{Save only selected view} if necessary
+  \item Activate the \textit{Lock aspect} button right of the resolution
+  \item Change the resolution to values high enough for a print-quality picture\\(the higher value should at least be 1000)
+  \item \textit{Select image quality} slider \tab 100
+  \item Override color palette:	\tab \textit{Current palette}
+  \item Stereo Mode:		\tab \textit{No stereo}
+  \end{itemize}
+\item Click \textit{Ok}
+\item Specify the path and \textit{File name}
+\item Choose \textit{PNG image} as file type
+\item Click \textit{Ok}
+\end{enumerate}
+
+Afterwards, use \marktool{GIMP}, \marktool{Inkscape}, \marktool{convert} utility from \marktool{ImageMagick} or any other tool to convert the pixel to a non-scalable vector graphics copy as \verb+eps+ and \verb+pdf+ copy.
+
+For the sake of reproducibility of the created picture save the \marktool{\paraviewname} state as described in section \ref{sec:Paraview_Save_States}.
+
+The target must be to have the figure and the \marktool{\paraviewname} state file available at all time:
+
+\begin{code}
+figure_name.eps
+figure_name.pdf
+figure_name.png
+figure_name.pvsm
+\end{code}
+
+\levelstay{Vector graphics - kind of}
+
+The vector graphics output only affects the non-3D rendered elements such as texts, cube axes etc. Normal or glyph plots which are 3D rendered are not affected. Therefore, this option is currently no use for the documentation. It is proposed to create high-quality png-plot with the \textit{Save Screenshot} function and use \marktool{GIMP}, \marktool{Inkscape}, \marktool{convert} utility from \marktool{ImageMagick} or any other tool to convert the pixel to a non-scalable vector graphics copy.
+
+\levelstay{Animations}	\label{sec:ParaView_Save_Animation}
+
+\marktool{\paraviewname} allows the creation of animations for your currently selected view entity. So choose your plot coloring and vector entities before creating an animation.
+
+To save an animation from \marktool{\paraviewname} perform the following steps:
+
+\begin{enumerate}[noitemsep]
+\item Click \textit{File} in the menubar
+\item Click \textit{Save Animation}
+\item Set animation preferences:
+  \begin{itemize}[noitemsep]
+  \item Animation duration:	\tab -
+  \item Frame rate:		\tab $\ge$15	\\
+  The human brain perceives successive images as moving, but not necessarily smooth, scene from about 14 to 16 frames per second.
+  \item No. of Frames/timestep:	\tab 1
+  \item Number of Frames:	\tab -
+  \item Resolution:		\tab higher value $\ge$ 1000
+  \item Timestep Range:		\tab Start- and end time step of interest
+  \item Stereo Mode:		\tab \textit{No Stereo}
+  \item Compression:		\tab Checked
+  \end{itemize}
+\item Click \textit{Save Animation}
+\item Specify the path and \textit{File name}
+\item Choose the file type of your liking, either video or multiple images
+\item Click \textit{Ok}
+\end{enumerate}
+
+For the sake of reproducibility of the created animation save the \marktool{\paraviewname} state as described in section \ref{sec:Paraview_Save_States}.
+
+The target must be to have the animation and the \marktool{\paraviewname} state file available at all time:
+
+\begin{code}
+animation_name.avi
+animation_name.pvsm
+\end{code}
+
+\levelstay{Save \texorpdfstring{\protect\marktool{\paraviewname}}{\paraviewname{}} states for exported items}	\label{sec:Paraview_Save_States}
+
+For the sake of reproducibility of the created picture or animation you can save the \marktool{\paraviewname} state. If you want to reproduce the picture or animation you can just load the state and all preferences will be set to the exact values of the saved state.
+
+To save a state perform the following steps:
+
+\begin{enumerate}[noitemsep]
+\item Click \textit{File} in the menubar
+\item Click \textit{Save State}
+\item Specify the path of the figure or animation directory and the \textit{File name} identical to the figure file name
+\item Choose \textit{ParaView state file (*.pvsm)} as file type
+\item Click \textit{Ok}
+\end{enumerate}
+
+A state can be loaded accordingly:
+
+\begin{enumerate}[noitemsep]
+\item Click \textit{File} in the menubar
+\item Click \textit{Load State}
+\item Select the state file
+\item Click \textit{Ok}
+\end{enumerate}

@@ -1,0 +1,178 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{Supported operations}
+\label{sec:Peridigm:Basics:FunctionParser:Operations}
+\myindex[\idxPDKeywordName]{\idxPDKwFunctionParser!Operations}
+
+The RTC language can be thought of as a small subset of the C language with a couple minor modifications. The following information is repeated from the RTCompiler \href{https://github.com/trilinos/Trilinos/blob/master/packages/pamgen/rtcompiler/rtclang.tex}{source code documentation}.
+
+% \begin{table}[htbp]
+% \begin{tabularx}{\linewidth}{lX}
+% \toprule
+% Group         & Supported operations  \\
+% \midrule
+% 
+% \bottomrule
+% \end{tabularx}
+% \end{table}
+
+\leveldown{Operators}
+
+The RTC language has the following operators that work exactly as they do in C
+and have the same precedence as they do in C:
+
+\begin{multicols}{2}
+\begin{itemize}[noitemsep]
+  \item $+$     \tabto{1cm} Addition
+  \item $-$     \tabto{1cm} Subtration
+  \item $-$     \tabto{1cm} Negation
+  \item $*$     \tabto{1cm} Multiplication
+  \item $/$     \tabto{1cm} Division
+  \item $\hat{}$\tabto{1cm} Exponentiation\footnote{This operator does not occur in the C language, but is added into the RTC language for convenience.}
+  \item $==$    \tabto{1cm} Equality
+  \item $>$     \tabto{1cm} Greater than
+  \item $<$     \tabto{1cm} Less than
+  \item $>=$    \tabto{1cm} Greater than or equal to
+  \item $<=$    \tabto{1cm} Less than or equal to
+  \item $=$     \tabto{1cm} Assignment
+  \item $||$    \tabto{1cm} Logical or
+  \item $\&\&$  \tabto{1cm} Logical and
+  \item $!=$    \tabto{1cm} Inequality
+  \item $\%$    \tabto{1cm} Modulo
+  \item $!$     \tabto{1cm} Logical not
+\end{itemize}
+\end{multicols}
+
+\levelstay{Control flow}
+
+The RTC language has the following control flow statements:
+
+\begin{itemize}[noitemsep]
+  \item for( expr ; expr ; expr ) \{ ... \}
+  \item while( expr )  \{ ... \}
+  \item if (expr) \{...\}
+  \item else if (expr) \{...\}
+  \item else \{...\}
+\end{itemize}
+
+These control flow statements work exactly as they do in C except that the code blocks following a control flow statement \textbf{MUST} be enclosed within braces even if the block only consists of one line.
+
+\levelstay{Line Structure}
+
+The line structure in the RTC language is the same as that of C. Expressions
+end with a semicolon unless they are inside a control flow statement.
+
+According to \href{https://github.com/peridigm/peridigm/commit/1e625c0ca30a8be28a0fb970016baf5c820018ea}{this commit} the .peridigm input deck format (free format) does not support multi-line entries.
+
+\levelstay{Math}
+
+The following math.h functions are available in RTC. \toolname{} also seems to support the \href{https://cubit.sandia.gov/public/15.2/help_manual/WebHelp/cubithelp.htm#appendix/aprepro/aprepro.htm}{APREPRO} functionalities. The features are reported in \cite{SjaardemaGD2013}.
+
+\begin{filecontents}{\tabledir\jobname-mathfunctionsltxtable.tex}
+\begin{longtable}{@{}lX@{}}
+\caption{Math commands for \protect\toolname{} function parser}\\
+\toprule
+Syntax          & Description   \\
+\midrule
+\endfirsthead
+%
+\multicolumn{2}{@{}l}{\ldots continued}\\
+\toprule
+Syntax          & Description   \\
+\midrule
+\endhead
+%
+\bottomrule
+\multicolumn{2}{r@{}}{continued \ldots}\\
+\endfoot
+\bottomrule
+\endlastfoot
+%
+abs(x)                  & Absolute value of x                                   \\
+acos(x)                 & Inverse cosine of x, returns radians                  \\
+acosd(x)                & Inverse cosine of x, returns degrees                  \\
+acosh(x)                & Inverse hyperbolic cosine of x                        \\
+asin(x)                 & Inverse sine of x, returns radians                    \\
+asind(x)                & Inverse sine of x, returns degrees                    \\
+asinh(x)                & Inverse hyperbolic sine of x                          \\
+atan(x)                 & Inverse tangent of x, returns radians                 \\
+atan2(x,y)              & Inverse tangent of y/x, returns radians               \\
+atan2d(x,y)             & Inverse tangent of y/x, returns degrees               \\
+atand(x)                & Inverse tangent of x, returns degrees                 \\
+atanh(x)                & Inverse hyperbolic tangent of x                       \\
+ceil(x)                 & Smallest integer not less than x                      \\
+cos(x)                  & Cosine of x, with x in radians                        \\
+cosd(x)                 & Cosine of x, with x in degrees                        \\
+cosh(x)                 & Hyperbolic cosine of x                                \\
+d2r(x)                  & Degrees to radians                                    \\
+dim(x,y)                & $x-\min{x,y}$                                         \\
+dist(x1,y1,x2,y2)       &$\sqrt{\left(x_1-x_2\right)^2+\left(y_1-y_2\right)^2}$ \\
+erf(x)                  & Error function                                        \\
+erfc(x)                 & Complementary error function  $(1.0 - \erf(x))$               \\
+exp(x)                  & Exponential $e^x$                                     \\
+fabs(x)                 & returns the absolute value of x                       \\
+floor(x)                & Largest integer not greater than x                    \\
+fmod(x,y)               & Floating-point remainder of x/y                       \\
+gamma(x)                & returns $\Gamma(x)$                                   \\
+hypot(x,y)              & $\sqrt{x^2+y^2}$                                      \\
+int(x), [x]             & Integer part of x truncated toward 0                  \\
+j0(x)                   & Bessel function of order zero                         \\
+j1(x)                   & Bessel function of order one                          \\
+i0(x)                   & Modified Bessel function of order zero                \\
+i1(x)                   & Modified Bessel function of order one                 \\
+julday(mm,dd,yy)        & Julian day corresponding to mm/dd/yy                  \\
+juldayhms(mm,dd,yy,hh,mm,ss)&Julian day corresponding to mm/dd/yy at hh:mm:ss   \\
+lgamma(x)               & $\log\left(\Gamma(x)\right)$                          \\
+ln(x)                   & Natural (base e) logarithm of x                       \\
+log(x)                  & Natural (base e) logarithm of x                       \\
+log10(x)                & Base 10 logarithm of x                                \\
+log1p(x)                & $\log(1+x)$ Accurate even for very small values of x  \\
+max(x,y)                & Maximum of x and y                                    \\
+min(x,y)                & Minimum of x and y                                    \\
+nint(x)                 & Rounds x to nearest integer. <0.5 down; >= 0.5 up     \\
+polarX(r,a)             & $r\cdot\cos(a)$, $a$ is in degrees                    \\
+polarY(r,a)             & $r\cdot\sin(a)$, $a$ is in degrees                    \\
+pow(b, e)               & returns b to the e power                              \\
+                        & (Note: you can use the Exponentiation operator instead)\\
+r2d(x)                  & Radians to degrees                                    \\
+rand(xl,xh)             & Random value between xl and xh; uniformly distributed \\
+rand\_lognormal(m,s)    & Random value with lognormal distribution with mean m and stddev s             \\
+rand\_normal(m,s)       & Random value normally distributed with mean
+m and stddev s          \\
+rand\_weibull(a, b)     & Random value with weibull distribution with $\alpha=a$ and $\beta=b$          \\
+sign(x,y)               & $x\cdot\sign(y)$                                      \\
+sin(x)                  & Sine of x, with x in radians                          \\
+sind(x)                 & Sine of x, with x in degrees                          \\
+sinh(x)                 & Hyperbolic sine of x                                  \\
+sqrt(x)                 & Square root of x                                      \\
+srand(seed)             & Seed the random number generator with the given integer value. At  the  beginning  of Aprepro execution, srand() is  called  with the current time as the seed.               \\
+strtod(svar)            & Returns a double-precision floating-point number equal to the value represented by the character string pointed to by svar.           \\
+tan(x)                  & Tangent of x, with x in radians                       \\
+tand(x)                 & Tangent of x, with x in radians                       \\
+tanh(x)                 & Hyperbolic tangent of x                               \\
+Vangle(x1,y1,x2,y2)     & Angle (radians) between vector $x_1\hat{i}+y_1\hat{j}$ and $x_2\hat{i}+y_2\hat{j}$            \\
+Vangled(x1,y1,x2,y2)    & Angle (degrees) between vector $x_1\hat{i}+y_1\hat{j}$\\
+word\_count(svar,del)   & Number of words in svar. Words are separated by one or more of the characters in the string variable del.\\
+\end{longtable}
+\end{filecontents}
+
+\begingroup
+% \renewcommand{\arraystretch}{1.2}
+\LTXtable{\linewidth}{\tabledir\jobname-mathfunctionsltxtable.tex}
+\endgroup

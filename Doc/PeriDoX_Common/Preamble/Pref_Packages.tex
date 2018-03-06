@@ -1,0 +1,93 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This file handles all things with general packages
+% 
+% Revisions: 2017-04-10 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---------------------------
+% Packages
+% ---------------------------
+
+% Every package with the exception of
+% - RMLaTeX-packages
+% - Hyperref
+% - Every package that has to be placed after hyperref -> Pref_Packages_Hyperref.tex
+\usepackage[latin1]{inputenx}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[page,titletoc]{appendix}
+\usepackage{array}
+% babel package is loaded seperately. Allows reuse for projects with various languages
+% biblatex package is loaded in Pref_BibLaTeX_XYZ.tex from PeriDoc_Common
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{calc}
+\usepackage{color}
+\usepackage{coseoul}
+\usepackage{csquotes}
+\usepackage{enumitem}
+\usepackage{esvect}
+\usepackage{etoolbox}
+\usepackage{filecontents}
+% http://tex.stackexchange.com/a/312910/44634 for fixing clash between filecontents and morewrites
+\newwrite\fcwrite
+\makeatletter
+\let\zzzz\filec@ntents
+\def\filec@ntents{\def\chardef##1\write{\let\reserved@c\fcwrite}\zzzz}
+\makeatother
+% Mute "Overwriting file" warning for filecontents package
+\usepackage{ifthen}
+\usepackage{ltxtable}
+\usepackage{marginnote}
+\usepackage{marvosym}                            % Symbols: \Faxmachine, \Mundus, \Letter
+\usepackage{mathtools}
+\usepackage{media9}
+\usepackage{morewrites}                          % http://tex.stackexchange.com/q/289734
+\usepackage{multicol}
+\usepackage{multirow}
+%\usepackage{nomencl}
+\usepackage{pifont}
+\usepackage{placeins}
+\usepackage{subcaption}
+\usepackage{tabto}
+\usepackage{tabu}
+\usepackage{tabularx}
+\usepackage[most]{tcolorbox}
+\usepackage{textcomp}
+
+\makeatletter
+\@ifundefined{KOMAClassName}
+  {% true -> no KOMA class
+    \@ifclassloaded{amsart}{
+      % Do nothing! Amsart does not play with titlesec package
+    }{
+      \usepackage{titlesec}    
+    }
+  }
+  {% false -> KOMA class
+  }
+\makeatother
+
+\usepackage[figure,table,lstlisting]{totalcount}
+\usepackage{upquote}
+\usepackage{wasysym}                            % Symbols \& Smileys :)
+\usepackage{wrapfig}
+\usepackage{xparse}
+
+\usepackage{hyphenat}

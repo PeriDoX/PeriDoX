@@ -1,0 +1,24 @@
+\leveldown{Prerequisites}
+
+All figures in the following subsections are created with either the TikZ- or the pgfplots-package. Thus, these have to be installed and added to the preamble of the document.
+
+\begin{texcode}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\end{texcode}
+
+Both packages use a modular, library-based system for extensions to the base package capabilities. These must be added if certain special features are requested. For this document the following libraries are used:
+
+\begin{texcode}
+\usepgfplotslibrary{external}
+\usepgfplotslibrary{groupplots}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{intersections}
+\usetikzlibrary{trees}
+\usetikzlibrary{positioning}
+\usetikzlibrary{spy}
+\end{texcode}
+
+In case the externalization of the TikZ-figure creation is used as shown in section \ref{sec:Externalize_Figure_Creation}, the installation of \href{http://www.imagemagick.org/script/index.php}{ImageMagick} is required.

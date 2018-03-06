@@ -1,0 +1,69 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This file handles all commands and operators that are defined for text documentclasses (article,report,book)
+%
+% Revisions: 2016-03-06 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---------------------------
+% Newcommands
+% ---------------------------
+
+\newcommand{\marktool}[2][]{%
+  \ifthenelse{\equal{#1}{}}%
+    {\textit{#2}}%
+    {\begingroup\hypersetup{hidelinks}\href{#1}{\textit{#2}}\endgroup}%
+}
+
+% ---------------------------
+% Renewcommand
+% ---------------------------
+
+% Paragraph gets a new line afterwards, subparagraph does not
+\makeatletter
+\renewcommand\paragraph{
+  \@startsection{paragraph}{4}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\normalsize\bfseries}}
+\makeatother
+
+\makeatletter
+\renewcommand\subparagraph{%
+ \@startsection {subparagraph}{5}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\normalsize\itshape}%
+}
+\makeatother
+
+% 
+% https://tex.stackexchange.com/a/2344
+\makeatletter
+\@ifundefined{KOMAClassName}
+  {% true -> no KOMA class
+    \titleformat*{\subparagraph}{\mdseries\slshape}% requires \usepackage{titlesec}
+  }
+  {% false -> KOMA class
+    \setkomafont{subparagraph}{\mdseries\slshape}
+  }
+\makeatother
+
+% ---------------------------
+% Counter
+% ---------------------------
+
+\makeatletter\@addtoreset{chapter}{part}\makeatother%

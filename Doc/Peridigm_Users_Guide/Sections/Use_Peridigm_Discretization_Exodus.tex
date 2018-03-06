@@ -1,0 +1,128 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{\protect\exodusname{} -- finite element mesh}
+\label{sec:Peridigm:Basics:InputFileFormat:Discretization:Exodus}
+\myindex[\idxPDKeywordName]{\idxPDKwExodus}
+
+\leveldown{Description}
+
+Discretization based on a finite element mesh in binary \marktool{\exodusname} format.
+
+\levelstay{Mesh file layout}
+
+To get an idea how the binary exodus format is setup have a look at \cite{ExodusII1994}.
+
+\leveldown{Convert binary \protect\exodusname{} mesh to ASCII text file}
+
+The \exodusname format uses the \hdfname{}-library and especially the included \netcdfname{} library. \netcdfname{} provides tools to convert the binary \exodusname{} format to a human-readable ASCII equivalent and vice-versa. \netcdfname is required to build \toolname{}. Therefore, if \toolname{} is available on your system, these tools are also available. In case \toolname{} is not installed on your system, use the FETranslator User Guide from the FESuite-Repository for instructions on how to install the necessary tools on your operating system.
+
+In case you want to convert the binary mesh in file \verb+$FILE.g$+ into a normal text file, open a command line and type
+
+\begin{code}
+ncdump $FILE.g > $FILE.g.ascii
+\end{code}
+
+Afterwards, the file \verb+$FILE.g.ascii+ contains the text file.
+
+\levelstay{Convert a ASCII text file into a binary \protect\exodusname{} mesh}
+
+In case you prepared an ASCII text file \verb+$FILE.g.ascii+ which is the equivalent of a binary \exodusname{} mesh file, you can translate the text file to a binary mesh file \verb+$FILE.g$+ with
+
+\begin{code}
+ncgen -o $FILE.g $FILE.g.ascii
+\end{code}
+
+\levelup{Code}
+
+\begin{itemize}[noitemsep]
+  \item \verb+/src/io/discretization/Peridigm_ExodusDiscretization.cpp+
+  \item \verb+/src/io/discretization/Peridigm_ExodusDiscretization.hpp+
+\end{itemize}
+
+\levelstay{Possibilities to create format}
+
+Finite element meshes in the \marktool{\exodusname} format can be created using
+
+\begin{itemize}[noitemsep]
+ \item \marktool{\cubitname}	\tabto{5cm}\href{\cubitaddress}{\cubitaddress}
+ \item gmsh $\rightarrow$ vtk $\rightarrow$ exodus
+ \item gmsh-exodus-converter    \tabto{5cm}\href{https://github.com/IaPCS/gmsh-exodus-converter}{https://github.com/IaPCS/gmsh-exodus-converter}
+\end{itemize}
+
+\levelstay{Supported element types}
+
+\leveldown{SPHERE\_ELEMENT}
+
+From Sierra/SolidMechanics
+
+\levelstay{TET\_ELEMENT}
+
+Sketch: \textcolor{red}{TO-DO}
+
+10-node tetrahedron elements are treated as 4-node tetrahedron elements. Middle nodes on the element edges are discarded.
+
+Method for conversion: \texttt{tetCentroidAndVolume()} in \texttt{Peridigm\_GeometryUtils.cpp}
+
+\levelstay{HEX\_ELEMENT}
+
+Sketch: \textcolor{red}{TO-DO}
+
+20-node hexahedron elements are treated as 8-node hexahedron elements. Middle nodes on the element edges are discarded.
+
+Method for conversion: \texttt{hexCentroidAndVolume()} in \texttt{Peridigm\_GeometryUtils.cpp}
+
+\levelup{How the conversion between FE mesh to \protect\marktool{\toolname} collocation points works}
+
+\begingroup
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+Von:      & Littlewood, David John [mailto:djlittl@sandia.gov] \\
+Gesendet: & Donnerstag, 10. März 2016 17:46    \\
+An:       & Parks, Michael L; Rädel, Martin    \\
+Cc:       & peridigm-users@software.sandia.gov \\
+Betreff:  & Mesh conversion
+\end{tabularx}
+\endgroup
+
+Martin,
+
+As Mike said, Peridigm uses the approach of converting a hex or tet element into a single nodal volume.  The routines in Peridigm are called tetCentroidAndVolume() and hexCentroidAndVolume(), which are in Peridigm\_GeometryUtils.*pp.  The routine for converting a 4-noded tet is trivial.  The conversion routine for a 8-noded hex operates by dividing the hex into 24 tets, using temporary points at the face barycenters and one at the element barycenter.  Once we have the 24 tets, the conversion routines for tets are applied and the results appropriately summed together to get the hex centroid and volume.  The tet routines are exact, and the hex routines are exact if the hex has planar faces.  If the hex has non-planar faces, the routines result in a faceted approximation of the hex.  The use of 24 hexes guarantees that the approach is not orientation dependent.  It would be possible, I believe, to do something more complex using finite-element shape functions, but this involves making some assumptions (the code is given only node and connectivity information, information on shape functions is generally not included in mesh files).
+
+For 10-noded tets and 20-noded hexes, Peridigm ignores all the ``extra'' nodes and considers only the 4 corner nodes for a tet and the 8 corner nodes for a hex.
+
+One thing to be aware of is the need to transfer node sets from the original hex/tet mesh to the peridynamic discretization. The Peridigm algorithm includes the newly-created nodal volume in a node set if any of the nodes in the original element are in the node set.  Peridigm ignores sides sets, as they are generally used for applying pressure/traction loads, which are not directly applicable to nonlocal models and/or meshfree discretizations.
+
+The result of the conversion routine is a point cloud that defines (x, y, z, volume, block\_id) for each node in the discretization.  In the code, the block\_id is used to associate a material model with the nodal volume, as well as some other operations.
+
+One caution regarding converting pre-existing hex/tet meshes is that peridynamics is not well suited to handle highly graded meshes.  The mesh does not need to be uniform, but if the mesh contains elements with, for example, 10-to-1 differences in element size, you`ll run into problems.  In this case, you`ll have to choose a horizon that is several times larger than the large elements, leading to the situation where the horizon is many times larger than the smallest elements.  In most cases this fails to achieve the high fidelity you were looking for in the highly-refined portion of the mesh, and it can really hurt code performance.
+
+Your options for reading in pre-existing mesh are 1) convert the mesh to exodus/genesis format, in which case Peridigm can read it directly and takes care of everything, 2) pre-process the mesh yourself and create a text file with (x, y, z, volume, block\_id) information and use Peridigm`s text-file reader, or 3) implement a new discretization type that reads your mesh files into Peridigm.  In the last case, you`d be able to leverage a lot of the code in the existing exodus file reader, but obviously the specifics of the file format would be different.
+
+If it were me, I`d go with option 1), and I`d use the exodus.py python tool that is distributed as part of SEACAS.  The SEACAS package is distributed with Trilinos, so you should have access to that already if you`re running Peridigm.  There`s a learning curve associated with the exodus format, but if you`re able to convert to exodus format then you can use all the SEACAS utilities, for example decomp for creating parallel decompositions.  (Side note, technically exodus is an output file format, and genesis is the corresponding input file format, but in practice people call both of them exodus.)
+
+Hope this helps,
+Dave
+
+% \href{https://sourceforge.net/p/exodusii/exodusii/ci/master/tree/exodus/doc/exodus.pdf}{Exodus II manual}
+% 
+% \href{https://github.com/gsjaardema/seacas#exodus}{SEACAS/Exodus repository}
+% 
+% 
+% There are many netCDF utilities that prove useful. \verb+ncdump+ , which converts a binary netCDF file to a readable ASCII file, is the most notable.
+% 
+% \href{http://www.unidata.ucar.edu/software/netcdf/workshops/2011/utilities/NcgenExamples.html}{\texttt{ncgen}} reverses what \verb+ncdump+ does and converts an ascii file to binary format.

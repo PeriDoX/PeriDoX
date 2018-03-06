@@ -1,0 +1,129 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This file handles all commands and operators
+% that can be defined independent of the type
+% of documentclass
+% (text -> article,report,book | beamer)
+% 
+% Revisions: 2017-04-10 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---------------------------
+% Boolean parameters
+% ---------------------------
+
+% default:
+% \newbool{watermark}
+% \setbool{watermark}{false}           % true | false
+
+% ---------------------------
+% Newcommands
+% ---------------------------
+
+% Screenshot scale factor
+\newcommand{\screenshotscalefac}{0.45}
+\newcommand{\figurefontsize}{\scriptsize}
+\newcommand{\plotcolor}{blue}
+
+\newcommand{\defaulttocdepth}{2}
+
+% Other
+
+% \newcommand{\Cpp}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\textbf +}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\textbf +}}
+% \def\Cpp{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\textbf ++}}}
+\def\Cpp{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.165ex}{\scriptsize\textbf{++}}}}
+
+% \DeclareDocumentCommand{\keyword}{ O{} O{} m }{%
+%   \ifthenelse{\equal{#1}{}}{
+%     \origmarginpar{\textsc{#3}}
+%   }{
+%     \origmarginpar{\textsc{#1}}
+%   }%
+%   \ifthenelse{\equal{#1}{}}{\index{#2}}{\index{#1}}%
+%   #1~#2~#3%
+% }
+% \foocmd{foo} \par
+% \foocmd[nondefault1]{foo} \par
+% \foocmd[nondefault2][notfoo2]{foo} \par
+
+\newcommand{\iconsize}{0.5cm}
+
+% Symbols
+
+\newcommand{\xmark}{\ding{55}}%
+
+% ---------------------------
+% Length
+% ---------------------------
+
+\newlength{\figwidth}
+\newlength{\figheight}
+
+% ---------------------------
+% Math
+% ---------------------------
+
+\def\exampletext{Example} % If English
+
+% ---------------------------
+% Renewcommand
+% ---------------------------
+
+% Change names
+\renewcommand{\appendixname}{Appendix}% Change "chapter name" for Appendix chapters
+% \renewcommand*{\cftappendixname}{Appendix~}% Addition to chapter number
+
+% ---------------------------
+% Counter
+% ---------------------------
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{\defaulttocdepth}
+
+\makeatletter\@addtoreset{chapter}{part}\makeatother%
+
+% ---------------------------
+% Page Layout
+% ---------------------------
+
+% Colors in Pref_Colors.tex
+
+% ---------------------------
+% Define title and author
+% ---------------------------
+
+% in main document
+
+% ---------------------------
+% Enumitem zeugs
+% ---------------------------
+
+% http://tex.stackexchange.com/a/98400/44634
+\SetEnumitemKey{columns}{%
+  %before=\setlength{\multicolsep}{0pt}\begin{multicols}{#1},
+  before=\begin{multicols}{#1},
+  after=\end{multicols}\vspace{-2.5ex}
+}
+
+% ---------------------------
+% eToolBox-stuff for determining if a LOF and LOT is necessary
+% ---------------------------
+
+% http://tex.stackexchange.com/a/297655/44634
+% Erzeugt aufgrund von longtabu in dlrsecondpage ein leeres Tabellenverzeichnis
+\newcommand\conditionalLoF{\iftotalfigures\listoffigures\newpage\fi}
+\newcommand\conditionalLoT{\iftotaltables\listoftables\newpage\fi}
+\newcommand\conditionalLoL{\iftotallstlistings\lstlistoflistings\newpage\fi}

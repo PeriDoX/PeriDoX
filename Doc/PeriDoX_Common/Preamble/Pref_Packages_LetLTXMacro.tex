@@ -1,0 +1,75 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Example regions
+%
+% Revisions: 2016-03-06 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-----------------------------------
+% The package
+%-----------------------------------
+
+\usepackage{letltxmacro}
+
+%-----------------------------------
+% Commands & Stuff
+%-----------------------------------
+
+\LetLtxMacro{\origmarginpar}{\marginpar}              % Safely save original macro content for reuse under new name
+% \renewcommand{\marginpar}[2][]{%
+%   \ifthenelse{\equal{#1}{}}{\origmarginpar{\textsc{#2}}}{\origmarginpar{\textsc{#1}}}%
+%   \ifthenelse{\equal{#1}{}}{\index{#2}}{\index{#1}}%
+%   #2
+% }
+
+% \newcommand{\examplepar}[1][]{
+%   \ifthenelse{\equal{#1}{}}{%
+%     \origmarginpar[\raggedleft\textsl{\textsc{Example}}]{\raggedright\textsl{\textsc{Example}}}%
+%   }{%
+%     \origmarginpar[\raggedleft\textsl{\textsc{#1}}]{\raggedright\textsl{\textsc{#1}}}%
+%   }%
+% }
+\newcommand{\examplepar}[1][]{
+  \ifthenelse{\equal{#1}{}}{%
+    \origmarginpar[\raggedleft\textit{Example}]{\raggedright\textit{Example}}%
+  }{%
+    \origmarginpar[\raggedleft\textit{#1}]{\raggedright\textit{#1}}%
+  }%
+}
+
+\newcommand{\inenvironmentexamplepar}[1][]{
+  \ifthenelse{\equal{#1}{}}{%
+    \origmarginnote[\raggedleft\textit{Example}]{\raggedright\textit{Example}}%
+  }{%
+    \origmarginnote[\raggedleft\textit{#1}]{\raggedright\textit{#1}}%
+  }%
+}
+
+% Argument1 - optional: Index entry, if not specified #2 is used
+% Argument2: Marginpar text
+% Argument3: Normal text
+\newcommand{\keyword}[3][]{%
+  \ifthenelse{\equal{#2}{}}{}{\origmarginpar[\raggedleft\textsc{#2}]{\raggedright\textsc{#2}}}%
+  \ifthenelse{\equal{#1}{}}{\ifthenelse{\equal{#2}{}}{}{\index{#2}}}{\index{#1}}%
+  #3
+}
+
+\LetLtxMacro{\origmarginnote}{\marginnote}              % Safely save original macro
+\newcommand{\inmathkeyword}[2][]{%
+  \ifthenelse{\equal{#2}{}}{}{\origmarginnote{\textsc{#2}}}%
+  \ifthenelse{\equal{#1}{}}{\ifthenelse{\equal{#2}{}}{}{\index{#2}}}{\index{#1}}%
+  %#3
+}

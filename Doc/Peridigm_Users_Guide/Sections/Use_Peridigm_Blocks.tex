@@ -1,0 +1,137 @@
+\levelmultiup{Properties}{2}
+
+% \leveldown{Block}
+\leveldown{\idxPDKwBlocks}
+\label{sec:Peridigm:QRG:Properties:Blocks}
+\myindex[\idxPDKeywordName]{\idxPDKwBlocks}
+
+\leveldown{Description}
+
+Peridynamic property/section definition.
+
+\levelstay{Code}
+
+\begin{itemize}[noitemsep]
+  \item \verb+/src/core/Peridigm_Block.cpp.cpp+
+  \item \verb+/src/core/Peridigm_Block.cpp.hpp+
+  \item \verb+/src/core/Peridigm_BlockBase.cpp+
+  \item \verb+/src/core/Peridigm_BlockBase.cpp+
+\end{itemize}
+
+\levelstay{Input parameters}
+
+\leveldown{List}
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name		& Type		& Required	& Default	& Description		\\
+\midrule
+Block Names	& string	& \checkmark	& -		& Block names seperated by spaces		\\
+Material\myindex[\idxPDKeywordName]{\idxPDKwMaterials}	& string	& \checkmark	& -		& Name of block material	\\
+Damage Model\myindex[\idxPDKeywordName]{\idxPDKwDamageModels}	& string	& -		& -		& Name of block damage model	\\
+Horizon\myindex[\idxPDKeywordName]{\idxPDKwHorizon}		& double	& \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:Properties:Elastic:Blocks:Remark:One}}	& -		& Block horizon	\\
+\bottomrule
+\end{tabularx}
+
+\levelstay{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item \label{enm:Peridigm:QRG:Properties:Elastic:Blocks:Remark:One} For numerical reasons it is a good idea to choose units such that the horizon is roughly of order one (from the Peridigm Mailing List, by D.J. Littlewood, 07.07.17)
+\end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}
+
+Definition of one block:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Blocks">
+  <ParameterList name="My Group of Blocks">
+    <Parameter name="Block Names" type="string" value="block_1"/>
+    <Parameter name="Material" type="string" value="My Elastic Material"/>
+    <Parameter name="Horizon" type="double" value="1.75"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+Definition of multiple blocks with the same parameters:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Blocks">
+  <ParameterList name="My Group">
+    <Parameter name="Block Names" type="string" value="block_1 block_2"/>
+    <Parameter name="Material" type="string" value="My Elastic Material"/>
+    <Parameter name="Horizon" type="double" value="0.5025"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+Block definition with function parser, dependent on spatial position:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Group of Blocks E">
+  <Parameter name="Block Names" type="string" value="block_5"/>
+  <Parameter name="Material" type="string" value="My Material"/>
+  <Parameter name="Horizon" type="string" value="0.5000001 + 0.2500001*(x-1.625) + 0.2500001*(y-1.625) + 0.2500001*(z+0.375)"/>
+</ParameterList> 
+\end{code}
+\endgroup
+
+\levelstay{Free format}
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+Blocks
+  My Group of Blocks
+    Block Names "block_1"
+    Material "My Elastic Material"
+    Horizon 2.0
+\end{code}
+\endgroup
+
+\levelstay{YAML format}
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+Blocks:
+  My Block:
+    Block Names: "block_1 block_2 block_3"
+    Material: "My Material"
+    Horizon: 0.751
+\end{code}
+\endgroup
+  
+% \levelup{Possible output variables}
+
+% \begin{multicols}{2}
+% \begin{itemize}[noitemsep]
+%   \item Bond\_Damage
+%   \item Coordinates
+%   \item Damage
+%   \item Deviatoric\_Plastic\_Extension
+%   \item Dilatation
+%   \item Force\_Density
+%   \item Lambda
+%   \item Model\_Coordinates
+%   \item Partial\_Stress
+%   \item Surface\_Correction\_Factor
+%   \item Temperature\_Change
+%   \item Volume
+%   \item Weighted\_Volume
+% \end{itemize}
+% \end{multicols}
+
+\levelup{List of examples}
+
+Basically all models in \texttt{/test/} and \texttt{/examples/}.

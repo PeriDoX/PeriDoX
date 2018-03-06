@@ -1,0 +1,64 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This file handles all things considering the siunitx package
+%
+% Revisions: 2016-03-06 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-----------------------------------
+% Load package
+%-----------------------------------
+
+\usepackage{siunitx}
+
+%-----------------------------------
+% Setup
+%-----------------------------------
+
+\sisetup{%
+  exponent-product = \cdot,%
+  output-product = \cdot,%
+  binary-units=true,%
+}
+
+%-----------------------------------
+% New units
+%-----------------------------------
+
+% Length
+\DeclareSIUnit\foot{ft}
+\DeclareSIUnit\inch{in}
+
+% Temperature
+\DeclareSIUnit\degreeFahrenheit{^{\circ}F}
+\DeclareSIUnit\degreeRankine{^{\circ}R}
+
+% Force
+\DeclareSIUnit\dyn{dyn}
+\DeclareSIUnit\poundforce{lbf}
+
+% Pressure
+\DeclareSIUnit\barye{Ba}
+\DeclareSIUnit\psi{psi}
+
+% Density
+\DeclareSIUnit\slug{slug}
+
+% Energy
+\DeclareSIUnit\erg{erg}
+
+% Promille
+\DeclareSIUnit[number-unit-product = \,]{\promille}{\textperthousand}

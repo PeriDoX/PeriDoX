@@ -1,0 +1,28 @@
+\begin{tikzpicture}
+\begin{axis}[
+  hide axis,
+  width=0.75\linewidth,                 % Width of the figure
+  enlargelimits=false,                  % Do not add margins
+  axis equal image,                     % Keep aspect ratio
+  colormap/bluered,                     % Colormap preset
+  colorbar,                             % Activate colorbar
+  colorbar sampled,                     % Steps in colorbar
+  colormap name=paraviewblueredcolormap,% Colormap
+  colorbar style={
+    separate axis lines,
+    samples=256,                        % Number of steps
+    ylabel=Damage variable [-],         % Label
+    xshift=2em,                         % Shift for nicer appearance
+  },
+]
+\addplot[%
+  point meta min=0.0,                   % Minimum value colorbar
+  point meta max=1.0,                   % Maximum value colorbar
+] graphics [
+  xmin=0,                               % Relative figure dimensions
+  xmax=1.64,
+  ymin=0,
+  ymax=1,
+]{Figures/Examples/Disk_Impact/Peridigm_Disk_Impact_47_Damage_ct};
+\end{axis}
+\end{tikzpicture}

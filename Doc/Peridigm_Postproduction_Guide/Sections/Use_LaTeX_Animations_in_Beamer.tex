@@ -1,0 +1,14 @@
+\levelstay{Use animations in beamer presentations}
+\label{sec:Use_LaTeX_Animations_in_Beamer}
+
+Prerequisite for the following points is the creation of an animation in \marktool{\paraviewname}. The animation is saved as an avi-video file.
+
+\begin{itemize}[noitemsep]
+\item \marktool{\paraviewname} video animations can not be imported directly to \LaTeX{} beamer presentations using the following approach based on the \verb+media9+-package
+\item Convert the avi-video to a mp4-video with H.264-video- and mp3-audio-codec, e.g. with \href{http://www.videolan.org/index.de.html}{VLC player}, see section \ref{sec:Use_Animations_VLC}
+\item Add \lstinline[style=inlinetexstyle]+\usepackage{media9}+ to the preamble of your \LaTeX{} document
+\item Embed the video using the script from section \ref{sec:Beamer_Video}
+\item Play the video with Acrobat Reader under Windows
+\end{itemize}
+
+\input{Figures/LaTeX/Use_Videos_inside_Figure}

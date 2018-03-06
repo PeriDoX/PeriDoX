@@ -1,0 +1,66 @@
+  % Math
+  \pgfkeys{/pgf/fpu}
+  \pgfmathsetmacro{\yieldstrain}{\yieldstress/\modulus}
+  \pgfmathsetmacro{\failstress}{\yieldstress+\hardeningmodulus*(\failstrain-\yieldstrain)}
+  \pgfmathsetmacro{\unloadingstress}{\yieldstress+\unloadingfac*\hardeningmodulus*(\failstrain-\yieldstrain)}
+  \pgfmathsetmacro{\unloadingstrain}{\yieldstrain+\unloadingfac*(\failstrain-\yieldstrain)}
+  \pgfkeys{/pgf/fpu=false}
+  % Shapes
+  \tikzset{%
+    myarrowdecoration1/.style={postaction={decorate,decoration={
+      markings,
+      mark=between positions .4 and .6 step .1pt with {\draw [thin] circle (.1pt);},
+      mark=at position .6 with {\arrow[thin,xshift=1pt]{latex}},
+      raise=-0.7ex,
+    }}},
+    myarrowdecoration2/.style={postaction={decorate,decoration={
+      markings,
+      mark=between positions .4 and .6 step .1pt with {\draw [thin] circle (.1pt);},
+      mark=at position .4 with {\arrow[thin,xshift=1pt]{latex reversed}},
+      raise=0.7ex,
+    }}},
+  }
+  % Axis
+  \begin{axis}[
+%     scale only axis,
+    axis lines=middle,
+    ticks=none,
+    %restrict y to domain=-\ultimatestrength:\ultimatestrength,
+    xmin=-1.1*\failstrain,
+    xmax= 1.1*\failstrain,
+    ymin=-1.5*\yieldstress,
+    ymax= 1.5*\yieldstress,
+    width=0.99\textwidth,
+    height=0.99\textwidth,
+    xlabel=\xLabel,
+    ylabel=\yLabel,
+    every axis x label/.style={
+      at={(ticklabel* cs:1.005)},
+      anchor=west,
+    },
+    every axis y label/.style={
+      at={(ticklabel* cs:1.005)},
+      anchor=south,
+    },
+  ]
+    % Coordinates
+    \coordinate (origin)     at (0,0);
+    \coordinate (yieldt)     at ( \yieldstrain, \yieldstress);
+    \coordinate (yieldc)     at (-\yieldstrain,-\yieldstress);
+    \coordinate (failuret)   at ( \failstrain, \failstress);
+    \coordinate (failurec)   at (-\failstrain,-\failstress);
+    % Lines
+    \draw[thick,draw=\plotcolor] (origin) -- node[pos=\pinEPos, pin={[pin distance=1ex]-60:{\pinELabel}}](ELabel){} (yieldt);
+    \draw[thick,draw=\plotcolor] (yieldt) -- node[pos=\pinEHPos, pin={[pin distance=1ex]120:{\pinEHLabel}}](EHLabel){} (failuret);
+    \draw[thick,draw=\plotcolor] (origin) -- (yieldc);
+    \draw[thick,draw=\plotcolor] (yieldc) -- (failurec);
+    
+    \draw[dashed] (origin|-yieldt) node[anchor=east]{\yieldlabel} -- (yieldt);
+    % Loading/Unloading
+    \draw[dashed,myarrowdecoration1,myarrowdecoration2] (\unloadingstrain,\unloadingstress) -- (\unloadingstrain-\yieldstrain,0);
+    % Label
+    \iftoggle{tclabel}{%
+      \node[anchor=north east] (tensionlabel) at (rel axis cs:1,1) {\footnotesize tension};
+      \node[anchor=south west] (compressionlabel) at (rel axis cs:0,0) {\footnotesize compression};
+    }{}
+  \end{axis}

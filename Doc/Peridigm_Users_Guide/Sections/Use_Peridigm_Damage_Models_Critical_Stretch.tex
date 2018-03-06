@@ -1,0 +1,199 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelstay{\idxPDKwCriticalStretch}
+\label{sec:Peridigm:QRG:Damage:CriticalStretch}
+\myindex[\idxPDKeywordName]{\idxPDKwCriticalStretch}
+\myindex[\idxPDKeywordName]{\idxPDKwDamageModels!\idxPDKwCriticalStretch|see{\idxPDKwCriticalStretch}}
+
+\leveldown{Description}
+\label{sec:Peridigm:QRG:Damage:CriticalStretch:Description}
+
+The critical stretch criterion compares the tensile stretch of a local bond with a critical value. After reaching the critical stretch there is no softening or stiffness degradation (0-th order). This criterion only uses tensile force components.
+
+The critical bond stretch $\glssymbol{symb:scalar:pd:stretch}_{\glssymbol{symb:index:critical}}$ for a microbrittle material is related to energy release rate $\glssymbol{symb:scalar:mat:energyreleaserate:critical}$ and the discretization by means of the horizon.
+
+The definition of the critical stretch is dependent on the model dimension and the peridynamic formulation. Since, currently, solely 3D-models are implemented in \toolname{} only the respective equations are given here. For the equations of other model dimensions check the \toolname{} Models and Verification Guide. Different equations exist for the state-based peridynamics and the special case of the bond-based peridynamics.
+
+Beware, the following equations are based on the Griffith theory which assumes a pre-existing crack. If and how these relationships are valid for crack initiation must be investigated seperately.
+
+\leveldown{Bond-based material models}
+
+The definition of the critical stretch from \autoref{tab:Peridigm:QRG:Preliminaries:PDCMConversion}:
+
+\begin{align}
+\label{eq:Use_Peridigm_Damage_Models_Critical_Stretch_BB}
+\glssymbol{symb:scalar:pd:stretch}_{\glssymbol{symb:index:critical}} &= \sqrt{\frac{10\glssymbol{symb:scalar:mat:energyreleaserate:critical}}{\pi \glssymbol{symb:scalar:pd:bond:constant}\glssymbol{symb:scalar:pd:horizon}^5}} &&= \sqrt{\frac{5\glssymbol{symb:scalar:mat:energyreleaserate:critical}}{9\glssymbol{symb:scalar:mat:modulus:bulk}\glssymbol{symb:scalar:pd:horizon}}}
+\end{align}
+
+With the bulk modulus $\glssymbol{symb:scalar:mat:modulus:bulk}$, the horizon $\glssymbol{symb:scalar:pd:horizon}$ and the micromodulus or bond constant $\glssymbol{symb:scalar:pd:bond:constant}$ from \autoref{tab:Peridigm:QRG:Preliminaries:PDCMConversion}.
+
+\levelstay{State-based material models}
+
+The definition of the critical stretch from \autoref{tab:Peridigm:QRG:Preliminaries:PDCMConversion}:
+
+\begin{align}
+\label{eq:Use_Peridigm_Damage_Models_Critical_Stretch_SB}
+\glssymbol{symb:scalar:pd:stretch}_{\glssymbol{symb:index:critical}} &= \sqrt{\dfrac{\glssymbol{symb:scalar:mat:energyreleaserate:critical}}{\left[3\glssymbol{symb:scalar:mat:modulus:shear}+\left(\frac34\right)^4\left(\glssymbol{symb:scalar:mat:modulus:bulk}-\frac{5\glssymbol{symb:scalar:mat:modulus:shear}}{3}\right)\right]\glssymbol{symb:scalar:pd:horizon}}}
+\end{align}
+
+\levelup{Literature}
+\label{sec:Peridigm:QRG:Damage:CriticalStretch:Literature}
+
+\begin{itemize}[noitemsep]
+  \item \cite{SillingSA2005}
+\end{itemize}
+
+\levelstay{Model sketch}
+\label{sec:Peridigm:QRG:Damage:CriticalStretch:Sketch}
+
+\begin{figure}[htbp]
+\centering
+% Definitions
+\def\bondconstantlabel{$\glssymbol{symb:scalar:pd:bond:constant}$}
+\def\stretchlabel{$\glssymbol{symb:scalar:pd:stretch}$}
+\def\criticalstretchlabel{$\glssymbol{symb:scalar:pd:stretch}_{\glssymbol{symb:index:critical}}$}
+\def\loadlabel{$f$}
+% Figure code
+\tikzexternalenable
+\tikzsetnextfilename{Damage_Model_CriticalStretch}
+% \input{Figures/Theory/Damage_Model_CriticalStretch}
+\input{\peridoccommonpath/Figures/Damage_Model_CriticalStretch_0th.tex}
+\tikzexternaldisable
+\caption{0-th order critical stretch model}
+\label{fig:Damage_Models_CriticalStretch}
+\end{figure}
+
+\levelstay{Code}
+
+\leveldown{Release version}
+
+Available from \href{\toolrepoversiononetwo}{version 1.2}.
+
+\levelstay{Required compiler options}
+
+-
+
+\levelstay{Routines}
+
+\begin{itemize}[noitemsep]
+%   \item IO:
+%   \begin{itemize}[noitemsep]
+  \item \verb+/src/damage/Peridigm_CriticalStretchDamageModel.cpp+
+  \item \verb+/src/damage/Peridigm_CriticalStretchDamageModel.hpp+
+%   \end{itemize}
+%   \item Computation:
+%   \begin{itemize}[noitemsep]
+%     \item \verb+/src/materials/elastic.cxx+
+%     \item \verb+/src/materials/elastic.h+
+%   \end{itemize}
+\end{itemize}
+
+\levelup{Input parameters}
+
+\leveldown{List}
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name             & Type   & Required   & Default & Description           \\
+\midrule
+Damage Model     & string & \checkmark & -       & Damage model ``\idxPDKwCriticalStretch''  \\     
+Critical Stretch\textsuperscript{\ref{enm:Peridigm:QRG:Damage:CriticalStretch:Remark:One}} & double$>0.0$ & \checkmark & -       & Critical bond stretch	\\
+Thermal Expansion Coefficient\textsuperscript{\ref{enm:Peridigm:QRG:Damage:CriticalStretch:Remark:Two},\ref{enm:Peridigm:QRG:Damage:CriticalStretch:Remark:Three}} & double & - & - & \\
+\bottomrule
+\end{tabularx}
+
+\levelstay{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item \label{enm:Peridigm:QRG:Damage:CriticalStretch:Remark:One} The critical bond stretch is dependent of the horizon $\glssymbol{symb:scalar:pd:horizon}$. Therefore, it is no pure material parameter.
+  \item \label{enm:Peridigm:QRG:Damage:CriticalStretch:Remark:Two} If the thermal expansion coefficient parameter is omitted, deformations resulting from thermal expansion are not considered in the bond damage calculation.
+  \item \label{enm:Peridigm:QRG:Damage:CriticalStretch:Remark:Three} To get consistent results, the value should correspond to the coefficient of thermal expansion defined in the respective material model used in the block definition. To avoid double definition, the use of a variable is proposed, see \ref{sec:Peridigm:Basics:FunctionParser:Variable}.
+  \item The criterion only applies for bonds in tension, as the relative extension of a bond is compared to the critical stretch value, see method \texttt{computeDamage()} in \texttt{Peridigm\_CriticalStretchDamageModel.cpp}. In compression the relative extension of a bond is negative and can therefore never reach the positive critical stretch value.
+  \item The critical stretch model is faster compared to the interface aware model, but no check if the a point is completely debonded is included.  See section \ref{sec:Peridigm:QRG:Damage:InterfaceAware} instead.
+\end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}
+
+without thermal expansion:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}  
+<ParameterList name="Damage Models">
+  <ParameterList name="My Critical Stretch Damage Model">
+    <Parameter name="Damage Model" type="string" value="Critical Stretch"/>
+    <Parameter name="Critical Stretch" type="double" value="0.001"/>
+  </ParameterList>
+</ParameterList> 
+\end{code}
+\endgroup
+
+with thermal expansion (from \texttt{ThermalExpansionBondFailure.xml}):
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}  
+<ParameterList name="Damage Models">
+  <ParameterList name="My Critical Stretch Damage Model">
+    <Parameter name="Damage Model" type="string" value="Critical Stretch"/>
+    <Parameter name="Critical Stretch" type="double" value="0.05"/>
+    <Parameter name="Thermal Expansion Coefficient" type="double" value="10.0e-6"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+\levelstay{Free format}
+
+\begin{code}
+Damage Models
+  My Damage Model
+    Damage Model "Critical Stretch"
+    Critical Stretch 0.001
+\end{code}
+
+\levelstay{YAML-format}
+
+- 
+
+\levelup{List of examples}
+
+\begin{itemize}[noitemsep]
+%   \item From \texttt{Models/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Models/Dogbone}
+%   \end{itemize}
+  \item From \texttt{examples/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{disk\_impact/disc\_impact.peridigm}
+    \item \texttt{fragmenting\_cylinder/fragmenting\_cylinder.peridigm}
+  \end{itemize}
+  \item From \texttt{test/regression/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Contact\_Perforation/Contact\_Perforation.xml}
+    \item \texttt{BondBreakingInitialVelocity/BondBreakingInitialVelocity.xml}
+    \item \texttt{ThermalExpansionBondFailure/ThermalExpansionBondFailure.xml}
+  \end{itemize}
+%   \item From \texttt{test/verification/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Contact_2x1x1/Contact_2x1x1.xml}
+%   \end{itemize}
+\end{itemize}

@@ -1,0 +1,134 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Compilation:
+%
+% - with pdfLaTeX:
+%   pdflatex -> biber -> makeindex/create_glossaries.cmd -> pdflatex -> pdflatex
+% - For compilation add switch -shell-escape in your LaTeX editor:
+%   pdflatex --shell-escape -synctex=1 -interaction=nonstopmode %source --extra-mem-top=60000000
+% - Compile at least 3 times for proper output
+%
+% In case of problems:
+%
+% - Increase Tex-Memory in batch with:
+%   initexmf --edit-config-file pdflatex
+%   add: main_memory=8000000
+%   initexmf --dump=pdflatex
+%
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---------------------------
+% Paths
+% ---------------------------
+
+\newcommand{\peridoccommonpath}{../PeriDoX_Common}
+\newcommand{\peridocliteraturepath}{../../Literature}
+
+% ---------------------------
+% Documentclass
+% ---------------------------
+
+\documentclass[%
+  figures=plain,%
+  listof=totoc,%                                % List of figures, tables in TOC
+  bibliography=totoc,%                          % Bibliography in TOC
+  %index=totoc,                                  % Index in TOC
+  fleqn,%                                       % left-align equations
+% ]{dlrreprt}                                     % Full dlrreprt.class with Frutiger font
+]{bootstrap_dlrreprt}                           % Bootstrap of dlrreprt without Frutiger font
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Preamble                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{Sections/Preamble_local}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title and author                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Document-class independent infos
+\subject     {\toolname}
+\title       {\toolname{} Postproduction Guide}
+\subtitle    {For \toolname{} versions $\ge$ 1.4.1}
+\author      {Martin R\"adel}
+\date        {\today}
+
+% Document-class dependent infos for titlepage
+\telnumber   {2048}
+\faxnumber   {2232}
+\email       {martin.raedel@dlr.de}
+\reportno    {IB-XY unbekannt}
+\coauthor    {Christian Willberg}
+
+% Location
+\dlrinstitute{FA-STM}
+\dlrsite     {BS}
+
+% Versions
+\addversion  {0.0.1}{27.10.2017}{Initial draft}{raed\_ma}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Compilation                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \includeonly{
+%   Sections/About,
+%   Sections/Use_LaTeX,
+%   Sections/Appendix,
+% }
+
+% Begin document
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Frontmatter                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagenumbering{roman}                          % Not in Frontmatter.tex for reusability between report and book-classes
+\input{\peridoccommonpath/Sections/Frontmatter}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The Package                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \mainmatter
+
+\newpage                                       % Required for page number
+\pagenumbering{arabic}                         % Not in Frontmatter.tex for reusability between report and book-classes
+
+\include{Sections/About}
+\include{Sections/Use_Animations}
+\include{Sections/Use_LaTeX}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\printbibliography
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Index                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \printindex[\idxKeywordName]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Appendix                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{Sections/Appendix}
+
+\end{document} 

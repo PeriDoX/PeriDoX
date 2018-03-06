@@ -1,0 +1,146 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{\idxPDKwQuasiStatic}
+\label{sec:Peridigm:QRG:Solver:QuasiStatic}
+\myindex[\idxPDKeywordName]{\idxPDKwQuasiStatic}
+\myindex[\idxPDKeywordName]{\idxPDKwSolver!\idxPDKwQuasiStatic|see{\idxPDKwQuasiStatic}}
+
+\leveldown{Description}
+
+Solver with implicit time integration.
+
+Quasi-static, keyword \verb+QuasiStatic+, is a time integration scheme for quasi-static analysis using a nonlinear solver with modified Newton approach \cite{LittlewoodD2013_Congress}.
+
+\levelstay{Code}
+
+\begin{itemize}[noitemsep]
+  \item \verb+/src/core/Peridigm.cpp+\\
+  $\rightarrow$ \verb+PeridigmNS::Peridigm::execute+\\
+  $\rightarrow$ \verb+PeridigmNS::Peridigm::executeQuasiStatic+
+  \item \verb+/src/core/Peridigm.hpp+
+\end{itemize}
+
+\levelstay{Input parameters}
+
+\leveldown{List}
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name		& Type		& Required	& Default	& Description		\\
+\midrule
+\multicolumn{5}{l}{Solver parameters}	\\
+Initial Time	& double	& -		& 0.0		& Start time of simulation	\\
+Final Time	& double	& -		& 1.0		& End time of simulation	\\
+Verbose		& bool		& -		& false		& \\
+Disable Heuristics & bool	& -		& false		& Disable solver heuristics	\\[1.0ex]
+\multicolumn{5}{l}{Time integration}	\\[0.5ex]
+Number of Load Steps	& int	& (\checkmark)	& -		& 	\\
+Maximum Solver Iterations & int	& -		& 10		& 	\\
+Time Steps	& int		& (\checkmark)		& -		& 	\\
+Damped Newton Diagonal Scale Factor & double	& -	& 1.0001	& \\
+Damped Newton Diagonal Shift Factor & double	& -	& 0.00001	& \\
+Relative Tolerance & double	& -		& 1.0E-6	& 	\\
+Absolute Tolerance & double	& -		& \checkmark\textsuperscript{3}	& Convergence criteria for the residual.	\\
+\bottomrule
+\end{tabularx}
+
+\levelstay{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item Since the analysis is quasi-static, the values of \textit{Initial Time} and \textit{Final Time} are irrelevant%. Both values are not processed in \verb+PeridigmNS::Peridigm::executeQuasiStatic+
+  \item Two types of load step input are mutually exclusive, but one of them is required in the definition
+  \begin{itemize}
+   \item \textit{Final Time} and \textit{Number of Load Steps}
+   \item \textit{Time Steps}
+  \end{itemize}
+  \item A default value is calculated. In case of convergence problems, increase the value of \texttt{Absolute Tolerance}.
+\end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}
+
+\begin{code}
+<ParameterList name="Solver">
+  <Parameter name="Verbose" type="bool" value="false"/>
+  <Parameter name="Initial Time" type="double" value="0.0"/>
+  <Parameter name="Final Time" type="double" value="1.0"/> 
+  <ParameterList name="QuasiStatic">
+    <Parameter name="Number of Load Steps" type="int" value="1"/>
+    <Parameter name="Absolute Tolerance" type="double" value="1.0"/>
+    <Parameter name="Maximum Solver Iterations" type="int" value="10"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+
+\levelstay{Free format}
+
+\begin{code}
+  Solver
+    Verbose "false"
+    Initial Time 0.0
+    Final Time 1.0
+    QuasiStatic
+      Number of Load Steps 1
+      Absolute Tolerance 1.0
+      Maximum Solver Iterations 10
+\end{code}
+
+\levelstay{YAML format}
+
+-
+  
+% \levelup{Possible output variables for the material model}
+% 
+% \begin{multicols}{2}
+% \begin{itemize}[noitemsep]
+%   \item Bond\_Damage
+%   \item Coordinates
+%   \item Damage
+%   \item Deviatoric\_Plastic\_Extension
+%   \item Dilatation
+%   \item Force\_Density
+%   \item Lambda
+%   \item Model\_Coordinates
+%   \item Partial\_Stress
+%   \item Surface\_Correction\_Factor
+%   \item Temperature\_Change
+%   \item Volume
+%   \item Weighted\_Volume
+% \end{itemize}
+% \end{multicols}
+
+\levelup{List of examples}
+
+\begin{itemize}[noitemsep]
+  \item From \texttt{examples/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{examples/tensile\_test/tensile\_test.peridigm}
+  \end{itemize}
+  \item From \texttt{test/regression/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Interfaces/Interfaces.xml}
+    \item \texttt{Pals\_Simple\_Shear/Pals\_Simple\_Shear.xml}
+    \item \texttt{PrecrackedPlate/PrecrackedPlate.xml}
+  \end{itemize}
+  \item From \texttt{test/verification/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{MultipleHorizons/MultipleHorizons.xml}
+  \end{itemize}
+\end{itemize}

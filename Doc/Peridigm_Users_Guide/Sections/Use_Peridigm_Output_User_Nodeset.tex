@@ -1,0 +1,80 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{User defined results for node sets}
+\label{sec:Peridigm:QRG:Output:User:Nodeset}
+\myindex[\idxPDKeywordName]{\idxPDKwOutput!\idxPDKwNodeSet}
+
+\leveldown{Description}
+
+User defined output for node sets using \texttt{Compute Class Parameters} from section \ref{sec:Peridigm:QRG:ComputeClassParameters:Nodeset}.
+
+\levelstay{Exemplary input section}
+
+Requirement is the definition of the respective \idxPDKwComputeClassParameters{} from section \ref{sec:Peridigm:QRG:ComputeClassParameters:Nodeset}.
+
+\leveldown{XML-format}
+
+from \texttt{test/regression/Contact\_Ring/Contact\_Ring.xml}:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Output Data 1">
+  <Parameter name="Output File Type" type="string" value="ExodusII"/>
+  <Parameter name="Output Format" type="string" value="BINARY"/>
+  <Parameter name="Output Filename" type="string" value="Contact_Ring"/>
+  <Parameter name="Output Frequency" type="int" value="10"/>
+  <Parameter name="Parallel Write" type="bool" value="true"/>
+  <ParameterList name="Output Variables">
+    ...
+    <Parameter name="Stored_Elastic_Energy" type="bool" value="true"/>
+    <Parameter name="Global_Kinetic_Energy" type="bool" value="true"/>
+    ...
+    <Parameter name="NS_10_Stored_Elastic_Energy" type="bool" value="true"/>
+    <Parameter name="NS_11_Stored_Elastic_Energy" type="bool" value="true"/>
+  </ParameterList>
+</ParameterList> 
+\end{code}
+\endgroup
+
+\levelstay{Free format}
+
+-
+
+\levelstay{YAML format}
+
+-
+
+\levelup{List of examples}
+
+\begin{itemize}[noitemsep]
+%   \item From \texttt{examples/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{examples/tensile\_test/tensile\_test.peridigm}
+%   \end{itemize}
+  \item From \texttt{test/regression/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Contact\_Ring/Contact\_Ring.xml}
+    \item \texttt{WaveInBar\_MultiBlock/WaveInBar\_MultiBlock.xml}
+  \end{itemize}
+%   \item From \texttt{test/verification/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{LinearLPSBar/LinearLPSBar.peridigm}
+%   \end{itemize}
+\end{itemize}

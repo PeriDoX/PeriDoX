@@ -1,0 +1,162 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{\idxPDKwElasticBondBased}
+\label{sec:Peridigm:QRG:Materials:ElasticBondBased}
+\myindex[\idxPDKeywordName]{\idxPDKwElasticBondBased}
+\myindex[\idxPDKeywordName]{\idxPDKwMaterials!\idxPDKwElasticBondBased|see{\idxPDKwElasticBondBased}}
+
+\leveldown{Description}
+
+An isotropic, linear elastic bond-based material model.
+
+\levelstay{Literature}
+
+\begin{itemize}[noitemsep]
+  \item \cite{SillingSA2000}
+\end{itemize}
+
+\levelstay{Stiffness model sketch}
+
+\begin{figure}[htbp]
+  \begin{subfigure}{0.49\linewidth}
+    \centering
+    \tikzexternalenable
+    \tikzsetnextfilename{Material_Model_Elastic-Linear-K}
+    \input{Figures/Theory/Material_Model_Elastic-Linear-K}
+    \tikzexternaldisable
+    \caption{Axial}
+    \label{fig:Material_Models_ElasticBondBased-E}
+  \end{subfigure}%
+  \begin{subfigure}{0.49\linewidth}
+    \centering
+    \tikzexternalenable
+    \tikzsetnextfilename{Material_Model_Elastic-Linear-G}
+    \input{Figures/Theory/Material_Model_Elastic-Linear-G}
+    \tikzexternaldisable
+    \caption{Shear}
+    \label{fig:Material_Models_ElasticBondBased-G}
+  \end{subfigure}%
+  \caption{Linear-elastic material model}
+  \label{fig:Material_Models_ElasticBondBased}
+\end{figure}
+
+\levelstay{Code}
+
+\leveldown{Release version}
+
+Available from version 1.5.
+
+\levelstay{Required compiler options}
+
+-
+
+\levelstay{Routines}
+
+\begin{itemize}[noitemsep]
+  \item IO:
+  \begin{itemize}[noitemsep]
+    \item \texttt{/src/materials/Peridigm\_ElasticBondBasedMaterial.cpp}
+    \item \texttt{/src/materials/Peridigm\_ElasticBondBasedMaterial.hpp}
+  \end{itemize}
+  \item Computation:
+  \begin{itemize}[noitemsep]
+    \item \texttt{/src/materials/elastic\_bond\_based.cxx}
+    \item \texttt{/src/materials/elastic\_bond\_based.h}
+  \end{itemize}
+\end{itemize}
+
+\levelup{Input parameters}
+
+\leveldown{List}
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name           & Type   & Required   & Default & Description \\
+\midrule
+Material Model & string & \checkmark & -       & Material type ``\idxPDKwElasticBondBased'' \\
+Density        & double & \checkmark & -       & Material density	\\
+Bulk modulus   & double & \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:Materials:ElasticBondBased:Remark:Modulus:One},\ref{enm:Peridigm:QRG:Materials:ElasticBondBased:Remark:Modulus:Two},\ref{enm:Peridigm:QRG:Materials:ElasticBondBased:Remark:Modulus:Three}} & - & Volumetric elasticity \\
+\bottomrule
+\end{tabularx}
+
+\levelstay{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item \label{enm:Peridigm:QRG:Materials:ElasticBondBased:Remark:Modulus:One} Only the bulk modulus, $\glssymbol{symb:scalar:mat:modulus:bulk}$, can be used as elastic constant.
+  \item \label{enm:Peridigm:QRG:Materials:ElasticBondBased:Remark:Modulus:Two} The Poisson's Ratio is set to a fixed value of $\frac14$. The validity range of this value is discussed in \autoref{tab:Peridigm:QRG:Preliminaries:PDCMConversion}
+  \item \label{enm:Peridigm:QRG:Materials:ElasticBondBased:Remark:Modulus:Three} The \textit{Shear Modulus} is calculated from
+  \begin{align*}
+  \glssymbol{symb:scalar:mat:modulus:shear}&=\dfrac{3\glssymbol{symb:scalar:mat:modulus:bulk}\left(1-2\glssymbol{symb:scalar:mat:poissonratio}\right)}{2\cdot\left(1+\glssymbol{symb:scalar:mat:poissonratio}\right)}
+  \end{align*}
+  \item Shear Correction Factor is not supported for the material model
+  \item Thermal expansion is not currently supported for the material model
+%   \item Consider the general remarks on bond-based materials in section \ref{sec:Peridigm:QRG:Materials:Preliminaries:Correspondence}
+\end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}
+
+-
+
+\levelstay{Free format}
+
+-
+
+\levelstay{YAML format}
+
+-
+  
+\levelup{Possible output variables for the material model}
+
+% \begin{multicols}{2}
+% \begin{itemize}[noitemsep]
+%   \item Bond\_Damage
+%   \item Coordinates
+%   \item Damage
+%   \item Deviatoric\_Plastic\_Extension
+%   \item Dilatation
+%   \item Force\_Density
+%   \item Lambda
+%   \item Model\_Coordinates
+%   \item Partial\_Stress
+%   \item Surface\_Correction\_Factor
+%   \item Temperature\_Change
+%   \item Volume
+%   \item Weighted\_Volume
+% \end{itemize}
+% \end{multicols}
+
+\levelstay{List of examples}
+
+-
+% \begin{itemize}[noitemsep]
+%   \item From \texttt{examples/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{examples/tensile\_test/tensile\_test.peridigm}
+%   \end{itemize}
+%   \item From \texttt{test/regression/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Bar_OneBlock_OneMaterial_QS/Bar.xml}
+%   \end{itemize}
+%   \item From \texttt{test/verification/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Contact\_Friction\_Time\_Dependent\_Coefficient/Contact\_Friction\_Time\_Dependent\_Coefficient.xml}
+%   \end{itemize}
+% \end{itemize}

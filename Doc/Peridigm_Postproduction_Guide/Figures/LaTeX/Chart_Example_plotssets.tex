@@ -1,0 +1,53 @@
+\tikzset{
+  every picture/.style=semithick              % Adjust default line width
+}
+
+\pgfplotsset{
+  chart style/.style={
+    width=0.7\linewidth,
+    height=0.35\textheight,
+    axis x line=middle,                       % Middle x-axis
+    axis y line=left,
+    enlarge x limits={auto,upper},            % Add this at positive x
+    enlarge y limits,                         % Add this at y
+    x label style={                           % xlabel style
+      at={(axis description cs:0.5,-0.1)},    % Position
+      anchor=north                            % Anchor
+    },
+    y label style={                           % ylabel style
+      anchor=south                            % Anchor
+    },
+    x tick label style={
+      /pgf/number format/fixed,
+      /pgf/number format/precision=5,         % Nr of decimal digits
+    },
+    y tick label style={
+      /pgf/number format/fixed,
+      /pgf/number format/fixed zerofill,      % Allow trailing zeros
+      /pgf/number format/precision=1,         % Nr of decimal digits
+    },
+    scaled ticks=false,
+    legend columns=1,                         % Nr of colums in legend
+    legend style={
+      draw=none,                              % No border
+      fill=none,                              % No fill color
+      at={(1.025,0.5)},                       % Position
+      anchor=west,                            % Anchor
+      %transpose legend,
+      %reverse legend,
+      %/tikz/column 2/.style={
+      %  column sep=5pt,
+      %}
+      /tikz/row 2/.style={
+	row sep=5pt,
+      }
+    }
+  }
+}
+
+\pgfplotsset{
+  xaxis style/.style={
+    each nth point=1,
+    restrict expr to domain={rawx}{0:5},      % restrict x-axis values
+  }
+}

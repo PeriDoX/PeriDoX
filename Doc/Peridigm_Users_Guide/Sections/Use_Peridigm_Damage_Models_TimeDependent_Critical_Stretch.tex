@@ -1,0 +1,130 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{\idxPDKwTimeDependentCriticalStretch}
+\label{sec:Peridigm:QRG:Damage:TimeDependentCriticalStretch}
+\myindex[\idxPDKeywordName]{\idxPDKwTimeDependentCriticalStretch}
+\myindex[\idxPDKeywordName]{\idxPDKwDamageModels!\idxPDKwTimeDependentCriticalStretch|see{\idxPDKwTimeDependentCriticalStretch}}
+
+\leveldown{Description}
+
+See section \ref{sec:Peridigm:QRG:Damage:CriticalStretch:Description}. The difference is, that a time-dependent function can be used to define the critical stretch instead of the absolute value from  section \ref{sec:Peridigm:QRG:Damage:CriticalStretch}.
+
+\levelstay{Literature}
+
+See section \ref{sec:Peridigm:QRG:Damage:CriticalStretch:Literature}.
+
+\levelstay{Model sketch}
+
+See section \ref{sec:Peridigm:QRG:Damage:CriticalStretch:Sketch}.
+
+\levelstay{Code}
+
+\leveldown{Release version}
+
+Available from the current master%\href{\toolrepoversiononetwo}{version 1.2}.
+
+\levelstay{Required compiler options}
+
+-
+
+\levelstay{Routines}
+
+\begin{itemize}[noitemsep]
+  \item from \texttt{src/damage/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Peridigm\_UserDefinedTimeDependentCriticalStretchDamageModel.cpp}
+    \item \texttt{Peridigm\_UserDefinedTimeDependentCriticalStretchDamageModel.hpp}
+  \end{itemize}
+%   \item Computation:
+%   \begin{itemize}[noitemsep]
+%     \item \verb+/src/materials/elastic.cxx+
+%     \item \verb+/src/materials/elastic.h+
+%   \end{itemize}
+\end{itemize}
+
+\levelup{Input parameters}
+
+\leveldown{List}
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name             & Type   & Required   & Default & Description           \\
+\midrule
+Damage Model     & string & \checkmark & -       & Damage model ``\idxPDKwTimeDependentCriticalStretch''  \\     
+Critical Stretch\textsuperscript{\ref{enm:Peridigm:QRG:Damage:TimeDependentCriticalStretch:Remark:One}} & string & \checkmark & -       & A function defining a time-dependent value for the critical stretch	\\
+Thermal Expansion Coefficient\textsuperscript{\ref{enm:Peridigm:QRG:Damage:TimeDependentCriticalStretch:Remark:Two},\ref{enm:Peridigm:QRG:Damage:TimeDependentCriticalStretch:Remark:Three}} & double & - & - & \\
+\bottomrule
+\end{tabularx}
+
+\levelstay{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item \label{enm:Peridigm:QRG:Damage:TimeDependentCriticalStretch:Remark:One} The critical bond stretch is dependent of the horizon $\glssymbol{symb:scalar:pd:horizon}$. Therefore, it is no pure material parameter.
+  \item \label{enm:Peridigm:QRG:Damage:TimeDependentCriticalStretch:Remark:Two} If the thermal expansion coefficient parameter is omitted, deformations resulting from thermal expansion are not considered in the bond damage calculation.
+  \item \label{enm:Peridigm:QRG:Damage:TimeDependentCriticalStretch:Remark:Three} To get consistent results, the value should correspond to the coefficient of thermal expansion defined in the respective material model used in the block definition. To avoid double definition, the use of a variable is proposed, see \ref{sec:Peridigm:Basics:FunctionParser:Variable}.
+  \item The criterion only applies for bonds in tension, as the relative extension of a bond is compared to the critical stretch value, see method \texttt{computeDamage()} in \texttt{Peridigm\_UserDefinedTimeDependentCriticalStretchDamageModel.cpp}. In compression the relative extension of a bond is negative and can therefore never reach the positive critical stretch value.
+  \item The critical stretch model is faster compared to the interface aware model, but does not work for correspondence material models. See section \ref{sec:Peridigm:QRG:Damage:InterfaceAware} instead.
+\end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}
+
+from \texttt{BondBreakingInitialVelocity.xml}
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}  
+<ParameterList name="Damage Models">
+  <ParameterList name="My Critical Stretch Damage Model">
+    <Parameter name="Damage Model" type="string" value="Time Dependent Critical Stretch"/>
+    <Parameter name="Time Dependent Critical Stretch" type="string" value=" if(t &lt;= 7.0e-5)\{ value = 50.0; \} else\{ value = 0.015; \} "/> 
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+\levelstay{Free format}
+
+-
+
+\levelstay{YAML-format}
+
+-
+
+\levelup{List of examples}
+
+\begin{itemize}[noitemsep]
+%   \item From \texttt{Models/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Models/Dogbone}
+%   \end{itemize}
+%   \item From \texttt{examples/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{disk\_impact/disc\_impact.peridigm}
+%   \end{itemize}
+%   \item From \texttt{test/regression/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Contact\_Perforation/Contact\_Perforation.xml}
+%   \end{itemize}
+  \item From \texttt{test/verification/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{BondBreakingInitialVelocity\_TimeDependentCS/BondBreakingInitialVelocity.xml} 
+  \end{itemize}
+\end{itemize}

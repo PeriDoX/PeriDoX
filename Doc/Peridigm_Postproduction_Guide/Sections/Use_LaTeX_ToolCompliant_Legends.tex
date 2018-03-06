@@ -1,0 +1,96 @@
+\levelstay{Tool-compliant legends in pgfplots}
+
+To create a tool-compliant legend two things are required: the colormap and the colorbar style.
+
+\leveldown{\texorpdfstring{\protect\marktool{\paraviewname}}{\paraviewname}, \texorpdfstring{\protect\marktool{\abaqusname}}{\abaqusname}, $\ldots$ colormaps in pgfplots}
+
+To use a legend compliant with any free or commercial tool, a contiuous colormap, so the color gradient, has to be defined first. E.g. the definition of the (original?) \marktool{\paraviewname} colormap is specified here:
+
+\href{http://www.paraview.org/Wiki/images/b/be/All_idl_cmaps.xml}{http://www.paraview.org/Wiki/images/b/be/All\_idl\_cmaps.xml}
+
+It should be possible to convert the exact definition to a \verb+pgfplots+ colormap. A rough approximation can be defined in the preamble with the following code-snippet. The colormaps for \marktool{\paraviewname} and \marktool{\abaqusname} seem to be identical, at least according to color analysis in Gimp.
+
+\begin{code}
+\pgfplotsset{
+  colormap={abaqusblueredcolormap}{
+    rgb255( 0cm)=(  0,  0,255);
+    rgb255( 1cm)=(  0, 93,255);
+    rgb255( 2cm)=(  0,185,255);
+    rgb255( 3cm)=(  0,255,232);
+    rgb255( 4cm)=(  0,255,139);
+    rgb255( 5cm)=(  0,255,139);
+    rgb255( 6cm)=(  0,255, 46);
+    rgb255( 7cm)=( 46,255,  0);
+    rgb255( 8cm)=(139,255,  0);
+    rgb255( 9cm)=(232,255,  0);
+    rgb255(10cm)=(255,185,  0);
+    rgb255(11cm)=(255, 93,  0);
+    rgb255(12cm)=(255,  0,  0);
+  }
+}
+
+\pgfplotsset{
+  colormap={paraviewblueredcolormap}{
+    rgb255( 0cm)=(  0,  0,255);
+    rgb255( 1cm)=(  0, 93,255);
+    rgb255( 2cm)=(  0,185,255);
+    rgb255( 3cm)=(  0,255,232);
+    rgb255( 4cm)=(  0,255,139);
+    rgb255( 5cm)=(  0,255,139);
+    rgb255( 6cm)=(  0,255, 46);
+    rgb255( 7cm)=( 46,255,  0);
+    rgb255( 8cm)=(139,255,  0);
+    rgb255( 9cm)=(232,255,  0);
+    rgb255(10cm)=(255,185,  0);
+    rgb255(11cm)=(255, 93,  0);
+    rgb255(12cm)=(255,  0,  0);
+  }
+}
+\end{code}
+
+\levelstay{\texorpdfstring{\protect\marktool{\paraviewname}}{\paraviewname}, \texorpdfstring{\protect\marktool{\abaqusname}}{\abaqusname}, $\ldots$ colorbars in pgfplots}
+
+The colorbar style defines the number of discrete steps in the colorbar. Following are the definition of the default colorbars for \marktool{\abaqusname} and \marktool{ANSYS} as well as an equivalent, but semi-continous, variant for \marktool{\paraviewname}.
+
+\begin{texcode}
+\pgfplotsset{
+  abaqusdiscrete12colorbar style/.style={
+    separate axis lines,
+    samples=13,                               % Number of steps+1
+  }
+}
+
+\pgfplotsset{
+  ansysdiscrete9colorbar style/.style={
+    separate axis lines,
+    samples=10,                               % Number of steps+1
+  }
+}
+
+\pgfplotsset{
+  paraviewdiscrete256colorbar style/.style={
+    separate axis lines,
+    samples=257,                              % Number of steps+1
+  }
+}
+\end{texcode}
+
+\levelstay{Application of colormaps and colorbars in pgfplots}
+
+Use the colormap with:
+
+\begin{texcode}
+\begin{tikzpicture}
+  \begin{axis}[
+    ...
+    colorbar,
+    colormap name=paraviewblueredcolormap,
+    colorbar style={
+      paraviewdiscrete256colorbar style,
+      ...
+    },
+    ...
+  \end{axis}
+  ...
+\end{tikzpicture}
+\end{texcode}

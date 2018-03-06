@@ -1,0 +1,68 @@
+\levelstay{Handling large result files in \protect\LaTeX}
+
+\leveldown{Increase \TeX{}-memory}      \label{sec:Increase_TeX_Memory}
+
+For large figures or plots of results using \verb+pgfplots+ the initial \TeX{} memory might be insufficient. A first possibility to solve that problem is to increase the \TeX{} memory.
+
+\leveldown{MiKTeX on Windows}
+
+\begin{itemize}[noitemsep]
+\item Open a command prompt (cmd)
+\item Type \colorbox{verbgray}{\lstinline[style=inlinetexstyle]+initexmf --edit-config-file pdflatex+} and press Enter
+\item A file pops up in the editor
+\item Add \colorbox{verbgray}{\lstinline[style=inlinetexstyle]+main_memory=8000000+} to the file
+\item Save the file
+\item Go back to the command prompt
+\item Type \colorbox{verbgray}{\lstinline[style=inlinetexstyle]+initexmf --dump=pdflatex+} and press Enter
+\item After completion, close the command prompt
+\end{itemize}
+
+\levelstay{TeXLive on Linux}
+
+Untested:
+
+\begin{itemize}[noitemsep]
+\item Open a terminal
+\item Type \colorbox{verbgray}{\lstinline[style=inlinetexstyle]+kpsewhich texmf.cnf+} and press Enter
+\item This gives the path to the \verb+texmf.cnf+ file
+\item Open the file
+\item Change or add \colorbox{verbgray}{\lstinline[style=inlinetexstyle]+main_memory=8000000+} to the file
+\item Save the file
+\item Go back to the command prompt
+\item Type \colorbox{verbgray}{\lstinline[style=inlinetexstyle]+sudo fmtutil-sys --all+} and press Enter
+\item After completion, close the command prompt
+\end{itemize}
+
+Be aware that using this method you modify the official config file which will be overwritten in an update. Thus, you have to repeat this step after an update. A better and update-independent solution is to create a local \verb+texmf.cnf+-file and register it in the \TeX{} path variables
+
+\levelup{Externalize TikZ- \& pgfplots-figure creation} \label{sec:Externalize_Figure_Creation}
+
+Creation of \lstinline[style=inlinetexstyle]+TikZ+ or \lstinline[style=inlinetexstyle]+pgfplotsset+-figures can be quite memory and time consuming. The creation of these figures can be externalized to save time. This means the figure is compiled once and written to a graphics file (pdf, png, ...). The next \lstinline[style=inlinetexstyle]+pdflatex+ run re-uses the created figure. It is not re-created for each compilation.
+
+To achieve the externalization you need to add the following code to your preamble in addition to \lstinline[style=inlinetexstyle]+\usepackage{pgfplots}+:
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=texstyle,
+  caption=TikZ externalization code,
+  label=lst:TikZ_externalize,
+  ]{\peridoccommonpath/Preamble/Pref_Packages_TikZ_Externalization}
+\endgroup
+
+\ifpdf
+You can \textattachfile[author=raed_ma, color=0 0 1]{\peridoccommonpath/Preamble/Pref_Packages_TikZ_Externalization}{download} the file from within this document.
+\fi
+
+Using one of the last two lines of the \verb+tikzset+ converts the pdf file of the figure created by \verb+pdflatex+ to a png file. It requires the installation of \href{http://www.imagemagick.org/script/index.php}{ImageMagick} which provides the \verb+convert+ command for ImageMagick version prior to 7 or \verb+magick+ for version 7 or newer. For this to work, the path to the ImageMagick binaries \verb+convert.exe+ or \verb+magick.exe+ must be added to the system \texttt{PATH} environment variable.
+
+In case you want to externalize the creation of a single figure add the following:
+
+\begin{texcode}
+\tikzexternalenable                     §\lstcomment{\% Enable externalization}§
+\tikzsetnextfilename{Chart_Example}     §\lstcomment{\% Figure file name}§
+\input{Figures/LaTeX/Chart_Example}     §\lstcomment{\% Path to figure}§
+\tikzexternaldisable                    §\lstcomment{\% Disable externalization}§
+\end{texcode}
+
+Beware, if you make changes to a figure you have to delete the present figure file before compiling your document. Otherwise, the update will not be effective because the old figure is re-used.

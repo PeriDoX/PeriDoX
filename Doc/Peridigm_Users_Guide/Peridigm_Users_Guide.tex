@@ -1,0 +1,144 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Compilation:
+%
+% - with pdfLaTeX:
+%   pdflatex -> biber -> makeindex/create_glossaries.cmd -> pdflatex -> pdflatex
+% - For compilation add switch -shell-escape in your LaTeX editor:
+%   pdflatex --shell-escape -synctex=1 -interaction=nonstopmode %source --extra-mem-top=60000000
+% - Compile at least 3 times for proper output
+%
+% In case of problems:
+%
+% - Increase Tex-Memory in batch with:
+%   initexmf --edit-config-file pdflatex
+%   add: main_memory=8000000
+%   initexmf --dump=pdflatex
+%
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---------------------------
+% Paths
+% ---------------------------
+
+\newcommand{\peridoccommonpath}{../PeriDoX_Common}
+\newcommand{\peridocliteraturepath}{../../Literature}
+
+% ---------------------------
+% Documentclass
+% ---------------------------
+
+% \RequirePackage{bootstrap}
+\documentclass[%
+  figures=plain,%
+  listof=totoc,%                                % List of figures, tables in TOC
+  bibliography=totoc,%                          % Bibliography in TOC
+  fleqn,%                                       % left-align equations
+]{bootstrap_dlrreprt}                           % Bootstrap of dlrreprt without Frutiger font
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Preamble                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{Sections/Preamble_local}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title and author                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Document-class independent infos
+\subject     {\toolname}
+\title       {\toolname{} Users Guide}
+\subtitle    {For \toolname{} versions $\ge$ 1.4.1}
+\author      {Martin R\"adel}
+\date        {\today}
+
+% Document-class dependent infos for titlepage
+\telnumber   {2048}
+\faxnumber   {2232}
+\email       {martin.raedel@dlr.de}
+\reportno    {DLR-IB-FA-BS-2018-23}
+\coauthor    {Christian Willberg}
+
+% Location
+\dlrinstitute{FA-STM}
+\dlrsite     {BS}
+
+% Versions
+\addversion  {0.0.1}{19.02.2016}{Initial draft}{raed\_ma}
+\addversion  {0.0.2}{23.02.2017}{A lot of additions}{raed\_ma}
+\addversion  {0.0.3}{17.05.2017}{Glossary, user output \& results}{raed\_ma}
+\addversion  {0.0.4}{27.09.2017}{Index}{raed\_ma}
+\addversion  {1.0.0}{31.01.2018}{Initial release version}{raed\_ma}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Compilation                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \includeonly{
+%   Sections/About,
+%   Sections/Use_Peridigm_Basics,
+%   Sections/Use_Peridigm_QRG,
+%   Sections/Use_Peridigm_Run,
+%   Sections/Use_ParaView,
+%   Sections/Use_Results,
+%   Sections/Appendix,
+% }
+
+% Begin document
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Frontmatter                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagenumbering{roman}                  % Not in Frontmatter.tex for reusability between report and book-classes
+\input{\peridoccommonpath/Sections/Frontmatter}
+\input{\peridoccommonpath/Sections/Frontmatter_Glossaries}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \mainmatter
+\newpage                               % Required for page number
+\pagenumbering{arabic}                 % Not in Frontmatter.tex for reusability between report and book-classes
+
+\include{Sections/About}
+\include{Sections/Use_Peridigm_Basics}
+\include{Sections/Use_Peridigm_QRG}
+\include{Sections/Use_Peridigm_Run}
+\include{Sections/Use_ParaView}
+\include{Sections/Use_Results}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\printbibliography
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Index                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\printindex[\idxPDKeywordName]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Appendix                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{Sections/Appendix}
+
+\end{document} 

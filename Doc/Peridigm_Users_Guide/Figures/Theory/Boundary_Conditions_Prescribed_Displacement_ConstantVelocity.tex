@@ -1,0 +1,41 @@
+\begin{tabularx}{\linewidth}{YYY}
+\begin{minipage}{\linewidth}
+\begin{tikzpicture}
+  % General variables
+  \def\xlabel{$t$}
+  \def\ylabel{$u$}
+  % Axis
+  \begin{axis}[uvachartstyle]
+    % Function
+    \addplot {(\yi-\yn)/(\xf-\xn)*x}; 
+  \end{axis}
+\end{tikzpicture}
+\end{minipage}
+&
+\begin{minipage}{\linewidth}
+\begin{tikzpicture}
+  % General variables
+  \def\xlabel{$t$}
+  \def\ylabel{$v$}
+  % Axis
+  \begin{axis}[uvachartstyle]
+    % Function
+    %\addplot {(\yi-\yn)/(\xf-\xn)};
+    \addplot {(\yi-\yn)/2}; 
+  \end{axis}
+\end{tikzpicture}
+\end{minipage}
+&
+\begin{minipage}{\linewidth}
+\begin{tikzpicture}
+  % General variables
+  \def\xlabel{$t$}
+  \def\ylabel{$a$}
+  % Axis
+  \begin{axis}[uvachartstyle]
+    % Function
+    \addplot {0}; 
+  \end{axis}
+\end{tikzpicture}
+\end{minipage}
+\end{tabularx}

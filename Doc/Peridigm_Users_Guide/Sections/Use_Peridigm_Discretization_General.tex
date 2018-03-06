@@ -1,0 +1,288 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Relative sectioning with coseoul locally suppressed to be able to not have entries in the TOC
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \leveldown{Description}
+% \subsection*{Description}
+% \subsection*{\refstepcounter{subsection}\label{mylabel}\thesubsection\quad Description}
+\subsection*{\refstepcounter{subsection}\thesubsection\quad Description}
+
+Specify the discretization. Different types of discretization are supported, see section \ref{sec:Peridigm:Basics:InputFileFormat:Discretization}.
+
+% \levelstay{Common information}
+% \label{sec:Peridigm:QRG:Discretization:Common}
+
+% \levelstay{Literature}
+% \subsection*{Literature}
+\subsection*{\refstepcounter{subsection}\thesubsection\quad Literature}
+
+\begin{itemize}[noitemsep]
+  \item \cite{SillingSA2005}
+\end{itemize}
+
+% \levelstay{Code}
+% \subsection*{Code}
+\subsection*{\refstepcounter{subsection}\thesubsection\quad Code}
+
+% \leveldown{Release version}
+% \subsubsection*{Release version}
+% \subsection*{\refstepcounter{subsubsection}\thesubsubsection\quad Release version}
+\paragraph{Release version}
+
+Available from \href{\toolrepoversiononetwo}{version 1.2}.
+
+% \levelstay{Required compiler options}
+% \subsubsection*{Required compiler options}
+% \subsection*{\refstepcounter{subsubsection}\thesubsubsection\quad Required compiler options}
+\paragraph{Required compiler options}
+
+-
+
+% \levelstay{Routines}
+% \subsubsection*{Routines}
+% \subsection*{\refstepcounter{subsubsection}\thesubsubsection\quad Routines}
+\paragraph{Routines}
+
+
+\begin{itemize}[noitemsep]
+  \item from \texttt{src/io/discretization/}:
+  \begin{itemize}[noitemsep]
+    \item Basically all classes
+  \end{itemize}
+%   \item from \texttt{src/core/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Peridigm\_InfluenceFunction.cpp}
+%     \item \texttt{Peridigm\_InfluenceFunction.hpp}
+%   \end{itemize}
+\end{itemize}
+
+% \levelup{Input parameters}
+% \subsection*{Input parameters}
+\subsection*{\refstepcounter{subsection}\label{sec:Peridigm:QRG:Discretization:Common:Parameters}\thesubsection\quad Input parameters}
+% \label{sec:Peridigm:QRG:Discretization:Common:Parameters}
+
+% \leveldown{List}
+% \subsubsection*{List}
+% \subsection*{\refstepcounter{subsubsection}\thesubsubsection\quad List}
+\paragraph{List}
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name            & Type          & Required      & Default       & Description           \\
+\midrule
+Type\textsuperscript{\ref{enm:Peridigm:QRG:Discretization:Remark:Type}}            & string        & \checkmark    & -             & Mesh key: 
+``\idxPDKwExodus''\myindex[\idxPDKeywordName]{\idxPDKwExodus} | 
+``\idxPDKwTextFile''\myindex[\idxPDKeywordName]{\idxPDKwTextFile} | 
+``\idxPDKwAlbany''\myindex[\idxPDKeywordName]{\idxPDKwAlbany} | 
+``\idxPDKwPdQuickGrid''\myindex[\idxPDKeywordName]{\idxPDKwPdQuickGrid}       \\
+\idxPDKwInputMeshFile\myindex[\idxPDKeywordName]{\idxPDKwInputMeshFile} & string        & \checkmark    & -             & Name of the mesh file in the same folder\\
+\idxPDKwInfluenceFunction\myindex[\idxPDKeywordName]{\idxPDKwInfluenceFunction}\textsuperscript{\ref{enm:Peridigm:QRG:Discretization:Remark:InfluenceFunction}} & string     & -             & ``\idxPDKwOne''       &
+``\idxPDKwOne''\myindex[\idxPDKeywordName]{\idxPDKwOne} | 
+``\idxPDKwParabolicDecay''\myindex[\idxPDKeywordName]{\idxPDKwParabolicDecay} | 
+``\idxPDKwGaussian''\myindex[\idxPDKeywordName]{\idxPDKwGaussian} | 
+User defined\\
+Omit Bonds Between Blocks\textsuperscript{\ref{enm:Peridigm:QRG:Discretization:Remark:OmitBondsBetweenBlocks}}   & string        & -     & -     & ``All'' | ``None'' | List of blocks to ignore bonds between        \\
+\idxPDKwBondFilters\textsuperscript{\ref{enm:Peridigm:QRG:Discretization:Remark:BondFilters}}  & List & -     & -     & List of \idxPDKwBondFilters\\
+\bottomrule
+\end{tabularx}
+
+% \levelstay{Remarks}
+% \subsubsection*{Remarks}
+% \subsection*{\refstepcounter{subsubsection}\thesubsubsection\quad Remarks}
+\paragraph{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item \label{enm:Peridigm:QRG:Discretization:Remark:Type} Discretization type:
+    \begin{description}[noitemsep,labelindent=0pt,style=multiline,leftmargin=0.2\linewidth]
+      \item[Text File:] ASCII text file mesh input, see \ref{sec:Peridigm:Basics:InputFileFormat:Discretization:Textfile}
+      \item[Exodus:] Binary Exodus mesh input, see \ref{sec:Peridigm:Basics:InputFileFormat:Discretization:Exodus}
+      \item[Albany:] Mesh from Albany multiphyisics code, see \ref{sec:Peridigm:Basics:InputFileFormat:Discretization:Albany}
+      \item[PdQuickGrid:] Mesh creation inside \marktool{\toolname} for simple cubical geometries, see \ref{sec:Peridigm:Basics:InputFileFormat:Discretization:PdQuickGrid}
+    \end{description}
+  \item \label{enm:Peridigm:QRG:Discretization:Remark:InfluenceFunction} See section \ref{sec:Peridigm:QRG:Discretization:Tools:InfluenceFunction}
+  \item \label{enm:Peridigm:QRG:Discretization:Remark:OmitBondsBetweenBlocks} Possible values for keyword \textit{Omit Bonds Between Blocks}:
+    \begin{itemize}[noitemsep]
+      \item ``All''
+      \item ``None''
+      \item Discrete definition of individual block pairs seems to be not possible at the moment (see \texttt{src/io/discretization/Peridigm\_ExodusDiscretization.cpp} lines 744-762)
+    \end{itemize}
+  \item\label{enm:Peridigm:QRG:Discretization:Remark:BondFilters} Additional lines might be added by the use of the discretization tools described in section \ref{sec:Peridigm:QRG:DiscretizationTools}.
+\end{enumerate}
+
+% \levelup{Exemplary input section}
+% \subsection*{Exemplary input section}
+\subsection*{\refstepcounter{subsection}\thesubsection\quad Exemplary input section}
+
+% \leveldown{\protect\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Textfile}}
+% \subsubsection*{\protect\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Textfile}}
+% \subsection*{\refstepcounter{subsubsection}\thesubsubsection\quad \protect\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Textfile}}
+\paragraph{\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Textfile}}
+
+% \leveldown{XML format}
+\subparagraph*{XML format}
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Discretization">
+  <Parameter name="Type" type="string" value="Text File" />
+  <Parameter name="Input Mesh File" type="string" value="Compression_QS_3x2x2_TextFile.txt"/>
+</ParameterList>
+\end{code}
+\endgroup
+
+% \levelstay{Free format}
+\subparagraph*{Free format}
+
+-
+
+% \levelstay{YAML format}
+\subparagraph*{YAML format}
+
+-
+
+% \levelup{\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Exodus}}
+% \subsubsection*{\protect\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Exodus}}
+% \subsection*{\refstepcounter{subsubsection}\thesubsubsection\quad \protect\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Exodus}}
+\paragraph{\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Exodus}}
+
+% \leveldown{XML format}
+\subparagraph*{XML format}
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Discretization">
+  <Parameter name="Type" type="string" value="Exodus" />
+  <Parameter name="Input Mesh File" type="string" value="Bar.g"/>
+  <Parameter name="Omit Bonds Between Blocks" type="string" value="All" />
+</ParameterList>
+\end{code}
+\endgroup
+
+% \levelstay{Free format}
+\subparagraph*{Free format}
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+Discretization
+  Type "Exodus"
+  Input Mesh File "mesh.g"
+  Influence Function "One"
+\end{code}
+\endgroup
+
+% \levelstay{YAML format}
+\subparagraph*{YAML format}
+
+-
+
+% \levelup{\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Albany}}
+% \subsubsection*{\protect\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Albany}}
+% \subsection*{\refstepcounter{subsubsection}\thesubsubsection\quad \protect\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Albany}}
+\paragraph{\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Albany}}
+
+% \leveldown{XML format}
+\subparagraph*{XML format}
+
+-
+
+% \levelstay{Free format}
+\subparagraph*{Free format}
+
+-
+
+% \levelstay{YAML format}
+\subparagraph*{YAML format}
+
+-
+
+% \levelup{\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:PdQuickGrid}}
+% \subsubsection*{\protect\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:PdQuickGrid}}
+% \subsection*{\refstepcounter{subsubsection}\thesubsubsection\quad \protect\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:PdQuickGrid}}
+\paragraph{\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:PdQuickGrid}}
+
+% \leveldown{XML format}
+\subparagraph*{XML format}
+
+-
+
+% \levelstay{Free format}
+\subparagraph*{Free format}
+
+-
+
+% \levelstay{YAML format}
+\subparagraph*{YAML format}
+
+-
+
+% \levelmultiup{List of examples}{2}
+% \subsection*{List of examples}
+\subsection*{\refstepcounter{subsection}\thesubsection\quad List of examples}
+
+% \leveldown{\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Textfile}}
+% \subsubsection*{\protect\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Textfile}}
+% \subsubsection*{\refstepcounter{subsubsection}\thesubsubsection\quad \protect\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Textfile}}
+\paragraph{\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Textfile}}
+
+\begin{itemize}[noitemsep]
+%   \item From \texttt{examples/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{examples/tensile\_test/tensile\_test.peridigm}
+%   \end{itemize}
+  \item From \texttt{test/regression/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Compression\_QS\_3x2x2\_TextFile/Compression\_QS\_3x2x2\_TextFile.xml}
+  \end{itemize}
+  \item From \texttt{test/verification/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{MultipleHorizons/MultipleHorizons.xml}
+  \end{itemize}
+\end{itemize}
+
+% \levelstay{\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Exodus}}
+% \subsubsection*{\protect\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Exodus}}
+% \subsubsection*{\refstepcounter{subsubsection}\thesubsubsection\quad \protect\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Exodus}}
+\paragraph{\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Exodus}}
+
+\begin{itemize}[noitemsep]
+  \item For input parameter \textit{Influence Function}:
+    \begin{itemize}[noitemsep]
+    \item \verb+/test/verification/Compression_3x1x1_InfluenceFunction/Compression_3x1x1_InfluenceFunction.xml+
+    \end{itemize}
+  \item For input parameter \textit{Omit Bonds Between Blocks}:
+    \begin{itemize}[noitemsep]
+    \item \verb+/test/regression/Bar_TwoDisconnectedPieces_QS/Bar.xml+
+    \end{itemize}
+\end{itemize}
+
+% \levelstay{\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Albany}}
+% \subsubsection*{\protect\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Albany}}
+% \subsubsection*{\refstepcounter{subsubsection}\thesubsubsection\quad \protect\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Albany}}
+\paragraph{\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:Albany}}
+
+% \levelstay{\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:PdQuickGrid}}
+% \subsubsection*{\protect\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:PdQuickGrid}}
+% \subsubsection*{\refstepcounter{subsubsection}\thesubsubsection\quad \protect\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:PdQuickGrid}}
+\paragraph{\nameref{sec:Peridigm:Basics:InputFileFormat:Discretization:PdQuickGrid}}
+
+% Set the counter to get the following things right
+\setcounter{currentlevel}{3}

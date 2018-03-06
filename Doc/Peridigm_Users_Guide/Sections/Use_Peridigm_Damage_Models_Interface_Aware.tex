@@ -1,0 +1,134 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{\idxPDKwInterfaceAware}
+\label{sec:Peridigm:QRG:Damage:InterfaceAware}
+\myindex[\idxPDKeywordName]{\idxPDKwInterfaceAware}
+\myindex[\idxPDKeywordName]{\idxPDKwDamageModels!\idxPDKwInterfaceAware|see{\idxPDKwInterfaceAware}}
+
+\leveldown{Description}
+
+The interface aware damage model is a critical stretch model (cf. section \ref{sec:Peridigm:QRG:Damage:CriticalStretch}). The difference is in the implemented algorithm.
+
+\begin{quote}
+In this first pass, any "rank deficient" nodes are taken out of 
+the linear system by pushing them into a boundary condition 
+node set: RANK\_DEFICIENT\_NODES. All the bonds are broken for
+these nodes so it effectively removes them from the analysis.
+A new damage model is used to do the tasks above: Interface Aware.
+This model does not allow bonds to break between blocks if one 
+of the blocks does not have a damage model. This damage model
+also does the checking of nodes if they meet the rank deficient
+criteria.
+A flag was also introduced that enables the user to turn off
+solver heuristics. For the examples tested with this commit,
+none of the solver heuristics were needed to get convergence.
+Examples have been tested that have a crack propagating through
+the entire domain in a single step and the solver manages to
+converge (if the Interface Aware damage model is used).
+To activate this flag, set ''Disable Heuristics'' to true in the 
+solver parameters.
+\end{quote}
+
+For the interface aware algorithm it is checked if each point has at least three bonds. If this is not the case, the point is completely disconnected. Therefore, this damage model is slower compared to the critical stretch model. However, for \textbf{correspondence material} this check is needed.
+
+\levelstay{Code}
+
+\leveldown{Release version}
+
+Available from \href{\toolrepoversiononetwo}{version 1.2}.
+
+\levelstay{Required compiler options}
+
+-
+
+\levelstay{Routines}
+
+\begin{itemize}[noitemsep]
+%   \item IO:
+%   \begin{itemize}[noitemsep]
+  \item \verb+/src/damage/Peridigm_InterfaceAwareDamageModel.cpp+
+  \item \verb+/src/damage/Peridigm_InterfaceAwareDamageModel.hpp+
+%   \end{itemize}
+%   \item Computation:
+%   \begin{itemize}[noitemsep]
+%     \item \verb+/src/materials/elastic.cxx+
+%     \item \verb+/src/materials/elastic.h+
+%   \end{itemize}
+\end{itemize}
+
+\levelup{Input parameters}
+
+\leveldown{List}
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name             & Type   & Required   & Default & Description           \\
+\midrule
+Damage Model     & string & \checkmark & -       & Damage model ``\idxPDKwInterfaceAware''  \\     
+Critical Stretch\textsuperscript{\ref{enm:Peridigm:QRG:Damage:InterfaceAware:Remark:One}} & double$>0.0$ & \checkmark & -       & Critical bond stretch      \\ Coefficient\textsuperscript{\ref{enm:Peridigm:QRG:Damage:InterfaceAware:Remark:Two},\ref{enm:Peridigm:QRG:Damage:InterfaceAware:Remark:Three}} & double & - & - & \\
+\bottomrule
+\end{tabularx}
+
+\levelstay{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item \label{enm:Peridigm:QRG:Damage:InterfaceAware:Remark:One} The critical bond stretch is dependent of the horizon $\glssymbol{symb:scalar:pd:horizon}$. Therefore, it is no pure material parameter.
+  \item \label{enm:Peridigm:QRG:Damage:InterfaceAware:Remark:Two} If the thermal expansion coefficient parameter is omitted, deformations resulting from thermal expansion are not considered in the bond damage calculation.
+  \item \label{enm:Peridigm:QRG:Damage:InterfaceAware:Remark:Three} To get consistent results, the value should correspond to the coefficient of thermal expansion defined in the respective material model used in the block definition. To avoid double definition, the use of a variable is proposed, see \ref{sec:Peridigm:Basics:FunctionParser:Variable}.
+  \item The criterion only applies for bonds in tension, as the relative extension of a bond is compared to the critical stretch value, see method \texttt{computeDamage()} in \texttt{Peridigm\_CriticalStretchDamageModel.cpp}. In compression the relative extension of a bond is negative and can therefore never reach the positive critical stretch value.
+  \item The critical stretch model (\ref{sec:Peridigm:QRG:Damage:CriticalStretch}) is faster compared to the interface aware model. The interface aware model includes a check if a point is completely debonded.
+  \item Modeling damages with correspondence material a fine discretization is needed.
+\end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}
+
+-
+
+\levelstay{Free format}
+
+\begin{code}
+Damage Models
+  My Damage Model
+    Damage Model "Interface Aware"
+    Critical Stretch 0.001
+\end{code}
+
+\levelstay{YAML-format}
+
+-
+
+\levelup{List of examples}
+
+-
+% \begin{itemize}[noitemsep]
+%   \item From \texttt{examples/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{examples/tensile\_test/tensile\_test.peridigm}
+%   \end{itemize}
+%   \item From \texttt{test/regression/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Bar_OneBlock_OneMaterial_QS/Bar.xml}
+%   \end{itemize}
+%   \item From \texttt{test/verification/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Contact\_Friction\_Time\_Dependent\_Coefficient/Contact\_Friction\_Time\_Dependent\_Coefficient.xml}
+%   \end{itemize}
+% \end{itemize}

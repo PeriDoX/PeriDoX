@@ -1,0 +1,60 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% List of symbols
+% 
+% Revisions: 2017-04-10 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---------------------------
+% Layout + TOC
+% ---------------------------
+
+\clearpage
+\chapter*{List of Symbols}
+\setglossarysection{section}
+\addcontentsline{toc}{chapter}{List of Symbols}
+
+% ---------------------------
+% Symbols
+% ---------------------------
+
+% \printglossary[type=coordinatesystemlist,style=mycoordinatesystemstyle,nonumberlist]
+\printglossary[type=scalarlist  ,style=mysymbolstyle  ,nonumberlist]
+\printglossary[type=vectorlist  ,style=mysymbolstyle  ,nonumberlist]
+\printglossary[type=matrixlist  ,style=mysymbolstyle  ,nonumberlist]
+\printglossary[type=statelist   ,style=mysymbolstyle  ,nonumberlist]
+\printglossary[type=indexlist   ,style=myindexstyle   ,nonumberlist]
+\printglossary[type=exponentlist,style=myexponentstyle,nonumberlist]
+\printglossary[type=operatorlist,style=myoperatorstyle,nonumberlist]
+
+% ---------------------------
+% Acronyms
+% ---------------------------
+
+\setglossarysection{chapter}
+\printglossary[type=\acronymtype,style=myacronymstyle,nonumberlist]
+
+% ---------------------------
+% Glossary
+% ---------------------------
+ 
+% \printglossary[style=altlist,title=Glossary]
+
+% ---------------------------
+% Optional: add all
+% ---------------------------
+
+%\glsaddall

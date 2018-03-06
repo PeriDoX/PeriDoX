@@ -1,0 +1,155 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{Prescribed Velocity}
+\label{sec:QRG:BoundaryConditions:PrescribedVelocity}
+% \index[\idxPDKeywordName]{Prescribed Velocity}
+
+\leveldown{Description}
+
+Prescribed velocity is not available as an individual keyword. The behavior can be reproduced using the keyword \texttt{Prescribed Displacement} from \autoref{sec:Peridigm:QRG:BoundaryConditions:PrescribedDisplacement} by application of \autoref{eq:Peridigm:QRG:BoundaryConditions:Preliminaries:uva} in combination with the function parser and the time variable $\glssymbol{symb:scalar:time}$.
+
+\levelstay{Types \& Sketches}
+
+% \levelstay{Constant velocity}
+
+\leveldown{Constant velocity over whole time}%\mbox{}\\
+
+\begin{code}
+Boundary Conditions:
+  My Prescribed Velocity:
+    Type: "Prescribed Displacement"
+    Node Set: "My Node Set"
+    Coordinate: "x"
+    Value: "value = 5.0*t"
+\end{code}
+
+% General variables for following plots
+\def\xn{0.0}
+\def\xi{4.0}
+\def\xf{11.0}
+\def\yn{0.0}
+\def\yi{10.0}
+\def\yf{11.0}
+% Charts
+% \begin{figure}[htbp]
+\input{Figures/Theory/Boundary_Conditions_Prescribed_Displacement_ConstantVelocity}
+% \caption{Displacement, velocity and acceleration for constant velocity}
+% \end{figure}
+
+\levelstay{Constant velocity after initial ramp}%\mbox{}\\
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+#{UI=1}           # Displacement right before initial damage
+#{TI=1}           # Time right before initial damage
+#{VINFTY=1}       # Constant velocity during damage initiation
+
+Boundary Conditions
+  My Prescribed Velocity
+    Type: "Prescribed Displacement"
+    Node Set: "My Node Set"
+    Coordinate: "x"
+    Value: " if(t <= {TI})\{ value = {UI}*{TI}^{-1/3}*t^(1/3); \} else\{ value = {VINFTY}*(t-{TI})+{UI}; \} "
+\end{code}
+\endgroup
+
+% \begin{figure}[htbp]
+\input{Figures/Theory/Boundary_Conditions_Prescribed_Displacement_ConstantVelocityAfterRamp}
+% \caption{Displacement, velocity and acceleration for constant velocity after cubic root ramp}
+% \end{figure}
+
+% \levelup{Constant acceleration}
+% 
+% \begin{code}
+% Boundary Conditions:
+%   My Prescribed Acceleration:
+%     Type: "Prescribed Displacement"
+%     Node Set: "My Node Set"
+%     Coordinate: "x"
+%     Value: "value = 5.0*t^2"
+% \end{code}
+
+\levelup{Code}
+
+See \autoref{sec:Peridigm:QRG:BoundaryConditions:PrescribedDisplacement}
+
+\levelstay{Input parameters}
+
+See \autoref{sec:Peridigm:QRG:BoundaryConditions:PrescribedDisplacement}
+
+\levelstay{Exemplary input section}
+
+\leveldown{XML format}
+
+\begin{code}
+<ParameterList name="Boundary Conditions">
+  <ParameterList name="Prescribed Displacement Left Side">
+    <Parameter name="Type" type="string" value="Prescribed Displacement"/>
+    <Parameter name="Node Set" type="string" value="nodelist_1"/>
+    <Parameter name="Coordinate" type="string" value="x"/>	
+    <Parameter name="Value" type="string" value="-0.01*t"/>
+   </ParameterList>
+  <ParameterList name="Prescribed Displacement Right Side">
+    <Parameter name="Type" type="string" value="Prescribed Displacement"/>
+    <Parameter name="Node Set" type="string" value="nodelist_2"/>
+    <Parameter name="Coordinate" type="string" value="x"/>
+    <Parameter name="Value" type="string" value="0.01*t"/>
+   </ParameterList>
+</ParameterList>
+\end{code}
+
+\levelstay{Free format}
+
+\begin{code}
+Boundary Conditions
+  Prescribed Displacement Bottom
+    Type "Prescribed Displacement"
+    Node Set "nodelist_1"
+    Coordinate "y"
+    Value "y*0.005*t"
+  Prescribed Displacement Top
+    Type "Prescribed Displacement"
+    Node Set "nodelist_2"
+    Coordinate "y"
+    Value "y*0.005*t"
+\end{code}
+
+\levelstay{YAML format}
+
+-
+
+% The Prescibed displacement can either be dependent on the variable and the time, just of the time or of neither one.
+
+\levelup{List of examples}
+
+\begin{itemize}[noitemsep]
+  \item From \texttt{examples/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{examples/tensile\_test/tensile\_test.peridigm}
+  \end{itemize}
+  \item From \texttt{test/regression/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Bar\_OneBlock\_OneMaterial\_QS/Bar.xml}
+  \end{itemize}
+%   \item From \texttt{test/verification/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Contact\_Friction\_Time\_Dependent\_Coefficient/Contact\_Friction\_Time\_Dependent\_Coefficient.xml}
+%   \end{itemize}
+\end{itemize}

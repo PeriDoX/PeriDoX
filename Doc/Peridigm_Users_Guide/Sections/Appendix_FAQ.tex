@@ -1,0 +1,72 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{FAQ}
+\setcounter{currentlevel}{6}
+
+\leveldown{\protect\toolname{}}
+
+\begin{description}[leftmargin=\parindent,labelindent=\parindent,style=nextline]
+% 
+\item[When I call \marktool{\toolname} with \texttt{mpirun} I get an error that the program is unable to find the mesh file. What can I do? ]\mbox{}\\[-2.5\baselineskip]
+  \begin{itemize}[noitemsep]
+  \item This problem occurs for \marktool{\cubitname} mesh files (*.g)
+  \item Before using them in a parallel job you have to decompose the mesh according to the number of processors to be used
+  \item Please consult section \ref{sec:Peridigm:Run:Execution:Local:Input}
+  \end{itemize}
+%
+\item[Everything works fine but when I call \marktool{decomp} I get a \texttt{***HDF5 library version mismatched error***} error. Why? ]\mbox{}\\[-2.5\baselineskip]
+  \begin{itemize}[noitemsep]
+  \item Check this same question in the \marktool{\toolname} Installation Guide from this same repository.
+  \end{itemize}
+%
+\item[I get the following error message combination: \texttt{Throw test that evaluated to true: !boost::math::isfinite((*force)[i])} and \texttt{**** NaN returned by force evaluation.}. Why?]\mbox{}\\[-2.5\baselineskip]
+  \begin{itemize}[noitemsep]
+%   \item There seems to be no body load or non-zero kinematic boundary condition in your model.
+%   \item See if the definition of \texttt{Body load} or \texttt{Prescribed Displacement} is working correctly in your model.
+    \item It may be that your model became numerically unstable. Try to calculate the model again with a decreased value for the solver timestep safety factor.
+  \end{itemize}
+%
+\item[I get the following error message: \texttt{**** Error:  getFieldId(), label not found:  Force} when using a \texttt{Compute Class Parameters}. Why?]\mbox{}\\[-2.5\baselineskip]
+  \begin{itemize}[noitemsep]
+    \item Make sure you request the \texttt{Variable} as a normal \texttt{Output Variable} as well. Have a look at the remarks in sections \ref{sec:Peridigm:QRG:ComputeClassParameters:Nodeset:Parameters}, \ref{sec:Peridigm:QRG:ComputeClassParameters:Block:Parameters} \& \ref{sec:Peridigm:QRG:ComputeClassParameters:NearestPoint:Parameters}.
+    \item E.g. if your \texttt{Compute Class Parameter} is a force, \texttt{Force} must also be specified in the output section
+  \end{itemize}
+%
+\item[I get the following error message: \texttt{Error!  An attempt was made to access parameter "ABC" of type "int" in the parameter (sub)list "ANONYMOUS"
+using the incorrect type "double"!} in when using the function parser for an input parameter. Why?]\mbox{}\\[-2.5\baselineskip]
+  \begin{itemize}[noitemsep]
+    \item Make sure that the equation for the function parser does not result in a numerical value that can be expressed as an integer. E.g. With the values  \lstinline[style=inlinecodestyle]+#{DISPLACEMENT=1.0}+ and \lstinline[style=inlinecodestyle]+#{VELOCITY=1.0}+ the \texttt{Final Time} of a solver \lstinline[style=inlinecodestyle]+Final Time {DISPLACEMENT/VELOCITY}+ supposedly is 1.0. However, for the function parser the result is 1 as an integer. As a double value is expected for \texttt{Final Time} an error is thrown.
+  \end{itemize}
+%
+\item[I get the following error message: \texttt{Error, the parameter "ABC" is not a list, it is of type "double"!} using the free format (.peridigm model). Why?]\mbox{}\\[-2.5\baselineskip]
+  \begin{itemize}[noitemsep]
+    \item Make sure there are no tabs in the line of ``ABS''. If there are, replace them with spaces and adjust the indentation of the line to the free format in your model.
+  \end{itemize}
+%
+\item[Nothing happens when I use the \texttt{Implicit} solver and time-dependent \texttt{Prescribed Displacement}s. Why?]\mbox{}\\[-2.5\baselineskip]
+  \begin{itemize}[noitemsep]
+    \item This seems to be a bug in the calculation of the forces.
+    \item See \href{https://github.com/peridigm/peridigm/issues/23}{https://github.com/peridigm/peridigm/issues/23}
+  \end{itemize}
+%
+\end{description}
+
+\levelstay{\protect\paraviewname{}}
+
+% \levelstay{\protect\LaTeX}

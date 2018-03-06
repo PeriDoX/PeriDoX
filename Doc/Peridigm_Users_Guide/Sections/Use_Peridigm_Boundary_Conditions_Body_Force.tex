@@ -1,0 +1,127 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{\idxPDKwBodyForce}
+\label{sec:QRG:BoundaryConditions:BodyForce}
+\myindex[\idxPDKeywordName]{\idxPDKwBodyForce}
+\myindex[\idxPDKeywordName]{\idxPDKwBoundaryConditions!\idxPDKwBodyForce|see{\idxPDKwBodyForce}}
+
+\leveldown{Description}
+
+Application of a volumetric load to an application region.
+
+In contrast to continuum mechanical models the peridynamic model works with the so called \textit{force density}. The force density $\glssymbol{symb:scalar:load:force}_{\glssymbol{symb:scalar:geo:3D:volume}}$ is defined as force $\glssymbol{symb:scalar:load:force}$ per volume $\glssymbol{symb:scalar:geo:3D:volume}$ by $\glssymbol{symb:scalar:load:force}_{\glssymbol{symb:scalar:geo:3D:volume}}=\glssymbol{symb:scalar:load:force}/\glssymbol{symb:scalar:geo:3D:volume}$. The dual or pairwise force density function as an internal variable is then defined as force per volume squared (see page 14 in \cite{SillingSA2010b}). External forces on the peridynamic collocation points are expressed in the bond force density. The bond force density has the unit force per unit squared as well. Thus, the nodal, surface and volume loads from continuum mechanics can easily be transformed using the application region volume.
+
+However, one has to be consider that the force density is applied for the whole volume. The resulting displacements are given at the points. Therefore, there are small discrepancies in the position of the applied load in peridynamics compared to the discretized continuum mechanics model.
+
+\levelstay{Literature}
+\label{sec:Peridigm:QRG:BoundaryConditions:BodyForce:Literature}
+
+\begin{itemize}[noitemsep]
+  \item \cite{SillingSA2010b}
+\end{itemize}
+
+\levelstay{Code}
+\label{sec:Peridigm:QRG:BoundaryConditions:BodyForce:Code}
+
+\begin{itemize}[noitemsep]
+  \item from \texttt{src/core/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Peridigm\_BoundaryAndInitialConditionManager.cpp}
+    \item \texttt{Peridigm\_BoundaryAndInitialConditionManager.hpp}
+    \item \texttt{Peridigm\_BoundaryCondition.cpp}
+    \item \texttt{Peridigm\_BoundaryCondition.hpp}
+    \item \texttt{Peridigm\_Enums.cpp}
+    \item \texttt{Peridigm\_Enums.hpp}
+  \end{itemize}
+\end{itemize}
+
+\levelstay{Input parameters}
+\label{sec:Peridigm:QRG:BoundaryConditions:BodyForce:Parameters}
+
+\paragraph{List}
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name		& Type		& Required	& Default	& Description		\\
+\midrule
+% Type          & string        & \checkmark    & -             & ``Body Force''   \\
+Type		& string	& \checkmark	& -		& ``\idxPDKwBodyForce''	\\
+Node Set        & string        & \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:BoundaryConditions:BodyForce:Remark:NodeSet}}      & -             & Application region name | ``Full Domain'' | ``All Sets''      \\
+Coordinate	& string	& \checkmark	& -		& ``x'' | ``y'' | ``z'' 	\\
+Value\textsuperscript{\ref{enm:Peridigm:QRG:BoundaryConditions:BodyForce:Remark:Value}}		& string	& \checkmark	& -		& String with function for function parser	\\
+\bottomrule
+\end{tabularx}
+
+\paragraph{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item \label{enm:Peridigm:QRG:BoundaryConditions:BodyForce:Remark:NodeSet} Any string that is not ``Full Domain'' or ``All Sets'' will be considered a custom node set name in the model or mesh file, dependent of the discretization type.
+  \item \label{enm:Peridigm:QRG:BoundaryConditions:BodyForce:Remark:Value} The string in the variable \textit{Value} should start with \verb+value = +. If it does not, \toolname{} will automatically add it for the function parser to work.
+\end{enumerate}
+
+\levelstay{Exemplary input section}
+
+\paragraph{XML format}
+
+\begin{code}
+<ParameterList name="Applied Loading X">
+  <Parameter name="Type" value="Body Force" type="string"/>
+  <Parameter name="Node Set" value="nodelist_1" type="string"/>
+  <Parameter name="Coordinate" value="x" type="string"/>
+  <Parameter name="Value" value="1E-5 * 94.25^2 * x" type="string"/>
+</ParameterList>
+
+<ParameterList name="Applied Loading Z">
+  <Parameter name="Type" value="Body Force" type="string"/>
+  <Parameter name="Node Set" value="nodelist_1" type="string"/>
+  <Parameter name="Coordinate" value="y" type="string"/>
+  <Parameter name="Value" value="1E-5 * 94.25^2 * y" type="string"/>
+</ParameterList>
+\end{code}
+
+\paragraph{Free format}
+
+-
+
+\paragraph{YAML format}
+
+-
+
+\levelstay{List of examples}
+
+\begin{itemize}[noitemsep]
+%   \item From \texttt{Models/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Models/Dogbone}
+%   \end{itemize}
+%   \item From \texttt{examples/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{disk\_impact/disc\_impact.peridigm}
+%   \end{itemize}
+  \item From \texttt{test/regression/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Body\_Force/Body\_Force\_*.xml}
+    \item \texttt{CentrifugalLoad/CentrifugalLoad.xml}
+    \item \texttt{Multiphysics\_QS\_3x2x2/Multiphysics\_QS\_3x2x2.xml}
+  \end{itemize}
+%   \item From \texttt{test/verification/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{BondBreakingInitialVelocity\_TimeDependentCS/BondBreakingInitialVelocity.xml} 
+%   \end{itemize}
+\end{itemize}

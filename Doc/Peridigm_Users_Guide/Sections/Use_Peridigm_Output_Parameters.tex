@@ -1,0 +1,132 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{Output}
+\label{sec:Peridigm:QRG:Output:Output}
+
+\leveldown{Code}
+
+\begin{itemize}[noitemsep]
+  \item \texttt{src/core/Peridigm.cpp}
+  \item \texttt{src/io/Peridigm\_OutputManager\_ExodusII.cpp}
+\end{itemize}
+
+\levelstay{Input parameters}
+\label{sec:Peridigm:QRG:Output:Output:Parameters}
+
+\leveldown{List}
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name		& Type		& Required	& Default	& Description		\\
+\midrule
+\multicolumn{5}{l}{Base parameters}	\\
+Output File Type	& string	& -		& ``ExodusII''		& ``ExodusII''	\\
+Output Format		& string	& -		& ``BINARY''		& ``BINARY'' | ``ASCII''	\\
+Output Filename\textsuperscript{\ref{enm:Peridigm:QRG:Output:Output:Remark:One}}		& string	& -		& ``dump''		& Output file name	\\
+Output Frequency	& int		& \checkmark	& -			& \\
+Initial Output Step	& int		& -		& 1			& First time step this output shall apply to\\
+Final Output Step	& int		& -		& last in model		& Last time step this output shall apply to\\
+Parallel Write		& bool		& -		& true			& Flag whether to write in parallel	\\
+Output Variables\textsuperscript{\ref{enm:Peridigm:QRG:Output:Output:Remark:Two}}	& list		& \checkmark	& -			& Opens list of output variables	\\
+\bottomrule
+\end{tabularx}
+
+\levelstay{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item \label{enm:Peridigm:QRG:Output:Output:Remark:One} The \textit{Output Filename} should be unique for each \textit{Output}. Otherwise, output files are probably overwritten.
+  \item \label{enm:Peridigm:QRG:Output:Output:Remark:Two} See section \ref{sec:Peridigm:QRG:Output:Variables}
+\end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}
+
+from \texttt{Body\_Force\_QS.xml}:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Output">
+  <Parameter name="Output File Type" type="string" value="ExodusII"/>
+  <Parameter name="Output Format" type="string" value="BINARY"/>
+  <Parameter name="Output Filename" type="string" value="Body_Force_QS"/>
+  <Parameter name="Output Frequency" type="int" value="1"/>
+  <Parameter name="Parallel Write" type="bool" value="true"/>
+  <ParameterList name="Output Variables">
+    <Parameter name="Displacement" type="bool" value="true"/>
+    <Parameter name="Velocity" type="bool" value="true"/>
+    <Parameter name="Element_Id" type="bool" value="true"/>
+    <Parameter name="Proc_Num" type="bool" value="true"/>
+    <Parameter name="Dilatation" type="bool" value="true"/>
+    <Parameter name="Force_Density" type="bool" value="true"/>
+    <Parameter name="Weighted_Volume" type="bool" value="true"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+\levelstay{Free format}
+
+from \texttt{tensile\_test.peridigm}:
+from \texttt{NOX\_QS\_MatrixFree\_NoPrec\_YAML.yaml}:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+Output
+  Output File Type "ExodusII"
+  Output Filename "tensile_test"
+  Output Frequency 1
+  Output Variables
+    Displacement "true"
+    Velocity "true"
+    Element_Id "true"
+    Proc_Num "true"
+    Force_Density "true"
+    Hourglass_Force_Density "true"
+    Force "true"
+    Volume "true"
+\end{code}
+\endgroup
+
+\levelstay{YAML format}
+
+from \texttt{NOX\_QS\_MatrixFree\_NoPrec\_YAML.yaml}:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+Output:
+  Output File Type: "ExodusII"
+  Output Filename: "NOX_QS_MatrixFree_NoPrec_YAML"
+  Output Frequency: 1
+  Output Variables:
+    Displacement: "true"
+    Velocity: "true"
+    Force: "true"
+    Volume: "true"
+    Radius: "true"
+    Nonlinear_Solver_Iterations: "true"
+\end{code}
+\endgroup
+
+\levelup{List of examples}
+
+Basically all models in \texttt{/test/} and \texttt{/examples/}.

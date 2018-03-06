@@ -1,0 +1,181 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{\idxPDKwPrescribedDisplacement}
+\label{sec:Peridigm:QRG:BoundaryConditions:PrescribedDisplacement}
+\myindex[\idxPDKeywordName]{\idxPDKwPrescribedDisplacement}
+\myindex[\idxPDKeywordName]{\idxPDKwBoundaryConditions!\idxPDKwPrescribedDisplacement|see{\idxPDKwPrescribedDisplacement}}
+
+\leveldown{Description}
+\label{sec:Peridigm:QRG:BoundaryConditions:PrescribedDisplacement:Description}
+
+Definition of a prescribed displacement on a nodeset. The prescribed displacement might be dependent of the scalar coordinates of the nodeset members and/or the time. Thus, displacement and acceleration boundary conditions can be modeled with this card as well.
+
+\levelstay{Sketch}
+
+% General variables for following plots
+\def\xn{0.0}
+\def\xi{4.0}
+\def\xf{11.0}
+\def\yn{0.0}
+\def\yi{10.0}
+\def\yf{11.0}
+% Charts
+\input{Figures/Theory/Boundary_Conditions_Prescribed_Displacement_ConstantDisplacement}
+
+% \begin{figure}[htbp]
+%   \centering
+%   \tikzexternalenable
+%   \tikzsetnextfilename{Test}
+%   \begin{tikzpicture}
+%     \node (image) at (0,0) {\includegraphics[width=0.5\linewidth]{example-image-a}};
+%   \end{tikzpicture}
+%   \tikzexternaldisable
+%   \caption{A figure}
+%   \label{fig:Figure}
+% \end{figure}
+
+\levelstay{Code}
+\label{sec:Peridigm:QRG:BoundaryConditions:PrescribedDisplacement:Code}
+
+\begin{itemize}[noitemsep]
+  \item from \texttt{src/core}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Peridigm\_BoundaryAndInitialConditionManager.cpp}
+    \item \texttt{Peridigm\_BoundaryAndInitialConditionManager.hpp}
+    \item \texttt{Peridigm\_BoundaryCondition.cpp}
+    \item \texttt{Peridigm\_BoundaryCondition.hpp}
+    \item \texttt{Peridigm\_Enums.cpp}
+    \item \texttt{Peridigm\_Enums.hpp}
+  \end{itemize}
+\end{itemize}
+
+\levelstay{Input parameters}
+\label{sec:Peridigm:QRG:BoundaryConditions:PrescribedDisplacement:InputParameters}
+
+\paragraph{List}
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name		& Type		& Required	& Default	& Description		\\
+\midrule
+Type		& string	& \checkmark	& -		& ``\idxPDKwPrescribedDisplacement''	\\
+Node Set        & string        & \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:BoundaryConditions:PrescribedDisplacement:Remark:NodeSet}}    & -             & Application region name | ``Full Domain'' | ``All Sets''      \\
+Coordinate	& string	& \checkmark	& -		& ``x'' | ``y'' | ``z'' 	\\
+Value		& string	& \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:BoundaryConditions:PrescribedDisplacement:Remark:Value}}	& -		& String with function for function parser	\\
+\bottomrule
+\end{tabularx}
+
+\paragraph{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item \label{enm:Peridigm:QRG:BoundaryConditions:PrescribedDisplacement:Remark:NodeSet} Any string that is not ``Full Domain'' or ``All Sets'' will be considered a custom node set name in the model or mesh file, dependent of the discretization type.
+  \item \label{enm:Peridigm:QRG:BoundaryConditions:PrescribedDisplacement:Remark:Value} The string in the variable \textit{Value} should start with \verb+value = +. If it does not, \toolname{} will automatically add it for the function parser to work.
+\end{enumerate}
+
+\levelstay{Exemplary input section}
+
+\leveldown{XML format}
+
+\begin{code}
+<ParameterList name="Boundary Conditions">
+  <ParameterList name="Prescr. Displacement Suppress Rigid Body Modes 1">
+    <Parameter name="Type" type="string" value="Prescribed Displacement"/>
+    <Parameter name="Node Set" type="string" value="nodelist_3"/>
+    <Parameter name="Coordinate" type="string" value="y"/>
+    <Parameter name="Value" type="string" value="0.0"/>
+  </ParameterList>
+  <ParameterList name="Prescr. Displacement Suppress Rigid Body Modes 2">
+    <Parameter name="Type" type="string" value="Prescribed Displacement"/>
+    <Parameter name="Node Set" type="string" value="nodelist_5"/>
+    <Parameter name="Coordinate" type="string" value="y"/>
+    <Parameter name="Value" type="string" value="0.0"/>
+  </ParameterList>
+  <ParameterList name="Prescr. Displacement Suppress Rigid Body Modes 3">
+    <Parameter name="Type" type="string" value="Prescribed Displacement"/>
+    <Parameter name="Node Set" type="string" value="nodelist_4"/>
+    <Parameter name="Coordinate" type="string" value="z"/>
+    <Parameter name="Value" type="string" value="0.0"/>
+  </ParameterList>
+  <ParameterList name="Prescr. Displacement Suppress Rigid Body Modes 4">
+    <Parameter name="Type" type="string" value="Prescribed Displacement"/>
+    <Parameter name="Node Set" type="string" value="nodelist_6"/>
+    <Parameter name="Coordinate" type="string" value="z"/>
+    <Parameter name="Value" type="string" value="0.0"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+
+\levelstay{Free format}
+
+\begin{code}
+Boundary Conditions
+  Prescribed Displacement Fix Bottom Rigid Body Motion In X
+    Type "Prescribed Displacement"
+    Node Set "nodelist_3"
+    Coordinate "x"
+    Value "0.0"
+  Prescribed Displacement Fix Bottom Rigid Body Motion In Z
+    Type "Prescribed Displacement"
+    Node Set "nodelist_4"
+    Coordinate "z"
+    Value "0.0"
+  Prescribed Displacement Fix Top Rigid Body Motion In X
+    Type "Prescribed Displacement"
+    Node Set "nodelist_5"
+    Coordinate "x"
+    Value "0.0"
+  Prescribed Displacement Fix Top Rigid Body Motion In Z
+    Type "Prescribed Displacement"
+    Node Set "nodelist_6"
+    Coordinate "z"
+    Value "0.0"
+\end{code}
+
+\levelstay{YAML format}
+
+\begin{code}
+Boundary Conditions:
+  My Prescribed Displacement:
+    Type: "Prescribed Displacement"
+    Node Set: "My Node Set"
+    Coordinate: "x"
+    Value: "value = 5.0"
+\end{code}
+
+\levelup{List of examples}
+
+\begin{itemize}[noitemsep]
+%   \item From \texttt{Models/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Models/Dogbone}
+%   \end{itemize}
+  \item From \texttt{examples/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{tensile\_test/tensile\_test.peridigm}
+  \end{itemize}
+  \item From \texttt{test/regression/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Bar\_OneBlock\_OneMaterial\_QS/Bar.xml}
+  \end{itemize}
+%   \item From \texttt{test/verification/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{BondBreakingInitialVelocity\_TimeDependentCS/BondBreakingInitialVelocity.xml} 
+%   \end{itemize}
+\end{itemize}
+

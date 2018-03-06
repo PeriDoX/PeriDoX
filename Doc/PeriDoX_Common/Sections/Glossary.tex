@@ -1,0 +1,49 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This file handles all glossary entries
+% 
+% Translation:
+% 
+% pdflatex datei
+% makeindex -s datei.ist -t datei.alg -o datei.acr datei.acn
+% makeindex -s datei.ist -t datei.glg -o datei.gls datei.glo
+% makeindex -s datei.ist -t datei.slg -o datei.syi datei.syg
+% pdflatex datei
+% 
+% Source: https://ewus.de/tipp/paket-glossaries-glossar-und-symbolverzeichnis-erstellen-und-abkuerzungen-verwenden
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Symbols                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{\peridoccommonpath/Sections/Glossary_Symbols.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Abbreviations                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{\peridoccommonpath/Sections/Glossary_Acronyms.tex}
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Glossary                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{\peridoccommonpath/Sections/Glossary_Glossary.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make glossaries                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeglossaries

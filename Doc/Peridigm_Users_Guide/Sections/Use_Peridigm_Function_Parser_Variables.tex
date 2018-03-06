@@ -1,0 +1,71 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{Variables}
+\label{sec:Peridigm:Basics:FunctionParser:Variable}
+\myindex[\idxPDKeywordName]{\idxPDKwFunctionParser!Variables}
+
+\leveldown{User variables}
+
+\leveldown{Definition}
+
+It is possible to define your own variables for use inside a \toolname{} input deck. The variables have to be defined at the beginning of the input deck. For YAML-input this is before the line \textit{Peridigm:}. The definition starts with a hash key, followed by the variable name, the equal sign and subsequently the variable value. It is possible to perform algebraic operations inside the variable definition.
+
+\begin{code}
+#{LENGTH=1.0}
+#{WIDTH=0.25}
+#{NUM_ELEM_ALONG_WIDTH=5}
+#{ELEMENT_SIZE=WIDTH/NUM_ELEM_ALONG_WIDTH}
+#{HORIZON=0.15}
+\end{code}
+
+\levelstay{Usage}
+
+A variable value is used inside the model definition by calling the variable name in curly braces, e.g. for the variable \textit{HORIZON} is the following example excerpt of a block definition in an input file:
+
+\begin{code}
+Blocks:
+  Block_1:
+    Block Names: "Block_1"
+    Material: "testmaterial"
+    Horizon: {HORIZON}
+\end{code}
+
+\levelup{Pre-defined variables}
+
+There are several pre-defined variables that can be used in the input deck. They are defined in \verb+/src/core/Peridigm_BoundaryCondition.cpp+
+
+The current list contains:
+
+\begin{tabularx}{\linewidth}{cX}
+\toprule
+Variable & Description   \\
+\midrule
+t        & Time          \\
+x        & x-position of a peridynamic collocation point in the global cartesian coordinate system at time t     \\
+y        & y-position of a peridynamic collocation point in the global cartesian coordinate system at time t     \\
+z        & z-position of a peridynamic collocation point in the global cartesian coordinate system at time t     \\
+value    & Prefix for string keyword entries\\
+\bottomrule
+\end{tabularx}
+
+\levelup{List of examples}
+
+\begin{itemize}[noitemsep]
+\item \verb+/examples/twist_and_pull/twist_and_pull.peridigm+
+\end{itemize} 

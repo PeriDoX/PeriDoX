@@ -1,0 +1,242 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{\idxPDKwCriticalEnergy}
+\label{sec:Peridigm:QRG:Damage:CriticalEnergy}
+\myindex[\idxPDKeywordName]{\idxPDKwCriticalEnergy}
+\myindex[\idxPDKeywordName]{\idxPDKwDamageModels!\idxPDKwCriticalEnergy|see{\idxPDKwCriticalEnergy}}
+\myindex[\idxPDKeywordName]{\idxPDKwDamageModels!\idxPDKwCriticalEnergyTypeEnergyCriterion|see{\idxPDKwCriticalEnergy}}
+\myindex[\idxPDKeywordName]{\idxPDKwDamageModels!\idxPDKwCriticalEnergyTypePowerLaw|see{\idxPDKwCriticalEnergy}}
+\myindex[\idxPDKeywordName]{\idxPDKwDamageModels!\idxPDKwCriticalEnergyTypeSeparated|see{\idxPDKwCriticalEnergy}}
+
+\leveldown{Description}
+\label{sec:Peridigm:QRG:Damage:CriticalEnergy:Description}
+
+Multiple damage criteria based on the critical energy density of a bond are implemented. The model works for isotropic ordinary elastic material only.
+
+\levelstay{Literature}
+\label{sec:Peridigm:QRG:Damage:CriticalEnergy:Literature}
+
+\begin{itemize}[noitemsep]
+  \item[\cite{FosterJT2011}:] Original energy release damage model proposed by Foster et al. 
+  \item[\cite{WillbergC2018}:] Extended energy release damage model proposed by Willberg et al., including the work of Foster et al.
+\end{itemize}
+
+\levelstay{Model sketch}
+\label{sec:Peridigm:QRG:Damage:CriticalEnergy:Sketch}
+
+- 
+
+\levelstay{Code}
+
+\leveldown{Release version}
+
+% Available from \href{\toolrepoversiononetwo}{version 1.2}.
+Not released yet. Under development.
+
+\levelstay{Required compiler options}
+
+-
+
+\levelstay{Routines}
+
+\begin{itemize}[noitemsep]
+   \item Synchronization between cores:
+   \begin{itemize}[noitemsep]
+   \item \verb+/src/damage/Peridigm.cpp+
+   \item \verb+/src/damage/Peridigm.hpp+
+   \item \verb+/src/damage/Peridigm_ModelEvaluator.cpp+
+   \item \verb+/src/damage/Peridigm_ModelEvaluator.hpp+
+   \item \verb+/src/damage/Peridigm_ElasticMaterial.cpp+
+   \item \verb+/src/damage/Peridigm_Material.cpp+
+   \item \verb+/src/damage/Peridigm_Material.hpp+
+   \end{itemize}
+   \item Damage computation:
+   \begin{itemize}[noitemsep]
+     \item \verb+/src/damage/Peridigm_EnergyReleaseDamageModel.cpp+
+     \item \verb+/src/damage/Peridigm_EnergyReleaseDamageModel.hpp+
+   \end{itemize}
+\end{itemize}
+
+Details of implementation are given in the Peridigm\_Development\_Guide.
+
+\levelup{Input parameters}
+
+\leveldown{List}
+
+\leveldown{Mode-independent model based on \cite{FosterJT2011}}\mbox{}\\
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name             & Type   & Required   & Default & Description           \\
+\midrule
+Damage Model     & string & \checkmark & -       & Damage model ``\idxPDKwCriticalEnergy''  \\ 
+Critical Energy Tension\textsuperscript{\ref{enm:Peridigm:QRG:Damage:CriticalEnergy:Remark:HorizonIndependence},\ref{enm:Peridigm:QRG:Damage:CriticalEnergy:Remark:ThermalExpansion}} & double$>\num{0.0}$ & \checkmark & -       & Critical energy release rate $\glssymbol{symb:scalar:mat:energyreleaserate:critical}$ \cite{FosterJT2011}        \\
+Type\textsuperscript{\ref{enm:Peridigm:QRG:Damage:CriticalEnergy:Remark:Interaction}} & string       & \checkmark & - & ``\idxPDKwCriticalEnergyTypeEnergyCriterion'' \\
+% Thermal Expansion Coefficient\textsuperscript{\ref{enm:Peridigm:QRG:Damage:CriticalEnergy:Remark:Two},\ref{enm:Peridigm:QRG:Damage:CriticalEnergy:Remark:Three}} & double & - & - & \\
+\bottomrule
+\end{tabularx}
+
+\leveldown{Mode-dependent model based on \cite{WillbergC2018}}\mbox{}\\
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name                                                                                                 & Type         & Required   & Default & Description           \\
+\midrule
+Damage Model                                                                                         & string       & \checkmark & -        & ``\idxPDKwCriticalEnergy''\\
+Critical Energy Tension\textsuperscript{\ref{enm:Peridigm:QRG:Damage:CriticalEnergy:Remark:HorizonIndependence},\ref{enm:Peridigm:QRG:Damage:CriticalEnergy:Remark:ThermalExpansion}}     & double$>\num{0.0}$ & \checkmark & -        & Critical energy release rate $\glssymbol{symb:scalar:mat:energyreleaserate:critical:mode:I}$ \cite{FosterJT2011} for tension      \\
+Critical Energy Compression\textsuperscript{\ref{enm:Peridigm:QRG:Damage:CriticalEnergy:Remark:HorizonIndependence},\ref{enm:Peridigm:QRG:Damage:CriticalEnergy:Remark:ThermalExpansion}} & double$>\num{0.0}$ & -          & -        & Critical energy release rate $\glssymbol{symb:scalar:mat:energyreleaserate:critical:mode:I}$ \cite{FosterJT2011} for compression        \\
+Critical Energy Shear\textsuperscript{\ref{enm:Peridigm:QRG:Damage:CriticalEnergy:Remark:HorizonIndependence},\ref{enm:Peridigm:QRG:Damage:CriticalEnergy:Remark:ThermalExpansion}}       & double$>\num{0.0}$ & -          & -&       Critical energy release rate $\glssymbol{symb:scalar:mat:energyreleaserate:critical:mode:II}$ \cite{FosterJT2011}   \\     
+Type\textsuperscript{\ref{enm:Peridigm:QRG:Damage:CriticalEnergy:Remark:Interaction}} & string       & \checkmark & \idxPDKwCriticalEnergyTypeEnergyCriterion & Interaction between Mode I and II: ``\idxPDKwCriticalEnergyTypeEnergyCriterion'' | ``\idxPDKwCriticalEnergyTypePowerLaw'' | ``\idxPDKwCriticalEnergyTypeSeparated'' \\
+% Thermal Expansion Coefficient\textsuperscript{\ref{enm:Peridigm:QRG:Damage:CriticalEnergy:Remark:Two},\ref{enm:Peridigm:QRG:Damage:CriticalEnergy:Remark:Three}} & double & - & - & \\
+\bottomrule
+\end{tabularx}
+
+\levelup{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item The critical energy model works only for ``\idxPDKwElastic'' material, see section \ref{sec:Peridigm:QRG:Materials:Elastic}.
+  \item \label{enm:Peridigm:QRG:Damage:CriticalEnergy:Remark:HorizonIndependence} All critical energies are independent of the horizon $\glssymbol{symb:scalar:pd:horizon}$. 
+  \item \label{enm:Peridigm:QRG:Damage:CriticalEnergy:Remark:ThermalExpansion} If the thermal expansion coefficient parameter is omitted, deformations resulting from thermal expansion are not considered in the bond damage calculation.
+  \item \label{enm:Peridigm:QRG:Damage:CriticalEnergy:Remark:Interaction} Interaction types:
+  \begin{description}[font=\normalfont]
+    \item[\idxPDKwCriticalEnergyTypeEnergyCriterion:] The criterion according \cite{FosterJT2011} is applied, with the assumption that the stated value for ``Critical Energy Tension'' corresponds to the total critical energy release rate instead of only the mode I portion.
+    \item[\idxPDKwCriticalEnergyTypePowerLaw:] Mode I and II interaction by means of a quadratic power law:
+    \begin{equation*}
+    \left(\dfrac{\glssymbol{symb:scalar:mat:energyreleaserate:mode:I}}{\glssymbol{symb:scalar:mat:energyreleaserate:critical:mode:I}}\right)^2+\left(\dfrac{\glssymbol{symb:scalar:mat:energyreleaserate:mode:II}}{\glssymbol{symb:scalar:mat:energyreleaserate:critical:mode:II}}\right)^2=1
+    \end{equation*}
+    where $\glssymbol{symb:scalar:mat:energyreleaserate:critical}=\glssymbol{symb:scalar:mat:energyreleaserate:critical:mode:I}+\glssymbol{symb:scalar:mat:energyreleaserate:critical:mode:II}$
+    \item[\idxPDKwCriticalEnergyTypeSeparated:] No interaction between modes. Individual energies are checked separately.
+    \item Only  energies defined in the input deck are checked.
+  \end{description}
+%   \begin{tabularx}{\linewidth}{@{}lX@{}}
+%   \idxPDKwCriticalEnergyTypePowerLaw & Mode I and II interaction by means of a quadratic power law \textcolor{red}{EQUATION???} \\
+%   \idxPDKwCriticalEnergyTypeSeparated & No interaction between modes. Individual energies are checked separately.
+%   \end{tabularx}
+  %By default, a quadratic interaction criterion is applied between Mode I and II. Setting the parameter to true, the individual energies are checked separately without any kind of interaction. Check all energy values separately
+%   \item \label{enm:Peridigm:QRG:Damage:CriticalEnergy:Remark:Three} To get consistent results, the value should correspond to the coefficient of thermal expansion defined in the respective material model used in the block definition. To avoid double definition, the use of a variable is proposed, see \ref{sec:Peridigm:Basics:FunctionParser:Variable}.
+%   \item The criterion only applies for bonds in tension, as the relative extension of a bond is compared to the critical stretch value, see method \texttt{computeDamage()} in \texttt{Peridigm\_CriticalStretchDamageModel.cpp}. In compression the relative extension of a bond is negative and can therefore never reach the positive critical stretch value.
+\end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}
+
+\leveldown{Mode-independent model based on \cite{FosterJT2011}}%\mbox{}\\
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}  
+<ParameterList name="Damage Models">
+  <ParameterList name="My Critical Energy Damage Model">
+    <Parameter name="Damage Model" type="string" value="Critical Energy"/>
+    <Parameter name="Critical  Energy Tension" type="double" value="0.001"/>
+    <Parameter name="Type" type="string" value="Energy Criterion"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+\levelstay{Mode-dependent model based on \cite{WillbergC2018}}%\mbox{}\\
+
+Type: quadratic power law
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}  
+<ParameterList name="Damage Models">
+  <ParameterList name="My Critical Energy Damage Model">
+    <Parameter name="Damage Model" type="string" value="Critical Energy"/>
+    <Parameter name="Critical  Energy Tension" type="double" value="0.001"/>
+    <Parameter name="Critical  Energy Compression" type="double" value="0.001"/>
+    <Parameter name="Critical  Energy Shear" type="double" value="0.001"/>
+    <Parameter name="Type" type="string" value="Power Law"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+Type: check all values separately
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}  
+<ParameterList name="Damage Models">
+  <ParameterList name="My Critical Energy Damage Model">
+    <Parameter name="Damage Model" type="string" value="Critical Energy"/>
+    <Parameter name="Critical  Energy Tension" type="double" value="0.001"/>
+    <Parameter name="Critical  Energy Compression" type="double" value="0.001"/>
+    <Parameter name="Critical  Energy Shear" type="double" value="0.001"/>
+    <Parameter name="Type" type="string" value="Separated"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+\levelup{Free format}
+
+\leveldown{Mode-independent model based on \cite{FosterJT2011}}%\mbox{}\\
+
+\begin{code}
+Damage Models
+  My Damage Model
+    Damage Model "Critical Energy"
+    Critical Energy Tension 0.001
+    Type "Energy Criterion"
+\end{code}
+ 
+\levelstay{Mode-dependent model based on \cite{WillbergC2018}}%\mbox{}\\
+
+Type: quadratic power law
+
+\begin{code}
+Damage Models
+  My Damage Model
+    Damage Model "Critical Energy"
+    Critical Energy Tension 0.001
+    Critical Energy Compression 0.001
+    Critical Energy Shear 0.001
+    Type "Power Law"
+\end{code}
+
+Type: check all values separately
+
+\begin{code}
+Damage Models
+  My Damage Model
+    Damage Model "Critical Energy"
+    Critical Energy Tension 0.001
+    Critical Energy Compression 0.001
+    Critical Energy Shear 0.001
+    Type "Separated"
+\end{code}
+
+\levelup{YAML-format}
+
+- 
+
+\levelup{List of examples}
+
+Added to PeriDoX.
+
+\begin{itemize}[noitemsep]
+  \item From \texttt{Models/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Models/DCB}
+  \end{itemize}
+\end{itemize}

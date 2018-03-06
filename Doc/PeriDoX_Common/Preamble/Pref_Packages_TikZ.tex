@@ -1,0 +1,223 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This file handles all things considering the TikZ package
+%
+% Revisions: 2016-03-06 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---------------------------
+% Load package
+% ---------------------------
+
+\makeatletter
+\@ifpackageloaded{tikz}{
+  %\usetikzlibrary{angles}
+  \usetikzlibrary{arrows.meta}
+  \usetikzlibrary{backgrounds}
+  \usetikzlibrary{calc}
+  \usetikzlibrary{decorations.markings}
+  \usetikzlibrary{decorations.text}
+  \usetikzlibrary{fit}
+  % \usetikzlibrary{fpu}
+  \usetikzlibrary{intersections}
+  \usetikzlibrary{tikzmark}
+  \usetikzlibrary{trees}
+  \usetikzlibrary{matrix}
+  \usetikzlibrary{patterns}
+  \usetikzlibrary{positioning}
+  \usetikzlibrary{shadows}
+  % \usetikzlibrary{shapes}
+  \usetikzlibrary{shapes.misc}
+  \usetikzlibrary{spy}
+}{
+  \usepackage{tikz}
+  %\usetikzlibrary{angles}
+  \usetikzlibrary{arrows.meta}
+  \usetikzlibrary{backgrounds}
+  \usetikzlibrary{calc}
+  \usetikzlibrary{decorations.markings}
+  \usetikzlibrary{decorations.text}
+  \usetikzlibrary{fit}
+  % \usetikzlibrary{fpu}
+  \usetikzlibrary{intersections}
+  \usetikzlibrary{tikzmark}
+  \usetikzlibrary{trees}
+  \usetikzlibrary{matrix}
+  \usetikzlibrary{patterns}
+  \usetikzlibrary{positioning}
+  \usetikzlibrary{shadows}
+  % \usetikzlibrary{shapes}
+  \usetikzlibrary{shapes.misc}
+  \usetikzlibrary{spy}
+}
+\makeatother
+
+% ---------------------------
+% Pgfmath
+% ---------------------------
+
+\makeatletter
+% Stuff for calc compatiability.
+\let\real=\pgfmath@calc@real
+\let\minof=\pgfmath@calc@minof
+\let\maxof=\pgfmath@calc@maxof
+\let\ratio=\pgfmath@calc@ratio
+\let\widthof=\pgfmath@calc@widthof
+\let\heightof=\pgfmath@calc@heightof
+\let\depthof=\pgfmath@calc@depthof
+\makeatother
+
+% ---------------------------
+% Tikzsets
+% ---------------------------
+
+% Default arrow tip
+\tikzset{
+  defarrow/.style={                           % Define arrow style
+    >=Stealth,                                % >=latex
+  }
+}
+
+\tikzset{
+  every picture/.style=semithick              % Adjust default line width
+}
+
+% Help grid for external images
+% Call inside scope with: \pic{myimagegrid};
+\tikzset{%
+  myimagegrid/.pic={%
+   \draw[help lines,xstep=.1,ystep=.1] (0,0) grid (1,1);
+   \foreach \x in {0,1,...,9} {\node [anchor=north] at (\x/10,0) {0.\x};}
+   \foreach \y in {0,1,...,9} {\node [anchor=east]  at (0,\y/10) {0.\y};}
+  }%
+}
+
+% Equal space decoration markers along addplot path
+% http://tex.stackexchange.com/a/232010/44634
+\makeatletter
+\tikzset{
+  nomorepostactions/.code={\let\tikz@postactions=\pgfutil@empty},
+  mymark/.style 2 args={decoration={markings,
+    mark= between positions 0 and 1 step (1/11)*\pgfdecoratedpathlength with{%
+        \tikzset{#2,every mark}\tikz@options
+        \pgfuseplotmark{#1}%
+      },  
+    },
+    postaction={decorate},
+    /pgfplots/legend image post style={
+      mark=#1,
+      #2,
+      every path/.append style={nomorepostactions}
+    },
+  },
+}
+\makeatother
+
+% Markup style for rectangles on external figures
+% Needs Pref_Color.tex for mymarkupcolor
+\tikzset{%
+  myrectangularmarkup/.style={%
+   inner sep=0pt,% necessary for correct positioning of corners
+   draw=mymarkupcolor,%
+   thick,%
+  }%
+}
+
+\tikzset{%
+  mymarkuptext/.style={%
+   text=mymarkupcolor,%
+  }%
+}
+
+% A croos for markings in plots
+% https://tex.stackexchange.com/a/124064
+\tikzset{cross/.style={cross out, draw, 
+         minimum size=2*(#1-\pgflinewidth), 
+         inner sep=0pt, outer sep=0pt}}
+
+% ---------------------------
+% Pgfkeys
+% ---------------------------
+
+% From the pgf manual 2.10csv page 694:
+% 
+%     It should be noted that all calculations must not exceed ±16383.99999 at any point, because the underlying computations rely on TeX dimensions. This means that many of the underlying computations are necessarily approximate and that in addition, are not very fast. TeX is, after all, a typesetting language and not ideally suited to relatively advanced mathematical operations. However, it is possible to change the computations as described in Section 76.
+% 
+% From the TeX Book page 114:
+% 
+%     16383.99998pt (TeX's largest dimen)
+% 
+% In Notes On Programming in TeX Chirstian Feuersaenger pointed out
+% 
+%     The \dimen registers perform their arithmetic's internally with 32 bit scaled integers, so called scaled point with unit sp. It holds 1pt = 65536sp = 216sp. One of the 32 bits is used as sign. The total number range in pt is [-(2^30-1)/2^16,(2^30-1)/2^16 ]=[-16383.9998, +16383.9998]1.
+% 
+%     1 Please note that this does not cover the complete range of a 32 bit integer, I do not know why
+% \pgfkeys{/pgf/fpu=true}                       % Allow pgf to plot values larger than 16383.9998
+% \tikzset{fpu}                                   % Allow pgf to plot values larger than 16383.9998
+
+\pgfkeys{/tikz/savenumber/.code 2 args={\global\edef#1{#2}}}
+
+% ---------------------------
+% tikzsets
+% ---------------------------
+
+%~~~~~ WaveChart Style ~~~~~~~~~~
+
+\tikzset{
+  wavespy style/.style={
+    spy scope={%
+      wavespyscope style,%
+    },
+    connect spies/.style={
+      wavespyconnect style,%
+    },
+  }
+}
+
+\tikzset{
+  wavespyscope style/.style={
+    magnification=4,
+    connect spies,                            % Connect orig. & detail
+    width=2.0cm,                              % Spy width
+    height=1.0cm,                             % Spy height
+    every spy on node/.style={                % Source
+      rectangle,                              % Form
+      rounded corners,                        % Edge shape
+      dashed,                                 % Dashed line
+      draw=gray,                              % Line color
+      thick,                                  % Line style for spy
+    },
+    every spy in node/.style={                % Spy
+      rectangle,                              % Form
+      rounded corners,                        % Edge shape
+      dashed,                                 % Dashed line
+      draw=gray,                              % Line color
+      thick,                                  % Line style for spy
+    },
+  },
+}
+
+\tikzset{
+  wavespyconnect style/.style={
+    spy connection path={
+      \draw[%
+        thick,
+        dashed,
+        gray
+      ] (tikzspyonnode) -- (tikzspyinnode); % In-On-Connection
+    },
+  },
+}

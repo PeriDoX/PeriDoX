@@ -1,0 +1,113 @@
+\leveldown{Windows+Linux: Editing with \texorpdfstring{\protect\marktool{\vlcname}}{\vlcname}}
+\label{sec:Use_Animations_VLC}
+
+The following sections describe the video editing using the tool \marktool{\vlcname}. The installation for \marktool{\windowsosname} and \marktool{\opensusename} is described in the Peridigm Installation Guide from this same repository.
+
+OGV- as well as AVI-video files are tested for the conversion. AVI is the common file extension for saved animations in \marktool{\paraviewname} and \marktool{\abaqusname} under \marktool{\windowsosname}. OGV is the only supported build-in extension of animations for \marktool{\paraviewname} in \marktool{\opensusename}.
+
+\leveldown{Convert videos for use in \LaTeX}
+\label{sec:Use_VLC_Convert_Videos_VLC_LaTeX}
+
+For the approach to play videos in \LaTeX-documents, either normal documents or beamer presentations, shown in \autoref{sec:Use_LaTeX_Animations_in_Beamer} a video in the MP4-format is required.  Since MP4 itself is just a container-format and can contain several different codecs for video, audio and images, a working version is presented. This solution is tested but may not necessarily be the only or even best choice. This solution is based on the use of the H.264 MPEG video codec.
+
+The resulting MP4-video can be used in \LaTeX{} according to \autoref{sec:Use_LaTeX_Animations_in_Beamer}.
+
+\paragraph{GUI}
+
+\begin{enumerate}[noitemsep]
+  \item Open\marktool{\vlcname}
+  \item Click \textit{Media} in the menubar
+  \item Click \textit{Convert/Save}
+  \item In the \textit{File} tab:
+  \begin{itemize}[noitemsep]
+    \item click \textit{Add...}
+    \item Select the video you want to convert to mp4-format and click \textit{Open}
+    \item Click \textit{Convert/Save} or just \textit{Convert} via the little selection menu behind the downward facing triangle
+  \end{itemize}
+  \item In the \textit{Convert}-windows:
+  \begin{itemize}[noitemsep]
+    \item Select \textit{Convert}
+    \item From \textit{Profile} selector choose \textit{Video - H.265 + MP3 (MP4)}
+    \item Yes, H.265 instead of H.264
+    \item Click the profile preferences button \includegraphics[width=\iconsize]{Figures/Icons/VLC_Preferences} next to the profile selector
+  \end{itemize}
+  \item In the \textit{Profile edition} window:
+  \begin{itemize}
+    \item Go to \textit{Video codec} tab
+    \item In the \textit{Encoding parameters} tab select \textit{H-264} as \textit{Codec}
+    \item Go to \textit{Audio codec} tab
+    \item Uncheck \textit{Audio}
+    \item Click \textit{Save}
+  \end{itemize}
+  \item Select a \textit{Destination file} name and folder if required
+  \item Click \textit{Start}
+\end{enumerate}
+
+\paragraph{Command line}
+
+\begingroup
+\lstset{breaklines = true}
+\begin{code}
+vlc --no-repeat --no-loop --rate=3.0 -I dummy RVE_Fatigue_r113360_udam.avi :sout=#transcode{vcodec=h264,vb=7750,scale=1,acodec=none}:std{access=file{no-overwrite},mux=mp4,dst=test2.mp4} vlc://quit
+\end{code}
+\endgroup
+
+\levelstay{Convert videos for use in \texorpdfstring{\protect\marktool{\powerpointname}}{\powerpointname}}
+
+Videos in \marktool{\powerpointname} work best when they are imported as a windows media video (WMV). Unfortunately, I have found no way to convert a video to a proper WMV-file using the \vlcname{} graphical user interface.
+
+Fortunately, the command line is your friend, even in Windows. You can use the following line of code to convert the video \verb+$INPUTFILE+ to \verb+$OUTPUTFILENAME.wmv+. To use this you can either add the path to \verb+vlc.exe+ to the \verb+PATH+-variable and use:
+
+\begingroup
+\lstset{breaklines = true}
+\begin{code}
+vlc --no-repeat --no-loop $INPUTFILE.avi :sout=#transcode{vcodec=WMV2,vb=1800,scale=1,acodec=wma2,ab=128,channels=2,samplerate=44100}:std{access=file,mux=asf,dst=$OUTPUTFILENAME.wmv}
+\end{code}
+\endgroup
+
+or it is possible to use the same command with the absolute path to \verb+vlc.exe+:
+
+\begingroup
+\lstset{breaklines = true}
+\begin{code}
+D:\Programme\VideoLAN\VLC\vlc.exe --no-repeat --no-loop $INPUTFILE.avi :sout=#transcode{vcodec=WMV2,vb=1800,scale=1,acodec=wma2,ab=128,channels=2,samplerate=44100}:std{access=file,mux=asf,dst=$OUTPUTFILENAME.wmv}
+\end{code}
+\endgroup
+
+In case the picture is pixelated after conversion, try to adjust the video bit-rate \textit{vb}. To suppress the graphical user interface, add \texttt{-I dummy} to the options. To quit the command line version of VLC after completion, add \texttt{vlc://quit} at the end:
+
+\begingroup
+\lstset{breaklines = true}
+\begin{code}
+vlc --no-repeat --no-loop -I dummy $INPUTFILE.avi :sout=#transcode{vcodec=WMV2,vb=7750,scale=1,acodec=wma2,ab=128,channels=2,samplerate=44100}:std{access=file,mux=asf,dst=$OUTPUTFILENAME.wmv} vlc://quit
+\end{code}
+\endgroup
+
+\levelstay{Common options}
+
+\leveldown{Change video speed}
+
+Using the GUI:
+
+\begin{enumerate}[noitemsep]
+  \item Open\marktool{VLC media player}
+  \item Click \textit{Media} in the menubar
+  \item Click \textit{Convert/Save}
+  \item In the \textit{File} tab:
+  \begin{itemize}[noitemsep]
+    \item click \textit{Add...}
+    \item Select the video you want to convert to mp4-format and click \textit{Open}
+    \item Check \textit{Show more options}
+    \item Add e.g. \lstinline[style=inlinetexstyle]+:rate=4.0+ to the \textit{Edit options} line for a quadrupled spped
+    \item Procede like as shown in \autoref{sec:Use_VLC_Convert_Videos_VLC_LaTeX}
+  \end{itemize}
+\end{enumerate}
+
+On the command line:
+
+\begingroup
+\lstset{breaklines = true}
+\begin{code}
+vlc $INPUTFILE :rate=4.0 :sout=#transcode{vcodec=WMV2,vb=1800,scale=1,acodec=wma2,ab=128,channels=2,samplerate=44100}:std{access=file,mux=asf,dst=$OUTPUTFILENAME.wmv}
+\end{code}
+\endgroup

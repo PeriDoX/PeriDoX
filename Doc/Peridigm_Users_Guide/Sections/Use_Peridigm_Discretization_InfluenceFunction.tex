@@ -1,0 +1,149 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%
+%                                 __/|__
+%                                /_/_/_/
+%            www.dlr.de/fa/en      |/ DLR
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{\idxPDKwInfluenceFunction}
+\label{sec:Peridigm:QRG:Discretization:Tools:InfluenceFunction}
+\myindex[\idxPDKeywordName]{\idxPDKwInfluenceFunction}
+
+\leveldown{Description}
+
+The influence function in the peridynamic theory is used to weight the contribution of all the bonds participating in the computation of volume-dependent properties dependent of the distance to the family origin.
+
+\levelstay{Literature}
+
+\begin{itemize}[noitemsep]
+  \item \cite{SelesonP2011}
+  \item \cite{TupekMR2013}
+\end{itemize}
+
+\levelstay{Code}
+
+\leveldown{Release version}
+
+Available from \href{\toolrepoversiononetwo}{version 1.2}.
+
+\levelstay{Required compiler options}
+
+-
+
+\levelstay{Routines}
+
+\begin{itemize}[noitemsep]
+  \item from \texttt{src/core/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Peridigm\_Peridigm\_InfluenceFunction.cpp}
+    \item \texttt{Peridigm\_Peridigm\_InfluenceFunction.hpp}
+  \end{itemize}
+\end{itemize}
+
+% Each class uses the method as:
+% \begin{itemize}[noitemsep]
+% \item \verb+PeridigmNS::InfluenceFunction::functionPointer m_OMEGA;+
+% 
+% The function value can be obtained by
+% \item \verb+omega = m_OMEGA(initialDistance, m_horizon);+
+% \end{itemize}
+
+\levelup{Input parameters}
+
+\leveldown{List}
+
+The influence function is not an individual object. Therefore, no parameter list is required here.
+
+\levelstay{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item The influence function is defined for the whole model.
+  \item Function values are dependent of the bond length $\lVert\glssymbol{symb:vector:pd:bond:undeformed}\rVert$ and the local horizon $\glssymbol{symb:scalar:pd:horizon}$
+  \item The influence functions in \autoref{fig:Peridigm:QRG:Discretization:Common:InfluenceFunctions} are pre-implemented. Each unrecognized string is assumed to be an user-defined influence function. The default value is set to \textit{\idxPDKwOne} in case the keyword is not specified, see \texttt{Peridigm.cpp}.
+    
+  \begin{figure}[htbp]
+    \def\figxlabel{$\frac{\lVert\glssymbol{symb:vector:pd:bond:undeformed}\rvert|}{\glssymbol{symb:scalar:pd:horizon}}$}
+    \def\figylabel{$\glssymbol{symb:scalar:pd:function:influence:radial}\left(\glssymbol{symb:vector:pd:bond:undeformed}\right)$}
+    %\def\figwidth{\linewidth}
+    \setlength{\figwidth}{0.33\linewidth}
+    \setlength{\figheight}{\figwidth}
+    
+    \begin{subfigure}{\figwidth}
+      \centering
+      \tikzexternalenable
+      \tikzsetnextfilename{Discretization_InfluenceFunction_One}
+      \input{Figures/Theory/Discretization_InfluenceFunction_One}
+      \tikzexternaldisable
+      \caption{\idxPDKwOne}
+      \label{fig:Peridigm:QRG:Discretization:Common:InfluenceFunction:One}
+    \end{subfigure}%
+    \hfill
+    \begin{subfigure}{\figwidth}
+      \centering
+      \tikzexternalenable
+      \tikzsetnextfilename{Discretization_InfluenceFunction_ParabolicDecay}
+      \input{Figures/Theory/Discretization_InfluenceFunction_ParabolicDecay}
+      \tikzexternaldisable
+      \caption{\idxPDKwParabolicDecay}
+      \label{fig:Peridigm:QRG:Discretization:Common:InfluenceFunction:ParabolicDecay}
+    \end{subfigure}%
+    \hfill
+    \begin{subfigure}{\figwidth}
+  %       \def\legendentrywithciteexpansion{\cite{SelesonP2014b}}
+      \centering
+  %       \tikzexternalenable
+  %       \tikzsetnextfilename{Discretization_InfluenceFunction_Gaussian}
+      \input{Figures/Theory/Discretization_InfluenceFunction_Gaussian}
+  %       \tikzexternaldisable
+      \caption{\idxPDKwGaussian}
+      \label{fig:Peridigm:QRG:Discretization:Common:InfluenceFunction:Gaussian}
+    \end{subfigure}%
+    \caption{Influence functions}
+    \label{fig:Peridigm:QRG:Discretization:Common:InfluenceFunctions}
+  \end{figure}
+  \item For further information on the effect of the influence function see: \cite{SelesonP2011} \& \cite{LittlewoodD2015}.
+  \item Other Influence functions and their usage can be found in \cite{SelesonP2014b}.  The ``\idxPDKwParabolicDecay'' is used in \cite{LittlewoodD2013b}. Several different functions can be found in the literature for the ``\idxPDKwGaussian'' influence function:
+  \begin{itemize}%[noitemsep]
+    \item \cite{TupekMR2013,KilicB2009c}: \tab$\glssymbol{symb:scalar:pd:function:influence:radial}\left(\glssymbol{symb:vector:pd:bond:undeformed}\right)=e^{-\left(\frac{\lVert\glssymbol{symb:vector:pd:bond:undeformed}\rVert}{\glssymbol{symb:scalar:pd:horizon}}\right)^2}$
+    \item \cite{SelesonP2014b}: \tab$\glssymbol{symb:scalar:pd:function:influence:radial}\left(\glssymbol{symb:vector:pd:bond:undeformed}\right)=e^{-\left(\frac{\lVert\glssymbol{symb:vector:pd:bond:undeformed}\rVert}{\num{0.4}\cdot\glssymbol{symb:scalar:pd:horizon}}\right)^2}$
+  \end{itemize}
+  Here, the version from \cite{SelesonP2014b} is used\footnote{see \href{https://github.com/peridigm/peridigm/issues/42}{https://github.com/peridigm/peridigm/issues/42}}.
+\end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Discretization">
+  <Parameter name="Type" type="string" value="Exodus" />
+  <Parameter name="Input Mesh File" type="string" value="Plate.g"/>
+  <Parameter name="Influence Function" type="string" value="Gaussian"/>
+</ParameterList>
+\end{code}
+\endgroup
+
+\levelstay{Free format}
+
+-
+
+\levelstay{YAML format}
+
+-
+
+\levelup{List of examples}
+
+-

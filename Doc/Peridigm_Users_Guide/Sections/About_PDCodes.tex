@@ -1,0 +1,55 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelstay{Peridynamic codes}
+
+\toolname{} is one of several codes implementing peridynamics. Following are lists of known codes dealing with the numerical implementation of the peridynamic theory.
+
+\leveldown{Production codes}
+
+\begin{table}[htbp]
+\caption{Codes implementing peridynamics}
+\begin{tabularx}{\linewidth}{Xcccccc}
+\toprule
+Name                                            & Open-Source   & License       & \multicolumn{3}{c}{Language}          & Source\\%& Link
+                                                &               &               & C++           & Fortran       & Python        &       \\
+\midrule
+EMU                                             & -             & -             & -             & \checkmark            & -     \\
+\href{http://lammps.sandia.gov/}{LAMMPS}        & \checkmark    & \acrshort{GPL}           & \checkmark    & -     & -                     & \cite{LammpsUsersManual}      \\
+\href{https://github.com/johntfoster/PDpy}{PDpy}& \checkmark    & -             & -             &               & \checkmark    \\
+\href{http://peridigm.sandia.gov/}{Peridigm}    & \checkmark    & \acrshort{BSD}           & \checkmark    & -     & -                     & \cite{PeridigmUserGuide100}   \\
+\href{https://lm2-poly.github.io/PeriPyDIC/}{PeriPyDIC}    & \checkmark    & \acrshort{GPL}           & -    & -  & \checkmark                     &    \\
+\href{https://sierradist.sandia.gov/}{Sierra/Solid Mechanics (Presto)}          & -             &               &               &       &                       & \cite{SierraSolidMechanicsUserGuide422}\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\levelstay{Others}
+
+\begin{itemize}[noitemsep]
+  \item \href{https://github.com/matteopolleschi/Mixed-implicit-explicit-peridynamic-code}{https://github.com/matteopolleschi/Mixed-implicit-explicit-peridynamic-code}
+\end{itemize}
+
+\levelstay{Groups with unpublished peridynamic codes}
+
+\begin{itemize}[noitemsep]
+  \item \href{http://personal.strath.ac.uk/erkan.oterkus/}{PMMA Research Lab, Dr. Oterkus}      \tab University of Strathclyde, Glasgow
+  \item \href{http://aaml.kaist.ac.kr/home}{AAML Group, Prof. Hong}     \tab KAIST, Korea
+  \item \href{http://mmg.webhost.uits.arizona.edu/}{$m^3$ Group, Prof. Madenci} \tab{University of Arizona, USA}
+  \item \href{http://www.bath.ac.uk/ace/people/miranda/}{David Miranda} \tab{University of Bath, UK}
+\end{itemize}

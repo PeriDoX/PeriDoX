@@ -1,0 +1,63 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelstay{\idxPDKwTextFile{} -- Direct collocation point text file input}
+% \label{sec:Peridigm:QRG:Discretization:Textfile}
+\label{sec:Peridigm:Basics:InputFileFormat:Discretization:Textfile}
+\myindex[\idxPDKeywordName]{\idxPDKwTextFile}
+
+\leveldown{Description}
+
+Discretization based on the direct specification of peridynamic collocation points.
+
+\levelstay{Mesh file layout}
+
+The ASCII mesh file is space-separated. It consists of the following five columns in this order:
+
+\begin{tabularx}{\linewidth}{ccX}
+\toprule
+Column          & Value         & Description           \\
+\midrule
+1               & x             & $x$-coordinate of the peridynamic collocation point in the global cartesian coordinate system \\
+2               & y             & $y$-coordinate of the peridynamic collocation point in the global cartesian coordinate system \\
+3               & z             & $z$-coordinate of the peridynamic collocation point in the global cartesian coordinate system \\
+4               & block\_id     & Block-ID for property assignment      \\
+5               & volume        & Collocation point volume      \\
+\bottomrule
+\end{tabularx}
+
+Following is an exemplary input file where all points belong to Block 1 and have the same volume $\num{1.0}$.
+
+\begin{code}
+# x y z block_id volume
+-1.0  -0.5   0.5   1   1.0
+-1.0  -0.5  -0.5   1   1.0
+-1.0   0.5   0.5   1   1.0
+-1.0   0.5  -0.5   1   1.0
+...
+\end{code}
+
+\levelstay{Code}
+
+\begin{itemize}[noitemsep]
+  \item from \texttt{src/io/discretization/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Peridigm\_TextFileDiscretization.cpp}
+    \item \texttt{Peridigm\_TextFileDiscretization.hpp}
+  \end{itemize}
+\end{itemize}

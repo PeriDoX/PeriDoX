@@ -1,0 +1,19 @@
+\levelstay{Create charts from result files}
+
+This needs \lstinline[style=inlinetexstyle]+\usetikzlibrary{spy}+ in the preamble of the document.
+
+First, the common \verb+pgfplotsset+ for the plots are created. These are shown in section \ref{sec:Nice_Charts_plotssets}. Add the code somewhere in your document. It can be in the preamble or right before the figures. 
+
+Afterwards, the figure code can be included. The complete code is shown in section \ref{sec:Nice_Charts_Figure}. The result is shown in figure \ref{fig:Chart_Example}.
+
+\begin{figure}[htbp]
+\centering
+\tikzexternalenable
+\tikzsetnextfilename{Chart_Example}
+\input{Figures/LaTeX/Chart_Example}
+\tikzexternaldisable
+\caption{Comparison of analytical and peridynamic solution of wave in bar}
+\label{fig:Chart_Example}
+\end{figure}
+
+Since result files can contain a lot of data and therefore exaggerate the use of \TeX{}-memory and compile time, consider externalization of the figure creation as explained in section \ref{sec:Externalize_Figure_Creation}.

@@ -1,0 +1,150 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{Output variables}
+\label{sec:Peridigm:QRG:Output:Variables}
+
+\paragraph{Global scalar}
+
+\begin{multicols}{2}
+\begin{itemize}[noitemsep]
+  \item Global\_Angular\_Momentum
+  \item Global\_Kinetic\_Energy
+  \item Global\_Linear\_Momentum
+  \item Global\_Strain\_Energy
+  \item Global\_Strain\_Energy\_Density
+\end{itemize}
+\end{multicols}
+
+\paragraph{Multiphysics}
+
+Not considered here.
+
+\begin{multicols}{2}
+\begin{itemize}[noitemsep]
+  \item Fluid\_Pressure\_U
+  \item Fluid\_Pressure\_V
+  \item Fluid\_Pressure\_Y
+  \item Flux
+  \item Flux\_Density
+\end{itemize}
+\end{multicols}
+
+\paragraph{Element scalar}
+
+\begin{multicols}{2}
+\begin{itemize}[noitemsep]
+  \item BC\_MASK
+  \item Block\_Id
+  \item Critical\_Stretch
+  \item Critical\_Time\_Step
+  \item Damage
+  \item Density
+  \item Dilatation
+  \item Element\_Id
+  \item Interface\_Proximity
+  \item Kinetic\_Energy
+  \item Lambda
+  \item Neighborhood\_Volume
+  \item Norm\_td
+  \item Num\_Neighbors
+  \item Number\_Of\_Neighbors
+  \item Proc\_Num
+  \item Radius
+  \item Strain\_Energy
+  \item Strain\_Energy\_Density
+  \item Volume
+  \item Weighted\_Volume
+\end{itemize}
+\end{multicols}
+
+\paragraph{Nodal Vector3D}
+
+\begin{multicols}{2}
+\begin{itemize}[noitemsep]
+  \item Acceleration
+  \item Angular\_Momentum
+  \item Contact\_Force
+  \item Contact\_Force\_Density
+  \item Coordinates
+  \item Displacement
+  \item Force
+  \item Force\_Density
+  \item Linear\_Momentum
+  \item Model\_Coordinates
+  \item Residual
+  \item Tangent\_Reference\_Coordinates
+  \item Velocity
+\end{itemize}
+\end{multicols}
+
+\paragraph{Bond scalar}
+
+\begin{multicols}{2}
+\begin{itemize}[noitemsep]
+  \item Bond\_Damage
+  \item Deviatoric\_Plastic\_Extension
+  \item Deviatoric\_Back\_Extension
+  \item Partial\_Volume
+\end{itemize}
+\end{multicols}
+
+The different entities are written to different output files:
+
+\begin{itemize}[noitemsep]
+  \item .e:	\tab Element scalar, Nodal Vector3D, Bond scalar
+  \item .h:	\tab Global scalar
+\end{itemize}
+
+It is not differentiated between cellular data and point data. Also it is not important if the calculation supports the output. If the simulation has no results for a specific output the data will be set to zero. However, the size of the output file itself is influenced. All variables can be found with the defined names in \marktool{Paraview}. 
+
+\paragraph{Additional output values from classes}
+
+The following classes have their own output values. The specific output variables are stated in the class description in this document.
+
+\begin{itemize}[noitemsep]
+  \item Materials
+  \item Compute classes in \texttt{src/compute/}
+\end{itemize}
+
+\subparagraph{Compute class output values}\mbox{}\\
+
+\begin{itemize}[noitemsep]
+  \item Stored\_Elastic\_Energy			\tab$\rightarrow$ Peridigm\_Compute\_Stored\_Elastic\_Energy.cpp
+  \item Stored\_Elastic\_Energy\_Density	\tab$\rightarrow$ Peridigm\_Compute\_Stored\_Elastic\_Energy\_Density.cpp
+\end{itemize}
+% \begin{tabularx}{\linewidth}{@{\dlrhook{ }}l@{ $\rightarrow$ }X}
+% Stored\_Elastic\_Energy			& Peridigm\_Compute\_Stored\_Elastic\_Energy.cpp	\\
+% Stored\_Elastic\_Energy\_Density	& Peridigm\_Compute\_Stored\_Elastic\_Energy\_Density.cpp
+% \end{tabularx}
+
+
+
+% \begin{itemize}[noitemsep]
+%   \item Correspondence Materials:
+%   \begin{itemize}[noitemsep]
+%     \item Cauchy\_Stress
+%     \item Hourglass\_Force\_Density
+%     \item Left\_Stretch\_Tensor
+%     \item Partial\_Stress
+%     \item Rotation\_Tensor
+%     \item Shape\_Tensor\_Inverse
+%     \item Unrotated\_Cauchy\_Stress
+%     \item Unrotated\_Rate\_Of\_Deformation
+%   \end{itemize}
+% \end{itemize}

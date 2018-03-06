@@ -1,0 +1,29 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{tikzpicture}
+  \begin{axis}[
+    influencefunctionaxis style,
+    legend pos=south west,
+  ]
+    \addplot[\plotcolor]{e^(-x*x/(0.4*0.4))};
+    \addlegendentry{\cite{SelesonP2014b}}
+    \addplot[black,dashed]{e^(-x*x)};
+    \addlegendentry{\cite{TupekMR2013}}
+  \end{axis}
+\end{tikzpicture}

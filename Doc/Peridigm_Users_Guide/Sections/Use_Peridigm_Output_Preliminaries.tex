@@ -1,0 +1,40 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{Preliminaries}
+
+Basically, there are five types of distinguished output data in \marktool{\toolname}:
+
+\begin{itemize}[noitemsep]
+  \item Global scalar fieldspecs \tab scalar fields defined over entire simulation
+  \item Multiphysics fieldspecs
+  \item Element scalar fieldspecs \tab scalar fields defined over elements
+  \item Nodal Vector3D fieldspecs \tab vector fields defined at nodes
+  \item Bond scalar fieldspecs
+\end{itemize}
+
+All identifiers for possible output values are defined in \verb+.\src\io\mesh_output\Field.h+.
+
+% \newpage
+\input{Sections/Use_Peridigm_Output_Variables}
+\newpage
+\input{Sections/Use_Peridigm_Output_Data_Acquisition}
+\newpage
+\input{Sections/Use_Peridigm_Output_Sequence}
+\newpage
+\input{Sections/Use_Peridigm_Output_User}

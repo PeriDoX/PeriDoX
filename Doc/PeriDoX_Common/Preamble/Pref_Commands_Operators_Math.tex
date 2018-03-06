@@ -1,0 +1,60 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This file handles all commands and operators that are defined for text documentclasses (article,report,book)
+%
+% Revisions: 2016-03-06 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---------------------------
+% Newcommands
+% ---------------------------
+
+% Upright dif-symbol
+%\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
+\newcommand*\dif{\mathop{}\!\mathrm{d}}
+
+% Symbols for static equilibrium conditions:
+% https://tex.stackexchange.com/a/348218
+\makeatletter
+\newcommand*\curveplus{%
+  \mathbin{\rotatebox[origin=c]{90}{$\m@th\curvearrowleft$}+}}
+
+\newcommand*\rightplus{%
+  \mathpalette\@rightplus\relax}
+  
+\newcommand*\@rightplus[1]{%
+  \mathbin{\vcenter{\hbox{$\m@th\overset{#1+}{\to}$}}}}
+
+\newcommand*\upplus{%
+  \mathbin{+\mathord\uparrow}}
+\makeatother
+
+% shorter minus sign
+\newcommand{\minus}{\scalebox{0.75}[1.0]{$-$}}
+
+% ---------------------------
+% Math operators
+% ---------------------------
+% requires \usepackage{amsmath}
+
+\DeclareMathOperator{\dev}{dev}
+\DeclareMathOperator{\erf}{erf}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\sph}{sph}
+% \DeclareMathOperator{\spur}{Spur}     % deutsch
+\DeclareMathOperator{\spur}{Tr}         % englisch
+\DeclareMathOperator{\Grad}{Grad}       % englisch gradient w.r.t material coordinates
+\DeclareMathOperator{\grad}{grad}       % englisch gradient w.r.t spatial coordinates

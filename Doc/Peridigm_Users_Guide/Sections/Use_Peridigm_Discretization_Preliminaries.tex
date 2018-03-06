@@ -1,0 +1,26 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{Preliminaries}
+\label{sec:Peridigm:Basics:InputFileFormat:Discretization:Preliminaries}
+
+The mesh-free discretization for \toolname{} consists of peridynamic collocation points with coordinates in three-dimensional space and an associated volume. 
+
+The discretization can either be an Albany multiphysics or Exodus finite element mesh or the peridynamic collocation points can be input directly. In case of the Albany or Exodus mesh description, the conversion from the finite element mesh to the peridynamic collocation points is performed internally by \toolname{} for a number of supported element types. The supported element types are explained in the respective sections.
+
+The discretization is generally stored in an external file and input into the \toolname{} model file by referencing the discretization file name.

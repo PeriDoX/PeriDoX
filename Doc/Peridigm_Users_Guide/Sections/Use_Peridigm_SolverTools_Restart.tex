@@ -1,0 +1,143 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{\idxPDKwRestart}
+\label{sec:Peridigm:QRG:SolverTools:Restart}
+\myindex[\idxPDKeywordName]{\idxPDKwRestart}
+
+\leveldown{Description}
+
+Writes the last state of an analysis for use in a restart analysis.
+
+\levelstay{Literature}
+
+-
+% \begin{itemize}[noitemsep]
+%   \item \cite{SillingSA2007}
+% \end{itemize}
+
+\levelstay{Code}
+
+\leveldown{Release version}
+
+Available from the current \href{\toolrepoaddress}{master}.
+
+\levelstay{Required compiler options}
+
+-
+
+\levelstay{Routines}
+
+\begin{itemize}[noitemsep]
+  \item from \texttt{src/core/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Peridigm.cpp/hpp}
+    \item \texttt{Peridigm\_State.cpp/hpp}
+  \end{itemize}
+\end{itemize}
+
+\levelup{Input parameters}
+
+\leveldown{List}
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name            & Type          & Required      & Default       & Description           \\
+\midrule
+Restart         & bool          &  \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:SolverTools:Restart:Remark:One}}   & -             &       \\
+\bottomrule
+\end{tabularx}
+
+\levelstay{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item \label{enm:Peridigm:QRG:SolverTools:Restart:Remark:One} The first and the restart model must be located in the same directory
+\end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}
+
+from \texttt{test/regression/Contact\_Perforation\_With\_Restart/}:
+
+Initial run:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Restart">
+  <Parameter name="Restart" type="bool" value="true"/>
+</ParameterList>
+
+<ParameterList name="Solver">
+  <Parameter name="Verbose" type="bool" value="false"/>
+  <Parameter name="Initial Time" type="double" value="0.0"/>
+  <Parameter name="Final Time" type="double" value="3.5e-2"/>
+  <ParameterList name="Verlet">
+    <Parameter name="Fixed dt" type="double" value="3.5e-5"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+Restart run:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Restart">
+  <Parameter name="Restart" type="bool" value="true"/>
+</ParameterList>
+
+<ParameterList name="Solver">
+  <Parameter name="Verbose" type="bool" value="false"/>
+  <Parameter name="Initial Time" type="double" value="3.5e-2"/>
+  <Parameter name="Final Time" type="double" value="7.0e-2"/>
+  <ParameterList name="Verlet">
+    <Parameter name="Fixed dt" type="double" value="3.5e-5"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+\levelstay{Free format}
+
+-
+
+\levelstay{YAML format}
+
+-
+
+\levelup{List of examples}
+
+\begin{itemize}[noitemsep]
+%   \item From \texttt{examples/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{fragmenting\_cylinder/fragmenting\_cylinder.peridigm}
+%   \end{itemize}
+  \item From \texttt{test/regression/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Contact\_Perforation\_Run1.xml}
+    \item \texttt{Contact\_Perforation\_Run2.xml}
+  \end{itemize}
+%   \item From \texttt{test/verification/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{NeighborhoodVolume/NeighborhoodVolume.xml}
+%     \item \texttt{IsotropicHardeningPlasticFullyPrescribedTension\_NoFlaw/IsotropicHardeningPlasticFullyPrescribedTension\_NoFlaw.xml}
+%   \end{itemize}
+\end{itemize}

@@ -1,0 +1,64 @@
+
+\begin{tikzpicture}[%
+  spy using outlines={%
+    rectangle,                                % Spy form
+    rounded corners,                          % Spy edge shape
+    magnification=4,                          % Magnification factor
+    height=0.6cm,                             % Height in original chart
+    width=1.25cm,                             % Width in original chart
+    dashed,                                   % Dashed line
+    draw=gray,                                % Line color
+    every spy on node/.append style={thick},  % Line style for spy
+    connect spies,                            % Connect orig. & detail
+    spy connection path={                     % Line style for spy connection
+      \draw[thick] (tikzspyonnode) -- (tikzspyinnode);
+    },
+  }
+]
+  \begin{axis}[
+    chart style,
+    xlabel={Time [ms]},
+    ylabel={Displacement [mm]},
+  ]
+    % Graph 1
+    \addplot[
+      gray,                                   % Plot color
+      xaxis style,                            % Predefined style
+    ] table [
+      x expr=\thisrowno{0}*1000,              % Scale to ms
+      y expr=\thisrowno{1}*1000,              % Scale to mm
+    ]{Results/coord_disp_pd_nt100.txt};       % Input file
+    \addlegendentry{Peridynamics}             % Legend entry
+    % Graph 2
+    \addplot[
+      black,                                  % Plot color
+      xaxis style,                            % Predefined style
+    ] table [
+      x expr=\thisrowno{0}*1000,              % Scale to ms
+      y expr=\thisrowno{2}*1000,              % Scale to mm
+    ]{Results/coord_disp_pd_nt100.txt};       % Input file
+    \addlegendentry{Analytical}               % Legend entry
+    % Spy 1
+    \coordinate (spypoint1) at (axis cs:1.59,0.5);
+    \coordinate (spyviewer1) at (axis cs:0.75,0.675);
+    \spy[
+      width=2.0cm,
+      height=1.0cm,
+    ] on (spypoint1) in node [
+      fill=white,
+      draw=gray,
+      dashed
+    ] at (spyviewer1);
+    % Spy 2
+    \coordinate (spypoint2) at (axis cs:4.76,0.5);
+    \coordinate (spyviewer2) at (axis cs:3.92,0.675);
+    \spy[
+      width=2.0cm,
+      height=1.0cm,
+    ] on (spypoint2) in node [
+      fill=white,
+      draw=gray,
+      dashed
+    ] at (spyviewer2);
+  \end{axis}
+\end{tikzpicture}

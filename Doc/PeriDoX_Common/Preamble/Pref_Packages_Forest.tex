@@ -1,0 +1,95 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This file handles all things considering the forest package
+%
+% Revisions: 2016-03-06 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---------------------------
+% Packages
+% ---------------------------
+
+\usepackage{forest}
+\useforestlibrary{edges}
+
+\forestapplylibrarydefaults{edges}
+
+% ---------------------------
+% Sets
+% ---------------------------
+
+% http://tex.stackexchange.com/questions/292031/custom-pstricks-directory-tree-to-tikz/292097?noredirect=1#comment707816_292097
+\tikzset{%
+  mkdir/.pic={%
+	\draw [pic actions] (0,-4*\mkdirsize) -- ++(0,8*\mkdirsize) -- ++(\mkdirsize,\mkdirsize) -- ++(5*\mkdirsize,0) -- ++(\mkdirsize,-\mkdirsize) -- ++(5*\mkdirsize,0) |- cycle;
+  },
+  touch/.pic={%
+	\draw [pic actions] (0,-6*\touchsize) |- ++(5*\touchsize,12*\touchsize) edge ++(3*\touchsize,-3*\touchsize) |- ++(3*\touchsize,-3*\touchsize) |- cycle;
+  },
+  mkdir size/.store in=\mkdirsize,
+  touch size/.store in=\touchsize,
+  icon sep/.store in=\iconsep,
+  icon sep from path/.store in=\iconsepfrompath,
+  mkdir size=.20ex,
+  touch size=.20ex,
+  icon sep=1.0ex,
+  icon sep from path=0.5ex,
+}
+\forestset{%
+  optional/.style={%
+	content/.wrap value={$<$\hspace{0.05em}\normalfont\itshape ##1\hspace{0.15em}$>$},
+  },
+}
+
+% http://tex.stackexchange.com/questions/278174/multiple-forest-decision-trees-in-the-same-document
+% To use this not in a preamble, but in a ``normal'' tex file, replace the double hash signs with a single hash sign, e.g. Preamble: ##1 -> Text: #1
+\forestset{
+  folder tree/.style={
+    for tree={
+      s sep-=0.95ex,
+      font=\ttfamily,
+      grow'=0,
+      folder,
+      if n children=0{
+        before typesetting nodes={
+          tempdima=\iconsepfrompath+\iconsep+8*\touchsize,
+          content/.wrap value={\expandafter\hskip \foresteregister{tempdima}##1},
+        },
+        tikz={%
+          \pic [xshift=\iconsepfrompath] at (.west) {touch};
+        },
+      }{
+        if level=0{
+          tikz={%
+            \pic at (.west) {mkdir};
+          },
+          before typesetting nodes={
+            tempdima=\iconsep+8*\mkdirsize,
+            content/.wrap value={\expandafter\hskip \foresteregister{tempdima}##1},
+          },
+        }{
+          tikz={%
+            \pic [xshift=\iconsepfrompath] at (.west) {mkdir};
+          },
+          before typesetting nodes={
+            tempdima=\iconsepfrompath+\iconsep+8*\mkdirsize,
+            content/.wrap value={\expandafter\hskip \foresteregister{tempdima}##1},
+          },
+        },
+      },
+    },
+  }
+}

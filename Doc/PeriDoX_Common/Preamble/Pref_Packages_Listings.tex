@@ -1,0 +1,86 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This file handles all things considering lstlistings package
+%
+% Revisions: 2016-03-06 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-----------------------------------
+% Load package
+%-----------------------------------
+
+\usepackage{listings}
+
+%-----------------------------------
+% Listings
+%-----------------------------------
+
+\lstdefinestyle{basestyle}{
+  backgroundcolor=\color{verbgray},
+  frame=single,
+  framerule=0pt,
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  keepspaces,
+  belowskip=0.5ex,
+}
+
+\definecolor{verbgray}{gray}{0.9}
+\newcommand*{\lstcomment}[1]{\hfill\makebox[5.25cm][l]{#1}}%
+\lstdefinestyle{scriptstyle}{
+  style=basestyle,
+  %abovecaptionskip=2em,
+  %aboveskip=1em,
+  %belowcaptionskip=2em,
+  %belowskip=1em,
+  escapechar=\%,% char to escape out of listings and back to LaTeX
+}
+
+\lstdefinestyle{texstyle}{
+  style=basestyle,
+  escapechar=\§,% char to escape out of listings and back to LaTeX
+}
+
+\lstnewenvironment{code}{%
+  \lstset{style=scriptstyle}
+}{}
+
+\lstnewenvironment{texcode}{%
+  \lstset{style=texstyle}
+}{}
+
+\lstdefinestyle{inlinecodestyle}{
+  backgroundcolor=\color{verbgray},
+  basicstyle=\ttfamily,
+}
+
+\lstdefinestyle{inlinetexstyle}{
+  backgroundcolor=\color{verbgray},
+  basicstyle=\ttfamily,
+  upquote=true,% Important for copy-paste
+}
+
+% http://tex.stackexchange.com/a/64845/44634
+\makeatletter
+\@ifundefined{KOMAClassName}
+  {% true -> no KOMA class
+    
+  }
+  {% false -> KOMA class
+    \newcaptionname{english}{\lstlistlistingname}{List of \lstlistingname s}
+    \newcaptionname{ngerman}{\lstlistlistingname}{Quelltextverzeichnis}
+  }
+\makeatother

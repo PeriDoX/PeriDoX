@@ -1,0 +1,45 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{Node/point position}
+
+Sometimes it is necessary to get the exact position of a single point or selection of points. The following steps give you these informations and are explained for a selection of points. For an inidividual point some steps can be omitted.
+
+\begin{enumerate}[noitemsep]
+  \item Import the model
+  \item Generate and extract the selection of interest according to \autoref{sec:Use_ParaView_Selection}
+  \item Display the node/point numbers according to \autoref{sec:Paraview:Display:Point:Labels}
+  \item Remember the node/point numbers
+  \item In the RenderView select \textit{Split Horizontal}
+  \item Create a new SpreadSheet View
+  \item In the SpreadSheet View:
+  \begin{itemize}[noitemsep]
+    \item Select your selection in the \textit{Showing} combobox
+    \item Select \textit{Point Data} in the \textit{Attribute} combobox
+    \item The coordinates appear in the \textit{Points} column of the table
+    \item In case not all your selected points appear in the table, check if the blocks the points are part of are selected in the \textit{Properties tab} of your selection
+  \end{itemize}
+  \item Unfortunately the node/point number labels disappear
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\paraviewscreenshotwidthfac\linewidth]{Figures/Screenshots/ParaView_Display_NodePosition}
+\caption{Display of selection point/node positions}
+\label{fig:Use_ParaView_Display_NodePositions}
+\end{figure}

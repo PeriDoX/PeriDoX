@@ -1,0 +1,43 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The item requested as \texttt{Variable} must be defined and requested as a global \texttt{Output Variable} in the \texttt{Output} block, e.g.:
+In case you request a \texttt{Compute Class Parameter} \textit{Top Reaction Force} with \textit{Variable ``Force''}:
+
+\begin{code}
+Compute Class Parameters
+  Top Reaction Force
+    ...
+    Variable "Force"
+    Output Label "Top_Reaction_Force"
+\end{code}
+
+Than \texttt{Force ``true''} must be defined in the \texttt{Output} section:
+
+\begin{code}
+Output
+  Output File Type "ExodusII"
+  ..
+  Output Variables
+    Block_Id "false"
+    ...
+    Force "true"
+    Top_Reaction_Force "true"
+\end{code}
+
+Without \texttt{Force ``true''} an error is thrown as the group variables cannot be extracted from the global solution.

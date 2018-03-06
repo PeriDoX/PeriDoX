@@ -1,0 +1,99 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{\idxPDKwInitialDisplacement}
+\label{sec:Peridigm:QRG:BoundaryConditions:InitialDisplacement}
+\myindex[\idxPDKeywordName]{\idxPDKwInitialDisplacement}
+\myindex[\idxPDKeywordName]{\idxPDKwBoundaryConditions!\idxPDKwInitialDisplacement|see{\idxPDKwInitialDisplacement}}
+
+\leveldown{Description}
+
+Application of a displacement at time $\glssymbol{symb:scalar:time}=0$ to the application region. For $\glssymbol{symb:scalar:time}>0$ this boundary condition is inactive.
+
+\levelstay{Code}
+
+\begin{itemize}[noitemsep]
+  \item \verb+/src/core/Peridigm_BoundaryAndInitialConditionManager.cpp+
+  \item \verb+/src/core/Peridigm_BoundaryAndInitialConditionManager.hpp+
+  \item \verb+/src/core/Peridigm_BoundaryCondition.cpp+
+  \item \verb+/src/core/Peridigm_BoundaryCondition.hpp+
+  \item \verb+/src/core/Peridigm_Enums.cpp+
+  \item \verb+/src/core/Peridigm_Enums.hpp+
+\end{itemize}
+
+\levelstay{Input parameters}
+
+\paragraph{List}
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name		& Type		& Required	& Default	& Description		\\
+\midrule
+Type		& string	& \checkmark	& -		& ``\idxPDKwInitialDisplacement''	\\
+Node Set	& string	& \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:BoundaryConditions:InitialDisplacement:Remark:NodeSet}}	& -		& Application region name | ``Full Domain'' | ``All Sets'' 	\\
+Coordinate	& string	& \checkmark	& -		& ``x'' | ``y'' | ``z'' 	\\
+Value		& string	& \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:BoundaryConditions:InitialDisplacement:Remark:Value}}	& -		& String with function for function parser	\\
+\bottomrule
+\end{tabularx}
+
+\paragraph{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item It is not totally clear what happens when a prescribed displacement and an initial displacement/velocity are applied to the same application region. Who wins?. See \verb+BoundaryCondition.cpp+ lines 136-138.
+  \item \label{enm:Peridigm:QRG:BoundaryConditions:InitialDisplacement:Remark:NodeSet} Any string that is not ``Full Domain'' or ``All Sets'' will be considered a custom node set name in the model or mesh file, dependent of the discretization type.
+  \item \label{enm:Peridigm:QRG:BoundaryConditions:InitialDisplacement:Remark:Value} The string in the variable \textit{Value} should start with \verb+value = +. If it does not, \toolname{} will automatically add it for the function parser to work.
+\end{enumerate}
+
+\levelstay{Exemplary input section}
+
+\leveldown{XML format}
+
+\begin{code}
+<ParameterList name="Initial Displacement Min X Face">
+  <Parameter name="Type" type="string" value="Initial Displacement"/>
+  <Parameter name="Node Set" type="string" value="Min X Node Set"/>
+  <Parameter name="Coordinate" type="string" value="x"/>
+  <Parameter name="Value" type="string" value="0.1"/>
+</ParameterList>
+\end{code}
+
+\levelstay{Free format}
+
+-
+
+\levelstay{YAML format}
+
+-
+
+\levelup{List of examples}
+
+\begin{itemize}[noitemsep]
+%   \item From \verb+examples/+:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{examples/tensile\_test/tensile\_test.peridigm}
+%   \end{itemize}
+%   \item From \texttt{test/regression/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Contact\_Cubes/Contact\_Cubes.xml}
+%   \end{itemize}
+  \item From \texttt{test/verification/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{CompressionInitDisp\_2x1x1/CompressionInitDisp\_2x1x1.xml}
+    \item \texttt{CompressionImplicitEssentialBC\_2x1x1/CompressionImplicitEssentialBC\_2x1x1.xml}
+  \end{itemize}
+\end{itemize}

@@ -1,0 +1,137 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{\idxPDKwComputeClassParameters{} for nearest neighbor points}
+\label{sec:Peridigm:QRG:ComputeClassParameters:NearestPoint}
+\myindex[\idxPDKeywordName]{\idxPDKwComputeClassParameters!\idxPDKwNearestPoint}
+
+\leveldown{Description}
+
+Define user defined calculation data for the nearest point to a given spatial coordinate. These quantities can later be output, see section \ref{sec:Peridim:QRG:Output:User:NearestNeighbor}.
+
+\levelstay{Code}
+
+\begin{itemize}[noitemsep]
+  \item \texttt{/src/compute/Peridigm\_Compute\_Nearest\_Point\_Data.cpp}
+  \item \texttt{/src/compute/Peridigm\_Compute\_Nearest\_Point\_Data.hpp}
+\end{itemize}
+
+\levelstay{Input parameters}
+\label{sec:Peridigm:QRG:ComputeClassParameters:NearestPoint:Parameters}
+
+\leveldown{List}%\mbox{ }\\
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name            & Type          & Required      & Default               & Description           \\
+\midrule
+Compute Class   & string        & \checkmark    &                       & ``Nearest\_Point\_Data''      \\
+Calculation Type& string        & \checkmark    & -                     & ``Minimum'' | ``Maximum'' | ``Sum''   \\
+Block           & string        & \checkmark    & -                     & Block name            \\
+Variable        & string        & \checkmark\textsuperscript{1,3}& -    & Output variable       \\
+Output Label    & string        & \checkmark\textsuperscript{2} & -     & Output label for output section       \\
+\bottomrule
+\end{tabularx}
+
+\levelstay{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item The output value identifier are defined in \texttt{src/io/mesh\_output/Field.h}. Possible values are defined in \autoref{sec:Peridigm:QRG:Output:Variables}.
+  \item For the output to have any effect, the output label must be defined in the ``Output'' section of the input deck.
+  \item \input{Sections/Use_Peridigm_Output_User_All_Remark_GlobalOutputVariable}
+\end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}
+
+from \texttt{test/verification/NeighborhoodVolume/NeighborhoodVolume.xml}:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Compute Class Parameters">
+  <ParameterList name="Horizon At Point A">
+    <Parameter name="Compute Class" type="string" value="Nearest_Point_Data"/>
+    <Parameter name="X" type="double" value="0.118"/>
+    <Parameter name="Y" type="double" value="0.0"/>
+    <Parameter name="Z" type="double" value="0.0"/>
+    <Parameter name="Variable" type="string" value="Horizon"/>
+    <Parameter name="Output Label" type="string" value="Horizon_Point_A"/>
+  </ParameterList>
+  <ParameterList name="Neighborhood Volume At Point A">
+    <Parameter name="Compute Class" type="string" value="Nearest_Point_Data"/>
+    <Parameter name="X" type="double" value="0.118"/>
+    <Parameter name="Y" type="double" value="0.0"/>
+    <Parameter name="Z" type="double" value="0.0"/>
+    <Parameter name="Variable" type="string" value="Neighborhood_Volume"/>
+    <Parameter name="Output Label" type="string" value="Neighborhood_Volume_Point_A"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+\levelstay{Free format}
+
+from \texttt{examples/tensile\_test/tensile\_test.peridigm}:
+
+\begin{code}
+Compute Class Parameters
+  Strain Gage Top Initial Position
+    Compute Class "Nearest_Point_Data"
+    X 0.0317
+    Y 1.238
+    Z 0.0
+    Variable "Model_Coordinates"
+    Output Label "Gage_Top_Initial_Position"
+    Verbose "True"
+  Strain Gage Top Displacement
+    Compute Class "Nearest_Point_Data"
+    X 0.0317
+    Y 1.238
+    Z 0.0
+    Variable "Displacement"
+    Output Label "Gage_Top_Displacement"
+    Verbose "True"
+\end{code}
+
+\levelstay{YAML format}
+
+-
+
+\levelup{List of examples}
+
+\begin{itemize}[noitemsep]
+%   \item From \texttt{Models/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Models/Dogbone}
+%   \end{itemize}
+  \item From \texttt{examples/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{examples/tensile\_test/tensile\_test.peridigm}
+  \end{itemize}
+%   \item From \texttt{test/regression/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Body\_Force/Body\_Force\_Implicit.xml}
+%   \end{itemize}
+  \item From \texttt{test/verification/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{NeighborhoodVolume/NeighborhoodVolume.xml}
+    \item \texttt{SurfaceFactorCube/SurfaceFactorCube.xml}
+  \end{itemize}
+\end{itemize}

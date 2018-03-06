@@ -1,0 +1,1819 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Symbols-Glossary
+% 
+% Compilation:
+% 
+%   %S - main tex source file name
+% 
+% without any helpers:
+% 
+%   pdflatex %S.tex
+%   makeindex -s %S.ist -t %S.slg1 -o %S.syi1 %S.syg1
+%   makeindex -s %S.ist -t %S.slg2 -o %S.syi2 %S.syg2
+%   ...
+%   pdflatex %S.tex
+%   pdflatex %S.tex
+% 
+% with perl interpreter installation
+% 
+%   pdflatex %S.tex
+%   makeglossaries %S
+%   pdflatex %S
+%   pdflatex %S
+% 
+% with LuaLaTeX
+%
+%   makeglossaries-lite doc
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Conventions                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% - Sort:
+%     - 1st letter: Differentiation between roman (r) and greek(g)
+%     - 2nd letter: For scalars: Differentiation between lowercase (l) and uppercase (u)
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Own glossaries                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \newglossary[slg1]{coordinatesystemlist}{syi1}{syg1}{Coordinate systems}
+\newglossary[slg1]{scalarlist}{syi1}{syg1}{Scalars}
+\newglossary[slg2]{vectorlist}{syi2}{syg2}{Vectors}
+\newglossary[slg3]{matrixlist}{syi3}{syg3}{Matrices \& Tensors}
+\newglossary[slg4]{statelist}{syi4}{syg4}{States}
+\newglossary[slg5]{indexlist}{syi5}{syg5}{Indices}
+\newglossary[slg6]{exponentlist}{syi6}{syg6}{Exponents}
+\newglossary[slg7]{operatorlist}{syi7}{syg7}{Operators}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Symbols                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% Coordinate systems
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+% -----------------
+% Roman
+% -----------------
+
+% \newglossaryentry{symb:coordinate:123}{%
+%   symbol      ={\ensuremath{1$,$2$,$3}},%
+%   name        ={},%
+%   description ={Cartesian material coordinate system},%
+%   user1       ={},%
+%   type        =coordinatesystemlist,%
+%   sort        =rl123,%
+% }
+
+% \newglossaryentry{symb:coordinate:xyz}{%
+%   symbol      ={\ensuremath{x$,$y$,$z}},%
+%   name        ={},%
+%   description ={Cartesian coordinate system},%
+%   user1       ={},%
+%   type        =coordinatesystemlist,%
+%   sort        =rlxyz,%
+% }
+
+% -----------------
+% Greek
+% -----------------
+
+% \newglossaryentry{symb:coordinate:zetaetaxi}{%
+  % symbol      ={\ensuremath{\xi$,$\eta$,$\zeta}},%
+  % name        ={},%
+  % description ={Natural element coordinate system},%
+  % user1       ={},%
+  % type        =coordinatesystemlist,%
+  % sort        =glzetaetaxi,%
+% }
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% Scalars
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+% -----------------
+% Roman
+% -----------------
+
+% Lowercase -------
+
+\newglossaryentry{symb:scalar:acceleration}{%
+%   symbol      ={\ensuremath{\ddot{u}$,$\ddot{v}$,$\ddot{w}}},%
+  symbol      ={\ensuremath{a}},%
+  name        ={Acceleration},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter\protect\per\protect\second\protect\squared}}},%
+  type        =scalarlist,%
+  sort        =arla,%
+}
+
+\newglossaryentry{symb:scalar:thickness}{%
+  symbol      ={\ensuremath{h}},%
+  name        ={Thickness},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =arlh,%
+}
+
+\newglossaryentry{symb:scalar:displacement}{%
+%   symbol      ={\ensuremath{u},\ensuremath{v},\ensuremath{w}},%
+  symbol      ={\ensuremath{u}},%
+  name        ={Displacement},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =arlu,%
+}
+
+\newglossaryentry{symb:scalar:displacement:component:global:x}{%
+  symbol      ={\ensuremath{\glssymbol{symb:scalar:displacement}_{\glssymbol{symb:scalar:coord:global:x}}}},%
+  name        ={$\glssymbol{symb:scalar:coord:global:x}$-component of displacement},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =arlux,%
+}
+
+\newglossaryentry{symb:scalar:displacement:component:global:y}{%
+  symbol      ={\ensuremath{\glssymbol{symb:scalar:displacement}_{\glssymbol{symb:scalar:coord:global:y}}}},%
+  name        ={$\glssymbol{symb:scalar:coord:global:y}$-component of displacement},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =arluy,%
+}
+
+\newglossaryentry{symb:scalar:displacement:component:global:z}{%
+  symbol      ={\ensuremath{\glssymbol{symb:scalar:displacement}_{\glssymbol{symb:scalar:coord:global:z}}}},%
+  name        ={$\glssymbol{symb:scalar:coord:global:z}$-component of displacement},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =arluz,%
+}
+
+\newglossaryentry{symb:scalar:mass}{%
+  symbol      ={\ensuremath{m}},%
+  name        ={Mass},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\gram}}},%
+  type        =scalarlist,%
+  sort        =arlm,%
+}
+
+\newglossaryentry{symb:scalar:velocity}{%
+%   symbol      ={\ensuremath{\dot{u}},\ensuremath{\dot{v}},\ensuremath{\dot{w}}},%
+  symbol      ={\ensuremath{v}},%
+  name        ={Velocity},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter\protect\per\protect\second}}},%
+  type        =scalarlist,%
+  sort        =arlv,%
+}
+
+\newglossaryentry{symb:scalar:geo:diameter}{%
+  symbol      ={\ensuremath{d}},%
+  name        ={Displacement},%
+  text        ={displacement},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =arld,%
+}
+
+\newglossaryentry{symb:scalar:geo:1D:length}{%
+  symbol      ={\ensuremath{l}},%
+  name        ={Length},%
+  text        ={length},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =arll,%
+}
+
+% \newglossaryentry{symb:scalar:coord:x}{%
+\newglossaryentry{symb:scalar:coord:global:x}{%
+  symbol      ={\ensuremath{x}},%
+  name        ={\ensuremath{x} axis},%
+  text        ={\ensuremath{x} axis},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =arlxg,%
+}
+
+% \newglossaryentry{symb:scalar:coord:y}{%
+\newglossaryentry{symb:scalar:coord:global:y}{%
+  symbol      ={\ensuremath{y}},%
+  name        ={\ensuremath{y} axis},%
+  text        ={\ensuremath{y} axis},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =arlyg,%
+}
+
+% \newglossaryentry{symb:scalar:coord:z}{%
+\newglossaryentry{symb:scalar:coord:global:z}{%
+  symbol      ={\ensuremath{z}},%
+  name        ={\ensuremath{z} axis},%
+  text        ={\ensuremath{z} axis},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =arlzg,%
+}
+
+\newglossaryentry{symb:scalar:coord:local:x}{%
+  symbol      ={\ensuremath{\hat{x}}},%
+  name        ={Local \ensuremath{x} axis},%
+  text        ={Local \ensuremath{x} axis},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =arlxl,%
+}
+
+\newglossaryentry{symb:scalar:coord:local:y}{%
+  symbol      ={\ensuremath{\hat{y}}},%
+  name        ={Local \ensuremath{y} axis},%
+  text        ={Local \ensuremath{y} axis},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =arlyl,%
+}
+
+\newglossaryentry{symb:scalar:coord:local:z}{%
+  symbol      ={\ensuremath{\hat{z}}},%
+  name        ={Local \ensuremath{z} axis},%
+  text        ={Local \ensuremath{z} axis},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =arlzl,%
+}
+
+\newglossaryentry{symb:scalar:coord:material:x}{%
+  symbol      ={\ensuremath{1}},%
+  name        ={Material \ensuremath{x} axis},%
+  text        ={Material \ensuremath{x} axis},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =arlxl,%
+}
+
+\newglossaryentry{symb:scalar:coord:material:y}{%
+  symbol      ={\ensuremath{2}},%
+  name        ={Material \ensuremath{y} axis},%
+  text        ={Material \ensuremath{y} axis},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =arlyl,%
+}
+
+\newglossaryentry{symb:scalar:coord:material:z}{%
+  symbol      ={\ensuremath{3}},%
+  name        ={Material \ensuremath{z} axis},%
+  text        ={Material \ensuremath{z} axis},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =arlzl,%
+}
+
+\newglossaryentry{symb:scalar:load:bodyforce}{%
+  symbol      ={\ensuremath{b}},%
+  name        ={Body force per unit volume},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\newton\protect\per\protect\milli\protect\meter\protect\cubed}}},%
+  type        =scalarlist,%
+  sort        =arlb,%
+}
+
+% \newglossaryentry{symb:scalar:springconstant}{%
+  % symbol      ={\ensuremath{k}},%
+  % name        ={Spring constant},%
+  % description ={},%
+  % user1       ={\ensuremath{\protect\si{\protect\newton\protect\per\protect\milli\protect\meter}}},%
+  % type        =scalarlist,%
+  % sort        =rlk,%
+% }
+
+\newglossaryentry{symb:scalar:pd:bond:constant}{%
+  symbol      ={\ensuremath{c}},%
+  name        ={Bond constant},% for BB-PD},%
+  text        ={bond constant},% for BB-PD},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\newton\protect\per\protect\milli\protect\meter\protect\tothe6}}},%
+  type        =scalarlist,%
+  sort        =arlc,%
+}
+
+\newglossaryentry{symb:scalar:pd:bond:elongation}{%
+  symbol      ={\ensuremath{e}},%
+  name        ={Bond elongation},%
+  text        ={bond elongation},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =arle,%
+}
+
+\newglossaryentry{symb:scalar:pd:bond:energy:potential}{%
+  symbol      ={\ensuremath{w}},%
+  name        ={Bond energy micro potential},% in Glossary
+  text        ={bond energy micro potential},% in Text
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =arlw,%
+}
+
+% \newglossaryentry{symb:scalar:pd:micropotential}{%
+%   symbol      ={\ensuremath{w}},%
+%   name        ={Micro potential},%
+%   text        ={micro potential},%
+%   description ={},%
+%   user1       ={},%
+%   type        =scalarlist,%
+%   sort        =arlw,%
+% }
+
+\newglossaryentry{symb:scalar:pd:stretch}{%
+  symbol      ={\ensuremath{s}},%
+  name        ={Stretch},%
+  text        ={stretch},%
+  description ={},%
+  user1       ={-},%
+  type        =scalarlist,%
+  sort        =arls,%
+}
+
+\newglossaryentry{symb:scalar:pd:stretch:critical}{%
+  symbol      ={\ensuremath{s_{\glssymbol{symb:index:critical}}}},%
+  name        ={Critical stretch},%
+  text        ={critical stretch},%
+  description ={},%
+  user1       ={-},%
+  type        =scalarlist,%
+  sort        =arlsc,%
+}
+
+\newglossaryentry{symb:scalar:pd:volume:weighted}{%
+  symbol      ={\ensuremath{m_V}},%
+  name        ={Weighted volume},%
+  text        ={weighted volume},%
+  description ={},%
+  user1       ={-},%
+  type        =scalarlist,%
+  sort        =arlmv,%
+}
+
+\newglossaryentry{symb:scalar:time}{%
+  symbol      ={\ensuremath{t}},%
+  name        ={Time},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\second}}},%
+  type        =scalarlist,%
+  sort        =arlt,%
+}
+
+\newglossaryentry{symb:scalar:timestep}{%
+  symbol      ={\ensuremath{\glssymbol{symb:operator:Delta}\glssymbol{symb:scalar:time}}},%
+  name        ={Time step},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\second}}},%
+  type        =scalarlist,%
+  sort        =arltdelta,%
+}
+
+% Separator -------
+
+\newglossaryentry{symb:scalar:scalarromannull}{%
+  symbol      ={},%
+  name        ={},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =arnull,%
+}
+
+% Uppercase -------
+
+\newglossaryentry{symb:scalar:temperature}{%
+  symbol      ={\ensuremath{T}},%
+  name        ={Temperature},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =aruT,%
+}
+
+\newglossaryentry{symb:scalar:fe:shapefunction}{%
+  symbol      ={\ensuremath{N}},%
+  name        ={Nodal shape function},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =aruN,%
+}
+
+\newglossaryentry{symb:scalar:geo:2D:surface}{%
+  symbol      ={\ensuremath{A}},%
+  name        ={Surface area},%
+  text        ={area},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter\protect\squared}}},%
+  type        =scalarlist,%
+  sort        =aruA,%
+}
+
+\newglossaryentry{symb:scalar:geo:3D:volume}{%
+  symbol      ={\ensuremath{V}},%
+  name        ={Volume},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter\protect\cubed}}},%
+  type        =scalarlist,%
+  sort        =aruV,%
+}
+
+\newglossaryentry{symb:scalar:load:force}{%
+  symbol      ={\ensuremath{F}},%
+  name        ={Force},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\newton}}},%
+  type        =scalarlist,%
+  sort        =aruF,%
+}
+
+\newglossaryentry{symb:scalar:load:moment}{%
+  symbol      ={\ensuremath{M}},%
+  name        ={Moment},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\newton\protect\milli\protect\metre}}},%
+  type        =scalarlist,%
+  sort        =aruM,%
+}
+
+\newglossaryentry{symb:scalar:mat:energyreleaserate}{%
+  symbol      ={\ensuremath{G_{0}}},%
+  name        ={Energy release rate},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\newton\protect\per\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =aruG0,%
+}
+
+\newglossaryentry{symb:scalar:mat:energyreleaserate:mode:I}{%
+  symbol      ={\ensuremath{G_{\glssymbol{symb:index:mat:damage:mode:I}}}},%
+  name        ={Energy release rate mode I},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\newton\protect\per\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =aruGI,%
+}
+
+\newglossaryentry{symb:scalar:mat:energyreleaserate:mode:II}{%
+  symbol      ={\ensuremath{G_{\glssymbol{symb:index:mat:damage:mode:II}}}},%
+  name        ={Energy release rate mode II},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\newton\protect\per\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =aruGII,%
+}
+
+\newglossaryentry{symb:scalar:mat:energyreleaserate:critical}{%
+  symbol      ={\ensuremath{G_{0\glssymbol{symb:index:critical}}}},%
+  name        ={Critical energy release rate},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\newton\protect\per\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =aruGc,%
+}
+
+\newglossaryentry{symb:scalar:mat:energyreleaserate:critical:mode:I}{%
+  symbol      ={\ensuremath{G_{\glssymbol{symb:index:mat:damage:mode:I}\glssymbol{symb:index:critical}}}},%
+  name        ={Critical energy release rate mode I},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\newton\protect\per\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =aruGIc,%
+}
+
+\newglossaryentry{symb:scalar:mat:energyreleaserate:critical:mode:II}{%
+  symbol      ={\ensuremath{G_{\glssymbol{symb:index:mat:damage:mode:II}\glssymbol{symb:index:critical}}}},%
+  name        ={Critical energy release rate mode II},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\newton\protect\per\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =aruGIIc,%
+}
+
+\newglossaryentry{symb:scalar:mat:modulus:bulk}{%
+  symbol      ={\ensuremath{K}},%
+  name        ={Bulk modulus},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\mega\protect\pascal}}},%
+  type        =scalarlist,%
+  sort        =aruK,%
+}
+
+\newglossaryentry{symb:scalar:mat:modulus:shear}{%
+  symbol      ={\ensuremath{G}},%
+  name        ={Shear modulus},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\mega\protect\pascal}}},%
+  type        =scalarlist,%
+  sort        =aruG,%
+}
+
+\newglossaryentry{symb:scalar:mat:modulus:young}{%
+  symbol      ={\ensuremath{E}},%
+  name        ={Young's modulus},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\mega\protect\pascal}}},%
+  type        =scalarlist,%
+  sort        =aruE,%
+}
+
+\newglossaryentry{symb:scalar:mat:strength}{%
+  symbol      ={\ensuremath{R}},%
+  name        ={Strength},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\mega\protect\pascal}} or \ensuremath{\protect\si{\protect\percent}}},%
+  type        =scalarlist,%
+  sort        =aruR,%
+}
+
+\newglossaryentry{symb:scalar:mech:tensor:component:stiffness}{%
+  symbol      ={\ensuremath{C}},%
+  name        ={Stiffness tensor component},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =aruC,%
+}
+
+\newglossaryentry{symb:scalar:mech:energy:strain:density}{%
+  symbol      ={\ensuremath{W}},%
+  name        ={Strain energy density},% in Glossary
+  text        ={strain energy density},% in Text
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =aruW,%
+}
+
+\newglossaryentry{symb:scalar:pd:family}{%
+  symbol      ={\ensuremath{\mathcal{H}}},%
+  name        ={Family},%
+  description ={\ensuremath{\mathcal{H}\left(\glssymbol{symb:vector:position:undeformed}\right)} is family of \ensuremath{\glssymbol{symb:vector:position:undeformed}}},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =aruH,%
+}
+
+\newglossaryentry{symb:scalar:system:euclidean}{%
+  symbol      ={\ensuremath{\mathbb{R}}},%
+  name        ={Euclidean space},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =aruR,%
+}
+
+% -----------------
+% Greek
+% -----------------
+
+% Lowercase -------
+
+\newglossaryentry{symb:scalar:domain:partial}{%
+  symbol      ={\ensuremath{\omega}},%
+  name        ={Partial domain of \glssymbol{symb:scalar:domain}},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =bglomega,%
+}
+
+% \newglossaryentry{symb:scalar:coord:xi}{%
+\newglossaryentry{symb:scalar:coord:natural:x}{%
+  symbol      ={\ensuremath{\xi}},%
+  name        ={\ensuremath{\xi} axis in natural coordinates},%
+  text        ={\ensuremath{\xi} axis in natural coordinates},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =bglxi,%
+}
+
+% \newglossaryentry{symb:scalar:coord:eta}{%
+\newglossaryentry{symb:scalar:coord:natural:y}{%
+  symbol      ={\ensuremath{\eta}},%
+  name        ={\ensuremath{\eta} axis in natural coordinates},%
+  text        ={\ensuremath{\eta} axis in natural coordinates},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =bgleta,%
+}
+
+% \newglossaryentry{symb:scalar:coord:zeta}{%
+\newglossaryentry{symb:scalar:coord:natural:z}{%
+  symbol      ={\ensuremath{\zeta}},%
+  name        ={\ensuremath{\zeta} axis in natural coordinates},%
+  text        ={\ensuremath{\zeta} axis in natural coordinates},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =bglzeta,%
+}
+
+\newglossaryentry{symb:scalar:geo:separation}{%
+  symbol      ={\ensuremath{\delta_c}},%
+  name        ={Separation},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =bgldeltan,%
+}
+
+\newglossaryentry{symb:scalar:geo:angle:debonding}{%
+  symbol      ={\ensuremath{\theta_c}},%
+  name        ={Debonding angle},%
+  text        ={debonding angle},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =bglthetac,%
+}
+
+\newglossaryentry{symb:scalar:mat:density}{%
+  symbol      ={\ensuremath{\rho}},%
+  name        ={Density},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\tonne\protect\per\protect\milli\protect\meter\protect\cubed}}},%
+  type        =scalarlist,%
+  sort        =bglrho,%
+}
+
+\newglossaryentry{symb:scalar:mat:poissonratio}{%
+  symbol      ={\ensuremath{\nu}},%
+  name        ={Poisson ratio},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =bglnu,%
+}
+
+\newglossaryentry{symb:scalar:mech:strain:normal:engineering}{%
+  symbol      ={\ensuremath{\varepsilon}},%
+  name        ={Strain},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =bglepsilon,%
+}
+
+\newglossaryentry{symb:scalar:mech:strain:tensor:component}{%
+  symbol      ={\ensuremath{\epsilon}},%
+  name        ={Strain tensor component},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =bglepsilontensor,%
+}
+
+\newglossaryentry{symb:scalar:mech:strain:shear:engineering}{%
+  symbol      ={\ensuremath{\gamma}},%
+  name        ={Shear strain},%
+  description ={Engineering strain},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =bglgamma,%
+}
+
+\newglossaryentry{symb:scalar:mech:stress:normal:engineering}{%
+  symbol      ={\ensuremath{\sigma}},%
+  name        ={Stress},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\mega\protect\pascal}}},%
+  type        =scalarlist,%
+  sort        =bglsigma,%
+}
+
+\newglossaryentry{symb:scalar:mech:stress:shear:engineering}{%
+  symbol      ={\ensuremath{\tau}},%
+  name        ={Shear stress},%
+  description ={Engineering stress},%
+  user1       ={\ensuremath{\protect\si{\protect\mega\protect\pascal}}},%
+  type        =scalarlist,%
+  sort        =bgltau,%
+}
+
+\newglossaryentry{symb:scalar:pd:bond:undeformed:component}{%
+  symbol      ={\ensuremath{\xi}},%
+  name        ={Component of the undeformed vector state},%
+  text        ={bond elongation},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =bglxi,%
+}
+
+\newglossaryentry{symb:scalar:pd:dilatation}{%
+  symbol      ={\ensuremath{\theta}},%
+  name        ={Dilatation},%
+  text        ={dilatation},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =bgltheta,%
+}
+
+\newglossaryentry{symb:scalar:pd:horizon}{%
+  symbol      ={\ensuremath{\delta}},%
+  name        ={Horizon},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =bgldelta,%
+}
+
+\newglossaryentry{symb:scalar:pd:function:damage:bond}{%
+  symbol      ={\ensuremath{\chi}},%
+  name        ={Scalar damage function},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =bglchi,%
+}
+
+\newglossaryentry{symb:scalar:pd:function:damage:family}{%
+  symbol      ={\ensuremath{\varphi}},%
+  name        ={Family damage value},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =bglphi,%
+}
+
+\newglossaryentry{symb:scalar:pd:function:influence}{%
+  symbol      ={\ensuremath{\omega}},%
+  name        ={Influence function},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =bglomega,%
+}
+
+\newglossaryentry{symb:scalar:pd:function:influence:radial}{%
+  symbol      ={\ensuremath{\omega_{\glssymbol{symb:vector:pd:bond:undeformed}}}},%
+  name        ={Radial influence function},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =bglomegaradial,%
+}
+
+\newglossaryentry{symb:scalar:rotation}{%
+%   symbol      ={\ensuremath{u},\ensuremath{v},\ensuremath{w}},%
+  symbol      ={\ensuremath{\psi}},%
+  name        ={Rotation},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =bglpsi,%
+}
+
+% Separator -------
+
+\newglossaryentry{symb:scalar:scalargreeknull}{%
+  symbol      ={},%
+  name        ={},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =bgnull,%
+}
+
+% Uppercase -------
+
+%\newglossaryentry{symb:scalar:domain}{%
+\newglossaryentry{symb:scalar:domain}{%
+  %symbol      ={\ensuremath{\mathcal{B}}},%
+  symbol      ={\ensuremath{\Omega}},%
+  %name        ={Body region},%
+  name        ={Domain},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  %sort        =aruB,%
+  sort        =bguOmega,%
+}
+
+\newglossaryentry{symb:scalar:domain:boundary}{%
+  symbol      ={\ensuremath{\Gamma}},%
+  name        ={Domain boundary},%
+  description ={},%
+  user1       ={},%
+  type        =scalarlist,%
+  sort        =bguGamma,%
+}
+
+\newglossaryentry{symb:scalar:discretization:distance:node}{%
+  symbol      ={\ensuremath{\Delta x}},%
+  name        ={Grid spacing},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\tonne\protect\per\protect\milli\protect\meter}}},%
+  type        =scalarlist,%
+  sort        =bguDeltax,%
+}
+
+% \newglossaryentry{symb:scalar:Gamma}{%
+%   symbol      ={\ensuremath{\Gamma}},%
+%   name        ={Domain boundary},%
+%   description ={Boundary of \ensuremath{\Omega}},%
+%   user1       ={},%
+%   %type        =greekuc,%
+%   type        =scalarlist,%
+%   sort        =guGamma,%
+% }
+% 
+% \newglossaryentry{symb:scalar:omega}{%
+%   symbol      ={\ensuremath{\omega}},%
+%   name        ={Partial domain of \ensuremath{\Omega}},%
+%   description ={},%
+%   user1       ={},%
+%   %type        =greekuc,%
+%   type        =scalarlist,%
+%   sort        =guomega,%
+% }
+% 
+% \newglossaryentry{symb:scalar:Omega}{%
+%   symbol      ={\ensuremath{\Omega}},%
+%   name        ={Domain},%
+%   description ={},%
+%   user1       ={},%
+%   %type        =greekuc,%
+%   type        =scalarlist,%
+%   sort        =guOmega,%
+% }
+% 
+% \newglossaryentry{symb:scalar:Pi}{%
+%   symbol      ={\ensuremath{\Pi}},%
+%   name        ={Total potential energy},%
+%   description ={},%
+%   user1       ={},%
+%   %type        =greekuc,%
+%   type        =scalarlist,%
+%   sort        =guPi,%
+% }
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% Vectors
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+% -----------------
+% Roman
+% -----------------
+
+\newglossaryentry{symb:vector:mech:acceleration}{%
+  symbol      ={\ensuremath{\mathbf{\ddot{u}}}},%
+  name        ={Acceleration vector},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter\protect\per\protect\second\protect\squared}}},%
+  type        =vectorlist,%
+  sort        =dru3acceleration,%
+}
+
+\newglossaryentry{symb:vector:mech:deformation}{%
+  symbol      ={\ensuremath{\mathbf{u}}},%
+  name        ={Deformation vector},%
+  description ={},%
+  user1       ={},%
+  user3       ={\ensuremath{u}},% Symbol fuer Komponente
+  type        =vectorlist,%
+  sort        =dru,%
+}
+
+\newglossaryentry{symb:vector:mech:velocity}{%
+  symbol      ={\ensuremath{\mathbf{\dot{u}}}},%
+  name        ={Velocity vector},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter\protect\per\protect\second}}},%
+  type        =vectorlist,%
+  sort        =dru3velocity,%
+}
+
+\newglossaryentry{symb:vector:load:bodyforce}{%
+  symbol      ={\ensuremath{\mathbf{b}}},%
+  name        ={External body force density},%
+  description ={},%
+  user1       ={},%
+  user3       ={\ensuremath{b}},% Symbol fuer Komponente
+  type        =vectorlist,%
+  sort        =drb,%
+}
+
+\newglossaryentry{symb:vector:position:undeformed}{%
+  symbol      ={\ensuremath{\mathbf{x}}},%
+  %name        ={Position vector, undeformed configuration},%
+  name        ={Position vector, undeformed},%
+  description ={},%
+  user1       ={},%
+  user3       ={\ensuremath{x}},% Symbol fuer Komponente
+  type        =vectorlist,%
+  sort        =drx,%
+}
+
+\newglossaryentry{symb:vector:position:deformed}{%
+  symbol      ={\ensuremath{\mathbf{y}}},%
+  %name        ={Position vector, deformed configuration},%
+  name        ={Position vector, deformed},%
+  description ={},%
+  user1       ={},%
+  user3       ={\ensuremath{y}},% Symbol fuer Komponente
+  type        =vectorlist,%
+  sort        =dry,%
+}
+
+\newglossaryentry{symb:vector:pd:bondforcedensity}{%
+  symbol      ={\ensuremath{\mathbf{t}}},%
+  name        ={Bond force density},%
+  description ={},%
+  user1       ={},%
+  user3       ={\ensuremath{t}},% Symbol fuer Komponente
+  type        =vectorlist,%
+  sort        =drt,%
+}
+
+\newglossaryentry{symb:vector:unit}{%
+  symbol      ={\ensuremath{\mathbf{e}}},%
+  name        ={Unit vector},%
+  description ={},%
+  user1       ={},%
+  user3       ={\ensuremath{e}},% Symbol fuer Komponente
+  type        =vectorlist,%
+  sort        =dre,%
+}
+
+\newglossaryentry{symb:vector:pd:force}{%
+  symbol      ={\ensuremath{\mathbf{f}}},%
+  name        ={Force vector},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\newton}}},%
+  user3       ={\ensuremath{f}},% Symbol fuer Komponente
+  type        =vectorlist,%
+  sort        =drforce,%
+}
+% 
+% \newglossaryentry{symb:vector:displacement}{%
+%   symbol      ={\ensuremath{\mathbf{u}}},%
+%   name        ={Displacement vector},%
+%   description ={},%
+%   user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter\protect\metre}}},%
+%   type        =vectorlist,%
+%   sort        =dru1displacement,%
+% }
+% 
+% \newglossaryentry{symb:vector:velocity}{%
+%   symbol      ={\ensuremath{\mathbf{\dot{u}}}},%
+%   name        ={Velocity vector},%
+%   description ={},%
+%   user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter\protect\per\protect\second}}},%
+%   type        =vectorlist,%
+%   sort        =dru2velocity,%
+% }
+
+% -----------------
+% Greek
+% -----------------
+
+\newglossaryentry{symb:vector:pd:bond:deformed}{%
+  symbol      ={\ensuremath{\boldsymbol{\eta}}},%
+  name        ={Bond vector, deformed},%
+  description ={Vector from a point $\glssymbol{symb:vector:position:deformed}$ in the family of $\glssymbol{symb:vector:position:deformed}$ to $\glssymbol{symb:vector:position:deformed}'$},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  user3       ={\ensuremath{\eta}},% Symbol fuer Komponente
+  type        =vectorlist,%
+  sort        =dgeta,%
+}
+
+\newglossaryentry{symb:vector:pd:bond:undeformed}{%
+  symbol      ={\ensuremath{\boldsymbol{\xi}}},%
+  name        ={Bond vector, undeformed},%
+  description ={Vector from a point $\glssymbol{symb:vector:position:undeformed}$ in the family of $\glssymbol{symb:vector:position:undeformed}$ to $\glssymbol{symb:vector:position:undeformed}'$},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\meter}}},%
+  user3       ={\ensuremath{\xi}},% Symbol fuer Komponente
+  type        =vectorlist,%
+  sort        =dgxi,%
+}
+
+\newglossaryentry{symb:vector:mech:stress:cauchy}{%
+  symbol      ={\ensuremath{\boldsymbol{\sigma}}},%
+  name        ={Cauchy stress},%
+  description ={Voigt notation},%
+  user1       ={},%
+  user3       ={\ensuremath{\sigma}},% Symbol fuer Komponente
+  type        =vectorlist,%
+  sort        =drsigma,%
+}
+
+% \newglossaryentry{symb:vector:epsilon}{%
+  % symbol      ={\ensuremath{\boldsymbol{\varepsilon}}},%
+  % name        ={Strain vector},%
+  % description ={Voigt-notation},%
+  % user1       ={},%
+  % %type        =greeklc,%
+  % type        =vectorlist,%
+  % sort        =gepsilon,%
+% }
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% Matrices
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+% -----------------
+% Roman
+% -----------------
+
+\newglossaryentry{symb:matrix:identity}{%
+  symbol      ={\ensuremath{\mathbf{I}}},%
+  name        ={Identity matrix},%
+  description ={},%
+  user1       ={},%
+  user3       ={\ensuremath{I}},% Symbol fuer Komponente
+  type        =matrixlist,%
+  sort        =frI,%
+}
+
+\newglossaryentry{symb:matrix:interpolationoperator}{%
+  symbol      ={\ensuremath{\mathbf{I}_{\Gamma}}},%
+  name        ={Boundary interpolation operator},%
+  description ={},%
+  user1       ={},
+  type        =matrixlist,%
+  sort        =frIGamma,%
+}
+
+\newglossaryentry{symb:matrix:mech:gradient:deformation}{%
+  symbol      ={\ensuremath{\mathbf{F}}},%
+  name        ={Deformation gradient},%
+  description ={},%
+  user1       ={},%
+  user3       ={\ensuremath{F}},% Symbol fuer Komponente
+  type        =matrixlist,%
+  sort        =frF,%
+}
+
+\newglossaryentry{symb:matrix:mech:tensor:shape}{%
+  symbol      ={\ensuremath{\mathbf{K}}},%
+  name        ={Nonlocal shape tensor},%
+  description ={},%
+  user1       ={},%
+  user3       ={\ensuremath{K}},% Symbol fuer Komponente
+  type        =matrixlist,%
+  sort        =frK,%
+}
+
+\newglossaryentry{symb:matrix:mech:tensor:stiffness}{%
+  symbol      ={\ensuremath{\mathbf{K}}},%
+  name        ={Stiffness tensor},%
+  description ={},%
+  user1       ={},%
+  user3       ={\ensuremath{K}},% Symbol fuer Komponente
+  type        =matrixlist,%
+  sort        =frC,%
+}
+
+\newglossaryentry{symb:matrix:mech:stress:piolakirchhoff:first}{%
+  symbol      ={\ensuremath{\mathbf{P}}},%
+  name        ={$1^{st}$ Piola-Kirchhoff stress},%
+  description ={},%
+  user1       ={},%
+  user3       ={\ensuremath{P}},% Symbol fuer Komponente
+  type        =matrixlist,%
+  sort        =frP,%
+}
+
+\newglossaryentry{symb:matrix:mech:stress:piolakirchhoff:second}{%
+  symbol      ={\ensuremath{\mathbf{S}}},%
+  name        ={$2^{nd}$ Piola-Kirchhoff stress},%
+  description ={},%
+  user1       ={},%
+  user3       ={\ensuremath{S}},% Symbol fuer Komponente
+  type        =matrixlist,%
+  sort        =frS,%
+}
+
+\newglossaryentry{symb:matrix:mat:stiffnes}{%
+  symbol      ={\ensuremath{\mathbf{C}}},%
+  name        ={Material stiffness matrix},%
+  description ={Voigt notation},%
+  user1       ={\ensuremath{\protect\si{\protect\newton\protect\per\protect\milli\protect\metre\protect\squared}}},%
+  type        =matrixlist,%
+  sort        =frC,%
+}
+
+\newglossaryentry{symb:matrix:mat:compliance}{%
+  symbol      ={\ensuremath{\mathbf{S}}},%
+  name        ={Material compliance matrix},%
+  description ={Voigt notation},%
+  user1       ={\ensuremath{\protect\si{\protect\milli\protect\metre\protect\squared\protect\per\protect\newton}}},%
+  type        =matrixlist,%
+  sort        =frS,%
+}
+
+\newglossaryentry{symb:matrix:mech:strain:green}{%
+  symbol      ={\ensuremath{\mathbf{E}}},%
+  name        ={Green strain tensor},%
+  description ={},%
+  user1       ={},%
+  user3       ={\ensuremath{E}},% Symbol fuer Komponente
+  type        =matrixlist,%
+  sort        =frE,%
+}
+\newglossaryentry{symb:matrix:mech:gradient:displacement}{%
+  symbol      ={\ensuremath{\mathbf{H}}},%
+  name        ={Displacement gradient},%
+  description ={},%
+  user1       ={},%
+  user3       ={\ensuremath{H}},% Symbol fuer Komponente
+  type        =matrixlist,%
+  sort        =frH,%
+}
+
+\newglossaryentry{symb:matrix:laminate:bending}{%
+  symbol      ={\ensuremath{\mathbf{D}}},%
+  name        ={Laminate bending stiffness matrix},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\newton\protect\milli\protect\metre}}},%
+  type        =matrixlist,%
+  sort        =frD,%
+}
+
+\newglossaryentry{symb:matrix:laminate:coupling}{%
+  symbol      ={\ensuremath{\mathbf{B}}},%
+  name        ={Laminate coupling stiffness matrix},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\newton}}},%
+  type        =matrixlist,%
+  sort        =frB,%
+}
+
+\newglossaryentry{symb:matrix:laminate:membrane}{%
+  symbol      ={\ensuremath{\mathbf{A}}},%
+  name        ={Laminate membrane stiffness matrix},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\newton\protect\per\protect\milli\protect\metre}}},%
+  type        =matrixlist,%
+  sort        =frA,%
+}
+
+\newglossaryentry{symb:matrix:laminate:shear}{%
+  symbol      ={\ensuremath{\mathbf{H}}},%
+  name        ={Laminate transverse shear stiffness matrix},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\newton\protect\per\protect\milli\protect\metre}}},%
+  type        =matrixlist,%
+  sort        =frH,%
+}
+
+\newglossaryentry{symb:matrix:laminate:ply:stiffness}{%
+  symbol      ={\ensuremath{\mathbf{Q}}},%
+  name        ={Reduced ply stiffness matrix},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\mega\protect\pascal}}},%
+  type        =matrixlist,%
+  sort        =frQ,%
+}
+
+% \newglossaryentry{symb:matrix:interpolationoperator}{%
+  % symbol      ={\ensuremath{\mathbf{I}_{\Gamma}}},%
+  % name        ={Boundary interpolation operator},%
+  % description ={},%
+  % user1       ={},
+  % type        =matrixlist,%
+  % sort        =frIGamma,%
+% }
+
+\newglossaryentry{symb:matrix:jacobian}{%
+  symbol      ={\ensuremath{\mathbf{J}}},%
+  name        ={Jacobian matrix},%
+  description ={},%
+  user1       ={},
+  type        =matrixlist,%
+  sort        =frJ,%
+}
+
+\newglossaryentry{symb:matrix:stiffness}{%
+  symbol      ={\ensuremath{\mathbf{K}}},%
+  name        ={Stiffness matrix},%
+  description ={},%
+  user1       ={},%\ensuremath{\protect\si{\protect\newton\protect\per\protect\square\protect\milli\protect\metre}}},%
+  type        =matrixlist,%
+  sort        =frK,%
+}
+
+\newglossaryentry{symb:matrix:mass}{%
+  symbol      ={\ensuremath{\mathbf{M}}},%
+  name        ={Mass matrix},%
+  description ={},%
+  user1       ={\ensuremath{\protect\si{\protect\kilo\protect\gram}}},%
+  type        =matrixlist,%
+  sort        =frM,%
+}
+
+% \newglossaryentry{symb:matrix:damping}{%
+  % symbol      ={\ensuremath{\mathbf{S}}},%
+  % name        ={Damping matrix},%
+  % description ={},%
+  % user1       ={\ensuremath{\protect\si{\protect\kilo\protect\gram\protect\per\protect\second}}},%
+  % type        =matrixlist,%
+  % sort        =rS,%
+% }
+
+\newglossaryentry{symb:matrix:transformation}{%
+  symbol      ={\ensuremath{\mathbf{T}}},%
+  name        ={Transformation matrix},%
+  description ={},%
+  user1       ={},%
+  type        =matrixlist,%
+  sort        =frT,%
+}
+
+% -----------------
+% Greek
+% -----------------
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% States
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+% -----------------
+% Scalar
+% -----------------
+
+\newglossaryentry{symb:state:scalar:influence}{%
+  symbol      ={\ensuremath{\protect\underline{\omega}}},%
+  name        ={Influence scalar state},%
+  text        ={influence scalar state},%
+  description ={},%
+  user1       ={},%
+  type        =statelist,%
+  sort        =hgsomega,%
+}
+
+\newglossaryentry{symb:state:scalar:extension}{%
+  %symbol      ={\ensuremath{\protect\underline{\protect\mathbf{e}}}},%
+  symbol      ={\ensuremath{\protect\underline{e}}},%
+  name        ={Extension scalar state},%
+  description ={},%
+  user1       ={},%
+  type        =statelist,%
+  sort        =hrse,%
+}
+
+\newglossaryentry{symb:state:scalar:force}{%
+  %symbol      ={\ensuremath{\protect\underline{\protect\mathbf{e}}}},%
+  symbol      ={\ensuremath{\protect\underline{t}}},%
+  name        ={Force density scalar state},%
+  text        ={force density scalar state},%
+  description ={},%
+  user1       ={},%
+  type        =statelist,%
+  sort        =hrsf,%
+}
+
+\newglossaryentry{symb:state:scalar:position:undeformed}{%
+  symbol      ={\ensuremath{\protect\underline{x}}},%
+  name        ={Position scalar state, undeformed},%
+  description ={},%
+  user1       ={},%
+  type        =statelist,%
+  sort        =hrsx,%
+}
+
+\newglossaryentry{symb:state:scalar:position:deformed}{%
+  symbol      ={\ensuremath{\protect\underline{y}}},%
+  name        ={Position scalar state, deformed},%
+  description ={},%
+  user1       ={},%
+  type        =statelist,%
+  sort        =hrsy,%
+}
+
+% Separator -------
+
+\newglossaryentry{symb:state:scalar:stateromannull}{%
+  symbol      ={},%
+  name        ={},%
+  description ={},%
+  user1       ={},%
+  type        =statelist,%
+  sort        =hrszzz,%
+}
+
+% -----------------
+% Vector
+% -----------------
+
+\newglossaryentry{symb:state:vector:position}{%
+  symbol      ={\ensuremath{\protect\underline{\protect\mathbf{X}}}},%
+  name        ={Reference vector state},%
+  description ={},%
+  user1       ={},%
+  type        =statelist,%
+  sort        =hrvX,%
+}
+
+\newglossaryentry{symb:state:vector:deformation}{%
+  symbol      ={\ensuremath{\protect\underline{\protect\mathbf{Y}}}},%
+  name        ={Deformation vector state},%
+  description ={Maps each bond in the family of $\glssymbol{symb:vector:position:undeformed}$ to its deformed image},%
+  user1       ={},%
+  type        =statelist,%
+  sort        =hrvY,%
+}
+
+\newglossaryentry{symb:state:vector:force}{%
+  symbol      ={\ensuremath{\protect\underline{\protect\mathbf{T}}}},%
+  name        ={Force vector state},%
+  description ={},%
+  user1       ={},%
+  type        =statelist,%
+  sort        =hrvF,%
+}
+
+\newglossaryentry{symb:state:vector:direction:deformed}{%
+  symbol      ={\ensuremath{\protect\underline{\protect\mathbf{M}}}},%
+  name        ={Deformed direction vector state},%
+  description ={},%
+  user1       ={},%
+  type        =statelist,%
+  sort        =hrvM,%
+}
+
+% Separator -------
+
+\newglossaryentry{symb:state:vector:stateromannull}{%
+  symbol      ={},%
+  name        ={},%
+  description ={},%
+  user1       ={},%
+  type        =statelist,%
+  sort        =hrvzzz,%
+}
+
+% -----------------
+% Double
+% -----------------
+
+\newglossaryentry{symb:state:double:modulus}{%
+  symbol      ={\ensuremath{\protect\underline{\protect\mathbb{K}}}},%
+  name        ={Modulus double state},%
+  description ={},%
+  user1       ={},%
+  type        =statelist,%
+  sort        =hrzK,%
+}
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% Indices
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+% -----------------
+% Roman
+% -----------------
+
+% \newglossaryentry{symb:index:c}{%
+  % symbol      ={\ensuremath{_c}},%
+  % name        ={},%
+  % description ={Compression},%
+  % user1       ={},
+  % type        =indexlist,%
+  % sort        =rc,%
+% }
+
+\newglossaryentry{symb:index:critical}{%
+  symbol      ={\ensuremath{C}},%
+  name        ={},%
+  description ={Critical},%
+  user1       ={},
+%   type        =indexlist,%
+  type        =indexlist,%
+  sort        =icrit,%
+}
+
+\newglossaryentry{symb:index:init}{%
+  symbol      ={\ensuremath{init}},%
+  name        ={},%
+  description ={Initiation},%
+  user1       ={},
+%   type        =indexlist,%
+  type        =indexlist,%
+  sort        =iinit,%
+}
+
+\newglossaryentry{symb:index:hardening}{%
+  symbol      ={\ensuremath{H}},%
+  name        ={},%
+  description ={Hardening},%
+  user1       ={},
+%   type        =indexlist,%
+  type        =indexlist,%
+  sort        =iH,%
+}
+
+\newglossaryentry{symb:index:load:compression}{%
+  symbol      ={C},%
+  name        ={},%
+  description ={Compression},%
+  user1       ={},
+  type        =indexlist,%
+  sort        =icompression,%
+}
+
+\newglossaryentry{symb:index:load:compression:long}{%
+  symbol      ={cmp},%
+  name        ={},%
+  description ={Compression},%
+  user1       ={},
+  type        =indexlist,%
+  sort        =icompressionlong,%
+}
+
+\newglossaryentry{symb:index:load:shear}{%
+  symbol      ={S},%
+  name        ={},%
+  description ={Shear},%
+  user1       ={},
+  type        =indexlist,%
+  sort        =ishear,%
+}
+
+\newglossaryentry{symb:index:load:shear:long}{%
+  symbol      ={shr},%
+  name        ={},%
+  description ={Shear},%
+  user1       ={},
+  type        =indexlist,%
+  sort        =ishearlong,%
+}
+
+\newglossaryentry{symb:index:load:tension}{%
+  symbol      ={T},%
+  name        ={},%
+  description ={Tension},%
+  user1       ={},
+  type        =indexlist,%
+  sort        =itension,%
+}
+
+\newglossaryentry{symb:index:load:tension:long}{%
+  symbol      ={ten},%
+  name        ={},%
+  description ={Tension},%
+  user1       ={},
+  type        =indexlist,%
+  sort        =itensionlong,%
+}
+
+% \newglossaryentry{symb:index:t}{%
+  % symbol      ={\ensuremath{_t}},%
+  % name        ={},%
+  % description ={Tension},%
+  % user1       ={},
+  % type        =indexlist,%
+  % sort        =rt,%
+% }
+
+\newglossaryentry{symb:index:mat:damage:mode:I}{%
+  symbol      ={\ensuremath{I}},%
+  name        ={},%
+  description ={Fracture mode I},%
+  user1       ={},
+%   type        =indexlist,%
+  type        =indexlist,%
+  sort        =iI,%
+}
+
+\newglossaryentry{symb:index:mat:damage:mode:II}{%
+  symbol      ={\ensuremath{II}},%
+  name        ={},%
+  description ={Fracture mode II},%
+  user1       ={},
+%   type        =indexlist,%
+  type        =indexlist,%
+  sort        =iII,%
+}
+
+\newglossaryentry{symb:index:xyz}{%
+  symbol      ={\ensuremath{x,y,z}},%
+  name        ={},%
+  description ={Coordinate components},%
+  user1       ={},
+%   type        =indexlist,%
+  type        =indexlist,%
+  sort        =ixyz,%
+}
+
+\newglossaryentry{symb:index:yield}{%
+  symbol      ={\ensuremath{\mbox{y}}},%
+  name        ={},%
+  description ={Yield},%
+  user1       ={},
+%   type        =indexlist,%
+  type        =indexlist,%
+  sort        =iyield,%
+}
+
+\newglossaryentry{symb:index:zero}{%
+  symbol      ={\ensuremath{0}},%
+  name        ={},%
+  description ={Reference configuration},%
+  user1       ={},
+%   type        =indexlist,%
+  type        =indexlist,%
+  sort        =izero,%
+}
+
+% -----------------
+% Greek
+% -----------------
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% Exponents
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+% -----------------
+% Roman
+% -----------------
+
+\newglossaryentry{symb:exponent:midplane}{%
+  symbol      ={\ensuremath{0}},%
+  name        ={},%
+  description ={Reference to the middle plane},%
+  user1       ={},
+  type        =exponentlist,%
+  sort        =e0,%
+}
+
+\newglossaryentry{symb:exponent:deviatoric}{%
+  symbol      ={\ensuremath{d}},%
+  name        ={},%
+  description ={Deviatoric},%
+  user1       ={},
+  type        =exponentlist,%
+  sort        =ed,%
+}
+
+\newglossaryentry{symb:exponent:elastic}{%
+  symbol      ={\ensuremath{e}},%
+  name        ={},%
+  description ={Elastic},%
+  user1       ={},
+  type        =exponentlist,%
+  sort        =ee,%
+}
+
+\newglossaryentry{symb:exponent:linear}{%
+  symbol      ={\ensuremath{l}},%
+  name        ={},%
+  description ={Linear},%
+  user1       ={},
+  type        =exponentlist,%
+  sort        =el,%
+}
+
+\newglossaryentry{symb:exponent:nonlinear}{%
+  symbol      ={\ensuremath{nl}},%
+  name        ={},%
+  description ={Nonlinear},%
+  user1       ={},
+  type        =exponentlist,%
+  sort        =enl,%
+}
+
+\newglossaryentry{symb:exponent:plastic}{%
+  symbol      ={\ensuremath{p}},%
+  name        ={},%
+  description ={Plastic},%
+  user1       ={},
+  type        =exponentlist,%
+  sort        =ep,%
+}
+
+\newglossaryentry{symb:exponent:volumetric}{%
+  symbol      ={\ensuremath{v}},%
+  name        ={},%
+  description ={Volumetric},%
+  user1       ={},
+  type        =exponentlist,%
+  sort        =ev,%
+}
+
+% -----------------
+% Greek
+% -----------------
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% Operators
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+\newglossaryentry{symb:operator:Delta}{%
+  symbol      ={\ensuremath{\Delta}},%
+  name        ={},%
+  description ={Difference},%
+  user1       ={\ensuremath{\protect\Delta}},%
+  user2       ={\ensuremath{\protect\left(\protect\phantom{a}\protect\right)}},%
+  user3       ={},%
+  type        =operatorlist,%
+  sort        =oDelta,%
+}
+
+\newglossaryentry{symb:operator:kroneckerdelta}{%
+  symbol      ={\ensuremath{\delta_{ij}}},%
+  name        ={},%
+  description ={Kronecker delta},%
+  %user1       ={\ensuremath{\protect\left(\protect\phantom{a}\protect\right)}},%
+  user1       ={},%
+  user2       ={$\delta_{ij}$},%
+  %user3       ={\ensuremath{\protect\left(\protect\phantom{a}\protect\right)}},%
+  user3       ={},%
+  type        =operatorlist,%
+  sort        =okroneckerdelta,%
+}
+
+\newglossaryentry{symb:operator:product:dot}{%
+  symbol      ={\ensuremath{\boldsymbol{\cdot}}},%
+  name        ={},%
+  description ={Dot product},%
+  %user1       ={\ensuremath{\protect\left(\protect\phantom{a}\protect\right)}},%
+  user1       ={},%
+  user2       ={$\boldsymbol{\cdot}$},%
+  %user3       ={\ensuremath{\protect\left(\protect\phantom{a}\protect\right)}},%
+  user3       ={},%
+  type        =operatorlist,%
+  sort        =odot,%
+}
+
+\newglossaryentry{symb:operator:product:tensor}{%
+  symbol      ={\ensuremath{\otimes}},%
+  name        ={},%
+  description ={Dyadic tensor product of two vectors},%
+  %user1       ={\ensuremath{\protect\left(\protect\phantom{a}\protect\right)}},%
+  user1       ={},%
+  user2       ={$\otimes$},%
+  %user3       ={\ensuremath{\protect\left(\protect\phantom{a}\protect\right)}},%
+  user3       ={},%
+  type        =operatorlist,%
+  sort        =ootimes,%
+}
+
+\newglossaryentry{symb:operator:mean}{%
+  symbol      ={\ensuremath{\bar{\left(\phantom{a}\right)}}},%
+  name        ={},%
+  description ={Mean value},%
+  user1       ={},%
+  user2       ={\ensuremath{\protect\bar{\protect\left(\protect\phantom{a}\protect\right)}}},%
+  user3       ={},%
+  type        =operatorlist,%
+  sort        =omean,%
+}
+
+\newglossaryentry{symb:operator:derivative:frechet}{%
+  symbol      ={\ensuremath{\nabla}},%
+  name        ={Fr\'{e}chet derivative},%
+  description ={Fr\'{e}chet derivative},%
+  user1       ={\ensuremath{\protect\nabla}},%
+  user2       ={\ensuremath{\protect\left(\protect\phantom{a}\protect\right)}},%
+  user3       ={},%
+  type        =operatorlist,%
+  sort        =onabla,%
+}
+
+\newglossaryentry{symb:operator:norm}{%
+  symbol      ={\ensuremath{\left|\phantom{a}\right|}},%
+  name        ={},%
+  description ={Norm, all norms are taken to be the 2-norm},%
+  user1       ={\ensuremath{\protect\lVert}},%
+  user2       ={\ensuremath{\protect\left(\protect\phantom{a}\protect\right)}},%
+  user3       ={\ensuremath{\protect\rVert}},%
+  type        =operatorlist,%
+  sort        =onorm,%
+}
+
+\newglossaryentry{symb:operator:csys:local}{%
+  symbol      ={\ensuremath{\hat{\left(\phantom{a}\right)}}},%
+  name        ={},%
+  description ={Value in local coordinate system},%
+  user1       ={},%
+  user2       ={\ensuremath{\protect\hat{\protect\left(\protect\phantom{a}\protect\right)}}},%
+  user3       ={},%
+  type        =operatorlist,%
+  sort        =ocsyslocal,%
+}
+
+\newglossaryentry{symb:operator:csys:material}{%
+  symbol      ={\ensuremath{\bar{\left(\phantom{a}\right)}}},%
+  name        ={},%
+  description ={Value in material coordinate system},%
+  user1       ={},%
+  user2       ={\ensuremath{\protect\bar{\protect\left(\protect\phantom{a}\protect\right)}}},%
+  user3       ={},%
+  type        =operatorlist,%
+  sort        =ocsysmaterial,%
+}
+
+\newglossaryentry{symb:operator:dif}{%
+  symbol      ={\ensuremath{\dif}},%
+  name        ={},%
+  description ={Derivative},%
+  user1       ={},%
+  user2       ={},%
+  user3       ={},%
+  type        =operatorlist,%
+  sort        =odif,%
+}
+
+\newglossaryentry{symb:operator:dif:partial}{%
+  symbol      ={\ensuremath{\partial\left(\phantom{a}\right)}},%
+  name        ={},%
+  description ={Partial differential operator},%
+  user1       ={\ensuremath{\partial}},%
+  user2       ={\ensuremath{\protect\left(\protect\phantom{a}\protect\right)}},%
+  user3       ={},%
+  type        =operatorlist,%
+  sort        =odifpartial,%
+}
+
+\newglossaryentry{symb:operator:dif:short}{%
+  %symbol      ={\ensuremath{\left(\phantom{a}\right)_{,\left(x/y/z\right)}}},%
+  symbol      ={\ensuremath{\left(\phantom{a}\right)_{,x}}},%
+  name        ={},%
+  description ={Spatial derivative with respect to coordinate \ensuremath{x}},%
+  user1       ={},%
+  user2       ={\ensuremath{\protect\left(\protect\phantom{a}\protect\right)}},%
+  user3       ={\ensuremath{_{,x}}},%
+  type        =operatorlist,%
+  sort        =odifdx,%
+}
+
+\newglossaryentry{symb:operator:dif:short:time}{%
+  symbol      ={\ensuremath{\dot{\left(\phantom{a}\right)}}},%
+  name        ={},%
+  description ={Derivative with respect to time \glssymbol{symb:scalar:time}},%
+  user1       ={},%
+  user2       ={\ensuremath{\protect\dot{\protect\left(\protect\phantom{a}\protect\right)}}},%
+  user3       ={},%
+  type        =operatorlist,%
+  sort        =odifdt,%
+}
+
+\newglossaryentry{symb:operator:matrix:inverse}{%
+  symbol      ={\ensuremath{\left(\phantom{a}\right)^{\minus1}}},%
+  name        ={},%
+  description ={Inverse matrix},%
+  user1       ={},%
+  user2       ={\ensuremath{\protect\left(\protect\phantom{a}\protect\right)}},%
+  user3       ={\ensuremath{^{-1}}},%
+  type        =operatorlist,%
+  sort        =omatrixinverse,%
+}
+
+\newglossaryentry{symb:operator:matrix:transpose}{%
+  symbol      ={\ensuremath{\left(\phantom{a}\right)^T}},%
+  name        ={},%
+  description ={Transpose matrix},%
+  user1       ={},%
+  user2       ={\ensuremath{\protect\left(\protect\phantom{a}\protect\right)}},%
+  user3       ={\ensuremath{^T}},%
+  type        =operatorlist,%
+  sort        =omatrixtranspose,%
+}

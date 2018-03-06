@@ -1,0 +1,49 @@
+% Local variables
+\def\vinfty{0.1}
+%
+\begin{tabularx}{\linewidth}{YYY}
+\begin{minipage}{\linewidth}
+\begin{tikzpicture}
+  % General variables
+  \def\xlabel{$t$}
+  \def\ylabel{$u$}
+  % Axis
+  \begin{axis}[uvachartstyle]
+    % Function
+    \addplot [blue, domain=\xn:\xi] {\yi*abs(\xi)^(-1/3)*abs(x)^(1/3)};
+    \addplot [blue, domain=\xi:\xf] {\vinfty * abs(x-\xi)+\yi};
+  \end{axis}
+\end{tikzpicture}
+\end{minipage}
+&
+\def\vinfty{5}
+\begin{minipage}{\linewidth}
+\begin{tikzpicture}
+  % General variables
+  \def\xlabel{$t$}
+  \def\ylabel{$v$}
+  % Axis
+  \begin{axis}[uvachartstyle]
+    % Function
+%     \addplot {(\yi-\yn)/(\xf-\xn)};
+    \addplot [blue, domain=(\xn+\xi/10000):\xi] {\vinfty*(abs(\xi)^(2/3)*abs(x)^(-2/3)};
+    \addplot [blue, domain=\xi:\xf] {\vinfty};
+  \end{axis}
+\end{tikzpicture}
+\end{minipage}
+&
+% \def\vinfty{10.0}
+\begin{minipage}{\linewidth}
+\begin{tikzpicture}
+  % General variables
+  \def\xlabel{$t$}
+  \def\ylabel{$-a$}
+  % Axis
+  \begin{axis}[uvachartstyle]
+    % Function
+    \addplot [blue, domain=(\xn+\xi/10000):\xi,samples=50] {\vinfty*(abs(x)^(-4/3)-abs(\xi)^(-4/3))};
+    \addplot [blue, domain=\xi:\xf] {0};
+  \end{axis}
+\end{tikzpicture}
+\end{minipage}
+\end{tabularx}

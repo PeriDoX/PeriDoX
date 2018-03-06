@@ -1,0 +1,227 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{\idxPDKwNOXQuasiStatic{} (nonlinear)}
+\label{sec:Peridigm:QRG:Solver:NOXQuasiStatic}
+\myindex[\idxPDKeywordName]{\idxPDKwNOXQuasiStatic}
+\myindex[\idxPDKeywordName]{\idxPDKwSolver!\idxPDKwNOXQuasiStatic|see{\idxPDKwNOXQuasiStatic}}
+
+\leveldown{Description}
+
+NOX Quasi-static, keyword \verb+NOXQuasiStatic+, is a time integration scheme for quasi-static analysis using a nonlinear solver with modified Newton approach using the NOX solver from \marktool{\trilinosname}. NOX is short for Nonlinear Object-Oriented Solutions, and its objective is to enable the robust and efficient solution of the equation: $ F(x)=0 $, where $F:\Re^n \rightarrow \Re^n$. NOX implements a variety of Newton-based globalization techniques including Line Search and Trust Region algorithms. In addition it provides higher and lower order models using Broyden and Tensor algorithms. Special algorithms have been developed for use with inexact linear solvers such as Krylov subspace techniques. NOX is designed to work with any linear algebra package and to be easily customized.
+
+\begin{itemize}[noitemsep]
+  \item Capabilities:
+  \begin{itemize}[noitemsep]
+    \item Newton-Based Nonlinear Solver
+    \begin{itemize}[noitemsep]
+      \item Linked to Trilinos linear solvers for scalability
+      \item Matrix-Free option
+    \end{itemize}
+    \item Anderson Acceleration for Fixed-Point iterations
+    \item Globalizations for improved robustness
+    \item Line Searches, Trust Region, Homotopy methods
+    \item Customizable: C++ abstractions at every level
+    \item Extended by LOCA package (Parameter continuation, Stability analysis, Bifurcation tracking)
+  \end{itemize}
+  \item Download: Part of Trilinos
+  \item Further information: Andy Salinger \href{mailto:agsalin@sandia.gov}{agsalin@sandia.gov}
+\end{itemize}
+
+\levelstay{Code}
+
+\begin{itemize}[noitemsep]
+  \item \texttt{/src/core/Peridigm.cpp}\\
+  $\rightarrow$ \texttt{PeridigmNS::Peridigm::execute}\\
+  $\rightarrow$ \texttt{PeridigmNS::Peridigm::executeNOXQuasiStatic}
+  \item \texttt{/src/core/Peridigm.hpp}
+\end{itemize}
+
+\levelstay{Input parameters}
+
+% \leveldown{List}
+% 
+% \begin{tabularx}{\linewidth}{lcccX}
+% \toprule
+% Name		& Type		& Required	& Default	& Description		\\
+% \midrule
+% \multicolumn{5}{l}{Solver parameters}	\\
+% Initial Time	& double	& -		& 0.0		& Start time of simulation	\\
+% Final Time	& double	& -		& 1.0		& End time of simulation	\\
+% Verbose		& bool		& -		& false		& \\
+% Disable Heuristics & bool	& -		& false		& Disable solver heuristics	\\
+% \multicolumn{5}{l}{Time integration parameters}	\\
+% Number of Load Steps	& int	& (\checkmark)	& -		& 	\\
+% Maximum Solver Iterations & int	& -		& 10		& 	\\
+% Time Steps	& int		& (\checkmark)		& -		& 	\\
+% Damped Newton Diagonal Scale Factor & double	& -	& 1.0001	& \\
+% Damped Newton Diagonal Shift Factor & double	& -	& 0.00001	& \\
+% Relative Tolerance & double	& -		& 1.0E-6	& 	\\
+% Absolute Tolerance & double	& -		& -		& 	\\
+% \bottomrule
+% \end{tabularx}
+% 
+% \levelstay{Remarks}
+% 
+% \begin{enumerate}[noitemsep]
+%   \item Since the analysis is quasi-static, the values of \textit{Initial Time} and \textit{Final Time} are irrelevant%. Both values are not processed in \verb+PeridigmNS::Peridigm::executeQuasiStatic+
+%   \item Two types of load step input are mutually exclusive, but one of them is required in the definition
+%   \begin{itemize}
+%    \item \textit{Final Time} and \textit{Number of Load Steps}
+%    \item \textit{Time Steps}
+%   \end{itemize}
+% \end{enumerate}
+
+\paragraph{Preconditioner keywords}
+
+\begin{tabularx}{\linewidth}{lccX}
+\toprule
+Name		& Type		& Default	& Description	\\
+\midrule
+Peridigm Preconditioner		& String	& 	& ``None'', ``Full Tangent''	\\
+\bottomrule
+\end{tabularx}
+
+\paragraph{NOXQuasiStatic keywords}
+
+Inside the group NOXQuasiStatic:
+
+\begin{tabularx}{\linewidth}{lccX}
+\toprule
+Name		& Type		& Default	& Description	\\
+\midrule
+Nonlinear Solver		& String	& 	& ``Line Search Based''	\\
+Number of Load Steps		& int		& 	& 	\\
+Max Solver Iterations		& int		&	&	\\
+Relative Tolerance		& double	&	&	\\
+Max Age Of Prec			& int		&	&	\\
+\bottomrule
+\end{tabularx}
+
+Groups:
+
+\begin{multicols}{2}
+\begin{itemize}[noitemsep]
+  \item Direction
+  \item Line Search
+\end{itemize}
+\end{multicols}
+
+\paragraph{Direction keywords}
+
+Inside the group Direction:
+
+\begin{tabularx}{\linewidth}{lccX}
+\toprule
+Name		& Type		& Default	& Description	\\
+\midrule
+Method		& String	& 	& ``Newton''	\\
+Linear Solver\\
+Jacobian Operator	& String	& 	& ``Matrix-Free''	\\
+Preconditioner 		& String	& 	& ``None'', ``AztecOO'', ``User Defined''	\\
+\bottomrule
+\end{tabularx}
+
+\paragraph{Line search keywords}
+
+Inside the group Line search:
+
+\begin{tabularx}{\linewidth}{lccX}
+\toprule
+Name		& Type		& Default	& Description	\\
+\midrule
+Method		& String	& 	& ``Polynomial''	\\
+\bottomrule
+\end{tabularx}
+
+\levelstay{Exemplary input section}
+
+\leveldown{XML-format}
+
+-
+
+\levelstay{Free format}
+
+\begin{code}
+Solver
+  Initial Time 0.0
+  Final Time 1.0
+  Peridigm Preconditioner "Full Tangent"
+  NOXQuasiStatic
+    Nonlinear Solver "Line Search Based"
+    Number of Load Steps 1
+    Max Solver Iterations 100
+    Relative Tolerance 1.0e-9
+    Max Age Of Prec 100
+    Direction
+      Method "Newton"
+      Newton
+        Linear Solver
+          Jacobian Operator "Matrix-Free"
+          Preconditioner "AztecOO"
+    Line Search
+      Method "Polynomial"
+\end{code}
+
+\levelstay{YAML format}
+
+from \texttt{NOX\_QS\_MatrixFree\_NoPrec\_YAML.yaml}
+
+\begin{code}
+Solver:
+  Initial Time: 0.0
+  Final Time: 1.0
+  Peridigm Preconditioner: "None"
+  NOXQuasiStatic:
+    Nonlinear Solver: "Line Search Based"
+    Number of Load Steps: 1
+    Max Solver Iterations: 100
+    Relative Tolerance: 1.0e-9
+    Max Age Of Prec: 100
+    Direction:
+      Method: "Newton"
+      Newton:
+        Linear Solver:
+          Jacobian Operator: "Matrix-Free"
+          Preconditioner: "None"
+    Line Search:
+      Method: "Polynomial"
+\end{code}
+
+\levelup{List of examples}
+
+\begin{itemize}[noitemsep]
+%   \item From \texttt{examples/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{examples/tensile\_test/tensile\_test.peridigm}
+%   \end{itemize}
+  \item From \texttt{test/regression/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Compression\_NLCGQS\_3x2x2/Compression\_NLCGQS\_3x2x2.xml}
+    \item \texttt{NOX\_QS/NOX\_QS\_MatrixFree\_3x3Prec.peridigm}
+    \item \texttt{NOX\_QS/NOX\_QS\_MatrixFree\_FullTangentPrec.peridigm}
+    \item \texttt{NOX\_QS/NOX\_QS\_MatrixFree\_NoPrec.peridigm}
+    \item \texttt{NOX\_QS/NOX\_QS\_Newton\_AztecOOPrec.peridigm}
+    \item \texttt{NOX\_QS/NOX\_QS\_Newton\_NoPrec.peridigm}
+    \item \texttt{NOX\_QS/NOX\_QS\_MatrixFree\_NoPrec\_YAML.yaml}
+  \end{itemize}
+%   \item From \texttt{test/verification/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{ElasticCorrespondenceFullyPrescribedTension/ElasticCorrespondenceFullyPrescribedTension.xml}
+%   \end{itemize}
+\end{itemize}

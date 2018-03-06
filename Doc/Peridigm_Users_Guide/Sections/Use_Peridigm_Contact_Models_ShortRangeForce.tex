@@ -1,0 +1,160 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{\idxPDKwShortRangeForce}
+\label{sec:Peridigm:QRG:Contact:Model:ShortRangeForce}
+\myindex[\idxPDKeywordName]{\idxPDKwShortRangeForce}
+
+\leveldown{Description}
+
+A simple contact model for the interaction of non-bonded elements.
+
+\begin{itemize}
+  \item From David Littlewood:\\
+  To the best of my knowledge, the short-range contact model in Peridigm is completely ad hoc. It isn't tied to anything physical as far as I know, and I'm not aware of any general usage rules. It's just a repulsive force that was implemented to give somewhat reasonable results for impact problems.  
+\end{itemize}
+
+\levelstay{Literature}
+
+\begin{itemize}[noitemsep]
+  \item \cite{SillingSA2005}
+  \item \cite{PeridigmUserGuide100}
+  \item \cite{LittlewoodD2011} \& \cite{LittlewoodD2015}
+\end{itemize}
+
+\levelstay{Code}
+
+\leveldown{Release version}
+
+Available from \href{\toolrepoversiononetwo}{version 1.2}.
+
+\levelstay{Required compiler options}
+
+-
+
+\levelstay{Routines}
+
+\begin{itemize}[noitemsep]
+%   \item IO:
+%   \begin{itemize}[noitemsep]
+  \item \verb+/src/contact/Peridigm_ShortRangeForceContactModel.cpp+
+  \item \verb+/src/contact/Peridigm_ShortRangeForceContactModel.hpp+
+%   \end{itemize}
+%   \item Computation:
+%   \begin{itemize}[noitemsep]
+%     \item \verb+/src/materials/elastic.cxx+
+%     \item \verb+/src/materials/elastic.h+
+%   \end{itemize}
+\end{itemize}
+
+\levelup{Input parameters}
+
+\leveldown{List}%\mbox{}\\
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name                 & Type   & Required      & Default     & Description           \\
+\midrule
+Contact Model\myindex[\idxPDKeywordName]{\idxPDKwContactModel}        & string & \checkmark    & -           & Contact model type ``\idxPDKwShortRangeForce'' \\
+Contact Radius\textsuperscript{\ref{enm:Peridigm:QRG:Contact:Model:ShortRangeForce:Remark:ContactRadius}}       & double & \checkmark    & -           &  \\
+Spring Constant\textsuperscript{\ref{enm:Peridigm:QRG:Contact:Model:ShortRangeForce:Remark:SpringConstant}}      & double & \checkmark    & -           &  \\
+Friction Coefficient\textsuperscript{\ref{enm:Peridigm:QRG:Contact:Model:ShortRangeForce:Remark:FrictionCoefficient}}\myindex[\idxPDKeywordName]{\idxPDKwFrictionCoefficient}  & double & -             & $\num{0.0}$        &  \\
+Horizon\myindex[\idxPDKeywordName]{\idxPDKwHorizon}\textsuperscript{\ref{enm:Peridigm:QRG:Contact:Model:ShortRangeForce:Remark:Horizon}}              & double & -             & $\num{0.0}$ &  \\
+\bottomrule
+\end{tabularx}
+
+\levelstay{Remarks}%\mbox{}\\
+
+\begin{enumerate}[noitemsep]
+  \item Contact algorithm operates on planar facets, these are created from peridynamic collocation points, see \cite{LittlewoodD2011} \& \cite{LittlewoodD2015}
+  \item \label{enm:Peridigm:QRG:Contact:Model:ShortRangeForce:Remark:ContactRadius} Initial guess for contact radius: somewhat smaller than the initial node spacing, so that it doesn't add forces to material in the undeformed or slightly deformed configuration. I would also expect it to be large enough to prevent material interpenetration. 
+  \item \label{enm:Peridigm:QRG:Contact:Model:ShortRangeForce:Remark:SpringConstant} From David Littlewood: The spring force parameter is determined by trial and error, although a good initial guess might be 10 times the force of the constitutive model.
+  \item \label{enm:Peridigm:QRG:Contact:Model:ShortRangeForce:Remark:FrictionCoefficient} In case \texttt{Friction Coefficient} is not defined, no friction is applied by using the default value
+  \item \label{enm:Peridigm:QRG:Contact:Model:ShortRangeForce:Remark:Horizon}
+\end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}%\mbox{}\\
+
+without friction:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Models">
+  <ParameterList name="My Contact Model">
+    <Parameter name="Contact Model" type="string" value="Short Range Force"/>
+    <Parameter name="Contact Radius" type="double" value="0.2"/>
+    <Parameter name="Spring Constant" type="double" value="1950.0e3"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+with friction:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Models">
+  <ParameterList name="My Contact Model">
+    <Parameter name="Contact Model" type="string" value="Short Range Force"/>
+    <Parameter name="Contact Radius" type="double" value="0.2"/>
+    <Parameter name="Spring Constant" type="double" value="1.0e12"/>
+    <Parameter name="Friction Coefficient" type="double" value="0.3"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+\levelstay{Free format}%\mbox{}\\
+
+Without friction:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+Models
+  My Contact Model
+    Contact Model "Short Range Force"
+    Contact Radius {0.8*MODEL_ESIZE_FIBRE}
+    Spring Constant {10.0001*MAT_FIBRE_MODULUS_YOUNG}
+\end{code}
+\endgroup
+
+\levelstay{YAML format}%\mbox{}\\
+
+-
+
+\levelup{List of examples}
+
+\begin{itemize}[noitemsep]
+%   \item From \texttt{examples/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{examples/tensile\_test/tensile\_test.peridigm}
+%   \end{itemize}
+%   \item From \texttt{test/regression/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Contact\_Cubes/Contact\_Cubes.xml}
+%   \end{itemize}
+  \item From \texttt{test/verification/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Contact\_Friction/Contact\_Friction.xml}
+  \end{itemize}
+\end{itemize}

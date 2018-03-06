@@ -1,0 +1,81 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This file handles all environment definitions
+%
+% Revisions: 2016-03-06 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-----------------------------------
+% Environments
+%-----------------------------------
+
+\makeatletter
+\newenvironment{mybibliography}[1]
+	 {\@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
+	  \list{\@biblabel{\@arabic\c@enumiv}}%
+		   {\settowidth\labelwidth{\@biblabel{#1}}%
+			\leftmargin\labelwidth
+			\advance\leftmargin\labelsep
+			\@openbib@code
+			\usecounter{enumiv}%
+			\let\p@enumiv\@empty
+			\renewcommand\theenumiv{\@arabic\c@enumiv}}%
+	  \sloppy
+	  \clubpenalty4000
+	  \@clubpenalty \clubpenalty
+	  \widowpenalty4000%
+	  \sfcode`\.\@m}
+	 {\def\@noitemerr
+	   {\@latex@warning{Empty `mybibliography' environment}}%
+	  \endlist}
+\makeatother %%
+
+% http://tex.stackexchange.com/a/265697/44634
+\NewDocumentEnvironment{example}{ O{} }{%
+% \colorlet{colexam}{red!55!black} % Global example color
+\colorlet{colexam}{gray!90} % Global example color
+\newtcolorbox[use counter=example]{examplebox}{%
+    % Example Frame Start
+    empty,% Empty previously set parameters
+    title={\exampletext: #1},% use \thetcbcounter to access the example counter text
+    % Attaching a box requires an overlay
+    attach boxed title to top left,
+    % Ensures proper line breaking in longer titles
+    minipage boxed title,
+    % (boxed title style requires an overlay)
+    boxed title style={empty,size=minimal,toprule=0pt,top=4pt,left=3mm,overlay={}},
+    coltitle=colexam,fonttitle=\bfseries,
+    before=\par\medskip\noindent,parbox=false,boxsep=0pt,left=3mm,right=0mm,top=2pt,breakable,pad at break=0mm,
+    before upper=\csname @totalleftmargin\endcsname0pt, % Use instead of parbox=true. This ensures parskip is inherited by box.
+    % Handles box when it exists on one page only
+    overlay unbroken={\draw[colexam,line width=.5pt] ([xshift=-0pt]title.north west) -- ([xshift=-0pt]frame.south west); },
+    % Handles multipage box: first page
+    overlay first={\draw[colexam,line width=.5pt] ([xshift=-0pt]title.north west) -- ([xshift=-0pt]frame.south west); },
+    % Handles multipage box: middle page
+    overlay middle={\draw[colexam,line width=.5pt] ([xshift=-0pt]frame.north west) -- ([xshift=-0pt]frame.south west); },
+    % Handles multipage box: last page
+    overlay last={\draw[colexam,line width=.5pt] ([xshift=-0pt]frame.north west) -- ([xshift=-0pt]frame.south west); },%
+    }
+\begin{examplebox}\inenvironmentexamplepar}
+{\end{examplebox}\endlist}
+
+% An environment that allows absolutely no page break for its content
+% http://tex.stackexchange.com/a/94702/44634
+\newenvironment{absolutelynopagebreak}{%
+  \par\nobreak\vfil\penalty0\vfilneg\vtop\bgroup%
+}{%
+  \par\xdef\tpd{\the\prevdepth}\egroup\prevdepth=\tpd%
+}

@@ -1,0 +1,74 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{Input deck structure}
+\label{sec:Peridigm:QRG:InputFileFormat:Structure}
+
+This section is basically taken from section 3.2 in \cite{PeridigmUserGuide100}. Independent of the actual input file format, a \toolname{} input deck takes the form:
+
+\begin{itemize}[noitemsep]
+  \item \texttt{[Discretization Section]}           \tabto{0.75\linewidth} required
+  \item \texttt{[Materials Section]}                \tabto{0.75\linewidth} required
+  \item \texttt{[Damage Models Section]}            \tabto{0.75\linewidth} optional
+  \item \texttt{[Blocks Section]}                   \tabto{0.75\linewidth} required
+  \item \texttt{[Contact Section]}                  \tabto{0.75\linewidth} optional
+  \item \texttt{[Boundary Conditions Section]}      \tabto{0.75\linewidth} required
+  \item \texttt{[Compute Class Parameters Section]} \tabto{0.75\linewidth} optional
+  \item \texttt{[Solver Section]}                   \tabto{0.75\linewidth} required
+  \item \texttt{[Output Section]}                   \tabto{0.75\linewidth} required
+\end{itemize}
+
+We elaborate on each of these sections below:
+
+\begin{filecontents}{\tabledir\jobname-inputfilestructureltxtable.tex}
+\begin{longtable}{@{}lX@{}}
+\caption{Input file section overview}\\
+\toprule
+Section & Description   \\
+\midrule
+\endfirsthead
+%
+\multicolumn{2}{@{}l}{\ldots continued}\\
+\toprule
+Section & Description   \\
+\midrule
+\endhead
+%
+\bottomrule
+\multicolumn{2}{r@{}}{continued \ldots}\\
+\endfoot
+\bottomrule
+\endlastfoot
+%
+\texttt{[Discretization Section]}           & Contains filename of input mesh, or arguments to Peridigm internal mesh generator.\\
+\texttt{[Materials Section]}                & Contains  the  names  of  the  material models  used  and  arguments  for  their constitutive parameters.\\
+\texttt{[Damage Models Section]}            & Contains  the  names  of  the  damage  models  used  and  arguments  for their constitutive parameters.\\
+\texttt{[Blocks Section]}                   & Contains  a  listing  of  the  model properties,  associating  each  block  with  material and damage models as well as a horizon.\\
+\texttt{[Contact Section]}                  & Contains a listing of the contact models and the kind of contact model to be applied when model regions come into contact in a simulation.\\
+\texttt{[Boundary Conditions Section]}      & Contains the initial and boundary conditions and loads for the simulation.\\
+\texttt{[Compute Class Parameters Section]} & Contains user defined calculation data which shall be output in a simulation.\\
+\texttt{[Solver Section]}                   & Contains the solver to be used along with solver parameters.\\
+\texttt{[Output Section]}                   & Contains the output filename and output frequency along with a listing of the variables to be output.
+\end{longtable}
+\end{filecontents}
+
+\begingroup
+\LTXtable{\linewidth}{\tabledir\jobname-inputfilestructureltxtable.tex}
+\endgroup
+
+Each of these sections is described in a separate part of chapter \ref{sec:Peridigm:QRG}.

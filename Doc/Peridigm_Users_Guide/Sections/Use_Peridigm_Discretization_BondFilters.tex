@@ -1,0 +1,150 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelstay{\idxPDKwBondFilters}
+\label{sec:Peridigm:QRG:Discretization:Tools:BondFilters}
+\myindex[\idxPDKeywordName]{\idxPDKwBondFilters}
+
+\leveldown{Description}
+
+A method to omit bonds in the discretization.
+
+\levelstay{Code}
+
+Dependent on the type of discretization the following classes are used:
+
+\begin{itemize}[noitemsep]
+  \item from \texttt{src/io/discretization/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Peridigm\_AlbanyDiscretization.cpp}
+    \item \texttt{Peridigm\_AlbanyDiscretization.hpp}
+    \item \texttt{Peridigm\_ExodusDiscretization.cpp}
+    \item \texttt{Peridigm\_ExodusDiscretization.hpp}
+    \item \texttt{Peridigm\_PdQuickGridDiscretization.hpp}
+    \item \texttt{Peridigm\_PdQuickGridDiscretization.cpp}
+    \item \texttt{Peridigm\_TextFileDiscretization.hpp}
+    \item \texttt{Peridigm\_TextFileDiscretization.cpp}
+  \end{itemize}
+\end{itemize}
+
+All extend the super-class
+
+\begin{itemize}[noitemsep]
+  \item \verb+/src/io/discretization/Peridigm_Discretization.cpp+
+  \item \verb+/src/io/discretization/Peridigm_Discretization.hpp+
+\end{itemize}
+
+Each class uses the method from the super-class :
+
+\verb+PeridigmNS::Discretization::createBondFilters+
+
+\levelstay{Input parameters}
+
+\leveldown{List}
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name                    & Type   & Required   & Default & Description           \\
+\midrule
+Type                    & string & \checkmark & - & ``\idxPDKwRectangularPlane'' \\
+Normal\_X               & double & \checkmark & - & $x$-component of the cutting plane normal vector\\
+Normal\_Y               & double & \checkmark & - & $y$-component of the cutting plane normal vector\\
+Normal\_Z               & double & \checkmark & - & $z$-component of the cutting plane normal vector\\
+Lower\_Left\_Corner\_X  & double & \checkmark & - & \\
+Lower\_Left\_Corner\_Y  & double & \checkmark & - & \\
+Lower\_Left\_Corner\_Z  & double & \checkmark & - & \\
+Bottom\_Unit\_Vector\_X & double & \checkmark & - & \\
+Bottom\_Unit\_Vector\_Y & double & \checkmark & - & \\
+Bottom\_Unit\_Vector\_Z & double & \checkmark & - & \\
+Bottom\_Length          & double & \checkmark & - & \\
+Side\_Length            & double & \checkmark & - & \\
+\bottomrule
+\end{tabularx}
+
+\levelstay{Remarks}
+
+\begin{enumerate}[noitemsep]
+  \item \idxPDKwBondFilters{} cause the bonds to not be created in the first place
+  \item For type ``\idxPDKwRectangularPlane'':
+  \begin{itemize}[noitemsep]
+    \item Define a rectangular cut plane where all bonds are released prior to the simulation.
+  \end{itemize}
+  \item It is suggested to define the output variable Number\_Of\_Neighbors in order to confirm that the bond filter is in the right place. It always seems to take me multiple tries to get it right.
+\end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}
+
+from \verb+/test/regression/PrecrackedPlate/PrecrackedPlate.xml+:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Discretization">
+  <Parameter name="Type" type="string" value="Exodus" />
+  <Parameter name="Input Mesh File" type="string" value="Plate.g"/>
+  <ParameterList name="Bond Filters">
+    <ParameterList name="My First Bond Filter">
+      <Parameter name="Type" type="string" value="Rectangular_Plane"/>
+      <Parameter name="Normal_X" type="double" value="0.0"/>
+      <Parameter name="Normal_Y" type="double" value="1.0"/>
+      <Parameter name="Normal_Z" type="double" value="0.0"/>
+      <Parameter name="Lower_Left_Corner_X" type="double" value="-10.0"/>
+      <Parameter name="Lower_Left_Corner_Y" type="double" value="0.0"/>
+      <Parameter name="Lower_Left_Corner_Z" type="double" value="-10.0"/>
+      <Parameter name="Bottom_Unit_Vector_X" type="double" value="1.0"/>
+      <Parameter name="Bottom_Unit_Vector_Y" type="double" value="0.0"/>
+      <Parameter name="Bottom_Unit_Vector_Z" type="double" value="0.0"/>
+      <Parameter name="Bottom_Length" type="double" value="10"/>
+      <Parameter name="Side_Length" type="double" value="20"/>
+    </ParameterList>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+\levelstay{Free format}
+
+-
+
+\levelstay{YAML format}
+
+-
+
+\levelup{List of examples}
+
+\begin{itemize}[noitemsep]
+%   \item From \texttt{examples/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{examples/tensile_test/tensile_test.peridigm}
+%   \end{itemize}
+  \item From \texttt{test/regression/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{PrecrackedPlate/PrecrackedPlate.xml}
+    \item \texttt{PrecrackedPlateTwoCracks/PrecrackedPlateTwoCracks.xml}
+  \end{itemize}
+%   \item From \texttt{test/verification/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{Contact_Friction/Contact_Friction.xml}
+%   \end{itemize}
+\end{itemize}
+% \begin{itemize}[noitemsep]
+%   \item \texttt{/test/regression/PrecrackedPlate/PrecrackedPlate.xml}
+%   \item \texttt{/test/regression/PrecrackedPlateTwoCracks/PrecrackedPlateTwoCracks.xml}
+% \end{itemize}

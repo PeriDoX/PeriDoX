@@ -1,0 +1,126 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{User defined block interaction}
+% \levelup{\idxPDKwGeneralContact}
+\label{sec:Peridigm:QRG:Contact:Interaction:Block}
+\myindex[\idxPDKeywordName]{\idxPDKwBlockContact}
+
+\leveldown{Description}
+
+Define interactions between individual blocks. This type of interaction is activated by setting the parameter list name to any different name than \idxPDKwGeneralContact{} and \idxPDKwSelfContact{}.
+
+\levelstay{Literature}
+
+-
+% \begin{itemize}[noitemsep]
+%   \item \cite{SillingSA2005}
+%   \item \cite{PeridigmUserGuide100}
+% \end{itemize}
+
+\levelstay{Code}
+
+\leveldown{Release version}
+
+Available from \href{\toolrepoversiononefour}{version 1.4}.
+
+\levelstay{Required compiler options}
+
+-
+
+\levelstay{Routines}
+
+-
+% \begin{itemize}[noitemsep]
+%   \item IO:
+%   \begin{itemize}[noitemsep]
+%   \item \verb+/src/contact/Peridigm_ShortRangeForceContactModel.cpp+
+%   \item \verb+/src/contact/Peridigm_ShortRangeForceContactModel.hpp+
+%   \end{itemize}
+%   \item Computation:
+%   \begin{itemize}[noitemsep]
+%     \item \verb+/src/materials/elastic.cxx+
+%     \item \verb+/src/materials/elastic.h+
+%   \end{itemize}
+% \end{itemize}
+
+\levelup{Input parameters}
+
+\leveldown{List}%\mbox{}\\
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name          & Type   & Required      & Default & Description           \\
+\midrule
+Contact Model\myindex[\idxPDKeywordName]{\idxPDKwContactModel} & string & \checkmark    & -       & Contact model type from section \ref{sec:Peridigm:QRG:Contact:Models} \\
+First Block   & string & \checkmark    & -       & Block name/id of first interaction partner \\
+Second Block  & string & \checkmark    & -       & Block name/id of second interaction partner \\
+\bottomrule
+\end{tabularx}
+
+\levelstay{Remarks}%\mbox{}\\
+
+-
+% \begin{enumerate}[noitemsep]
+%   \item \label{enm:Peridigm:QRG:Contact:Model:ShortRangeForce:Remark:One} In case \texttt{Friction Coefficient} is not defined, no friction is applied by using the default value
+% \end{enumerate}
+
+\levelup{Exemplary input section}
+
+\leveldown{XML-format}%\mbox{}\\
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Interactions">
+  <ParameterList name="My Contact Interaction">
+    <Parameter name="Contact Model" type="string" value="My Contact Model"/>
+    <Parameter name="First Block" type="string" value="block_2"/>
+    <Parameter name="Second Block" type="string" value="block_3"/>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+\levelstay{Free format}%\mbox{}\\
+
+-
+
+\levelstay{YAML format}%\mbox{}\\
+
+-
+
+\levelup{List of examples}
+
+\begin{itemize}[noitemsep]
+%   \item From \texttt{examples/}:
+%   \begin{itemize}[noitemsep]
+%     \item \texttt{examples/tensile\_test/tensile\_test.peridigm}
+%   \end{itemize}
+  \item From \texttt{test/regression/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Contact\_Cubes\_Interaction\_Blocks/Contact\_Cubes\_Interaction\_Blocks.xml}
+    \item \texttt{Contact\_Perforation/Contact\_Perforation.xml}
+  \end{itemize}
+  \item From \texttt{test/verification/}:
+  \begin{itemize}[noitemsep]
+    \item \texttt{Contact\_2x1x1/Contact\_2x1x1.xml}
+    \item \texttt{Contact\_Friction/Contact\_Friction.xml}
+    \item \texttt{Contact\_Friction\_Time\_Dependent\_Coefficient/Contact\_Friction\_Time\_Dependent\_Coefficient.xml}
+  \end{itemize}
+\end{itemize}

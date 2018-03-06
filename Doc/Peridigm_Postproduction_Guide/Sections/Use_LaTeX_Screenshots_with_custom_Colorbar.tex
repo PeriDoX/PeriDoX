@@ -1,0 +1,35 @@
+\levelup{Create nice plots from screenshots with custom colorbar}
+
+\leveldown{Single screenshot}
+
+Once there is a nice result screenshot we want to use it in our \LaTeX{} documentation. Therefore, we basically want to create everything besides the actual model picture in \LaTeX. E.g. we want to add a colorbar or labels to the plot. One possibility to do that is the \verb+pgfplots+ package in \LaTeX.
+
+An exemplary result of a damage plot of the \marktool{\toolname} disk impact model looks like figure \ref{fig:Peridigm_Disk_Impact_47_Damage_ct}.
+
+\begin{figure}[htbp]
+\centering
+\tikzexternalenable
+\tikzsetnextfilename{Peridigm_Disk_Impact_47_Damage}
+\input{Figures/Examples/Disk_Impact/Peridigm_Disk_Impact_47_Damage}
+\tikzexternaldisable
+\caption{Disk impact damage variable at timestep 47}
+\label{fig:Peridigm_Disk_Impact_47_Damage_ct}
+\end{figure}
+
+The source code to create this figure is shown in section \ref{sec:Single_pic_with_colorbar} and can be downloaded from within this document.
+
+\levelstay{Multiple screenshots}
+
+It may be necessary to show the development of a variable over multiple time steps sharing a common result data range. An example with colorbars above and right of the groupplot are shown in figure \ref{fig:Peridigm_Disk_Impact_Development_Damage}.
+
+\begin{figure}[htbp]
+\centering
+\tikzexternalenable
+\tikzsetnextfilename{Peridigm_Disk_Impact_Multiple_Damage}
+\input{Figures/Examples/Disk_Impact/Peridigm_Disk_Impact_Multiple_Damage}
+\tikzexternaldisable
+\caption{Disk impact damage development}
+\label{fig:Peridigm_Disk_Impact_Development_Damage}
+\end{figure}
+% 
+The source code to create this figure is shown in section \ref{sec:Multiple_pics_with_common_colorbar} and can be downloaded from within this document.

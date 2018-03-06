@@ -1,0 +1,52 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This file handles all things considering DLR packages
+% 
+% Revisions: 2017-04-10 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\printsecondpage}{}
+
+% Secondpage
+\newboolean{dlr}
+\setboolean{dlr}{false}
+% \makeatletter%
+%   \@ifclassloaded{dlrreprt}%
+%     { %true
+%       % Use the secondpage command from dlrsecondpage.sty
+%       \renewcommand{\printsecondpage}{\secondpage}
+%     }%
+%     {%false
+%       % Load secondpage replacement
+%       \input{\peridoccommonpath/Preamble/Pref_Secondpage}
+%       % Reassign
+%       \renewcommand{\printsecondpage}{\secondpage}
+%     }
+% \makeatother%
+\makeatletter%
+  \@ifclassloaded{dlrreprt}{\setboolean{dlr}{true}}{}%
+  \@ifclassloaded{dlrbook}{\setboolean{dlr}{true}}{}%
+\makeatother%
+
+\ifthenelse{\boolean{dlr}}{% true
+  % Use the secondpage command from dlrsecondpage.sty
+  \renewcommand{\printsecondpage}{\secondpage}
+}{% false
+  % Load secondpage replacement
+  \input{\peridoccommonpath/Preamble/Pref_Secondpage}
+  % Reassign
+  \renewcommand{\printsecondpage}{\secondpage}
+}

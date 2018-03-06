@@ -1,0 +1,18 @@
+\begin{tikzpicture}
+  % Variable
+  \def\modulus{70000}
+  \def\hardeningmodulus{0}
+  \def\yieldstress{350}
+  \def\failstrain{0.025}
+  \def\unloadingfac{0.8}
+  \def\xLabel{$\glssymbol{symb:scalar:mech:strain:shear:engineering}$}
+  \def\yLabel{$\glssymbol{symb:scalar:mech:stress:shear:engineering}$}
+  \def\pinELabel{$\glssymbol{symb:scalar:mat:modulus:shear}$}
+  \def\pinEHLabel{$\glssymbol{symb:scalar:mat:modulus:shear}_{\glssymbol{symb:index:hardening}}=0$}
+  \def\pinEPos{0.5}
+  \def\pinEHPos{0.6}
+  \def\yieldlabel{$\glssymbol{symb:scalar:mech:stress:shear:engineering}\left(\glssymbol{symb:scalar:mech:stress:normal:engineering}_{\glssymbol{symb:index:yield}}\right)$}
+  \newtoggle{tclabel}
+  \togglefalse{tclabel}
+  \input{Figures/Theory/Material_Model_ElasticPlastic_BasePicture}
+\end{tikzpicture}

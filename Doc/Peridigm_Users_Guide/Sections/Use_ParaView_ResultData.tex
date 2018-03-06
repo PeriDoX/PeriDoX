@@ -1,0 +1,70 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelstay{Result data}
+
+\marktool{\paraviewname} distinguishes three types of result data:
+
+\begin{multicols}{3}
+\begin{itemize}
+\addtolength\itemsep{-2ex}
+ \item point data
+ \item cell data
+ \item field data
+\end{itemize}
+\end{multicols}
+
+Point data is specified at each grid point. Cell data is specified per cell. Field data occurs for user-defined output values. Several linear and non-linear cell types currently exist for one-, two- or three-dimensional applications. E.g. a cell can be a quadrilateral between four nodes in two dimensions, a hexahedron volume between eight nodes in three dimensions or others. All cell types are shown in \cite{vtkfileformats}.
+
+Following is a list of \marktool{\toolname} post-processing items and their classification as point data or cell data.
+
+\begin{multicols}{2}
+\begin{itemize}
+\addtolength\itemsep{-2ex}
+\item Point data results:
+  \begin{itemize}
+  \addtolength\itemsep{-2ex}
+  \item Contact\_Force
+  \item Displacement
+  \item Force
+  \item Global Node Ids
+  \item Velocity
+  \item $\ldots$
+  \end{itemize}
+\item Field data results:
+  \begin{itemize}
+  \addtolength\itemsep{-2ex}
+  \item Compute Class Parameter results
+  \end{itemize}
+\columnbreak
+\item Cell data results:
+  \begin{itemize}
+  \addtolength\itemsep{-2ex}
+  \item Damage
+  \item Dilatation
+  \item Element\_Id
+  \item Global Element Ids
+  \item Number\_Of\_Neighbors
+  \item Object IDs
+  \item Proc\_num
+  \item Radius
+  \item Weighted\_Volume
+  \item $\ldots$
+  \end{itemize}
+\end{itemize}
+\end{multicols}

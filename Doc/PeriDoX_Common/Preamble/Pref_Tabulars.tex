@@ -1,0 +1,47 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This file handles everything concerning tables & tabulars
+% that is not package-dependent
+% 
+% Revisions: 2017-04-10 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---------------------------
+% Boolean parameters
+% ---------------------------
+
+% default:
+% \newbool{watermark}
+% \setbool{watermark}{false}			% true | false
+
+% ---------------------------
+% Newcommands
+% ---------------------------
+
+% Subdirectory name for ltxtables
+\newcommand{\tabledirname}{ZZZ_Table}
+\newcommand{\tabledir}{\tabledirname/}
+
+% ---------------------------
+% Column types
+% ---------------------------
+
+% \newcolumntype{C}[1]{>{\centering}m{#1}}
+\newcolumntype{Y}{>{\centering\arraybackslash}X} % tabularx-Spaltentyp X mit Zentrierung
+
+% Hide-column: Use this column type to have but not print a complete column
+% https://tex.stackexchange.com/a/16607
+\newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}

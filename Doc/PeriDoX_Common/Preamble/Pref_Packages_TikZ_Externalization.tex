@@ -1,0 +1,62 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This file handles all things considering the pgfplots externalization
+%
+% Output:
+%
+%  - Generates a pdf of every image where tikzexternalize is enabled
+%  - Optionally also creates a png-copy of the pdf
+% 
+% Requirements:
+%
+%  - This file must be included after a possible \makeindex[...] command from imakeidx-package
+%  - shell-escape must be enabled during compilation with pdflatex in your TeX IDE:
+%    - Kile:     Settings -> Configure Kile -> Tools -> Build -> PDFLaTeX -> Options:
+%                --shell-escape -synctex=1 -interaction=nonstopmode %source
+%    - TeXMaker: Optionen -> TexMaker Konfigurieren -> pdflatex:
+%                pdflatex --shell-escape -synctex=1 -interaction=nonstopmode %.tex
+%  - In case a png-copy is desired:
+%    - Requires the installation of ImageMagick (www.imagemagick.org) to use the ``convert''/``magick'' command
+%    - The path to ImageMagick binaries must be added to the system PATH variable
+%    - Comment in one of the two lines starting with ``convert''/``magick'' below
+%
+% Revisions: 2016-03-06 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%            2017-11-22 Martin Raedel <martin.raedel@dlr.de>
+%                       Added IDE Options for shell-escape
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+\@ifpackageloaded{pgfplots}{}{
+  \usepackage{pgfplots}
+}
+\makeatother
+
+\usepgfplotslibrary{external}
+\tikzexternalize[%
+  mode=convert with system call,%
+  shell escape=-enable-write18,%  % Use for MiKTeX
+]
+\tikzsetexternalprefix{ZZZ_TikZ/}     % Output folder
+\tikzset{%
+  external/system call={%
+    pdflatex \tikzexternalcheckshellescape -halt-on-error %
+    -interaction=batchmode -jobname "\image" "\texsource" %&& %
+    %convert -density 600 -transparent white "\image.pdf" "\image.png" % for ImageMagick versions <7
+    %magick  -density 600 -transparent white "\image.pdf" "\image.png" % for ImageMagick versions >= 7
+  }
+}
+\tikzexternaldisable              % do not allow global externalization
+                                  % of all tikz figures, call per figure

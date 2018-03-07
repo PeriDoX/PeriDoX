@@ -1,0 +1,308 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Christian Willberg,  christian.willberg@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{Peridigm data structure}\label{sec:Peridigm:dev:datastructure}
+
+\toolname{} is structured as shown in \autoref{fig:PerdigmDataStructure}. All data is read and stored in blocks. In blocks the material and damage model as well as the horizon is defined. \toolname{} reads the data blockwise and store it in the so called data manager.
+
+\levelstay{Datamanager}
+
+\leveldown{Description}
+
+The datamanager allows different types of variables and where to find it. \autoref{tab:datamanagerDefinition} shows the possible options for the definition. All values are of type double. The NODE and ELEMENT are point data. In \paraviewname the data is handled differently. NODE is exported as POINT data and ELEMENT data is exported as cell data.
+
+The data is stored via MPI at each core. There is so called "ghost" data which is the connection between two computer cores and is the only data which exists at both computer cores. 
+
+\begin{table}[htbp]
+\begin{tabularx}{\linewidth}{lp{3cm}cp{4cm}}
+\toprule
+Types		& Time	& Length	& Description		\\
+\midrule
+ELEMENT & CONSTANT, TWO\_STEP   & SCALAR, VECTOR, TENSOR & data stored as cell data for \paraviewname \\
+BOND    & CONSTANT, TWO\_STEP   & SCALAR                 & connection between two points (12 and 21 are separate entries)\\
+NODE    & CONSTANT, TWO\_STEP   & SCALAR,VECTOR, TENSOR  & points \\
+\bottomrule
+\end{tabularx}
+\caption{Data types}
+\label{tab:datamanagerDefinition}
+\end{table}
+
+To create a datamanager field the following commands have to be defined.
+% \lstset{language=C,caption={Descriptive Caption Text},label=DescriptiveLabel}
+% \begin{lstlisting}
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+m_damageFieldId = fieldManager.getFieldId(PeridigmNS::PeridigmField::ELEMENT, PeridigmNS::PeridigmField::SCALAR, PeridigmNS::PeridigmField::TWO_STEP, "Damage");
+m_fieldIds.push_back(m_damageFieldId);
+\end{code}
+\endgroup
+% \end{lstlisting}
+The different time values are
+\begin{code}
+PeridigmField::STEP_NP1, PeridigmField::STEP_N, PeridigmField::STEP_NONE 
+\end{code}
+\toolname{} checks if the datafield exists and if not creates it with the defined id.
+To get the data you have to call
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+double *bondDamage;
+dataManager.getData(m_bondDamageFieldId, PeridigmField::STEP_NP1)->ExtractView(&bondDamage);
+\end{code}
+\endgroup
+The value you will get are a pointer with different lengths. The lengths are given on \autoref{tab:datamanagerDefinition} and given in \autoref{tab:datamanagerLength}. 
+
+\begin{table}[htbp]
+\begin{tabularx}{\linewidth}{lp{3cm}cp{4cm}}
+\toprule
+Types		& Length	& Factor	& Description		\\
+\midrule
+ELEMENT &  number of points $n_{points}$ & -     &data stored as cell data for \paraviewname\\
+BOND &  number of points $n_{points}$& -     &\\
+NODE &  number of bonds $n_{bonds}$& -     &\\
+SCALAR &   & 1     &\\
+VECTOR &   & 2     &\\
+TENSOR &   & 9     &\\
+CONSTANT &  - & 1     &\\
+TWO\_STEP &   & 2     &\\
+\bottomrule
+\end{tabularx}
+\caption{Size of data types}
+\label{tab:datamanagerLength}
+\end{table}
+\paragraph{Example}
+The size of the damage field is
+\begin{equation}
+ size = ELEMENT\cdot SCALAR\cdot TWO\_STEP = n_{points}\cdot 1 \cdot 2 
+\end{equation}
+
+\levelstay{Data synchronization}
+The data synchronization can be done in 
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+./src/core/Peridigm.cpp
+./src/core/Peridigm.hpp
+\end{code}
+\endgroup
+Examplery, this will be shown for the damageModelField. This field is used to synchronize data for the energy criterion.
+To do a synchronization the following steps has to be done. In Peridigm.hpp you have to define a field id for your datamanager field 
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+// field ids for all relevant data
+int damageModelFieldId;
+\end{code}
+\endgroup
+and you have to define a global vector
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+//! Global vector for damage model data
+Teuchos::RCP<Epetra_Vector> damageModelVal;
+\end{code}
+\endgroup
+In a second step you create a datamanager field in Peridigm.cpp as
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+damageModelFieldId = fieldManager.getFieldId(PeridigmField::NODE,    PeridigmField::VECTOR, PeridigmField::TWO_STEP, "Damage_Model_Data");
+auxiliaryFieldIds.push_back(damageModelFieldId);
+\end{code}
+\endgroup
+Due to the low number of comments the search tag to find the position is 
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+// Create field ids that may be required for output
+\end{code}
+\endgroup
+The datamanager field is the interface to the core data. In the next step the synchronization vector has to be defined.
+The search tag is 
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+// Create mothership vectors
+\end{code}
+\endgroup
+
+Mothership in this context mean global data off all cores. This data includes for example the forces or displacements. Dependent on the synchronization data the user could choose between oneDimensionalMap, threeDimensionalMap and nDimensionalMap.
+Two modifications have to be done. First the number of fields has to be adapted. In the example from ten
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+threeDimensionalMothership = Teuchos::rcp(new Epetra_MultiVector(*threeDimensionalMap, 10));
+\end{code}
+\endgroup
+to eleven
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+threeDimensionalMothership = Teuchos::rcp(new Epetra_MultiVector(*threeDimensionalMap, 11));
+\end{code}
+\endgroup
+Next the field itself has to be defined.
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+damageModelVal = Teuchos::rcp((*threeDimensionalMothership)(9), false);  // Damage Model data which has to be synchronized
+\end{code}
+\endgroup
+The name of the vector must be the same as the defined one in the Peridigm.hpp. Only then the vector can be used anywhere in Peridigm.cpp.
+
+To synchronize the data the following two loops have to be used at the correct positions. The first loop is for the core data collection.
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+ for(blockIt = blocks->begin() ; blockIt != blocks->end() ; blockIt++){
+        scratch->PutScalar(0.0);           
+        blockIt->exportData(*scratch, damageModelFieldId, PeridigmField::STEP_NP1, Add);
+        damageModelVal->Update(1.0, *scratch, 1.0);
+  }
+\end{code}
+\endgroup
+The data is stored within the scratch field and then added to the mothership vector. The mothership vector data is updated as
+\begin{equation}
+   mothership = \sum_i^{n_{cores}} v^{scratch}_i
+\end{equation}
+Taking the simple three point problem of \autoref{fig:dev:program:structure:parallelization} should illustrate the synchronization of the force vector
+\begin{equation}
+   \left(\begin{matrix}
+    f_{1} \\
+    f_{2} \\
+    f_{3} \\
+    f_{4} \\
+    f_{5} \\
+    f_{6} 
+   \end{matrix}\right) = 
+      \left(\begin{matrix}
+    f_{1}^{core_1} \\
+    f_{2}^{core_1} \\
+    f_{3}^{core_1} \\
+    f_{4}^{core_1} \\
+    f_{5}^{core_1} \\
+    f_{6}^{core_1} 
+   \end{matrix}\right) +
+      \left(\begin{matrix}
+    f_{1}^{core_2} \\
+    f_{2}^{core_2} \\
+    f_{3}^{core_2} \\
+    f_{4}^{core_2} \\
+    0 \\
+    0 
+   \end{matrix}\right) +
+      \left(\begin{matrix}
+    f_{1}^{core_3} \\
+    f_{2}^{core_3} \\
+    0 \\
+    0 \\
+    f_{5}^{core_3} \\
+    f_{6}^{core_3} 
+   \end{matrix}\right)
+\end{equation}
+As one can see, the summation leads to the transfer of information from the neighbor to the point. \textbf{If this is not necessary the neighbor data must be zero} to avoid unreasonable results.
+
+To map the values back to the cores the following loop have to be used.
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+    for(blockIt = blocks->begin() ; blockIt != blocks->end() ; blockIt++){
+      blockIt->importData(*damageModelVal, damageModelFieldId, PeridigmField::STEP_NP1, Insert);
+    }
+\end{code}
+\endgroup  
+
+\paragraph{Remark - Data synchronization}
+It is not possible to synchronize CONSTANT datatypes.
+
+\levelstay{Data export}
+The data is exported in a \paraviewname readable result. Not all fields of the data manager could be exported. From my understanding only data which is defined in the Peridigm.cpp data manager and synchronized with the cores could be exported. This can be done in
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+./src/io/mesh\_output/Field.h
+\end{code}
+\endgroup
+If an user export should be added the name of the value, defined in the datamanager has to be added in the following list. For example the field DAMAGE could be found in the list.
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+enum Type {
+  VOLUME=0,
+  DENSITY,
+  GID,
+  BLOCK_ID,
+  PROC_NUM,
+  WEIGHTED_VOLUME,
+  RADIUS,
+  NEIGHBORHOOD_VOLUME,
+  NUMBER_OF_NEIGHBORS,
+  CRITICAL_TIME_STEP,
+  DILATATION,
+  DAMAGE,
+  CRITICAL_STRETCH,
+  E_DP,
+  E_DB,
+  PLASTIC_CONSISTENCY,
+  NORM_DEVIATORIC_FORCE_STATE,
+  NUM_NEIGHBORS,
+  FLUID_PRESSURE_Y,
+  FLUID_PRESSURE_U,
+  FLUID_PRESSURE_V,
+  FLUX,
+  FLUX_DENSITY,
+  COORDINATES,
+  TANGENT_REFERENCE_COORDINATES,
+  DISPLACEMENT,
+  CURRENT_COORDINATES,
+  VELOCITY,
+  ACCELERATION,
+  BC_MASK,
+  FORCE,
+  FORCE_DENSITY,
+  CONTACT_FORCE,
+  CONTACT_FORCE_DENSITY,
+  RESIDUAL,
+  BOND_DAMAGE,
+  PARTIAL_VOLUME,
+  TYPE_UNDEFINED,
+  ANGULAR_MOMENTUM,
+  LINEAR_MOMENTUM,
+  KINETIC_ENERGY,
+  STRAIN_ENERGY,
+  STRAIN_ENERGY_DENSITY,
+  INTERFACE_PROXIMITY,
+  HORIZON
+};
+\end{code}
+\endgroup
+As reminder not all information is available in all analysis, e.g. the DILATATION exists only %\PLS
+Peridynamic solid, the damage index exists only if a damage model is active.
+
+\paragraph{Remark - Export data routines}
+In 
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+./src/compute
+\end{code}
+\endgroup
+are several routines which provide the export manager with extra data. For example the deformation gradient of the correspondence formulation is calculated and provided. It is also exported in Field.h. 
+How it works is an open point.

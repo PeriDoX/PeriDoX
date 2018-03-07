@@ -1,0 +1,170 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Christian Willberg,  christian.willberg@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\levelstay{Implemented damage models}
+
+\leveldown{Energy based damage model}
+\leveldown{Changed files}
+\begin{code}
+./src/core/Peridigm.cpp
+./src/core/Peridigm.hpp
+./src/core/Peridigm_ModelEvaluator.cpp
+./src/core/Peridigm_ModelEvaluator.hpp
+./src/damage/Peridigm_DamageModelFactory.hpp
+./src/damage/Peridigm_EnergyReleaseDamageModel.cpp
+./src/damage/Peridigm_EnergyReleaseDamageModel.hpp
+./src/materials/Peridigm_ElasticMaterial.cpp
+./src/materials/Peridigm_Material.cpp
+./src/materials/Peridigm_Material.hpp
+\end{code}
+\levelstay{Documentation of changes}
+\paragraph{Peridigm.cpp}
+The following changes had been made.
+\begin{code}
+damageModelFieldId = fieldManager.getFieldId(PeridigmField::NODE, 
+   PeridigmField::VECTOR, PeridigmField::TWO_STEP, "Damage_Model_Data");
+auxiliaryFieldIds.push_back(damageModelFieldId);
+\end{code}
+The damage model field is defined. It stores the dilation of all nodes. If defined in Peridigm.cpp it can be used to synchronize the data between cores.
+\begin{code}
+ threeDimensionalMothership = 
+ Teuchos::rcp(new Epetra_MultiVector(*threeDimensionalMap, 11));
+ damageModelVal = Teuchos::rcp((*threeDimensionalMothership)(9), false);  
+ // Damage Model data which has to be synchronized
+\end{code}
+The ``damageModelVal'' vector is a so called mothership vector. It is used to synchronize the data. It is of length node time three. It includes the dilation, the bulk modulus divided by the weighted volume and the shear modulus divided by the weighted volume.
+
+\begin{code}
+for(blockIt = blocks->begin() ; blockIt != blocks->end() ; blockIt++){
+  if (blockIt->getMaterialModel()->Name() == "Elastic"){
+     damageModelVal->PutScalar(0.0); 
+     blockIt->
+        importData(*damageModelVal, damageModelFieldId,
+        PeridigmField::STEP_NP1, Insert);
+      }
+}
+\end{code}
+The ``damageModelFieldId'' data is set to zero for all cores.
+\begin{code}
+    modelEvaluator->updateDilatation(workset);
+\end{code}
+The model evaluator is started. Here, the Peridigm\_ModelEvaluator.cpp is called and the dilatation is updated.
+\begin{code}
+for(blockIt = blocks->begin() ; blockIt != blocks->end() ; blockIt++){
+    if (blockIt->getMaterialModel()->Name() == "Elastic"){
+      blockIt->importData(*damageModelVal, damageModelFieldId,
+      PeridigmField::STEP_NP1, Insert);
+    }
+}
+\end{code}
+The dilation is exported to the global synchronization vector. 
+\begin{code}
+for(blockIt = blocks->begin() ; blockIt != blocks->end() ; blockIt++){
+    if (blockIt->getMaterialModel()->Name() == "Elastic"){
+      blockIt->importData(*damageModelVal, damageModelFieldId, 
+      PeridigmField::STEP_NP1, Insert);
+    }
+}
+\end{code}
+The dilation is copied back to the cores. At each core the dilation for each node and its neighbors exists.
+\paragraph{Peridigm.hpp}
+The following changes had been made.
+\begin{code}
+//! Global vector for damage model data
+Teuchos::RCP<Epetra_Vector> damageModelVal;
+\end{code}
+The code defines a global synchronization vector. This vector is needed to synchronize the dilation between the cores.
+\begin{code}
+int damageModelFieldId;
+\end{code}
+The field Id is defined to be usable anywhere in Peridigm.cpp.
+\paragraph{Peridigm\_ModelEvaluator.cpp}
+The following changes has been made.
+\begin{code}
+void 
+PeridigmNS::ModelEvaluator::updateDilatation
+  (Teuchos::RCP<Workset> workset) const
+\end{code}
+An extra routine has been defined. The updateDilatation routine works only if Elastic material is used. The reason is, that only the %\LPS 
+linear Peridynamic solid models calculate the dilation. Therefore, the data structure only exists if such material is used.
+It can be extended to other isotropic ordinary Peridynamic material if needed.
+\paragraph{Peridigm\_ModelEvaluator.hpp}
+The following changes had been made.
+\begin{code}
+void updateDilatation(Teuchos::RCP<Workset> workset) const;
+\end{code}
+The updateDilatation routine is defined.
+
+\paragraph{Peridigm\_DamageModelFactory.cpp}
+The following changes had been made.
+\begin{code}
+#include "Peridigm_EnergyReleaseDamageModel.hpp"
+\end{code}
+Include the damage model data files.
+\begin{code}
+else if(damageModelName == "Critical Energy")
+damageModel = 
+  Teuchos::rcp( new EnergyReleaseDamageModel(damageModelParams) );
+\end{code}
+Include the damage model if the option is set in the input deck.
+\begin{code}
+invalidDamageModel += ", must be \"Critical Stretch\",
+  \"Time Dependent Critical Stretch\", \"Interface Aware\" 
+  or \"Critical Energy\".\n";
+\end{code}
+Extended error log to print the damage model options for the user.
+\paragraph{Peridigm\_EnergyReleaseDamageModel.cpp}
+It is a new routine. It includes the routine ``initialize'' and ``computeDamage''. Based on the dilation  at each node (ownId and neighborId) calculated in Peridigm\_Material.cpp the energy of each bond is calculated. If it exceeds a defined limit the bond fails and the bondDamage value is set to 1. Due to the synchronization the bond damage in both bond directions can be calculated identically. 
+\paragraph{Peridigm\_EnergyReleaseDamageModel.hpp}
+It is a new routine. It defines all global values as data manager Ids or the influence function as well as the callable sub routines.
+\paragraph{Peridigm\_ElasticMaterial.cpp}
+The following changes had been made.
+\begin{code}
+int m_horizonFieldId = fieldManager.getFieldId(PeridigmField::ELEMENT,
+  PeridigmField::SCALAR, PeridigmField::CONSTANT, "Horizon");
+m_fieldIds.push_back(m_horizonFieldId);
+\end{code} 
+This is done to get a valid field ID for the horizon field at the specific core. If this is not done, the included ``Peridigm\_ModelEvaluator.cpp'' routine will throw an error.
+
+\paragraph{Peridigm\_Material.cpp}
+The following changes had been made.
+\begin{code}
+void
+PeridigmNS::Material::computeDilatation
+\end{code} 
+The routine has been added. It is basically the compute\_dilation routine from the material\_utilities.cxx. The difference is that the horizon is not constant. In the end for each node the following values are stored.
+\begin{code}
+damageModel[3*p] = *theta;
+damageModel[3*p+1] = BM / (*m);
+damageModel[3*p+2] = SM / (*m) ;
+\end{code} 
+The dilatation *theta, the bulk modulus BM divided by the weighed volume *m and the shear modulus SM divided by the weighed volume *m.
+
+All this data is needed to determine the energy of the bond in both directions identically.
+\paragraph{Peridigm\_Material.hpp}
+The following changes had been made.
+\begin{code}
+virtual void
+computeDilatation(
+   const int numOwnedPoints,
+   const int* ownedIDs,
+   const int* neighborhoodList,
+   const double BM,
+   const double SM,
+   PeridigmNS::DataManager& dataManager) const;
+\end{code}
+An additional routine has been added to calculate the dilation in the Model\_Evaluator.cpp.

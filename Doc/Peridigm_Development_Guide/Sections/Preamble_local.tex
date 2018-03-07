@@ -1,0 +1,67 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Preamble for the current document
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---------------------------
+% Packages
+% ---------------------------
+\usepackage[]{algorithm2e}
+% General preamble
+\input{\peridoccommonpath/Preamble/Preamble}
+
+% Document-class dependent packages
+\input{\peridoccommonpath/Preamble/Pref_Packages_BibLaTeX_Rprt}
+
+% Local packages
+% \usepackage{classified}
+% \documentclassified[class=publication,level=draft]  % Set base classification and clearance
+
+% Indexing
+\input{\peridoccommonpath/Preamble/Pref_Packages_Indices}
+
+% Path for general figures
+% Path for general figures
+\graphicspath{%
+  {./Figures/}%
+  %{\peridoccommonpath/Figures/}%
+}
+% Must come after other packages, especially imakeidx
+\input{\peridoccommonpath/Preamble/Pref_Packages_Hyperref}
+
+% THIS MUST COME AFTER \makeindex[...] FROM imakeidx PACKAGE
+\input{\peridoccommonpath/Preamble/Pref_Packages_TikZ_Externalization}
+
+% ---------------------------
+% Glossaries
+% ---------------------------
+
+\input{\peridoccommonpath/Sections/Glossary}
+
+% ---------------------------
+% Indexing
+% ---------------------------
+
+\input{\peridoccommonpath/Preamble/Pref_Commands_Indices_Peridigm}
+
+% ---------------------------
+% Literature
+% ---------------------------
+
+\addbibresource{\peridocliteraturepath/PeridynamicLiterature.bib}
+\addbibresource{Sections/Literature.bib}

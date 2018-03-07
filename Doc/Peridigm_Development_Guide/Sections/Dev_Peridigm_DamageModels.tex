@@ -1,0 +1,23 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Christian Willberg,  christian.willberg@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelstay{Own damage models}
+
+Peridigm is programmed in C++. All the essential vectors and matrices are stored as pointer. It must be noted that no Voigt notation is used. Therefore, the stress and strain matrices are stored in a vector of length 9.
+%A sketch of dependencies is shown in \RefFig{fig:MaterialDependencies}.
+The file Peridigm\_DamageFactory allows the definition of the material. Here, the name in the .xml datasheet and the corresponding C++ file are defined.

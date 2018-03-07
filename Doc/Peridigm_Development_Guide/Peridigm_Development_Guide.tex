@@ -1,0 +1,137 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Compilation:
+%
+% - with pdfLaTeX:
+%   pdflatex -> biber -> makeindex/create_glossaries.cmd -> pdflatex -> pdflatex
+% - For compilation add switch -shell-escape in your LaTeX editor:
+%   pdflatex --shell-escape -synctex=1 -interaction=nonstopmode %source --extra-mem-top=60000000
+% - Compile at least 3 times for proper output
+%
+% In case of problems:
+%
+% - Increase Tex-Memory in batch with:
+%   initexmf --edit-config-file pdflatex
+%   add: main_memory=8000000
+%   initexmf --dump=pdflatex
+%
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---------------------------
+% Paths
+% ---------------------------
+
+\newcommand{\peridoccommonpath}{../PeriDoX_Common}
+\newcommand{\peridocliteraturepath}{../../Literature}
+
+% ---------------------------
+% Documentclass
+% ---------------------------
+
+% \RequirePackage{bootstrap}
+\documentclass[%
+  figures=plain,%
+  listof=totoc,%                                % List of figures, tables in TOC
+  bibliography=totoc,%                          % Bibliography in TOC
+  fleqn,%                                       % left-align equations
+]{bootstrap_dlrreprt} % Bootstrap of dlrreprt without Frutiger font
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Preamble                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{Sections/Preamble_local}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title and author                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Document-class independent infos
+\subject     {\toolname}
+\title       {\toolname{} Development Guide}
+\subtitle    {For \toolname{} versions $\ge$ 1.4.1}
+\author      {Martin R\"adel and Christian Willberg}
+\date        {\today}
+
+% Document-class dependent infos for titlepage
+\telnumber   {2048}
+\faxnumber   {2232}
+\email       {martin.raedel@dlr.de}
+\reportno    {DLR-IB-FA-BS-2018-23}
+\coauthor    {Christian Willberg}
+
+% Location
+\dlrinstitute{FA-STM}
+\dlrsite     {BS}
+
+% Versions
+\addversion  {0.0.1}{07.11.2017}{Initial draft}{raed\_ma}
+\addversion  {0.0.2}{20.01.2018}{A lot of additions}{will\_cr}
+\addversion  {1.0.0}{07.03.2018}{Initial release version}{will\_cr}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Compilation                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \includeonly{
+%   Sections/About,
+%   Sections/Dev_Peridigm,
+%   Sections/Use_Peridigm_QRG,
+%   Sections/Use_ParaView,
+%   Sections/Use_Results,
+%   Sections/Appendix,
+% }
+
+% Begin document
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Frontmatter                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagenumbering{roman}                  % Not in Frontmatter.tex for reusability between report and book-classes
+\input{\peridoccommonpath/Sections/Frontmatter}
+\input{\peridoccommonpath/Sections/Frontmatter_Glossaries}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \mainmatter
+\newpage                                       % Required for page number
+\pagenumbering{arabic}                         % Not in Frontmatter.tex for reusability between report and book-classes
+
+\include{Sections/About}
+\include{Sections/Dev_Peridigm}
+\include{Sections/Dev_Peridigm_Documentation_Implementations}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\printbibliography
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Index                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\printindex[\idxPDKeywordName]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Appendix                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{Sections/Appendix}
+
+\end{document} 

@@ -1,0 +1,158 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Christian Willberg,  christian.willberg@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\leveldown{Program structure}
+
+The whole analysis is organized in 
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+./src/core/Peridigm.cpp
+\end{code}
+\endgroup
+
+Here, the gobal data structure, the different solvers and the model evaluation calls can be found.
+
+\leveldown{Remark on data structure}
+
+In \toolname{} bonds exists only as neighbor. As a consquence the information of an bond $P_1P_2$ is not necessarily equal to $P_2P_1$, cf. \autoref{fig:dev:program:structure:parallelization}. Let assume $P_1$ has a damage model and $P_2$ not. As result in \toolname{} the bond $P_1P_2$ can be deleted, but not the bond $P_2P_1$. 
+
+\levelstay{Numbering}
+
+There is no unique numbering within \toolname. The nodenumber is the offset value to a pointer address. Therefore, a cross reference to another node is hard to create. The general structure is the following
+
+\begin{figure}[htbp]
+	  \centering
+\begin{minipage}{8cm}
+\begin{algorithm}[H]
+%\hline
+ initialization\;
+ updateDisplacementsToBlocksAndCores\;
+ \For{$blockID\leftarrow 1$ \KwTo $n_{blocks}$}{
+	\For{$i\leftarrow 1$ \KwTo $n_{nodes}$}{
+	  \For{$j\leftarrow 1$ \KwTo $n_{neighbors}$}{
+	calculateDamages\;
+	bondNumber++;
+   }
+  }
+  bondNumber = 0;
+  \For{$i\leftarrow 1$ \KwTo $n_{nodes}$}{
+	  \For{$j\leftarrow 1$ \KwTo $n_{neighbors}$}{
+	calculateBondForces\;
+	
+	bondNumber++;
+   }
+  }
+  if (contact) calculateContact\;
+ }
+ synchronizeForcesInGlobalVector\;
+ timeIntegrationInGlobalVector\;
+ %\hline
+  \caption{Perdigm data structure}\label{fig:PerdigmDataStructure}
+\end{algorithm}
+\end{minipage}
+\end{figure}
+
+It must be noted that this structure exists also if multiple cores are used. However, only parts of the loop are used in that case. The bond numbering is counted continuously within the inner loop $j$. Based on this structure, it is clear that the bond $ij$ is not equal to $ji$.
+
+\levelstay{Model evaluator}
+
+The evaluation of \autoref{fig:PerdigmDataStructure} is done in Peridigm.cpp
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+modelEvaluator->evalModel(workset);
+\end{code}
+\endgroup
+This calls evaluation routines. If extra high level routines for evaluation are needed they should be added in
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+./src/core/Peridigm_ModelEvaluator.cpp
+./src/core/Peridigm_ModelEvaluator.hpp
+\end{code}
+\endgroup
+
+The main model evaluator routine is split in three main parts.
+The first part calls the damage model routine. There is a check if a block has damage model or not.
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+damageModel->computeDamage(dt, 
+                           numOwnedPoints,
+                           ownedIDs,
+                           neighborhoodList,
+                           *dataManager);
+\end{code}
+\endgroup
+The second part calls the material.
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+    materialModel->computeForce(dt, 
+                                numOwnedPoints,
+                                ownedIDs,
+                                neighborhoodList,
+                                *dataManager);
+\end{code}
+\endgroup
+
+The third part calls the contact manager. There is a check if contact is available or not.
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+    workset->contactManager->evaluateContactForce(dt);
+\end{code}
+\endgroup
+
+\levelstay{Paralellization}
+
+\autoref{fig:dev:program:structure:parallelization} shows a simple example how the paralallization works. It has a huge impact to the data exchange and communication between points. The lines between the three points are bonds. It means that $P_1$ has two neigbors and $P_2$ or $P_3$ only one.
+
+\begin{figure}[htbp]
+\centering
+\input{Figures/coreData.pdf_tex}
+\par
+\caption{Illustration of core data.}
+\label{fig:dev:program:structure:parallelization}
+\end{figure}
+
+If this problem is parallelized in \toolname{} the maximum core number is three. As result each core gets one point as information and the neighbor information as ghost. Ghost means that partially data is synchronized and therefore available for all cores. In case of \toolname{} the forces, deformation states and temperatures are synchronized.
+
+Damages are not synchronized. This is important. It means that a damage have to be calculated based on the information at one point using his neighborhood. 
+
+As shown in \autoref{fig:PerdigmDataStructure} the synchronization is done outside the model evaluator. Therefore, if a data exchange between the damage and material routines are needed, an additional synchronization has to be added. For further information see \autoref{sec:Peridigm:dev:datastructure}.
+
+\levelstay{Solver}
+
+not all solvers support everything
+
+\levelstay{Limitations and Lessons learned}
+
+\begin{itemize}
+  \item data between different blocks are only partially available and hard to transfer; e.g. the bond energy is calculated from both sites of the bond. To transfer the energy the datamanger is used. If multiple blocks exists no consistent datamanager exists and the transfer method does not work.
+  \item working with MPI paralellization have to take into account, that not all data is available. Each node is stored and his neighbors are ghosts. Ghost means that the node information is exchangeable.
+  \item \toolname is compiled multiple times, make sure that all files are compiled. If new files are included, time stamp differences could make a problem
+  \item field \texttt{ownedID} has no meaning; Its been used, but not everywhere
+  \item not all solvers support everything
+  \item work with minimum of 2 cores to avoid synchronization errors
+\end{itemize}
+

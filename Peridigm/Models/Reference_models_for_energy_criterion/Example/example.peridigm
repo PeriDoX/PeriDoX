@@ -1,0 +1,79 @@
+Discretization
+    Type "Text File"
+    Input Mesh File "plate.txt"
+    Bond Filters
+        My First Bond Filter
+            Type "Rectangular_Plane"
+            Normal_X 0.0
+            Normal_Y 1.0
+            Normal_Z 0.0
+            Lower_Left_Corner_X -16.0
+            Lower_Left_Corner_Y 0.0
+            Lower_Left_Corner_Z -16.0
+            Bottom_Unit_Vector_X 1.0
+            Bottom_Unit_Vector_Y 0.0
+            Bottom_Unit_Vector_Z 0.0
+            Bottom_Length 16.0
+            Side_Length 32.0
+    
+Materials
+    My Material
+        Material Model "Elastic"
+        Density 2000.0
+        Bulk Modulus 1.7500e09
+        Shear Modulus 8.08e8
+
+Damage Models
+    My Damage Model
+        Damage Model "Critical Energy"
+        Critical Energy Tension 12.0
+        Type "Energy Criterion"
+
+Blocks
+    My Block
+        Block Names "block_1"
+        Material "My Material"
+        Damage Model "My Damage Model"
+        Horizon 0.005015
+    
+Boundary Conditions
+    Min Y Up Node Set "nodeset_1.txt"
+    Min Y Down Node Set "nodeset_2.txt"
+    Z Zero Node Set "nodeset_3.txt"
+    Prescribed Displacement Bottom
+        Type "Prescribed Displacement"
+        Node Set "Z Zero Node Set"
+        Coordinate "z"
+        Value "0"
+    Prescribed Displacement Bottom
+        Type "Prescribed Displacement"
+        Node Set "Min Y Up Node Set"
+        Coordinate "y"
+        Value "0.004*t"
+    Prescribed Displacement Top
+        Type "Prescribed Displacement"
+        Node Set "Min Y Down Node Set"
+        Coordinate "y"
+        Value "-0.004*t"
+
+        
+Solver
+    Verbose "false"
+    Initial Time 0.0
+    Final Time 0.01
+    #Final Time 0.000001
+    Verlet
+        Safety Factor 0.95
+
+Output
+    Output File Type "ExodusII"
+    Output Format "BINARY"
+    Output Filename "Plate"
+    Output Frequency 10
+    Parallel Write "true"
+    Output Variables
+        Displacement "true"
+        Damage "true"
+        Velocity "true"
+        Force "true"
+        Number_Of_Neighbors "true"

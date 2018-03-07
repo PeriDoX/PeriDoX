@@ -1,0 +1,12 @@
+Materials
+    My Material
+        Material Model "Elastic"
+        Density 2000.0
+        Bulk Modulus 1.7500e09
+        Shear Modulus 8.08e8
+
+Damage Models
+    My Damage Model
+        Damage Model "Critical Energy"
+        Critical Energy Tension 0.001
+        Type "Energy Criterion"

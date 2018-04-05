@@ -1,0 +1,1 @@
+The publication folder store all publications made with the published codes. The models and the resulting data are published and open for discussion.

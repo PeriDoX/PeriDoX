@@ -1,0 +1,112 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Christian Willberg,  christian.willberg@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Implemented time integration methods}
+\subsection{Numerical damping added to Velocity-Verlet}
+\subsubsection{Theory}
+
+  The theory for the Velocity-Verlet solver with damping is derived in the following. The equations to compute position and velocity at 
+  the next time step without damping are given by
+  \begin{equation}
+  \begin{aligned}
+   x_{n+1} \, &= \, x_n \, + \, \Delta t \, v_n \, + \, \dfrac{1}{2} \, \Delta t^2 \, a_n \\
+   v_{n+1} \, &= \, v_n \, + \, \dfrac{1}{2} \, \Delta t \, (\, a_{n+1} \, + \, a_n \, ) ~.
+  \end{aligned}
+  \end{equation}
+  $x$ denotes the position, $\Delta t$ the time increment, $v$ the velocity, $a$ the acceleration and subscript $n$ the time step number.
+  The Velocity-Verlet algorithm with damping introduces an additional parameter $\gamma$ connected to the damping term and the velocity can be described by
+  \begin{equation}
+   v_{n} \, = \, \dfrac{x_{n+1} \, - \, x_{n-1}}{2 \, \Delta t} ~.
+  \label{velointerpolation}
+  \end{equation}
+  Starting now with the Taylor expansion series
+  \begin{equation}
+  \begin{aligned}
+   x_{n+1} \, &= \, x_n + \Delta t \, v_n \, + \, \dfrac{1}{2} \Delta t^2 \, a_n \, + \, \dfrac{1}{6} \Delta t^3 \dot{a}_n + O(\Delta t^4 ) \\
+   x_{n-1} \, &= \, x_n - \Delta t \, v_n \, + \, \dfrac{1}{2} \Delta t^2 \, a_n \, - \, \dfrac{1}{6} \Delta t^3 \dot{a}_n + O(\Delta t^4 ) 
+  \end{aligned}
+  \end{equation}
+  and adding both equations gives the Verlet algorithm
+  \begin{equation}
+   x_{n+1} \, = \, 2 \, x_n \, - \, x_{n-1} \, + \, \Delta t^2 a_n + O(\Delta t^4 ) ~.
+  \end{equation}
+  Expressing the accerlation in terms of force $F$ and mass $m$ allows to introduce a damping force $G$.
+  \begin{equation}
+   x_{n+1} \, = \, 2 \, x_n \, - \, x_{n-1} \, + \, \dfrac{\Delta t^2}{m} (\, F_n \, - \, G_n \, ) \, + \, O(\Delta t^4 )
+  \label{verlet1}
+  \end{equation}
+  The damping force $G$ is defined by a damping coefficient $\gamma$ and the velocity
+  \begin{equation}
+   G(v_n) \, = \, \gamma \, v_n \, = \, \gamma \, \dfrac{x_{n+1} \, - \, x_{n-1}}{2 \, \Delta t} ~.
+  \end{equation}
+  Setting eq. \eqref{verlet1} back by one time step leads to
+  \begin{equation}
+   x_{n} \, = \, 2 \, x_{n-1} \, - \, x_{n-2} \, + \, \dfrac{\Delta t^2}{m} (\, F_n \, - \, \gamma \, v_n \, ) \, + \, O(\Delta t^4 ) ~.
+  \label{verlet2}
+  \end{equation}
+  By adding eq. \eqref{verlet1} and eq. \eqref{verlet2} the resulting equation reads
+  \begin{equation}
+   x_{n+1} \, + \, x_n \, = \, 2 \, x_n \, + \, x_{n-1} \, - \, x_{n-2} \, + \, \dfrac{\Delta t^2}{m} (\, F_n \, - \, v_n \, + \, F_{n-1} \, + \, v_{n-1} \, ) \, + \, O(\Delta t^4 )~.
+  \end{equation}
+  Reformulating the equation, using the velocity interpolation for $v_n$ and $v_{n-1}$, shown in eq. \eqref{velointerpolation} and setting the equation one time step forward leads 
+  to the velocity integration for the Velocity-Verlet algorithm with damping
+  \begin{equation}
+   v_{n+1} \, = \, \dfrac{1}{1 \, + \, \gamma \dfrac{\Delta t}{2 \, m}} \, [ \, v_n \, ( \, 1 \, - \, \gamma \, \dfrac{\Delta t}{2 \, m} \, ) \, + \, \dfrac{\Delta t}{2} \, 
+   ( \, a_{n+1} \, + \, a_n \, ) \, ] ~.
+  \end{equation}
+  The time integration for the position stays the same as for Verlet-Velocity without damping. The parameter $\gamma$ is defined in Peridigm in the Verlet solver list \\ 
+  \texttt{
+  	<ParameterList name=``Verlet''> \\
+	<Parameter name=``Numerical Damping'' type=``double'' value=``0.01''/> \\
+  }
+  The value should be chosen with respect to the material parameters in the input file.
+
+\subsubsection{Changed files}
+\begin{code}
+./src/core/Peridigm.cpp
+\end{code}
+\subsubsection{Documentation of changes}
+\paragraph{Peridigm.cpp}
+The following changes have been made.
+\begin{code}
+  double numericalDamping = 0.0;
+  if(verletParams->isParameter("Numerical Damping")){
+    numericalDamping = verletParams->get<double>("Numerical Damping");
+  }
+\end{code}
+If the parameter for numerical damping is defined in the input file, it will be read.
+\begin{code}
+    if(verletParams->isParameter("Numerical Damping")){
+    	for (int i = 0; i < a->MyLength(); ++i) {
+    		(*a)[i] = (*a)[i] / (1 + numericalDamping * dt2 
+    		/ (*density)[i/3]);
+    		(*v)[i] = (*v)[i] * (1 - numericalDamping * dt2
+    		/ (*density)[i/3]) / (1 + numericalDamping * dt2 
+    		/ (*density)[i/3]);
+    	}
+    }
+\end{code}
+The so-called mothership vectors are updated with the respective coeffcients for the step $v_{n+{\frac{1}{2}}}$.
+\begin{code}
+    if(verletParams->isParameter("Numerical Damping")){
+	for (int i = 0; i < a->MyLength(); ++i) {
+		(*a)[i] = (*a)[i] / (1 + numericalDamping * dt2
+		/ (*density)[i/3]);
+	}
+    }
+\end{code}
+The mothership vector is updated with the respective coeffcients for the step $v_{n+1}$.

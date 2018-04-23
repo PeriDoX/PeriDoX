@@ -1,0 +1,213 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Christian Willberg,  christian.willberg@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 \_\_/|\_\_
+%                                /\_/\_/\_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Additional features}
+\subsection{How to read Exodus files with Python}
+ In order to read the output files and evaluate the results indiviually Python has to be installed. Furthermore, the netCDF module for Python is required.
+ The module matplotlib should be installed as well, since Python is able to plot data. \\ 
+ Normally, it makes sense to write an additional output file with Peridigm and store the variables of interest there. The additional output file is defined in the 
+ input file as Output2 in the following. We take the input from ViscoplasticNeedlemanFullyPrescribedTension\_NoFlaw.xml as an example.
+ \begin{code}
+<ParameterList name="Compute Class Parameters">
+     <ParameterList name="Max Von Mises Stress">
+       <Parameter name="Compute Class" type="string" value="Block_Data"/>
+       <Parameter name="Calculation Type" type="string" value="Maximum"/>
+       <Parameter name="Block" type="string" value="block_1"/>
+       <Parameter name="Variable" type="string" 
+       value="Von_Mises_Stress"/>
+       <Parameter name="Output Label" type="string" 
+       value="Max_Von_Mises_Stress"/>
+     </ParameterList>
+     <ParameterList name="Min Von Mises Stress">
+       <Parameter name="Compute Class" type="string" value="Block_Data"/>
+       <Parameter name="Calculation Type" type="string" value="Minimum"/>
+       <Parameter name="Block" type="string" value="block_1"/>
+       <Parameter name="Variable" type="string" 
+       value="Von_Mises_Stress"/>
+       <Parameter name="Output Label" type="string" 
+       value="Min_Von_Mises_Stress"/>
+     </ParameterList>
+</ParameterList>
+
+<ParameterList name="Output1">
+	<Parameter name="Output File Type" type="string" 
+	value="ExodusII"/>
+	<Parameter name="Output Filename" type="string" 
+	value="ViscoplasticNeedlemanFullyPrescribedTension_NoFlaw"/>
+	<Parameter name="Output Frequency" type="int" value="50"/>
+	<ParameterList name="Output Variables">
+          <Parameter name="Volume" type="bool" value="true"/>
+          <Parameter name="Displacement" type="bool" value="true"/>
+          <Parameter name="Velocity" type="bool" value="true"/>
+          <Parameter name="Force" type="bool" value="true"/>
+          <Parameter name="Number_Of_Neighbors" type="bool" 
+          value="true"/>
+          <Parameter name="Hourglass_Force_Density" type="bool" 
+          value="true"/>
+          <Parameter name="Deformation_Gradient" type="bool" 
+          value="true"/>
+          <Parameter name="Left_Stretch_Tensor" type="bool" 
+          value="true"/>
+          <Parameter name="Rotation_Tensor" type="bool" value="true"/>
+          <Parameter name="Shape_Tensor_Inverse" type="bool" 
+          value="true"/>
+          <Parameter name="Unrotated_Rate_Of_Deformation" type="bool" 
+          value="true"/>
+          <Parameter name="Cauchy_Stress" type="bool" value="true"/>
+          <Parameter name="Unrotated_Cauchy_Stress" type="bool" 
+          value="true"/>
+          <Parameter name="Equivalent_Plastic_Strain" type="bool" 
+          value="true"/>
+          <Parameter name="Von_Mises_Stress" type="bool" value="true"/>
+         </ParameterList>
+</ParameterList>
+<ParameterList name="Output2">
+	<Parameter name="Output File Type" type="string" 
+	value="ExodusII"/>
+	<Parameter name="Output Filename" type="string" 
+	value="ViscoplasticNeedlemanFullyPrescribedTension_NoFlaw"/>
+	<Parameter name="Output Frequency" type="int" value="1"/>
+	<ParameterList name="Output Variables">
+          <Parameter name="Max_Von_Mises_Stress" type="bool" 
+          value="true"/>
+          <Parameter name="Min_Von_Mises_Stress" type="bool" 
+          value="true"/>
+          <Parameter name="Global_Kinetic_Energy" type="bool" 
+          value="true"/>
+	</ParameterList>
+</ParameterList>
+\end{code}
+ The file ViscoplasticNeedlemanFullyPrescribedTension\_NoFlaw.e contains all quantities with respect to Output1 and stores those for at the global coordinates. 
+ The file ViscoplasticNeedlemanFullyPrescribedTension\_NoFlaw.h contains global
+ quantities and computed quantities defined by the user with respect to Output2. When the user starts the interactive Python interface, the following steps should be done at first.
+\begin{code}
+import netCDF4
+import numpy as np 
+import matplotlib.pyplot as plt 
+nc = netCDF4.Dataset(
+'ViscoplasticNeedlemanFullyPrescribedTension_NoFlaw.h')
+\end{code}
+ First, load the necessary modules and then the exodus file (here, the output of a Peridigm test is chosen). The data is loaded then to the field \texttt{nc}. 
+ This field shows all subfields containing different variables
+ by using
+\begin{code}
+nc.variables 
+\end{code}
+ It gives an overview about all information stored in the output file and the size of the fields. Now, the information of the fields can be stored in python variables. In this example, we want to plot
+ the stresses over the strains. In the input file the maximum and minimum von Mises stresses have been defined to be written to the output. The maximum stresses are at the first and the minimum stresses at the 
+ second position. This position is the same in the output field \texttt{vals\_glo\_var}. This field can be accessed as 
+\begin{code}
+var = nc.variables['vals_glo_var']
+\end{code}
+ Now all maximum stresses are in [:,0] and all minimum stresses are in [:,1]. These can be written to distinct fields.
+\begin{code}
+vm_max = var[:,0] 
+vm_min = var[:,1] 
+\end{code}
+ Last, we need the time steps. The way of getting the values is the same. 
+\begin{code}
+time_steps = nc.variables['time_whole'] 
+dt = time_steps[:]
+\end{code}
+ Since the example has a constant strain rate it can be calculated easily by 
+\begin{code}
+eng_strain_Y = dt * 0.001 /1.0e-8
+\end{code}
+ Then the plot can be shown with the following commands
+\begin{code}
+plt.plot(eng_strain_Y, vm_max, eng_strain_Y, vm_min)
+plt.ylabel("Max/Min von Mises Stress")
+plt.show()
+\end{code}
+ For further plot options look at \\ \texttt{https://matplotlib.org/users/pyplot\_tutorial.html} and a detailed explanation is given at \\
+ \texttt{http://johntfoster.github.io/posts/\\extracting-exodus-information-with-netcdf-python.html}.
+
+ \subsection{How to include Peridigm and the Trilinos environment in Eclipse}
+  Eclipse is a powerful editor for C++ or Java projects. Peridigm and its libraries can also be imported into the editor. The steps are listed as follows. 
+  \begin{itemize}
+   \item File $\rightarrow$ Import $\rightarrow$ C/C++ $\rightarrow$ Existing Code as Makefile Project
+   \item Existing Code Location: Browse to $\sim$\texttt{/<Path to Peridigm directory>}
+   \item Languages: C++
+   \item Choose 'Linux GCC' as toolchain
+   \item Highlight the Peridigm project in the project manager window pane and right-click on 'properties'
+   \begin{itemize}
+    \item C/C++ Build: untick Generate Makefiles automatically
+    \item C/C++ Build $\rightarrow$ Environment: Add the environmental variables 
+    \begin{itemize}
+     \item Name: BOOST\_DIR and Value: $\sim$\texttt{/<Path to Boost directory>}
+     \item Name: HDF5\_DIR and Value: $\sim$\texttt{/<Path to HDF5 directory>}
+     \item Name: NETCDF\_DIR and Value: $\sim$\texttt{/<Path to NETCDF directory>} 
+     \item Name: TRILINOS\_DIR and Value: $\sim$\texttt{/<Path to Trilinos directory>}
+    \end{itemize}
+    Leave PWD and CWD as default
+    \item C/C++ General $\rightarrow$ Paths and Symbols: Add the include and libary paths of all external libraries. Choose the following include paths:
+    \begin{itemize}
+     \item $\sim$\texttt{/<Path to Boost directory>/include/boost}
+     \item $\sim$\texttt{/<Path to HDF5 directory>/include}
+     \item $\sim$\texttt{/<Path to NETCDF directory>/include}
+     \item $\sim$\texttt{/<Path to Trilinos directory>/include}
+     \item $\sim$\texttt{/<Path to OpenMPI directory>/include}
+    \end{itemize}
+    And choose the following library paths: 
+    \begin{itemize}
+     \item $\sim$\texttt{/<Path to Boost directory>/lib}
+     \item $\sim$\texttt{/<Path to HDF5 directory>/lib64}
+     \item $\sim$\texttt{/<Path to NETCDF directory>/lib64}
+     \item $\sim$\texttt{/<Path to Trilinos directory>/lib}
+     \item $\sim$\texttt{/<Path to OpenMPI directory>/lib64}
+    \end{itemize}
+   \end{itemize}
+  \item Peridigm can be build in Eclipse and all changes are incorporated when the respective file is saved before building the project.
+ \end{itemize}
+
+ \subsection{Doxygen support for Peridigm}
+  The doxygen support shows the structure and descriptions of the code. Doxygen can be downloaded as a source file or can be installed directly from the GIT repository, if GIT is installed. 
+  The following lines show how to install doxygen with GIT support. \\
+\begin{code}
+git clone https://github.com/doxygen/doxygen.git 
+cd doxygen 
+mkdir build 
+cd build 
+cmake -G \dq Unix Makefiles\dq .. 
+make 
+make install
+\end{code}
+  Then the doxygen executable is linked and available as a name via the shell. The doxygen usage is very simple. The actual Peridigm code is located in the \texttt{src} directory. Enter the source directory and 
+  execute Doxygen. 
+\begin{code}
+ doxygen -g <Doxygen configuration file name>
+\end{code}
+  The option \texttt{-g} implies to generate a configuration file and its file name can be set arbitrarily. If the name isn't set by the user, Doxygen will create it automatically. Now, the configuration file can be
+  adapted to fit the desired output. Here, the following options are recommended to change.
+\begin{code}
+PROJECT_NAME           = \dq Peridigm\dq 
+OUTPUT_DIRECTORY       = <Path to output directory> 
+CREATE_SUBDIRS         = YES 
+ALWAYS_DETAILED_SEC    = YES 
+INLINE_INHERITED_MEMB  = YES 
+FULL_PATH_NAMES        = YES 
+EXTRACT_ALL            = YES 
+SOURCE_BROWSER         = YES 
+INLINE_SOURCES         = YES 
+RECURSIVE              = YES 
+\end{code}
+  All options are explained more detailed in the Doxygen manual and also in the configuration file. Then, the configuration file is executed by 
+\begin{code}
+doxygen <Doxygen configuration file name>
+\end{code}
+  A HTML and Latex folder are created under the output directory path. The latex script refman.pdf can be created by executing the make file in the folder by \texttt{make}. Otherwise, a DVI, PS or PDF can be created
+  by a Latex editor. The HTML folder contains all information about the header and classes. The files can be viewed in a common browser, which is able to display HTML. 

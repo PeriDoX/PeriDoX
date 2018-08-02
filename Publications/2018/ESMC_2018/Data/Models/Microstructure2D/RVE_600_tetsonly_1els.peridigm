@@ -1,0 +1,156 @@
+# Written by FEModeller: 03/03/2017: 16:17:51
+#
+# - Units in MPa-System
+# - Approximate global mesh size: 1/3
+#
+# Variables:
+
+#{MESH_ESIZE=1.0/3.0}
+#{MESH_HORIZON_INTERFACE=1.165*MESH_ESIZE}
+#{MESH_HORIZON_RESIN=4.015*MESH_ESIZE}
+#{MESH_HORIZON_FIBER=1.165*MESH_ESIZE}
+
+#{MAT_CRITICAL_STRETCH_INTERFACE=0.01}
+#{MAT_CRITICAL_STRETCH_RESIN=0.005}
+#{MAT_CRITICAL_STRETCH_FIBER=0.005}
+
+#{SOLVER_TIMESTEP=3.12614e-08}
+#{SOLVER_SAFETYFACTOR=0.8}
+
+#{OUTPUT_FREQUENCY_EXPL=10}
+
+#{LBC_TIMESTEPS=1000000}
+#{LBC_ENDTIME=LBC_TIMESTEPS*SOLVER_TIMESTEP*SOLVER_SAFETYFACTOR}
+#{LBC_DISPLACEMENT=0.06}
+#{LBC_VELOCITY_Y=LBC_DISPLACEMENT/LBC_ENDTIME}
+
+# Input:
+
+Verbose "false"
+
+Discretization
+    Type "Exodus"
+    Input Mesh File "mesh.g"
+
+Materials
+    BC
+        Material Model "Elastic"
+        Density 2.7E-8
+#        Bulk Modulus 21604.94
+#        Shear Modulus 14227.64
+        Bulk Modulus 68627.45098039215
+        Shear Modulus 26315.78947368421
+    RESIN
+        Material Model "Elastic"
+        Density 1.3E-9
+        Bulk Modulus 3125.0
+        Shear Modulus 1119.4
+    INTERFACE
+        Material Model "Elastic"
+        Density 1.3E-9
+        Bulk Modulus 3125.0
+        Shear Modulus 1119.4
+    FIBER
+        Material Model "Elastic"
+        Density 1.8E-9
+        Bulk Modulus 17283.95061728395
+        Shear Modulus 11382.113821138211
+
+Damage Models
+    resindamage
+        Damage Model "Critical Stretch"
+        Critical Stretch {MAT_CRITICAL_STRETCH_RESIN}
+    interfacedamage
+        Damage Model "Critical Stretch"
+        Critical Stretch {MAT_CRITICAL_STRETCH_INTERFACE}
+#    fiberdamage
+#        Damage Model "Critical Stretch"
+#        Critical Stretch {MAT_CRITICAL_STRETCH_FIBER}
+
+Blocks
+    Interface Blocks
+        Block Names "block_1 block_2 block_3 block_4 block_5 block_6 block_7 block_8 block_9 block_10 block_11 block_12 block_13 block_14 block_15"
+        Material "INTERFACE"
+        Damage Model "interfacedamage"
+        Horizon {MESH_HORIZON_INTERFACE}
+    Fiber Blocks
+        Block Names "block_16"
+        Material "FIBER"
+        Horizon {MESH_HORIZON_FIBER}
+    Resin Blocks
+        Block Names "block_17"
+        Material "RESIN"
+        Damage Model "resindamage"
+        Horizon {MESH_HORIZON_RESIN}
+    BC Blocks
+        Block Names "block_18"
+        Material "BC"
+        Horizon {MESH_HORIZON_RESIN}
+
+Boundary Conditions
+    Displacement-1-D-x
+        Type "Prescribed Displacement"
+        Node Set "nset_NSET-BC_BOT_SIDE"
+        Coordinate "x"
+        Value "0.0"
+    Displacement-1-D-y
+        Type "Prescribed Displacement"
+        Node Set "nset_NSET-BC_BOT"
+        Coordinate "y"
+        Value "0.0"
+    Displacement-1-D-z
+        Type "Prescribed Displacement"
+#        Node Set "nset_NSET-BC_BOT_Z"
+        Node Set "nset_NSET-BC_BOT"
+        Coordinate "z"
+        Value "0.0"
+    Displacement-2-D-x
+        Type "Prescribed Displacement"
+        Node Set "nset_NSET-BC_TOP_SIDE"
+        Coordinate "x"
+        Value "0.0"
+    Displacement-2-V-y
+        Type "Prescribed Displacement"
+        Node Set "nset_NSET-BC_TOP"
+        Coordinate "y"
+        Value "value={LBC_VELOCITY_Y}*t"
+    Displacement-2-D-z
+        Type "Prescribed Displacement"
+#        Node Set "nset_NSET-BC_TOP_Z"
+        Node Set "nset_NSET-BC_TOP"
+        Coordinate "z"
+        Value "0.0"
+		
+Solver
+    Verbose "true"
+    Initial Time 0.0
+    Final Time {LBC_ENDTIME}
+    Verlet
+        Safety Factor {SOLVER_SAFETYFACTOR}
+Output1
+    Output File Type "ExodusII"
+    Output Format "BINARY"
+    Output Filename "model_expl"
+    Output Frequency {OUTPUT_FREQUENCY_EXPL}
+    Output Variables
+        Block_Id "false"
+        Element_Id "false"
+        Number_Of_Neighbors "false"
+        Proc_Num "true"
+        Radius "false"
+        Weighted_Volume "false"
+        Damage "true"
+        Displacement "true"
+        Velocity "true"
+
+Output2
+    Output File Type "ExodusII"
+    Output Format "BINARY"
+    Output Filename "model"
+    Output Frequency 1000
+    Output Variables
+        Global_Angular_Momentum "true"
+        Global_Kinetic_Energy "true"
+        Global_Linear_Momentum "true"
+#        Global_Strain_Energy "true"
+#        Global_Strain_Energy_Density "true"

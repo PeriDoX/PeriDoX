@@ -1,0 +1,192 @@
+# Written by FEModeller: 03/03/2017: 16:17:51
+#
+# - Units in MPa-System
+#
+# Variables:
+
+#{MODEL_ESIZE_MATRIX=0.0007142}
+#{MODEL_ESIZE_FIBRE=0.00070525}
+#{MODEL_HORIZON_BC=6.015*MODEL_ESIZE_MATRIX}
+#{MODEL_HORIZON_FIBRE=1.165*MODEL_ESIZE_FIBRE}
+#{MODEL_HORIZON_MATRIX=3.015*MODEL_ESIZE_MATRIX}
+#3.015*(MODEL_ESIZE_MATRIX+MODEL_ESIZE_FIBRE)/2.0
+#{MODEL_HORIZON_INTERFACE=3.015*MODEL_ESIZE_MATRIX}
+#{MODEL_MASSSCALING_FACTOR=1000.0000001}
+
+#{MAT_BC_DENSITY=2.7E-8}
+#{MAT_BC_MODULUS_YOUNG=200000.0001}
+#{MAT_BC_POISSONRATIO=0.30001}
+#{MAT_FIBRE_DENSITY=2.6E-9}
+#{MAT_FIBRE_MODULUS_YOUNG=72450.0001}
+#{MAT_FIBRE_POISSONRATIO=0.30001}
+#{MAT_INTERFACE_DENSITY=1.22E-9}
+#{MAT_INTERFACE_MODULUS_YOUNG=3200.0001}
+#{MAT_INTERFACE_POISSONRATIO=0.3401}
+#{MAT_MATRIX_DENSITY=1.22E-9}
+#{MAT_MATRIX_MODULUS_YOUNG=3200.0001}
+#{MAT_MATRIX_POISSONRATIO=0.3401}
+
+# From CriticalStretchCalculator: 1.07654E-01
+# From model for single fibre: 3.1851623E-02
+#{DAM_MATRIX_CRITICAL_STRETCH=3.1851623E-02}
+#{DAM_INTERFACE_CRITICAL_STRETCH=3.1851623E-02}
+
+# kleines RVE: 0.55001E-3
+#{LBC_FAILUREDISPLACEMENTFINAL=1.4001E-3}
+#{LBC_VELOCITY=8.33333E-3}
+#{LBC_VELOCITY_SCALE_FACTOR=1000.0001}
+
+#{SOLVER_EXPL_SAFETYFACTOR=0.8}
+
+#{OUTPUT_EXPL_FREQUENCY=10}
+
+# Input:
+
+Verbose "false"
+
+Discretization
+    Type "Exodus"
+    Input Mesh File "mesh_x.g"
+
+Materials
+    bcmaterial
+        Material Model "Elastic"
+        Density {MAT_BC_DENSITY*MODEL_MASSSCALING_FACTOR}
+        Young's Modulus {MAT_BC_MODULUS_YOUNG}
+        Poisson's Ratio {MAT_BC_POISSONRATIO}
+#    bcnolbcmaterial
+#        Material Model "Elastic"
+#        Density {MAT_BC_DENSITY*MODEL_MASSSCALING_FACTOR}
+#        Young's Modulus 10.0001
+#        Poisson's Ratio {MAT_BC_POISSONRATIO}
+    matrixmaterial
+        Material Model "Elastic"
+        Density {MAT_MATRIX_DENSITY*MODEL_MASSSCALING_FACTOR}
+        Young's Modulus {MAT_MATRIX_MODULUS_YOUNG}
+        Poisson's Ratio {MAT_MATRIX_POISSONRATIO}
+    interfacematerial
+        Material Model "Elastic"
+        Density {MAT_INTERFACE_DENSITY*MODEL_MASSSCALING_FACTOR}
+        Young's Modulus {MAT_INTERFACE_MODULUS_YOUNG}
+        Poisson's Ratio {MAT_INTERFACE_POISSONRATIO}
+    fibrematerial
+        Material Model "Elastic"
+        Density {MAT_FIBRE_DENSITY*MODEL_MASSSCALING_FACTOR}
+        Young's Modulus {MAT_FIBRE_MODULUS_YOUNG}
+        Poisson's Ratio {MAT_FIBRE_POISSONRATIO}
+
+Damage Models
+    matrixdamage
+        Damage Model "Critical Stretch"
+        Critical Stretch {DAM_MATRIX_CRITICAL_STRETCH}
+    interfacedamage
+        Damage Model "Critical Stretch"
+        Critical Stretch {DAM_INTERFACE_CRITICAL_STRETCH}
+
+Blocks
+    interface blocks
+        Block Names "block_1 block_2 block_3 block_4 block_5 block_6 block_7 block_8 block_9 block_10 block_11 block_12 block_13 block_14 block_15 block_16 block_17 block_18 block_19 block_20 block_21 block_22 block_23 block_24 block_25 block_26"
+        Material "interfacematerial"
+        Damage Model "interfacedamage"
+        Horizon {MODEL_HORIZON_INTERFACE}
+    fibre blocks
+        Block Names "block_27"
+        Material "fibrematerial"
+        Horizon {MODEL_HORIZON_FIBRE}
+    matrix blocks
+        Block Names "block_28"
+        Material "matrixmaterial"
+        Damage Model "matrixdamage"
+        Horizon {MODEL_HORIZON_MATRIX}
+    bc blocks
+        Block Names "block_29 block_30"
+        Material "bcmaterial"
+        Horizon {MODEL_HORIZON_BC}
+#    bc blocks no lbc
+#        Block Names "block_31 block_32"
+#        Material "bcnolbcmaterial"
+#        Horizon {MODEL_HORIZON_BC}
+
+Boundary Conditions
+    Displacement-1-D-x
+        Type "Prescribed Displacement"
+        Node Set "nset_NSET-BC_LEFT"
+        Coordinate "x"
+        Value "0.0"
+    Displacement-1-D-y
+        Type "Prescribed Displacement"
+        Node Set "nset_NSET-BC_LEFT_SIDE"
+        Coordinate "y"
+        Value "0.0"
+    Displacement-1-D-z
+        Type "Prescribed Displacement"
+        Node Set "nset_NSET-BC_LEFT"
+        Coordinate "z"
+        Value "0.0"
+    Displacement-2-V-x
+        Type "Prescribed Displacement"
+        Node Set "nset_NSET-BC_RIGHT"
+        Coordinate "x"
+        Value "value={LBC_VELOCITY*LBC_VELOCITY_SCALE_FACTOR}*t"
+    Displacement-2-D-y
+        Type "Prescribed Displacement"
+        Node Set "nset_NSET-BC_RIGHT_SIDE"
+        Coordinate "y"
+        Value "0.0"
+    Displacement-2-D-z
+        Type "Prescribed Displacement"
+        Node Set "nset_NSET-BC_RIGHT"
+        Coordinate "z"
+        Value "0.0"
+
+Compute Class Parameters
+    Strain Gage Displacement NodeSet
+        Compute Class "Node_Set_Data"
+        Calculation Type "Minimum"
+        Node Set "nset_NSET-BC_RIGHT"
+        Variable "Displacement"
+        Output Label "Gage_Displacement_NodeSet"
+    Load Force
+        Compute Class "Node_Set_Data"
+        Calculation Type "Sum"
+        Node Set "nset_NSET-BC_RIGHT"
+        Variable "Force"
+        Output Label "Reaction_Force"
+		
+Solver
+    Verbose "true"
+    Initial Time 0.0
+    Final Time {LBC_FAILUREDISPLACEMENTFINAL/(abs(LBC_VELOCITY)*LBC_VELOCITY_SCALE_FACTOR)}
+    Verlet
+        Safety Factor {SOLVER_EXPL_SAFETYFACTOR}
+
+Output1
+    Output File Type "ExodusII"
+    Output Format "BINARY"
+    Output Filename "model"
+    Output Frequency {OUTPUT_EXPL_FREQUENCY}
+    Output Variables
+        Block_Id "false"
+        Element_Id "false"
+        Number_Of_Neighbors "false"
+        Proc_Num "true"
+        Radius "false"
+        Weighted_Volume "false"
+        Damage "true"
+        Displacement "true"
+        Force "true"
+        Velocity "true"
+        Gage_Displacement_NodeSet "true"
+        Reaction_Force "true"
+
+Output2
+    Output File Type "ExodusII"
+    Output Format "BINARY"
+    Output Filename "model"
+    Output Frequency 2000
+    Output Variables
+        Global_Angular_Momentum "true"
+        Global_Kinetic_Energy "true"
+        Global_Linear_Momentum "true"
+#        Global_Strain_Energy "true"
+#        Global_Strain_Energy_Density "true"

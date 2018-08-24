@@ -1,0 +1,188 @@
+# Written by FEModeller: 19/12/2017: 15:54:37
+#
+# - Units in MPa-System
+#
+# Variables:
+
+#{MODEL_ESIZE_MATRIX=3.04E-03}
+#{MODEL_ESIZE_FIBRE=1.125E-03}
+#{MODEL_HORIZON_MATRIX=3.015*MODEL_ESIZE_MATRIX}
+# 1.165;3.015-> geht zwischen Interface-Schichten, nicht an Übergang Faser-Interface kaputt
+#{MODEL_HORIZON_FIBRE=1.165*MODEL_ESIZE_FIBRE}
+#3.015*(MODEL_ESIZE_MATRIX+MODEL_ESIZE_FIBRE)/2.0
+#{MODEL_HORIZON_INTERFACE=3.015*MODEL_ESIZE_MATRIX}
+#{MODEL_MASSSCALING_FACTOR=1000.0000001}
+
+#{MAT_FIBRE_DENSITY=2.6E-9}
+#{MAT_FIBRE_MODULUS_YOUNG=72450.0001}
+#{MAT_FIBRE_POISSONRATIO=0.30001}
+#{MAT_INTERFACE_DENSITY=1.22E-9}
+#{MAT_INTERFACE_MODULUS_YOUNG=3200.0001}
+#{MAT_INTERFACE_POISSONRATIO=0.3401}
+#{MAT_MATRIX_DENSITY=1.22E-9}
+#{MAT_MATRIX_MODULUS_YOUNG=3200.0001}
+#{MAT_MATRIX_POISSONRATIO=0.3401}
+
+# 100.0001
+#{DAM_FIBRE_CRITICAL_ENERGY=1.0001}
+#{DAM_MATRIX_CRITICAL_ENERGY=0.1}
+#{DAM_INTERFACE_CRITICAL_ENERGY=0.1}
+
+#1.0001E-3#2.5001E-3
+#{LBC_FAILUREDISPLACEMENTFINAL=5.0001E-3}
+#{LBC_VELOCITY=-8.33333E-3}
+#{LBC_VELOCITY_SCALE_FACTOR=1000.0001}
+
+#{SOLVER_EXPL_SAFETYFACTOR=0.8}
+
+#{OUTPUT_EXPL_FREQUENCY=10}
+
+Verbose "false"
+
+Discretization
+    Type "Exodus"
+    Input Mesh File "mesh.g"
+
+Materials
+    matrixmaterial
+        Material Model "Elastic"
+        Density {MAT_MATRIX_DENSITY*MODEL_MASSSCALING_FACTOR}
+        Young's Modulus {MAT_MATRIX_MODULUS_YOUNG}
+        Poisson's Ratio {MAT_MATRIX_POISSONRATIO}
+    interfacematerial
+        Material Model "Elastic"
+        Density {MAT_INTERFACE_DENSITY*MODEL_MASSSCALING_FACTOR}
+        Young's Modulus {MAT_INTERFACE_MODULUS_YOUNG}
+        Poisson's Ratio {MAT_INTERFACE_POISSONRATIO}
+    fibrematerial
+        Material Model "Elastic"
+        Density {MAT_FIBRE_DENSITY*MODEL_MASSSCALING_FACTOR}
+        Young's Modulus {MAT_FIBRE_MODULUS_YOUNG}
+        Poisson's Ratio {MAT_FIBRE_POISSONRATIO}
+
+Damage Models
+    matrixdamage
+        Damage Model "Critical Energy"
+        Critical Energy Tension {DAM_MATRIX_CRITICAL_ENERGY}
+#        Critical Energy Shear {DAM_MATRIX_CRITICAL_ENERGY}
+        Type "Energy Criterion"
+#        Type "Power Law"
+    interfacedamage
+        Damage Model "Critical Energy"
+        Critical Energy Tension {DAM_INTERFACE_CRITICAL_ENERGY}
+#        Critical Energy Shear {DAM_INTERFACE_CRITICAL_ENERGY}
+        Type "Energy Criterion"
+#        Type "Power Law"
+#    fibredamage
+#        Damage Model "Critical Energy"
+#        Critical Energy Tension {DAM_FIBRE_CRITICAL_ENERGY}
+#        Type "Energy Criterion"
+
+Blocks
+    fibre blocks
+        Block Names "block_1 block_2"
+        Material "fibrematerial"
+#        Damage Model "fibredamage"
+        Horizon {MODEL_HORIZON_FIBRE}
+    interface blocks
+        Block Names "block_3 block_4"
+        Material "interfacematerial"
+        Damage Model "interfacedamage"
+        Horizon {MODEL_HORIZON_INTERFACE}
+    matrix blocks with damage
+        Block Names "block_5 block_6"
+        Material "matrixmaterial"
+        Damage Model "matrixdamage"
+        Horizon {MODEL_HORIZON_MATRIX}
+    matrix blocks without damage
+        Block Names "block_7"
+        Material "matrixmaterial"
+        Horizon {MODEL_HORIZON_MATRIX}
+
+Boundary Conditions
+    Displacement-1-D-x
+        Type "Prescribed Displacement"
+        Node Set "nset_Set_FE_Node_LBC_PD_R"
+        Coordinate "x"
+        Value "0.0"
+    Displacement-2-D-x
+        Type "Prescribed Displacement"
+        Node Set "nset_Set_FE_Node_LBC_PD_R_X2"
+        Coordinate "x"
+        Value "0.0"
+    Displacement-2-D-y
+        Type "Prescribed Displacement"
+        Node Set "nset_Set_FE_Node_LBC_PD_R_X2"
+        Coordinate "y"
+        Value "0.0"
+    Displacement-3-D-x
+        Type "Prescribed Displacement"
+        Node Set "nset_Set_FE_Node_LBC_PD_R_X1"
+        Coordinate "x"
+        Value "0.0"
+    Displacement-3-D-y
+        Type "Prescribed Displacement"
+        Node Set "nset_Set_FE_Node_LBC_PD_R_X1"
+        Coordinate "y"
+        Value "0.0"
+    Displacement-3-D-z
+        Type "Prescribed Displacement"
+        Node Set "nset_Set_FE_Node_LBC_PD_R_X1"
+        Coordinate "z"
+        Value "0.0"
+    Displacement-4-D-y
+        Type "Prescribed Displacement"
+        Node Set "nset_Set_FE_Node_LBC_PD_L_X2"
+        Coordinate "y"
+        Value "0.0"
+    Displacement-5-D-y
+        Type "Prescribed Displacement"
+        Node Set "nset_Set_FE_Node_LBC_PD_L_X1"
+        Coordinate "y"
+        Value "0.0"
+    Displacement-5-D-z
+        Type "Prescribed Displacement"
+        Node Set "nset_Set_FE_Node_LBC_PD_L_X1"
+        Coordinate "z"
+        Value "0.0"
+    Displacement-1-V-x
+        Type "Prescribed Displacement"
+        Node Set "nset_Set_FE_Node_LBC_PD_L"
+        Coordinate "x"
+        Value "value={LBC_VELOCITY*LBC_VELOCITY_SCALE_FACTOR}*t"
+
+Compute Class Parameters
+    Strain Gage Displacement NodeSet
+        Compute Class "Node_Set_Data"
+        Calculation Type "Minimum"
+        Node Set "nset_Set_FE_Node_LBC_PD_L"
+        Variable "Displacement"
+        Output Label "Gage_Displacement_NodeSet"
+    Load Force
+        Compute Class "Node_Set_Data"
+        Calculation Type "Sum"
+        Node Set "nset_Set_FE_Node_LBC_PD_L"
+        Variable "Force"
+        Output Label "Reaction_Force"
+
+Solver
+    Initial Time 0.0
+    Final Time {abs(LBC_FAILUREDISPLACEMENTFINAL)/(abs(LBC_VELOCITY)*LBC_VELOCITY_SCALE_FACTOR)}
+    Verlet
+        Safety Factor {SOLVER_EXPL_SAFETYFACTOR}
+
+Output
+    Output File Type "ExodusII"
+    Output Filename "model"
+    Output Frequency {OUTPUT_EXPL_FREQUENCY}
+    Output Variables
+        Block_Id "true"
+        Element_Id "true"
+        Number_Of_Neighbors "true"
+        Proc_Num "true"
+        Radius "true"
+        Damage "true"
+        Displacement "true"
+        Force "true"
+        Gage_Displacement_NodeSet "true"
+        Reaction_Force "true"

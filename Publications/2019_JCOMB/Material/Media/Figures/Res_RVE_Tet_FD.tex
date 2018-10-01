@@ -1,0 +1,181 @@
+\tikzset{
+  mynode style/.style={
+    midway,
+    fill=white,
+    inner xsep=0pt,
+    inner ysep=2pt,
+    font=\figurefontsize,
+  }
+}
+% 
+\tikzset{
+  pinnode style/.style={
+    inner sep=1pt,
+    font=\figurefontsize,
+  }
+}
+% 
+\tikzset{
+  epinlabel style/.style={
+    inner sep=1pt,
+    font=\figurefontsize,
+    pin edge={energycolor},
+  }
+}
+% 
+\tikzset{
+  spinlabel style/.style={
+    inner sep=1pt,
+    font=\figurefontsize,
+    stretchcolor,
+    pin edge={stretchcolor},
+  }
+}
+% 
+\begin{tikzpicture}
+  \begin{axis}[%
+    name=myplot,
+    width=\linewidth,
+    height=0.3\textheight,
+    axis x line=middle,                       % Middle x-axis
+    axis y line=left,
+    enlarge x limits={auto,upper},            % Add this at positive x
+    enlarge y limits={auto,upper},            % Add this at positive y
+    %scaled x ticks=false,
+    %scaled y ticks=false,
+    scaled ticks=false,
+    x label style={                           % xlabel style
+      at={(axis description cs:0.5,-0.13)},   % Position
+      anchor=north,                           % Anchor
+      inner sep=0pt,
+      %outer sep=0pt,
+    },
+    y label style={                           % ylabel style
+      anchor=south,                           % Anchor
+      inner sep=0pt,
+      %outer sep=0pt,
+    },
+    xticklabel={%                             % Scale the tick labels
+      \pgfmathparse{\tick*1000}%
+      $\pgfmathprintnumber[fixed,precision=1]{\pgfmathresult}$%
+    },
+    yticklabel={%                             % Scale the tick labels
+      \pgfmathparse{\tick*1000}%
+      $\pgfmathprintnumber[fixed,precision=0]{\pgfmathresult}$%
+    },
+    x tick label style={
+      /pgf/number format/fixed,
+      /pgf/number format/precision=4,         % Nr of decimal digits
+    },
+    y tick label style={
+      /pgf/number format/fixed,
+      /pgf/number format/fixed zerofill,      % Allow trailing zeros
+      /pgf/number format/precision=3,         % Nr of decimal digits
+    },
+    legend columns=1,                         % Nr of colums in legend
+    legend style={
+      draw=none,                              % No border
+      fill=none,                              % No fill color
+      font=\figurefontsize,
+      at={(0.02,1.0)},                        % Position
+      %at=north west,
+      anchor=north west,                      % Anchor
+      inner sep=0pt,
+      /tikz/row 2/.style={
+        row sep=5pt,
+      }
+    },
+    %legend pos=north west,
+    legend cell align={left},                 % Alignment of legend entries
+    xlabel={Displacement $[10^{-3}\si{\milli\meter}]$},%
+    %ylabel={Body force $[\si{\newton\per\milli\meter\cubed}]$},
+    ylabel={Force $[10^{-3}\si{\newton}]$},
+    xmin=0.0,
+    ymin=0.0,
+    restrict y to domain*=0:*,
+  ]
+    % Plot2
+    \addplot [stretchcolor] table [%
+      x index={1},%
+      y expr=abs(\thisrowno{4}),%
+      col sep=comma,
+      each nth point=1,
+    ]%
+    {\materialpath/Data/Results/RVE/RVE_Tet_Y_CriticalStretch_FDT_min.csv};
+    \addlegendentry{Critical Stretch RVE1}
+    % Plot2
+    \addplot [stretchcolor, densely dotted] table [%
+      x index={0},%
+      y expr=abs(\thisrowno{3}),%
+      col sep=comma,
+      each nth point=1,
+    ]%
+    {\materialpath/Data/Results/RVE/RVE_Tet_X_CriticalStretch_FDT.csv};
+    \addlegendentry{Critical Stretch RVE2}
+    % Plot1
+    \addplot [energycolor] table [%
+      x index={1},%
+      y expr=abs(\thisrowno{4}),%
+      col sep=comma,
+      each nth point=1,
+    ]%
+    {\materialpath/Data/Results/RVE/RVE_Tet_Y_CriticalEnergy_FDT.csv};
+    \addlegendentry{Critical Energy RVE1}
+    % Plot1
+    \addplot [energycolor,densely dotted] table [%
+      x index={0},%
+      y expr=abs(\thisrowno{3}),%
+      col sep=comma,
+      each nth point=1,
+    ]%
+    {\materialpath/Data/Results/RVE/RVE_Tet_X_CriticalEnergy_FDT.csv};
+    \addlegendentry{Critical Energy RVE2}
+    %
+    % Coordinates energy
+    \coordinate (EI)    at (5.3493E-04,2.1786E-03);
+    %\coordinate (EI)    at (6.0908E-04,2.4426E-03);
+    \coordinate (EII)   at (6.5418E-04,2.4986E-03);
+    \coordinate (EIII)  at (6.7345E-04,2.4264E-03);
+    \coordinate (EIV)   at (6.8140E-04,2.0536E-03);
+    \coordinate (EV)    at (6.8705E-04,1.7373E-03);
+    \coordinate (EVI)   at (7.0158E-04,5.9534E-05);
+    \coordinate (EVII)  at (7.6395E-04,4.6953E-04);
+    \coordinate (EVIII) at (9.2478E-04,2.6719E-04);
+    % Coordinates stretch
+    \coordinate (SI)    at (3.9199E-04,1.9025E-03);
+    \coordinate (SII)   at (4.3831E-04,1.9376E-03);
+    \coordinate (SIII)  at (4.5268E-04,1.6825E-03);
+    \coordinate (SIV)   at (4.6140E-04,1.7563E-03);
+    \coordinate (SV)    at (4.7439E-04,1.5471E-03);
+    \coordinate (SVI)   at (5.2683E-04,1.1392E-03);
+    \coordinate (SVII)  at (5.7285E-04,2.0240E-04);
+    \coordinate (SVIII) at (7.7955E-04,1.2374E-04);
+    %\draw[thin,black] (6.0908E-04,0) -- (6.0908E-04,2.4426E-03) node[mynode style]{I};
+    %\draw[thin,black] (6.5418E-04,0) -- (6.5418E-04,2.4986E-03) node[mynode style]{II};
+    %\draw[thin,black] (6.7345E-04,0) -- (6.7345E-04,2.4264E-03) node[mynode style]{III};
+    %\draw[thin,black] (6.8140E-04,0) -- (6.8140E-04,2.0536E-03) node[mynode style]{IV};
+    %\draw[thin,black] (6.8705E-04,0) -- (6.8705E-04,1.7373E-03) node[mynode style]{V};
+    %\draw[thin,black] (7.0158E-04,0) -- (7.0158E-04,5.9534E-05) node[mynode style]{VI};
+    %\draw[thin,black] (7.6426E-04,0) -- (7.6426E-04,3.9310E-04) node[mynode style]{VII};
+    %\draw[thin,black] (9.2478E-04,0) -- (9.2478E-04,2.6719E-04) node[mynode style]{VIII};
+    %\node[pin=120:{I}] at (axis cs:6.0908E-04,2.4426E-03) {};
+  \end{axis}
+  % Pins energy
+  \node[pinnode style,pin={[epinlabel style,pin distance= 5pt] 90:{I}}]    at (EI)    {};
+  \node[pinnode style,pin={[epinlabel style,pin distance= 5pt] 90:{II}}]   at (EII)   {};
+  \node[pinnode style,pin={[epinlabel style,pin distance= 5pt] 60:{III}}]  at (EIII)  {};
+  \node[pinnode style,pin={[epinlabel style,pin distance= 5pt] 60:{IV}}]   at (EIV)   {};
+  \node[pinnode style,pin={[epinlabel style,pin distance= 5pt] 60:{V}}]    at (EV)    {};
+  \node[pinnode style,pin={[epinlabel style,pin distance= 9pt]179:{VI}}]   at (EVI)   {};
+  \node[pinnode style,pin={[epinlabel style,pin distance=10pt] 75:{VII}}]  at (EVII)  {};
+  \node[pinnode style,pin={[epinlabel style,pin distance= 5pt] 90:{VIII}}] at (EVIII) {};
+  % Pins stretch
+  \node[pinnode style,pin={[spinlabel style,pin distance=10pt]  95:{I}}]    at (SI)    {};
+  \node[pinnode style,pin={[spinlabel style,pin distance=10pt]  85:{II}}]   at (SII)   {};
+  \node[pinnode style,pin={[spinlabel style,pin distance= 5pt]-180:{III}}]  at (SIII)  {};
+  \node[pinnode style,pin={[spinlabel style,pin distance= 5pt]- 93:{IV}}]   at (SIV)   {};
+  \node[pinnode style,pin={[spinlabel style,pin distance= 5pt]- 85:{V}}]    at (SV)    {};
+  \node[pinnode style,pin={[spinlabel style,pin distance= 5pt]-115:{VI}}]   at (SVI)   {};
+  \node[pinnode style,pin={[spinlabel style,pin distance= 5pt]   0:{VII}}]  at (SVII)  {};
+  \node[pinnode style,pin={[spinlabel style,pin distance= 5pt]- 15:{VIII}}] at (SVIII) {};
+\end{tikzpicture}

@@ -1,0 +1,115 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-12-12 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% inspired by:
+% http://tex.stackexchange.com/questions/194477/pgfplots-label-each-group-plots
+% http://tex.stackexchange.com/questions/135480/position-of-colorbar-with-multi-plots-without-using-groupplot
+% http://tex.stackexchange.com/questions/126177/common-colorbar-for-groupplot
+% 
+% discussed in:
+% http://tex.stackexchange.com/questions/297512/common-colorbar-over-groupplot/297568#297568
+
+\pgfplotsset{
+  myaxis style/.style={
+    hide axis,
+    scale only axis,
+    point meta min=0.0,                       % Minimum value colorbar
+    point meta max=0.5,                       % Maximum value colorbar
+    %colormap/bluered,                         % Colormap preset
+    colorbar sampled,                         % Steps in colorbar
+    colormap name=paraviewblueredcolormap,
+  }
+}
+
+\begin{tikzpicture}
+  \pgfmathsetmacro{\xmin}{0.0}
+  \pgfmathsetmacro{\xmax}{1.0}
+  \pgfmathsetmacro{\ymin}{0.0}
+  \pgfmathsetmacro{\ymax}{1.0}
+  \begin{groupplot}[
+    group style={
+      group name=my plots,
+      group size= 4 by 2,
+      horizontal sep=0.25cm,
+      vertical sep=0.5cm,
+    },
+    %width=0.33\figwidth,
+    width=0.40\figwidth,
+    hide axis,
+    enlargelimits=false,
+    axis equal image,
+  ]
+    \nextgroupplot
+      \addplot graphics [xmin=\xmin,xmax=\xmax,ymin=\ymin,ymax=\ymax]{Sim_PD_RVE_Tet_Y_CriticalStretch_Dam0-05_DispFac1-0_2565_ct};
+      \coordinate (top) at (rel axis cs:0,1); % Top of 1st plot
+    \nextgroupplot
+      \addplot graphics [xmin=\xmin,xmax=\xmax,ymin=\ymin,ymax=\ymax]{Sim_PD_RVE_Tet_Y_CriticalStretch_Dam0-05_DispFac1-0_2868_ct};
+    \nextgroupplot
+      \addplot graphics [xmin=\xmin,xmax=\xmax,ymin=\ymin,ymax=\ymax]{Sim_PD_RVE_Tet_Y_CriticalStretch_Dam0-05_DispFac1-0_2962_ct};
+    \nextgroupplot
+      \addplot graphics [xmin=\xmin,xmax=\xmax,ymin=\ymin,ymax=\ymax]{Sim_PD_RVE_Tet_Y_CriticalStretch_Dam0-05_DispFac1-0_3019_ct};
+    \nextgroupplot
+      \addplot graphics [xmin=\xmin,xmax=\xmax,ymin=\ymin,ymax=\ymax]{Sim_PD_RVE_Tet_Y_CriticalStretch_Dam0-05_DispFac1-0_3104_ct};
+    \nextgroupplot
+      \addplot graphics [xmin=\xmin,xmax=\xmax,ymin=\ymin,ymax=\ymax]{Sim_PD_RVE_Tet_Y_CriticalStretch_Dam0-05_DispFac1-0_3447_ct};
+    \nextgroupplot
+      \addplot graphics [xmin=\xmin,xmax=\xmax,ymin=\ymin,ymax=\ymax]{Sim_PD_RVE_Tet_Y_CriticalStretch_Dam0-05_DispFac1-0_3748_ct};
+    \nextgroupplot
+      \addplot graphics [xmin=\xmin,xmax=\xmax,ymin=\ymin,ymax=\ymax]{Sim_PD_RVE_Tet_Y_CriticalStretch_Dam0-05_DispFac1-0_5100_ct};
+      \coordinate (bot) at (rel axis cs:1,0); % Bottom of last plot
+  \end{groupplot}
+  % Labels
+  \node[below = 0.025cm of my plots c1r1.south,font=\figurefontsize] {I};
+  \node[below = 0.025cm of my plots c2r1.south,font=\figurefontsize] {II};
+  \node[below = 0.025cm of my plots c3r1.south,font=\figurefontsize] {III};
+  \node[below = 0.025cm of my plots c4r1.south,font=\figurefontsize] {IV};
+  \node[below = 0.025cm of my plots c1r2.south,font=\figurefontsize] {V};
+  \node[below = 0.025cm of my plots c2r2.south,font=\figurefontsize] {VI};
+  \node[below = 0.025cm of my plots c3r2.south,font=\figurefontsize] {VII};
+  \node[below = 0.025cm of my plots c4r2.south,font=\figurefontsize] {VIII};
+  % Node position middle right groupplot
+  \path (top -| current bounding box.east) --
+        coordinate(legendposright)
+        (bot-|current bounding box.east);
+  % Node position middle above groupplot
+  \path (top |- current bounding box.north) --
+        coordinate(legendposabove)
+        (bot|-current bounding box.north);
+  %Colorbar above
+  \begin{axis}[%
+    myaxis style,
+    height=.005\linewidth,
+    width=0.75\figwidth,
+    at={(legendposabove.south)},
+    yshift=1.25cm,
+    anchor=south,
+    colorbar horizontal,                      % Active colorbar
+    colorbar style={
+      paraviewdiscrete256colorbar style,
+      xticklabel pos=upper,
+      scaled x ticks=false,
+      xticklabel style={
+        /pgf/number format/fixed,
+        /pgf/number format/precision=2
+      },
+      xlabel=Damage variable [-],             % Label
+    },
+  ]
+    \addplot [draw=none] coordinates {(0,0)};
+  \end{axis}
+\end{tikzpicture}

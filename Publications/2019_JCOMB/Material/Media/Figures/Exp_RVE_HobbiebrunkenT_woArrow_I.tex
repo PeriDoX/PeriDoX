@@ -1,0 +1,39 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-12-12 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{tikzpicture}[
+  every node/.style={
+    font=\figurefontsize,
+  }
+]
+  % External figure
+  \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\figwidth,height=\figheight,keepaspectratio]{Exp_RVE_HobbiebrunkenT_woArrow_I}};
+  % Figure scope
+  \begin{scope}[
+    x={(image.south east)},
+    y={(image.north west)},
+  ]
+    % This is influenced by the aspect ratio, but so what
+    \coordinate (l1label) at (0.5,0.8);
+    \coordinate (l2label) at (0.9,0.828);
+    \draw[white,latex-latex] (l1label) -- (l2label) node [midway,below] {Loading};
+    
+    % Help grid and labels
+    %\pic{myimagegrid};
+  \end{scope}
+\end{tikzpicture}

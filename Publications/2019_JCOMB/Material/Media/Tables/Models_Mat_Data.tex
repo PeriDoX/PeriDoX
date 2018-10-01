@@ -1,0 +1,44 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-12-12 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \begin{tabularx}{\linewidth}{llXcS[table-format=1.3]s}
+% % \begin{tabularx}{\linewidth}{lHXcS[table-format=1.6]s}
+% \toprule
+% Item & Category & Name & Symbol & \multicolumn{1}{c}{Value} & \multicolumn{1}{c}{Unit}    \\
+% \midrule
+% Fiber & General    & \glsname{symb:scalar:mat:density} & $\glssymbol{symb:scalar:mat:density}$ & \num{2.6E-9} & \tonne\per\cubic\milli\meter \\
+%       & Elasticity & \glsname{symb:scalar:mat:modulus:young} & $\glssymbol{symb:scalar:mat:modulus:young}$ & \num{72500} & \mega\pascal \\
+%       &            & \glsname{symb:scalar:mat:poissonratio} & $\glssymbol{symb:scalar:mat:poissonratio}$ & \num{0.165} &  \\
+% Matrix& General    & \glsname{symb:scalar:mat:density} & $\glssymbol{symb:scalar:mat:density}$ & \num{1.22E-9} & \tonne\per\cubic\milli\meter \\
+%       & Elasticity & \glsname{symb:scalar:mat:modulus:young} & $\glssymbol{symb:scalar:mat:modulus:young}$ & \num{3200} & \mega\pascal \\
+%       &            & \glsname{symb:scalar:mat:poissonratio} & $\glssymbol{symb:scalar:mat:poissonratio}$ & \num{0.34} &  \\
+%       & Damage     & \glsname{symb:scalar:mat:energyreleaserate:critical} & $\glssymbol{symb:scalar:mat:energyreleaserate:critical}$ & \num{0.165} &  \\
+% \bottomrule
+% \end{tabularx}
+
+% \begin{tabularx}{\linewidth}{lXcS[table-format=1.3]S[table-format=1.3]s}
+\begin{tabularx}{\linewidth}{HXcS[table-format=1.3]S[table-format=1.3]S[table-format=1.3]s}
+\toprule
+Category & Name &        & \multicolumn{1}{c}{Fibre} & \multicolumn{1}{c}{Matrix} & \multicolumn{1}{c}{BC\textsubscript{\gls{RVE}}} & \multicolumn{1}{c}{Unit}    \\
+\midrule
+General    & \glsname{symb:scalar:mat:density} & $\glssymbol{symb:scalar:mat:density}$ & \num{2.6} & \num{1.22} & \num{2.7} & 10^{-9}\tonne\per\milli\meter\cubed \\
+Elasticity & \glsname{symb:scalar:mat:modulus:young} & $\glssymbol{symb:scalar:mat:modulus:young}$ & \num{72.45} & \num{3.2} & \num{200} & 10^3\mega\pascal \\
+            & \glsname{symb:scalar:mat:poissonratio} & $\glssymbol{symb:scalar:mat:poissonratio}$ & \num{0.3} & \num{0.34} & \num{0.3} &  \\
+Damage     & \glsname{symb:scalar:mat:energyreleaserate} & $\glssymbol{symb:scalar:mat:energyreleaserate:critical}$ & & \num{0.1} & & \newton\per\milli\meter \\
+\bottomrule
+\end{tabularx}

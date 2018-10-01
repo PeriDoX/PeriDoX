@@ -1,0 +1,52 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-12-12 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%   \settoheight\figdim{\includegraphics[width=\figwidth,height=\figheight,keepaspectratio]{Obs_Model_Single_Fiber}}
+  \savebox{\largestimage}{\input{\materialpath/Media/Figures/Obs_Model_Single_Fiber.tex}}
+  %\settoheight\figdim{\input{Figures/Obs_Model_Single_Fiber.tex}}
+  \settoheight\figdim{\usebox{\largestimage}}
+  \setlength{\figwidth}{\figwidth}
+  \setlength{\figheight}{\figdim}
+  %\global\setlength{\figwidth}{\figwidth}
+  %\global\setlength{\figheight}{\figdim}
+  % Figs
+  \begin{subfigure}{0.59\linewidth}
+    % Figure
+    \centering
+    \tikzexternalenable
+    \tikzsetnextfilename{Obs_Model_Single_Fiber}
+    \input{\materialpath/Media/Figures/Obs_Model_Single_Fiber.tex}
+    \tikzexternaldisable
+    \caption{Fibre in matrix under transverse load}%\the\figdim \the\figheight 
+    \label{fig:Obs:SingleFiber:Model}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.39\linewidth}
+    % Length
+    \setlength{\figwidth}{0.9\linewidth}
+    % Figure
+    \centering
+    \raisebox{\dimexpr.5\ht\largestimage-.5\height}{%
+      \tikzexternalenable
+      \tikzsetnextfilename{Exp_Fibre_MartyniukK2013}
+      \input{\materialpath/Media/Figures/Exp_Fibre_MartyniukK2013.tex}
+      \tikzexternaldisable
+    }
+    \caption{Experiment}%
+    \label{fig:Obs:SingleFiber:Experiment}
+  \end{subfigure}%

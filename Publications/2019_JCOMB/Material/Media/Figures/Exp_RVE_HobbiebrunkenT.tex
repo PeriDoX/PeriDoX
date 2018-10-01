@@ -1,0 +1,59 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-12-12 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Figs
+\begin{subfigure}{0.32\linewidth}
+  % Length
+  \setlength{\figwidth}{\linewidth}
+  % Figure
+  \centering
+  \tikzexternalenable
+  \tikzsetnextfilename{Exp_RVE_HobbiebrunkenT_woArrow_I}
+  \input{\materialpath/Media/Figures/Exp_RVE_HobbiebrunkenT_woArrow_I.tex}
+  \tikzexternaldisable
+  \caption{I}%
+  \label{fig:Exp:RVE:HobbiebrunkenT:I}
+\end{subfigure}%
+\hfill
+\begin{subfigure}{0.32\linewidth}
+  % Length
+  \setlength{\figwidth}{\linewidth}
+  % Figure
+  \centering
+  %\tikzexternalenable
+  %\tikzsetnextfilename{Obs_Damage_RVE_I_FiberDamage}
+  %\input{Figures/Obs_Damage_RVE_I_FiberDamage.tex}
+  %\tikzexternaldisable
+  \includegraphics[width=\figwidth,height=\figheight,keepaspectratio]{Exp_RVE_HobbiebrunkenT_woArrow_II}
+  \caption{II}%
+  \label{fig:Exp:RVE:HobbiebrunkenT:II}
+\end{subfigure}%
+\hfill
+\begin{subfigure}{0.32\linewidth}
+  % Length
+  \setlength{\figwidth}{\linewidth}
+  % Figure
+  \centering
+  %\tikzexternalenable
+  %\tikzsetnextfilename{Obs_Damage_RVE_I_FiberDamage}
+  %\input{Figures/Obs_Damage_RVE_I_FiberDamage.tex}
+  %\tikzexternaldisable
+  \includegraphics[width=\figwidth,height=\figheight,keepaspectratio]{Exp_RVE_HobbiebrunkenT_woArrow_III}
+  \caption{III}%
+  \label{fig:Exp:RVE:HobbiebrunkenT:III}
+\end{subfigure}%

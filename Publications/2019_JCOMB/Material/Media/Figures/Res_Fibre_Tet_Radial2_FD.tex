@@ -1,0 +1,126 @@
+\begin{tikzpicture}
+  \begin{axis}[%
+    name=myplot,
+    width=\linewidth,
+    height=0.3\textheight,
+    axis x line=middle,                       % Middle x-axis
+    axis y line=left,
+    enlarge x limits={auto,upper},            % Add this at positive x
+    enlarge y limits={auto,upper},            % Add this at positive y
+    %scaled x ticks=false,
+    %scaled y ticks=false,
+    scaled ticks=false,
+    x label style={                           % xlabel style
+      at={(axis description cs:0.5,-0.13)},   % Position
+      anchor=north,                           % Anchor
+      inner sep=0pt,
+      %outer sep=0pt,
+    },
+    y label style={                           % ylabel style
+      anchor=south,                           % Anchor
+      inner sep=0pt,
+      %outer sep=0pt,
+    },
+    xticklabel={%                             % Scale the tick labels
+      \pgfmathparse{\tick*1000}%
+      $\pgfmathprintnumber[fixed,precision=1]{\pgfmathresult}$%
+    },
+    yticklabel={%                             % Scale the tick labels
+      \pgfmathparse{\tick*1000}%
+      $\pgfmathprintnumber[fixed,precision=0]{\pgfmathresult}$%
+    },
+    x tick label style={
+      /pgf/number format/fixed,
+      /pgf/number format/precision=4,         % Nr of decimal digits
+    },
+    y tick label style={
+      /pgf/number format/fixed,
+      /pgf/number format/fixed zerofill,      % Allow trailing zeros
+      /pgf/number format/precision=2,         % Nr of decimal digits
+    },
+    legend columns=1,                         % Nr of colums in legend
+    legend style={
+      draw=none,                              % No border
+      fill=none,                              % No fill color
+      font=\figurefontsize,
+      %at={(1.025,0.5)},                       % Position
+      %at=north west,
+      anchor=west,                            % Anchor
+      /tikz/row 2/.style={
+        row sep=5pt,
+      }
+    },
+    legend pos=north west,
+    legend cell align={left},                 % Alignment of legend entries
+    xlabel={Displacement $[10^{-3}\si{\milli\meter}]$},%
+    %ylabel={Body force $[\si{\newton\per\milli\meter\cubed}]$},
+    ylabel={Force $[10^{-3}\si{\newton}]$},
+    xmin=0.0,
+    ymin=0.0,
+  ]
+    % Plot2
+    \addplot [stretchcolor,dashed] table [%
+      x expr=abs(\thisrowno{0}),%
+      y index={3},%
+      col sep=comma,
+      each nth point=2,
+    ]%
+    {\materialpath/Data/Results/Fibre/Fibre_Tet_Radial2_ESize0-00304_CriticalStretchSB.csv};
+    \addlegendentry{Critical Stretch, $\glssymbol{symb:scalar:pd:stretch}_{\glssymbol{symb:index:critical}}=\num[round-mode=places,round-precision=3]{5.21800E-02}$}% SB}
+%     % Plot3
+%     \addplot [stretchcolor,dotted] table [%
+%       x expr=abs(\thisrowno{0}),%
+%       y index={3},%
+%       col sep=comma,
+%       each nth point=2,
+%     ]%
+%     {\materialpath/Data/Results/Fibre/Fibre_Tet_Radial2_ESize0-00304_CriticalStretchBB.csv};
+%     \addlegendentry{Critical Stretch BB}
+    % Plot4
+    \addplot [stretchcolor] table [%
+      x expr=abs(\thisrowno{0}),%
+      y index={3},%
+      col sep=comma,
+      each nth point=2,
+    ]%
+    {\materialpath/Data/Results/Fibre/Fibre_Tet_Radial2_ESize0-00304_CriticalStretchSB_scaled_FDT.csv};
+    \addlegendentry{Critical Stretch scaled}% SB scaled}
+    % Plot1
+    \addplot [energycolor] table [%
+      x expr=abs(\thisrowno{0}),%
+      y index={3},%
+      col sep=comma,
+      each nth point=2,
+    ]%
+    {\materialpath/Data/Results/Fibre/Fibre_Tet_Radial2_ESize0-00304_CriticalEnergy_FDT.csv};
+    \addlegendentry{Critical Energy}
+    %
+    % Verticals for critical energy
+    \draw[thin,energycolor] (4.8838E-05,0) -- (4.8838E-05,1.0279E-03) coordinate (It);
+    \draw[thin,energycolor] (1.8348E-04,0) -- (1.8348E-04,3.1841E-03) coordinate (IIIt);
+    \coordinate[yshift=2ex] (Itl)   at (It |- IIIt);
+    \coordinate[yshift=2ex] (IIItl) at (IIIt);
+    \node[font=\figurefontsize] at ($(Itl)!0.5!(IIIt)$) {I-III};
+    \draw[thin,energycolor] (1.7511E-03,0) -- (1.7511E-03,3.1685E-02) node[midway,fill=white,inner sep=2pt,font=\figurefontsize]{IV};
+    \draw[thin,energycolor] (2.3639E-03,0) -- (2.3639E-03,4.1794E-02) node[midway,fill=white,inner xsep=0pt,inner ysep=2pt,font=\figurefontsize]{V};
+    %\draw (2.4216E-03,0) node[cross=2pt,rotate=0,energycolor] {};
+    \coordinate (VI) at \draw (2.4216E-03,0);
+    
+    %
+    % Verticals for critical stretch scaled
+    \coordinate (sbsmax) at (2.3620E-03,4.3893E-02);
+    \coordinate (It)     at (2.3231E-03,4.3142E-02);
+    \coordinate (Vt)     at (2.3843E-03,4.0889E-02);
+    \coordinate[yshift=2ex] (Itl) at (It |- sbsmax);
+    \coordinate[yshift=2ex] (Vtl) at (Vt |- sbsmax);
+    \node[font=\figurefontsize,text=stretchcolor,anchor=south] at ($(Itl)!0.5!(Vtl)$) {I,III,V};%{I-V};
+    \coordinate[yshift=-1ex] (Its) at (Itl);
+    \coordinate[yshift=-1ex] (Vts) at (Vtl);
+    \draw[thin,stretchcolor] (Itl) -- (Its);
+    \draw[thin,stretchcolor] (Vtl) -- (Vts);
+  \end{axis}
+  % Marker
+  %\draw (VI) node[cross=2pt,rotate=0,energycolor] {};
+  \node[cross=2pt,rotate=0,energycolor] at (VI) {};
+  \node[anchor=south west, above right=0.1ex and 0.15ex of VI,font=\figurefontsize] {VI};
+\end{tikzpicture}

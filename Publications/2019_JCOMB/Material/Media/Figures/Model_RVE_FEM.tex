@@ -1,0 +1,82 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-12-12 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{tikzpicture}[
+  every node/.style={font=\figurefontsize},
+  %inner sep=0pt,
+]
+  % External figure
+  \node[anchor=south west,inner sep=0] (image) at (0,0) {
+    %\includegraphics[width=\figwidth,height=\figheight,keepaspectratio]{Model_Fibre_Hex_color_mod_1000}
+    \includegraphics[width=\figwidth,height=\figheight,keepaspectratio]{Model_RVE_FE_Fatigue_ct_mod}
+  };
+  % Figure scope
+  \begin{scope}[
+    x={(image.south east)},
+    y={(image.north west)},
+  ]
+    % Blocks
+%     \draw [fill=matrixnodamagecolor,draw=none,inner sep=0pt] (0.0,0.0) rectangle (-0.04,1.0);
+
+    % BC symbols
+    \draw[] ( 0.020,-0.065) coordinate (top) -- (0,-0.025);
+    \draw[] (-0.020,-0.065) coordinate (bot) -- (0,-0.025);
+    \draw[] (top) -- (bot);
+    
+    \foreach \y in {0,1,...,\numarrows} {
+      \draw[] (-0.065,\y/\numarrows+0.020) coordinate (top) -- (-0.025,\y/\numarrows);
+      \draw[] (-0.065,\y/\numarrows-0.020) coordinate (bot) -- (-0.025,\y/\numarrows);
+      \draw[] (top) -- (bot);
+    }
+    
+    % Load arrows
+    %\foreach \y in {0,1,...,\numarrows} {\draw[-latex] (-0.025,\y/\numarrows) -- (-0.15,\y/\numarrows) coordinate (loadarrowleft\y);}
+    \foreach \y in {0,1,...,\numarrows} {\draw[-latex] ( 1.025,\y/\numarrows) -- ( 1.15,\y/\numarrows) coordinate (loadarrowright\y);}
+%     
+%     % Labels
+%     \node[anchor=south east,inner sep=1pt,yshift=1pt] (matrixlabel) at (0.45,1.0) {Matrix};
+%     \draw[thin] (matrixlabel) -- (0.25,0.85);
+%     
+%     \node[anchor=south west,inner sep=1pt,yshift=1pt] (fibrelabel) at (0.55,1.0) {Fibre};
+%     \draw[thin] (fibrelabel) -- (0.5,0.5);
+%     
+%     \node[anchor=south,inner sep=1pt] (matrixndlabel) at (0.5,1.0|-matrixlabel.north) {Matrix (no damage)};
+%     \draw[thin] (matrixndlabel.west) -- (0.06,0.94);
+%     \draw[thin] (matrixndlabel.east) -- (0.94,0.94);
+%     
+%     \node[anchor=south,inner sep=1pt] (lbclabel) at (matrixndlabel.north) {Boundary condition region};
+%     \draw[thin] (lbclabel.west) -- (0.02,0.98);
+%     \draw[thin] (lbclabel.east) -- (0.98,0.98);
+%     
+%     % Measurements
+%     \coordinate[yshift=-5pt] (lm) at (0.038,0.0);
+%     \coordinate[yshift=-5pt] (rm) at (0.962,0.0);
+%     \draw[thin] ($(lm)+(0,2pt)$) -- ($(lm)-(0,2pt)$);
+%     \draw[thin] ($(rm)+(0,2pt)$) -- ($(rm)-(0,2pt)$);
+%     \draw[latex-latex] (lm) -- (rm) node[midway,fill=white,inner sep=2pt]{$b$};
+%     
+%     \coordinate[xshift=-5pt] (lm) at (bot |- 0.0,0.0);
+%     \coordinate[xshift=-5pt] (rm) at (bot |- 0.0,1.0);
+%     \draw[thin] ($(lm)+(2pt,0)$) -- ($(lm)-(2pt,0)$);
+%     \draw[thin] ($(rm)+(2pt,0)$) -- ($(rm)-(2pt,0)$);
+%     \draw[latex-latex] (lm) -- (rm) node[midway,fill=white,inner sep=2pt]{$h$};
+        
+    % Help grid and labels
+    %\pic{myimagegrid};
+  \end{scope}
+\end{tikzpicture}

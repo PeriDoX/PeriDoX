@@ -62,17 +62,17 @@ Each class uses the method from the super-class :
 Name                    & Type   & Required   & Default & Description           \\
 \midrule
 Type                    & string & \checkmark & - & ``\idxPDKwRectangularPlane'' \\
-Normal\_X               & double & \checkmark & - & $x$-component of the cutting plane normal vector\\
-Normal\_Y               & double & \checkmark & - & $y$-component of the cutting plane normal vector\\
-Normal\_Z               & double & \checkmark & - & $z$-component of the cutting plane normal vector\\
-Lower\_Left\_Corner\_X  & double & \checkmark & - & \\
-Lower\_Left\_Corner\_Y  & double & \checkmark & - & \\
-Lower\_Left\_Corner\_Z  & double & \checkmark & - & \\
-Bottom\_Unit\_Vector\_X & double & \checkmark & - & \\
-Bottom\_Unit\_Vector\_Y & double & \checkmark & - & \\
-Bottom\_Unit\_Vector\_Z & double & \checkmark & - & \\
-Bottom\_Length          & double & \checkmark & - & \\
-Side\_Length            & double & \checkmark & - & \\
+Normal\_X               & double & \checkmark & - & $\glssymbol{symb:scalar:coord:global:x}$-component of the cutting plane normal vector\\
+Normal\_Y               & double & \checkmark & - & $\glssymbol{symb:scalar:coord:global:y}$-component of the cutting plane normal vector\\
+Normal\_Z               & double & \checkmark & - & $\glssymbol{symb:scalar:coord:global:z}$-component of the cutting plane normal vector\\
+Lower\_Left\_Corner\_X  & double & \checkmark & - & $\glssymbol{symb:scalar:coord:global:x}$ component of lower left rectangle corner\\
+Lower\_Left\_Corner\_Y  & double & \checkmark & - & $\glssymbol{symb:scalar:coord:global:y}$ component of lower left rectangle corner\\
+Lower\_Left\_Corner\_Z  & double & \checkmark & - & $\glssymbol{symb:scalar:coord:global:z}$ component of lower left rectangle corner\\
+Bottom\_Unit\_Vector\_X & double & \checkmark & - & $\glssymbol{symb:scalar:coord:global:x}$ component of rectangle bottom edge direction vector\\
+Bottom\_Unit\_Vector\_Y & double & \checkmark & - & $\glssymbol{symb:scalar:coord:global:y}$ component of rectangle bottom edge direction vector\\
+Bottom\_Unit\_Vector\_Z & double & \checkmark & - & $\glssymbol{symb:scalar:coord:global:z}$ component of rectangle bottom edge direction vector\\
+Bottom\_Length          & double & \checkmark & - & Length of rectangle bottom and top edges\\
+Side\_Length            & double & \checkmark & - & Length of rectangle left and right edges\\
 \bottomrule
 \end{tabularx}
 
@@ -86,6 +86,25 @@ Side\_Length            & double & \checkmark & - & \\
   \end{itemize}
   \item It is suggested to define the output variable Number\_Of\_Neighbors in order to confirm that the bond filter is in the right place. It always seems to take me multiple tries to get it right.
 \end{enumerate}
+
+\levelstay{Usage}
+
+The input parameters form a 2D rectangle in 3D space. Bonds that would pass through the rectangle are not formed, which creates a pre-crack.
+
+\begin{figure}[htbp]
+  \centering
+  \input{Figures/Peridigm/Discretization_BondFilters_RectangularPlane}
+  \caption{Bond Filter - Rectangular Plane}
+  \label{fig:Peridigm:QRG:Discretization:Tools:BondFilter:RectangularPlane}
+\end{figure}
+
+\begin{tabularx}{\linewidth}{lX}
+\textit{Lower\_Left\_Corner}  & Point in 3D which defines the origin of the rectangle in its lower left corner, here named ``1''.  \\
+\textit{Bottom\_Unit\_Vector} & Vector of unit length in 3D defining the direction along the bottom of the rectangle, here from ``1'' to ``2''.  \\
+\textit{Normal}               & Vector in 3D that defines the normal direction of the rectangle. From this and \textit{Bottom\_Unit\_Vector} the vector of the other side of the rectangle, here from ``1'' to ``4'', is calculated internally using the vector or cross product.  \\
+\textit{Bottom\_Length}       & Length of the side along \textit{Bottom\_Unit\_Vector}, so the length between ``1'' to ``2'' and ``3'' to ``4''.  \\
+\textit{Side\_Length}         & Length of the others two sides, here ``1'' to ``4'' and ``2'' to ``3''.
+\end{tabularx}
 
 \levelup{Exemplary input section}
 

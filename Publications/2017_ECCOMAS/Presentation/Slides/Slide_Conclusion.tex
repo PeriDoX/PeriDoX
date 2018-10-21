@@ -1,0 +1,34 @@
+\begin{frame}[t]{\secname}%{\subsecname}
+  
+\begin{itemize}
+  \only<1->{
+    \item Discretization:
+      \begin{itemize}[noitemsep]
+        \item Influence of base discretization
+        \item Entropy in tet mesh benefitial
+      \end{itemize}
+  }
+  \only<2->{
+    \item Convergence:
+      \begin{itemize}[noitemsep]
+        \item Discontinuous
+        \item $m\approx3$ for hex \& $m\approx1.1$ for tet mesh best values $\leftrightarrow$ FEM for tension
+      \end{itemize}
+  }
+  \only<3->{
+    \item Failure:
+      \begin{itemize}[noitemsep]
+        \item Bond-based critical stretch criterion not suitable in state-based materials
+        \item Energy-based criterion required
+      \end{itemize}
+  }
+  \only<4->{
+    \item Stochastics:
+      \begin{itemize}[noitemsep]
+        \item Suitable method to check model robustness
+        \item Increases entropy in hex mesh, effect smaller for tet mesh
+      \end{itemize}
+  }
+\end{itemize}
+
+\end{frame}

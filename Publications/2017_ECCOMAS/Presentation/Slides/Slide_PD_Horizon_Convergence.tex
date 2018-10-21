@@ -1,0 +1,57 @@
+\begin{frame}[t]{\secname}{\subsecname}
+  
+\begin{columns}[t]
+  \begin{column}{0.55\textwidth}
+    \begin{itemize}
+      \item<1-> Ideally continuous \& homogeneous structure 
+      \item<2-> Standard local theory applies until failure
+      %\item CM PDEs not defined at discontinuities
+      \item<3-> PD as way to model damage and fracture
+      %\item Without expectation of long-range effects
+      \only<4->{
+        \item Questions:
+          \begin{itemize}%[noitemsep]
+            \item Choice of discretization?
+            \item Choice of horizon?
+            \item Convergence?
+            \item Identical for different base discretizations?
+          \end{itemize}
+      }
+
+%         \begin{itemize}
+%           \item Exploitation of FRP lightweight potential limited
+%           \item Missing reliability of failure predictions
+%         \end{itemize}
+%       \item Goals:
+%         \begin{itemize}
+%           \item Increase understanding of failure mechanisms
+%           \item Derive improved failure criteria for preliminary design
+%         \end{itemize}
+%         
+    \end{itemize}
+  \end{column}
+  \begin{column}{0.45\textwidth}
+    \only<4->{
+      \begin{figure}[htbp]
+        \centering
+        % Variables
+        \def\x{2.5}
+        \def\y{3}
+        \newlength{\labeldistance}
+        \setlength{\labeldistance}{0.5em}
+        % Figure
+        %\tikzexternalenable
+        %\tikzsetnextfilename{Fig_Thry_PD_Convergence}
+        \begingroup
+          \figurefontsize
+          \input{\peridoccommonpath/Figures/Theory_Convergence.tex}
+        \endgroup
+        %\tikzexternaldisable
+        \caption{Types of convergence in PD \cite{BobaruF2017}}
+        \label{fig:Peridynamic_convergence}
+      \end{figure}
+    }
+  \end{column}
+\end{columns}
+
+\end{frame}

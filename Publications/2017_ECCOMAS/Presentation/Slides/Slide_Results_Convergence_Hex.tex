@@ -1,0 +1,170 @@
+\begin{frame}[t]{\secname}{\subsecname{} - Stiffness}
+
+\begin{itemize}
+  \item Hex: \only<3>{$m=\frac{\delta}{dx}\approx3$}
+\end{itemize}
+
+\begin{columns}[t]
+  \begin{column}{0.49\textwidth}
+  %\begin{minipage}[t][0.675\textheight][t]{0.49\textwidth}
+    \only<1->{
+      \begin{block}{Element size $dx=\SI{0.4}{\milli\meter}$}
+      
+        \pgfplotstableread[col sep=comma]{\materialpath/Data/Numerics/Hex_0-4_ForceDisplacement.csv}{\loadedtable}
+        
+        \setlength{\figwidth}{\linewidth}
+        \setlength{\figheight}{0.75\textheight}
+        \tikzexternalenable
+        \tikzsetnextfilename{Hex_0-4_ForceDisplacement}
+        \begin{tikzpicture}
+          \begin{axis}[
+            %height=\figheight+\baselineskip,
+            height=\figheight,
+            width=\figwidth,
+            axis lines=middle,
+            cycle list name=color list,%linestyles*,
+            xmax=0.5,
+            title=\empty,
+            xlabel={$u$ $[\si{\milli\meter}]$},
+            ylabel={$F$ $[\si{\newton}]$},
+            %x label style={at={(axis description cs:0.5,-0.085)},anchor=north},
+            %y label style={at={(axis description cs:-0.095,.5)},rotate=90,anchor=south},
+            label style={font=\figurefontsize},
+            legend pos=south west,
+            legend cell align={left},
+            legend style={font=\figurefontsize},
+            %scaled x ticks=false
+            xticklabel style={/pgf/number format/fixed},
+            ticklabel style={font=\figurefontsize},
+          ]
+            \addplot+ [thick] table[x=DxAbq, y=FxAbq] {\loadedtable};
+            \addlegendentry{FEM}
+            %\addplot+ [] table[x=Dx5, y=Fx5] {\loadedtable};
+            %\addlegendentry{$\delta=\SI{5}{\milli\meter}$}
+            %\addplot+ [] table[x=Dx4, y=Fx4] {\loadedtable};
+            %\addlegendentry{$\delta=\SI{4}{\milli\meter}$}
+            \addplot+ [] table[x=Dx3, y=Fx3] {\loadedtable};
+            \addlegendentry{$\delta=\SI{3}{\milli\meter}$}
+            \addplot+ [] table[x=Dx2, y=Fx2] {\loadedtable};
+            \addlegendentry{$\delta=\SI{2}{\milli\meter}$}
+            \addplot+ [] table[x=Dx1.5, y=Fx1.5] {\loadedtable};
+            \addlegendentry{$\delta=\SI{1.5}{\milli\meter}$}
+            %\addplot+ [] table[x=Dx1.25, y=Fx1.25] {\loadedtable};
+            %\addlegendentry{$\delta=\SI{1.25}{\milli\meter}$}
+            %\addplot+ [] table[x=Dx1.2, y=Fx1.2] {\loadedtable};
+            %\addlegendentry{$\delta=\SI{1.2}{\milli\meter}$}
+            \addplot+ [] table[x=Dx1.18, y=Fx1.18] {\loadedtable};
+            \addlegendentry{$\delta=\SI{1.18}{\milli\meter}$}
+            \addplot+ [] table[x=Dx1, y=Fx1] {\loadedtable};
+            \addlegendentry{$\delta=\SI{1}{\milli\meter}$}
+            \addplot+ [] table[x=Dx0.875, y=Fx0.875] {\loadedtable};
+            \addlegendentry{$\delta=\SI{0.875}{\milli\meter}$}
+          \end{axis}
+        \end{tikzpicture}
+        \tikzexternaldisable
+      \end{block}
+    }
+  %\end{minipage}
+  \end{column}
+  %\hfill
+  \begin{column}{0.49\textwidth}
+    \only<2->{
+  %\begin{minipage}[t][0.675\textheight][t]{0.49\textwidth}
+      \begin{block}{$\left|\Delta_F\right|$ $\left[\si{\percent}\right]$ @ $u=\SI{0.1}{\milli\meter}$}
+        
+        \pgfplotstableread[col sep=space]{\materialpath/Data/Numerics/Hex_Convergence.txt}{\loadedtable}
+
+        \pgfplotsset{
+          minimumline style/.style={
+            surf,red,dashed,very thick
+          }
+        }
+        
+        \setlength{\figwidth}{0.87\linewidth}
+        \setlength{\figheight}{0.65\textheight}
+        \tikzexternalenable
+        \tikzsetnextfilename{Hex_Convergence}
+        \begin{tikzpicture}
+          \begin{axis}[
+            height=\figheight,
+            width=\figwidth,
+            title=\empty,
+            axis equal,
+            colorbar,
+            colorbar shift/.style={xshift=-0.15em}, %Abstand colorbar
+            view={0}{90},
+            ymin=0,
+            ymax=5,
+            xmin=0,
+            %xmax=10,
+            xmax=8,
+            zmin=0,
+            zmax=50.0,
+            point meta min=0.0,
+            point meta max=50.0,
+            ylabel={Element size $dx$ $[\si{\milli\meter}]$},
+            xlabel={Horizon $\delta$ $[\si{\milli\meter}]$},
+            label style={font=\figurefontsize},
+            ytick={0,1,2,3,4,5},
+            yticklabels = {0.2,0.25,0.33,0.4,0.5,0.67},
+            xtick={0,1,2,3,4,5,6,7,8,9,10},
+            xticklabels = {0.5,0.625,0.75,0.875,1,1.2,1.5,2,3,4,5},
+            %xticklabels = {0.5,0.6,0.8,0.9,1,1.2,1.5,2,3,4,5},
+            ticklabel style={font=\figurefontsize},
+            x tick label style={yshift={-mod(\ticknum,2)*1em}},
+          ]
+            % Surface
+            %\addplot3 [surf,shader=faceted interp,mesh/cols=11] table[x index=2, y index=0, z index=4] {\loadedtable};%{graph-hex.data};
+            
+            \addplot3[minimumline style] coordinates {(-1, 0,50.0) ( 1, 0,50.0)};
+            \addplot3[minimumline style] coordinates {( 1,-1,50.0) ( 1, 0,50.0)};
+            
+            \addplot3[minimumline style] coordinates {(-1, 1,50.0) ( 2, 1,50.0)};
+            \addplot3[minimumline style] coordinates {( 2,-1,50.0) ( 2, 1,50.0)};
+            
+            \addplot3[minimumline style] coordinates {(-1, 2,50.0) ( 4, 2,50.0)};
+            \addplot3[minimumline style] coordinates {( 4,-1,50.0) ( 4, 2,50.0)};
+            
+            \addplot3[minimumline style] coordinates {(-1, 3,50.0) ( 5, 3,50.0)};
+            \addplot3[minimumline style] coordinates {( 5,-1,50.0) ( 5, 3,50.0)};
+            
+            \addplot3[minimumline style] coordinates {(-1, 4,50.0) ( 6, 4,50.0)};
+            \addplot3[minimumline style] coordinates {( 6,-1,50.0) ( 6, 4,50.0)};
+            
+            \addplot3[minimumline style] coordinates {(-1, 5,50.0) ( 7, 5,50.0)};
+            \addplot3[minimumline style] coordinates {( 7,-1,50.0) ( 7, 5,50.0)};
+            
+            % Points
+            \addplot3 [surf,shader=interp,scatter,only marks] table[x index=2, y index=0, z index=4] {\loadedtable};%{graph-hex.data};
+            
+            
+            % Punkte auﬂerhalb skala
+            \addplot3 [draw=black,fill=black,only marks] coordinates {( 0,1,50.0)};
+            \addplot3 [draw=black,fill=black,only marks] coordinates {( 0,2,50.0)};
+            \addplot3 [draw=black,fill=black,only marks] coordinates {( 1,2,50.0)};
+            \addplot3 [draw=black,fill=black,only marks] coordinates {( 1,3,50.0)};
+            \addplot3 [draw=black,fill=black,only marks] coordinates {( 2,3,50.0)};
+            \addplot3 [draw=black,fill=black,only marks] coordinates {( 3,3,50.0)};
+            \addplot3 [draw=black,fill=black,only marks] coordinates {( 3,4,50.0)};
+            \addplot3 [draw=black,fill=black,only marks] coordinates {( 4,4,50.0)};
+            \addplot3 [draw=black,fill=black,only marks] coordinates {( 4,5,50.0)};
+            \addplot3 [draw=black,fill=black,only marks] coordinates {( 5,5,50.0)};
+            \addplot3 [draw=black,fill=black,only marks] coordinates {( 6,5,50.0)};
+            
+            % rechts
+            %\foreach \x in {8,9,...,10} {
+            \foreach \x in {8,8} {
+              \foreach \y in {0,1,...,5} {
+                \addplot3 [draw=black,fill=black,only marks] coordinates {( \x,\y,50.0)};
+              }
+            }
+          \end{axis}
+        \end{tikzpicture}
+        \tikzexternaldisable
+      \end{block}
+    }
+  \end{column}
+  %\end{minipage}
+\end{columns}
+
+\end{frame}

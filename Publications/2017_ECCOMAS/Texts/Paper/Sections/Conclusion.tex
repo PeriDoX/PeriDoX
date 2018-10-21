@@ -1,0 +1,10 @@
+\section{\protect\uppercase{Conclusions}}
+
+% We are looking forward to receiving your contributions for this conference.
+In the current study, the convergence behavior of peridynamic simulations is investigated using the open-source PD code Peridigm. Multiple base discretization schemes are compared. Different convergence behavior is observed for base hex and tet meshes. While $m\approx3$ delivers the best results for hex meshes, $m\approx1$ can be chosen for tet discretizations in case long-range forces have no effect and PD is merely used to improve the simulation of failure compared to CM models.
+
+The use of stochastic material distributions in PD simulations in Peridigm is possible and gives meaningful results. It has proven to be a way to check if the results obtained in PD simulations concerning failure are dominated by numerics and discretization effects or are really the dominating physical effect.
+
+If PD is simply used to model fracture in specimen and conditions not dominated by long-range force effects, the use of tetrahedron base meshes is recommended. The horizon can then be chosen only slightly larger than the element size. Symmetry planes in the model should be avoided. In case a hexahedron mesh is used as an input, a stochastic material distribution is a possibility to increase the model entropy and to get a more consistent prediction of the dominating failure pattern.
+
+The critical stretch damage model must be adjusted to the discretization. The bond-based relationships to the critical strain energy release rate prove unsuited for state-based models. Thus, an energy-based failure criterion will be implemented during the next development steps.

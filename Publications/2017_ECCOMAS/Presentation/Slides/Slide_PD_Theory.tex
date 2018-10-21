@@ -1,0 +1,58 @@
+\begin{frame}[t]{\secname}{\subsecname}
+
+\begin{columns}[t]
+  \begin{column}{0.5\textwidth}
+    \only<1->{
+      \begin{block}{Continuum mechanics (CM) \& FEM}
+        \begin{itemize}[noitemsep]
+          \item Assumptions \cite{BobaruF2017}:
+          \begin{itemize}[noitemsep]
+            %\item[1.] \label{enm:thry:pd:Assumptions:Continuity} Medium continuous
+            \item[1.] Continuous medium
+            \item[2.] Internal force = Local contact force
+            %\item[3.] \label{enm:thry:pd:Assumptions:Differentiability} $\mathbf{u}$ 2x continuously differentiable
+            \item[3.] $\mathbf{u}$ 2x continuously differentiable 
+            \item[4.] Conservation equations satisfied
+          \end{itemize}
+          \item Linear momentum conservation:
+          \begin{itemize}[noitemsep]
+            \item $\text{div}(\boldsymbol{\sigma})+\mathbf{b}=\rho\ddot{\mathbf{u}}$\\
+            \item Not defined @ discontinuities 
+            %\item \ref{enm:thry:pd:Assumptions:Continuity} \& \ref{enm:thry:pd:Assumptions:Differentiability} violated
+            \item 1. \& 3. violated
+          \end{itemize}  
+          \item CM \& FEM unable to capture damage
+          %\item Fracture mechanics to avoid limitations
+        \end{itemize}
+      \end{block}
+    }
+  \end{column}
+  \begin{column}{0.5\textwidth}
+    \only<2->{
+      \begin{block}{Peridynamics (PD)}
+        \begin{itemize}[noitemsep]
+          \item Assumptions:
+          \begin{itemize}[noitemsep]
+  %           \item[1.] \sout{Medium continuous}
+  %           \item[2.] \sout{Internal force = Local contact force}
+  %           \item[3.] \sout{$\mathbf{u}$ 2x continuously differentiable}
+  %           \item[4.] Conservation equations satisfied
+            \item Conservation equations satisfied
+          \end{itemize}
+          \item Linear momentum conservation:\\[1ex]
+          %\begin{itemize}[noitemsep]
+            \hspace{-2em}$\int\limits_{\delta}(\underline{\mathbf{T}}(\mathbf{x},t)\langle\mathbf{q}-\mathbf{x}\rangle-\underline{\mathbf{T}}(\mathbf{q},t)\langle\mathbf{x}-\mathbf{q}\rangle)dV_{\mathbf{q}}+\mathbf{b}  =\rho\ddot{\mathbf{u}}$
+          %\end{itemize}
+          \item Non-local
+          \item Defined @ discontinuities: ``\textit{[...] cracks are part of the solution, not part of the problem}'' F. Bobaru
+          \item Converges to CM solution for $\delta\rightarrow0$
+          \item Damage intrinsic in material models
+          %\item No long-range force effects expected
+          %\item PD to capture failure
+        \end{itemize}
+      \end{block}
+    }
+  \end{column}
+\end{columns}
+
+\end{frame}

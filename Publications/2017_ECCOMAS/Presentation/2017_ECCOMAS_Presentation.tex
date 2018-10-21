@@ -1,0 +1,105 @@
+% \documentclass[aspectratio=43]{beamer}
+% \documentclass[aspectratio=169]{beamer}
+% \documentclass[handout,aspectratio=43]{beamer}
+\documentclass[handout,aspectratio=169]{beamer}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Compilation:
+%
+% - with pdfLaTeX:
+%   pdflatex -> biber -> makeindex/create_glossaries.cmd -> pdflatex -> pdflatex
+% - For compilation add switch -shell-escape in your LaTeX editor:
+%   pdflatex --shell-escape -synctex=1 -interaction=nonstopmode %source --extra-mem-top=60000000
+% - Compile at least 3 times for proper output
+%
+% In case of problems:
+%
+% - Increase Tex-Memory in batch with:
+%   initexmf --edit-config-file pdflatex
+%   add: main_memory=12000000
+%   initexmf --dump=pdflatex
+%
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+% 
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Preamble                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{Slides/Preamble_local}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Slides                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Define title and author
+\title{Peridynamics: Convergence \& Influence of Propabilistic Material Distribution on Crack Initiation}
+% \subtitle{14th USNCCM, 2017, Montreal}
+%\date{\today}
+\date{ECCOMAS 2017 \\22.09.2017}
+\author{\href{mailto:martin.raedel@dlr.de}{M. R\"adel, A.-J. Bednarek, J. Schmidt, C. Willberg}}
+% \dlrinstitute{FA-STM}
+
+\begin{document}
+
+% \setbeamertemplate{caption}{\raggedright\insertcaption\par}
+
+\maketitle
+
+\input{Slides/Slide_Outline}
+\input{Slides/Slide_DLR}
+
+\section{Motivation}
+
+\input{Slides/Slide_Motivation}
+
+\section{Peridynamics}
+\input{Slides/Slide_Outline_Current}
+\subsection{Theory}
+\input{Slides/Slide_PD_Theory}
+\subsection{Horizon \& convergence}
+\input{Slides/Slide_PD_Horizon_Convergence}
+
+\section{Problem}
+\input{Slides/Slide_Outline_Current}
+\input{Slides/Slide_Problem}
+
+\section{Model}
+\input{Slides/Slide_Outline_Current}
+\input{Slides/Slide_Model}
+
+\section{Results}
+\input{Slides/Slide_Outline_Current}
+\subsection{Convergence}
+\input{Slides/Slide_Results_Convergence_Hex}
+\input{Slides/Slide_Results_Convergence_Tet}
+\input{Slides/Slide_Results_Convergence_Hex_PALS}
+\input{Slides/Slide_Results_Convergence}
+\subsection{Failure}
+\input{Slides/Slide_Results_Failure}
+\input{Slides/Slide_Results_Failure_2}
+
+\subsection{Stochastics}
+\input{Slides/Slide_Implementation}
+\input{Slides/Slide_Results_Stochastics_Hex}
+\input{Slides/Slide_Results_Stochastics_Tet}
+
+\section{Conclusion}
+\input{Slides/Slide_Outline_Current}
+\input{Slides/Slide_Conclusion}
+\input{Slides/Slide_Results_RVE}
+
+\input{Slides/Slide_Thank_you_CW}
+\input{Slides/Slide_Bibliography}
+
+\end{document}

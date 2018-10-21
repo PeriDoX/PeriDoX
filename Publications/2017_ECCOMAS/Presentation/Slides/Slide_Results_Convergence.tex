@@ -1,0 +1,25 @@
+\begin{frame}[t]{\secname}{\subsecname{} - Stiffness}
+
+\begin{itemize}
+  \item $\mbox{Convergence}=f\left(dx,\delta,\mbox{Material formulation}\right)$
+  \item<2-> LPS material in Peridigm: no surface correction
+  \only<2->{
+    \begin{itemize}[noitemsep]
+      \item Results $dx\ge\frac{t}{4}$ and $\delta>\SI{1}{mm}$ $\rightarrow$ ``all surface families''
+      \item No family without effect of missing surface correction $\rightarrow$ Results not viable
+      \item $dx$ and $\delta$ so that majority of families without influence of surface correction $\rightarrow$ Computational expense?!
+    \end{itemize}
+  }
+  \only<2->{
+  \item<2-> Correspondence materials:
+    \begin{itemize}[noitemsep]
+      \item Viable option
+      \item Numerical problems $\rightarrow$ 3 non-collinear bonds must remain in family
+      \item Hourglassing problematic
+    \end{itemize}
+  }
+  \item<2-> Position-aware models $\rightarrow$ promising
+  %\item Stiffness below CM for smallest element sizes $\rightarrow$ ``Real'' convergence might lie at even smaller element sizes \& horizons after dip
+\end{itemize}
+
+\end{frame}

@@ -1,0 +1,261 @@
+\begin{frame}[t]{\secname}{\subsecname{} - Stiffness}
+
+\begin{columns}%[t]
+  \begin{column}{0.49\textwidth}
+    \begin{itemize}
+      \item Hex: $m=\frac{\delta}{dx}\approx3$
+      \item What about surface correction?
+      \item<2-> PD equation assumptions:
+      \only<2->{
+        \begin{itemize}[noitemsep]
+          \item Material point in single material
+          \item Complete family within $\delta$%embedded
+        \end{itemize}
+      }
+      \item<3-> LPS $\leftrightarrow$ PALS $\leftrightarrow$ Correspondence material models?
+      \item<4-> LPS: \tabto{1.1cm}No surface correction
+      \item<4-> PALS:\tabto{1.1cm}Influence functions
+      \item<4-> CP:  \tabto{1.1cm}Not necessary
+    \end{itemize}
+  \end{column}
+  \begin{column}{0.49\textwidth}
+    % Correction Examples
+    \only<2|handout:1>{
+      \centering
+      %\def\dx{2.75}
+      \setlength{\dx}{2.75cm}
+      %\def\dy{3.0}
+      \setlength{\dy}{3.00cm}
+      \def\nodefontsize{\figurefontsize}
+      %\def\horizonsymbol{\glssymbol{symb:scalar:horizon}}
+      %\def\positionsymbol{\glssymbol{symb:vector:position:undeformed}}
+      \def\horizonsymbol{$\delta$}
+      \def\positionsymbol{\ensuremath{\mathbf{x}}}
+      \tikzexternalenable
+      \tikzsetnextfilename{Fig_Thry_PD_SurfaceCorrection_Example}
+      \input{\peridoccommonpath/Figures/Theory_SurfaceCorrection_Example.tex}
+      \tikzexternaldisable
+      \par
+    }
+    
+    % Number of Neighbors
+    \only<3|handout:2>{
+      \pgfplotsset{
+        myaxis style/.style={
+          hide axis,
+          %scale only axis,
+          %height=4cm,
+          point meta min=46,                         % Minimum value colorbar
+          point meta max=130,                       % Maximum value colorbar
+          %colormap/bluered,                         % Colormap preset
+          colorbar sampled,                         % Steps in colorbar
+        }
+      }
+      \pgfplotsset{
+        mycolorbar style/.style={
+          separate axis lines,
+          samples=256,                              % Number of steps
+          paraviewdiscrete256colorbar style,
+          colormap name=paraviewblueredcolormap, 
+        }
+      }
+      \begin{tikzpicture}
+        \pgfmathsetmacro{\xmin}{0}
+        \pgfmathsetmacro{\xmax}{2.497}
+        \pgfmathsetmacro{\ymin}{0}
+        \pgfmathsetmacro{\ymax}{1}
+        \begin{groupplot}[
+          group style={
+            group name=my plots,
+            %group size= 2 by 4,
+            group size= 1 by 3,
+            vertical sep=0.25cm
+          },
+          %width=7cm,
+          width=0.75\linewidth,
+          %height=0.5\linewidth,
+          hide axis,
+          enlargelimits=false,
+          axis equal image,
+        ]
+          \nextgroupplot
+            %\addplot graphics [xmin=\xmin,xmax=\xmax,ymin=\ymin,ymax=\ymax]                   {Figures/Examples/Disk_Impact/Peridigm_Disk_Impact_33_Damage_ct};
+            \addplot graphics [xmin=\xmin,xmax=\xmax,ymin=\ymin,ymax=\ymax]                   {Model_PD_Hex_0-5_NrNeighbors_ct};
+            \coordinate (top) at (rel axis cs:0,1); % Top of 1st plot
+          \nextgroupplot
+            \addplot graphics [xmin=\xmin,xmax=\xmax,ymin=\ymin,ymax=\ymax]{Model_PD_Hex_0-33_NrNeighbors_ct};%Figures/Examples/Disk_Impact/Peridigm_Disk_Impact_36_Damage_ct};
+%           \nextgroupplot
+%             \addplot graphics [xmin=\xmin,xmax=\xmax,ymin=\ymin,ymax=\ymax]{example-image-a};%Figures/Examples/Disk_Impact/Peridigm_Disk_Impact_39_Damage_ct};
+          \nextgroupplot
+            \addplot graphics [xmin=\xmin,xmax=\xmax,ymin=\ymin,ymax=\ymax]{Model_PD_Hex_0-2_NrNeighbors_ct};%Figures/Examples/Disk_Impact/Peridigm_Disk_Impact_60_Damage_ct};
+            \coordinate (bot) at (rel axis cs:1,0); % Bottom of last plot
+        \end{groupplot}
+        % Labels
+        \node[left = 0.1cm of my plots c1r1.west,font=\figurefontsize] {$dx=\SI{0.50}{\milli\meter}$};
+        \node[left = 0.1cm of my plots c1r2.west,font=\figurefontsize] {$dx=\SI{0.33}{\milli\meter}$};
+        \node[left = 0.1cm of my plots c1r3.west,font=\figurefontsize] {$dx=\SI{0.20}{\milli\meter}$};
+        %\node[below = 0.25cm of my plots c2r2.south] {(d) Timestep 60};
+        % Node position middle right groupplot
+        \path (top -| current bounding box.east) --
+              coordinate(legendposright)
+              (bot-|current bounding box.east);
+        % Node position middle above groupplot
+        \path (top |- current bounding box.north) --
+              coordinate(legendposabove)
+              (bot|-current bounding box.north);
+        %Colorbar right
+        \begin{axis}[%
+          myaxis style,
+          height=5cm,
+          xshift=-2.0cm,
+          at={(legendposright.east)},
+          anchor=west,
+          label style={font=\figurefontsize},
+          ticklabel style={font=\figurefontsize},
+          colorbar right,                           % Activate colorbar
+          colorbar style={
+            mycolorbar style,
+            %ylabel=Number of neighbors [-],         % Label
+            ylabel=\empty,         % Label
+            ylabel style={font=\figurefontsize},
+          },
+          every colorbar/.append style={
+            height=\pgfkeysvalueof{/pgfplots/parent axis height}%+
+                        %\pgfkeysvalueof{/pgfplots/group/vertical sep}
+          }
+        ]
+          \addplot [draw=none] coordinates {(0,0)}; % Dummy plot
+        \end{axis}
+      \end{tikzpicture}
+      \begingroup
+      \centering
+      \figurefontsize
+      Number of Neighbors [-] for $m\approx3$ in specimen cross-section
+      \par
+      \endgroup
+    }
+    
+    % Chart LPS <-> PALS <-> CP
+    \only<4|handout:3>{
+      \pgfplotstableread[col sep=comma]{\materialpath/Data/Numerics/Hex_0-5_ForceDisplacement_LPS_PALS_CP.csv}{\loadedtable}
+        
+      \setlength{\figwidth}{\linewidth}
+      \setlength{\figheight}{0.75\textheight}
+      \tikzexternalenable
+      \tikzsetnextfilename{Hex_0-5_ForceDisplacement_LPS_PALS_CP}
+      \begin{tikzpicture}
+        \begin{axis}[
+          %height=\figheight+\baselineskip,
+          height=\figheight,
+          width=\figwidth,
+          axis lines=middle,
+          cycle list name=color list,%linestyles*,
+          xmax=0.5,
+          title=\empty,
+          xlabel={$u$ $[\si{\milli\meter}]$},
+          ylabel={$F$ $[\si{\newton}]$},
+          %x label style={at={(axis description cs:0.5,-0.085)},anchor=north},
+          %y label style={at={(axis description cs:-0.095,.5)},rotate=90,anchor=south},
+          label style={font=\figurefontsize},
+          legend pos=south west,
+          legend cell align={left},
+          legend style={font=\figurefontsize},
+          %scaled x ticks=false
+          xticklabel style={/pgf/number format/fixed},
+          ticklabel style={font=\figurefontsize},
+        ]
+          \addplot+ [thick] table[x=DxAbq, y=FxAbq] {\loadedtable};
+          \addlegendentry{FEM}
+          \addplot+ [] table[x=DxLPS, y=FxLPS] {\loadedtable};
+          \addlegendentry{LPS}
+          \addplot+ [] table[x=DxPALS, y=FxPALS] {\loadedtable};
+          \addlegendentry{PALS}
+          \addplot+ [] table[x=DxCP, y=FxCP] {\loadedtable};
+          \addlegendentry{CP}
+        \end{axis}
+      \end{tikzpicture}
+      \tikzexternaldisable
+      \begingroup
+      \centering
+      \figurefontsize
+      $dx=\SI{0.5}{\milli\meter}$
+      \par
+      \endgroup
+    }
+    
+    % Values LPS <-> PALS
+    \only<5|handout:4>{
+      \tikzexternalenable
+      \tikzsetnextfilename{Hex_0-5_Convergence_LPS_PALS_CP}
+      \begin{tikzpicture}
+        \begin{axis}[
+          symbolic x coords={
+            0.67,
+            0.5,
+            0.4,
+            0.33,
+            0.25,
+            0.2
+          },
+          ybar,%=0,
+          bar width={0.15cm},
+          width=0.9\linewidth,
+          xtick=data,
+          tick align=outside,
+          axis x line*=middle,%left
+          axis y line*=left,
+          %x tick label style={yshift={-mod(\ticknum,2)*1em}},
+          x tick label style={yshift={-1em}},
+          label style={font=\figurefontsize},
+          x label style={at={(axis description cs:0.5,-0.15)},anchor=north},
+          y label style={at={(axis description cs:-0.15,.5)},anchor=south},%,rotate=90
+          xlabel={$dx$ $[\si{\milli\meter}]$},
+          ylabel={$\Delta_F$ $\left[\si{\percent}\right]$ @ $u=\SI{0.1}{\milli\meter}$},
+          ticklabel style={font=\figurefontsize},
+          legend cell align=left,
+          legend pos=north east,
+          legend style={font=\figurefontsize},
+          %xmajorgrids,
+          %after end axis/.code={
+          %  \draw ({rel axis cs:0,0}|-{axis cs:0,0}) -- ({rel axis cs:1,0}|-{axis cs:0,0});
+          %}
+        ]
+          \addplot[fill=blue] coordinates {
+            (0.67,30.81)
+            (0.5,18.97)
+            (0.4,-3.34)
+            (0.33,2.82)
+            (0.25,1.82)
+            (0.2,-1.89)
+          };
+          \addlegendentry{LPS}
+          \addplot[fill=red] coordinates {
+            (0.67,-1.77)
+            (0.5,-0.45)
+            (0.4,0.87)
+            (0.33,-3.44)
+            (0.25,0.11)
+            (0.2,-1.01)
+          };
+          \addlegendentry{PALS}
+          \addplot[fill=green] coordinates {
+            (0.67,-1.00)
+            (0.5,-1.07)
+            (0.4,1.48)
+            (0.33,-1.81)
+            (0.25,-3.04)
+            (0.2,-2.96)
+          };
+          \addlegendentry{Correspondence}
+          
+          %\draw ({rel axis cs:0,0}|-{axis cs:0,0}) -- ({rel axis cs:1,0}|-{axis cs:0,0});
+          %\draw (rel axis cs:0,0) -- (rel axis cs:1,0);
+          %\draw (axis cs:\pgfkeysvalueof{/pgfplots/xmin},0) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+        \end{axis}
+      \end{tikzpicture}
+      \tikzexternaldisable
+    }
+  \end{column}
+\end{columns}
+
+\end{frame}

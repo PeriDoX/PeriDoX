@@ -1,0 +1,76 @@
+
+\documentclass[12pt,a4paper]{article}
+\usepackage{composites2017}
+% \usepackage{biblatex-trad} % for style unsrt
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Compilation:
+%
+% - with pdfLaTeX:
+%   pdflatex -> biber -> makeindex/create_glossaries.cmd -> pdflatex -> pdflatex
+% - For compilation add switch -shell-escape in your LaTeX editor:
+%   pdflatex --shell-escape -synctex=1 -interaction=nonstopmode %source --extra-mem-top=60000000
+% - Compile at least 3 times for proper output
+%
+% In case of problems:
+%
+% - Increase Tex-Memory in batch with:
+%   initexmf --edit-config-file pdflatex
+%   add: main_memory=8000000
+%   initexmf --dump=pdflatex
+%
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Preamble                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{Sections/Preamble_local}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\thispagestyle{empty}
+
+% Preliminaries
+\input{Sections/Frontmatter}
+\input{Sections/Summary}
+\input{Sections/Nomenclature}
+
+% Content
+\input{Sections/Introduction}
+\input{Sections/Theory}
+\input{Sections/Problem}
+\input{Sections/Implementation}
+\input{Sections/Model}
+\input{Sections/Results}
+\input{Sections/Conclusion}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\printbibliography
+% \bibliographystyle{unsrt}
+% \begin{thebibliography}{10}
+%
+% \bibitem{Barbero} E.J. Barbero, \textit{Finite Element Analysis of Composite Materials}. CRC Press, Boca Raton, 2008.
+% \bibitem{Pimenta} S. Pimenta, S.T. Pinho, The effect of recycling on the mechanical response of carbon fibres and their composites. \textit{Composite Structures}, \textbf{94}, 3669-3684, 2012.
+%
+% \end{thebibliography}
+
+\end{document}
+

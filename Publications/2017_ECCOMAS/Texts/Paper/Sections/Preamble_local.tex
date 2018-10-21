@@ -1,0 +1,91 @@
+% ---------------------------
+% Path to common
+% ---------------------------
+
+\newcommand{\peridoccommonpath}{../../../../Doc/PeriDoX_Common}
+\newcommand{\peridocliteraturepath}{../../../../Literature}
+\newcommand{\materialpath}{../../Material}
+
+% ---------------------------
+% Local packages
+% ---------------------------
+
+\usepackage[
+  style=numeric-comp,
+  sorting=none,
+  url=false,
+  isbn=false
+]{biblatex}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{filecontents}
+\usepackage{multirow}
+% \usepackage{placeins} % for \FloatBarrier
+\usepackage{siunitx}
+\sisetup{%
+  exponent-product = \cdot,%
+  output-product = \cdot,%
+  separate-uncertainty=true,% uncertainty is separated with a "plus-minus" symbol
+}
+\usepackage{subcaption}
+\usepackage{tabularx}
+
+% General preamble
+% \input{../../../../../Publications/Doc/PeriDoc_Common/Preamble/Pref_Packages}
+% \input{../../../../../Publications/Doc/PeriDoc_Common/Preamble/Pref_Packages_Hyperref}
+\input{\peridoccommonpath/Preamble/Pref_Packages_SIUnitX}
+\input{\peridoccommonpath/Preamble/Pref_Packages_TikZ}
+\input{\peridoccommonpath/Preamble/Pref_Packages_Pgfplots}
+\input{\peridoccommonpath/Preamble/Pref_Packages_TikZ_Externalization}
+
+\usepackage[
+  colorlinks = true,%
+  linkcolor  = black,%
+  citecolor  = black,%
+  urlcolor   = blue,%
+  pdfstartview = Fit,%
+  pdfmenubar = true,%
+  pdftoolbar = true,%
+  %
+  bookmarks = true,
+  bookmarksopen = false,
+  %bookmarksopenlevel = 1,
+]{hyperref}
+
+% ---------------------------
+% Glossaries
+% ---------------------------
+
+% ---------------------------
+% Graphics
+% ---------------------------
+
+% Graphics
+\graphicspath{%
+  {\peridoccommonpath/Figures/}%
+  {../../Material/Figures/}%
+}
+
+% ---------------------------
+% Literature
+% ---------------------------
+
+\addbibresource{\peridocliteraturepath/PeridynamicLiterature.bib}
+\addbibresource{\materialpath/Literature/Literature.bib}
+
+% ---------------------------
+% Commands
+% ---------------------------
+
+% ---------------------------
+% Layout
+% ---------------------------
+
+\renewcommand{\floatpagefraction}{0.8}
+
+% ---------------------------
+% Length
+% ---------------------------
+
+\newlength{\figheight}

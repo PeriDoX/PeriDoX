@@ -1,0 +1,215 @@
+\subsection{Horizon and convergence}
+
+A main question in PD simulations is the proper choice of the horizon $\delta$ and convergence based on the chosen discretization $h$, cf. \autoref{fig:Peridynamic_convergence}. In its basic paper on the meaning of the horizon explains that the value may be viewed as an effective interaction distance for non-local effects \cite{BobaruF2012}. The PD horizon does not have to be constant over the domain. \cite{AgwaiA2011a} reports that if peridynamics is used to model atomic-scale phenomena, the horizon becomes the cut-off radius of the atomic potential. In the present text an ideally continuous and homogeneous structure is considered, in which the standard local theory applies perfectly until failure. However, we still wish to use peridynamics as a way to model damage and fracture. In this scenario the physics of the interactions between material points do not directly determine the choice of discretization type, size and horizon. \cite{MarangantiR2007} found that the two dominant physical mechanisms that lead to size dependency of elastic behavior at  the nanoscale are surface energy effects and nonlocal  interactions. They estimated the length scales at which the classical model of elasticity breaks down for some real materials. They report that in many materials, the length scale, relevant to forces that determine the bulk properties of materials, far exceeds the interatomic spacing and thus long-range forces contribute to the material behavior. This is particularly true for heterogeneous materials. However, the length scales of interest are still dimensions smaller than the macroscopic behavior investigated in the current context. Thus the question arises: Do discretization, element size and horizon have any influence on the macroscopic failure of the considered structures.
+% A convergence study for two types of discretization is carried out to obtain values that describe the current problem adequately.
+
+% Problem: Combining long ranges effects with small-scale behavior such as crack initiation
+
+% Übergang PD zu CM
+It has been shown in various publications that the classical continuum mechanics is a subset of peridynamics and that for a horizon striving to zero, the peridynamic theory converges to the local solution of continuum mechanics. According to \cite{BobaruF2012} this is since wave dispersion due to the size of the nonlocality is reduced as the horizon decreases. \cite{ZimmermannM2005} shows the convergence to the local solution for bond-based peridynamics, \cite{EmmrichE2007} for an isotropic linear elastic material and \cite{SillingSA2008} show that the state-based, nonlocal peridynamic stress tensor reduces to the classical local Piola-Kirchhoff stress tensor in the limit of a shrinking horizon.
+
+% \begin{figure}[htbp]
+%   \centering
+%   \input{Figures/convergence.tex}
+%   \caption{Types of convergence in the peridynamic theory \cite{BobaruF2017}}
+%   \label{fig:Peridynamic_convergence}
+% \end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \def\x{6}
+  \def\y{4}
+  \newlength{\labeldistance}
+  \setlength{\labeldistance}{1em}
+  
+  \tikzexternalenable
+  \tikzsetnextfilename{Fig_Thry_PD_Convergence}
+  \input{\peridoccommonpath/Figures/Theory_Convergence.tex}
+  \tikzexternaldisable
+  \caption{Types of convergence in the peridynamic theory \cite{BobaruF2017}}
+  \label{fig:Peridynamic_convergence}
+\end{figure}
+
+
+% Übergang Peridynamik zu klassischer Kontinuumsmechanik für Horizont gegen 0:
+% \begin{itemize}
+%   \item \cite{ZimmermannM2005}: bond-based
+%   \item \cite{EmmrichE2007}: for isotropic linear elastic material
+%   \item \cite{SillingSA2008}: state-based, nonlocal peridynamic stress tensor, reduces to the classical local Piola-Kirchhoff stress tensor in the limit of a shrinking horizon.
+% \end{itemize}
+
+% Horizont:
+The convergence of the discretized implementation is a more complex topic compared to the finite element method due to the two independent parameters of element size $dx$ and horizon $\delta$. In \cite{AgwaiA2011a,BobaruF2010} the terms $\delta$- and $m$-convergence were introduced, where $m=\frac{\delta}{dx}$ for uniformly discretized grids. \cite{HaYD2010} also discusses these types of convergence.
+
+Therein it is said that $\delta$-convergence is achieved by fixing $m$ while allowing the horizon  $\delta\rightarrow0$ or increasing $m$ at a slower rate than the decrease in $\delta$. In \cite{SaregoG2016} $\delta$-convergence is described that if the $m$-ratio is kept constant, the solution does not change significantly as the horizon tends to zero. For this type of convergence the numerical peridynamic solution converges to an approximate classical solution.  The larger the value of $m$ is, in other words the smaller the grid spacing $dx$ is, the better the approximation becomes. However, this convergence may not occur in the presence of discontinuities. A non-continuous convergence behavior is expected for the variation of the two factors. \cite{BobaruF2010} points out that convergence is dependent on the computation scheme of nodal amount of volume of all points in horizon of single point. Its calculation is not easy to perform for nodes that are not entirely contained inside the horizon. Simple algorithms lead to non-uniform $m$-convergence.  The proper choice of horizon has to capture the damage types and the main features of the damage evolution processes and should by performed by means of an absolute length scale, independent of the discretization size \cite{HuW2012,SaregoG2016}. A similar observation was found in \cite{FosterJT2011}. The authors tell that $\delta$ should be at least as large as the crack tip plastic process zone, to adequately capture the crack tip physics. Additionally, some experimental intuition may be required to estimate the size of $\delta$ if local measurements are not available.
+
+Multiple specific horizon values are suggested in different publications over the years. $\delta\approx3dx$ and thus $m\approx3$, especially $m\approx3.015$, is the most common value and is used for example in \cite{AgwaiA2011a,SillingSA2005}, \cite{SillingSA2010,DiehlP2016} for micro brittle material, for bond-based composite DCB and ENF specimen \cite{HuYL2015} and for a finite element representation of peridynamics via truss elements \cite{MacekRW2007}. In a convergence study \cite{FreimanisA2017} found $m\approx3$ for tension and additionally $m\approx\sqrt{2}$ for compression specimen to be suitable. It has been found that $m\approx3$ also works well for fracture predictions \cite{SillingSA2005,BobaruF2008}. $m=4$ is applied in \cite{HaYD2011,BobaruF2012} for dynamic crack branching problems in isotropic materials and in \cite{JabakhanjiR2015} for flow through porous medium. Even larger values are used in \cite{HuW2012} for anisotropic materials with $m=5$ and $m=6$ in \cite{SaregoG2016} for linear elastic isotropic material. On the other extreme \cite{ChowdhurySR2016} apply $\delta\approx1.1dx$ for elastic deformation of thin plate in 2D. 
+
+Naturally, the necessity for problem-dependent convergence studies becomes obvious. Examples can be found in \cite{ChenZ2015} for a pitting corrosion problem. \cite{SelesonP2016b} focused on the convergence of numerical solutions of static PD problems to the analytical solutions of those problems under grid refinement for uniform grids, while keeping the horizon fixed. The source achieves first-order convergence for smooth solutions. Higher convergence rates can be achieved through higher-order discretizations, quadrature-based finite difference discretizations with piecewise linear basis functions \cite{TianX2013} or piecewise linear finite element discretizations \cite{ChenX2011, TianX2013, DuQ2013}, which leads to a second-order convergence of numerical solutions in PD problems characterized by smooth solutions.  These higher-order methods, however, significantly increase the complexity of numerical implementations as well as the computational cost of simulations, especially in higher dimensions. \cite{SelesonP2016b} found that achieving convergence is challenging, in particular with respect to the proper choice of horizon. The authors found that, especially in higher dimensions, the horizon cannot be so small as to make computations intractable, but it cannot be too large either as this results in the boundary layer, where displacement boundary conditions are imposed, being the majority of the simulation domain.  \cite{BreitenfeldMS2014} performs convergence studies for a linear elastic static implementation of non-ordinary state-based PD by means of a zero-energy control term. For $\delta m$- \& $\delta$-convergence the authors find, the optimum value increases with increasing mesh size, where the magnitude of the control term increases roughly linearly with the number of degrees of freedom. The $\delta m$-behavior shows first-order convergence independent of the horizon size, whereas the $\delta$-convergence shows approximately half the rate of convergence. Similar findings are reported by \cite{DiehlP2016}. Therein it is stated that choice of the horizon influences heavily the results. The nodal spacing has to shrink faster than the horizon to obtain convergence. Their results suggest that a good nodal spacing can be found for almost all materials for each horizon and vice versa if a small error is acceptable. Unfortunately, no regular pattern was found from which one can determine a simple functional relation between the horizon and the nodal spacing, which makes the choice of a suitable horizon for a given nodal spacing hard.
+Somewhat contradictive observations are made in \cite{SaregoG2016}. Therein, the error in 2D linear elasticity state-based PD simulations in which the displacement field is linear is not influenced by $\delta$.%(homogeneous deformation)
+
+% Art der Vernetzung:
+A further question is how to discretize numerical implementations in peridynamics. A simple particle-based discretization for the strong form of peridynamic equations was introduced in \cite{SillingSA2005} and is implemented in currently known codes such as EMU and Peridigm. However, \cite{EmmrichE2007b} point out that the governing equations in peridynamics are continuum models and can be discretized in many ways. In \cite{SelesonP2016b} it is mentioned that commonly used meshfree methods in peridynamics suffer from accuracy and convergence issues, due to a rough approximation of the contribution to the internal force density of nodes near the boundary of the neighborhood  of a given node. However they are numerically efficient since  finite element discretizations of governing equations are based on weak forms, which for peridynamic equations double the  number of spatial dimensions that need to be discretized \cite{ChenX2011}.
+
+% Elementgröße
+Approximately uniform element sizes are used in most publications. PD in Peridigm does allow for small gradients in element size if the horizon definition is modified appropriately in the block definition. \cite{BobaruF2008} proposes an adaptive refinement algorithm for the non-local method 1D bond-based peridynamics. \cite{ChenZ2016} argues that even if convergence is achieved for an element size, when the discretization grid is refined while using the same horizon, the PD solution may start to depart from the classical one, converging to something other than the
+classical solution.
+
+% Convergence:
+% 
+% Begriffe $\delta$- \& $m$-convergence: \cite{BobaruF2010, AgwaiA2011a},  For uniform discretization grids $m=\frac{\delta}{dx}$.
+
+% Specific values:
+% 
+% \begin{itemize}
+%   \item $\delta\approx3dx$:
+%   \begin{itemize}
+%     \item \cite[p.1532]{SillingSA2005}
+%     \item \cite{AgwaiA2011a}
+%     \item \cite{SillingSA2010}: micro brittle material
+%     \item \cite{DiehlP2016}: for micro brittle material with errors $\le5\$$
+%     \item \cite{HuYL2015}: bond-based composite DCB \& ENF specimen
+%     \item \cite{MacekRW2007}: for finite element of PD via truss elements
+%   \end{itemize}
+%   \item $\delta\approx4dx$:
+%   \begin{itemize}
+%     \item \cite{HaYD2011,BobaruF2012}: dynamic crack branching problem for isotropic material
+%     \item \cite{JabakhanjiR2015}: flow through porous medium
+%   \end{itemize}
+%   \item $\delta\approx5dx$:
+%   \begin{itemize}
+%     \item \cite{HuW2012} for anisotropic materials
+%   \end{itemize}
+%   \item $\delta\approx6dx$:
+%   \begin{itemize}
+%     \item \cite{SaregoG2016} for linear elastic isotropic material
+%   \end{itemize}
+%   \item \cite{ChowdhurySR2016}: $\delta\approx1.1dx$ for elastic deformation of thin plate in 2D
+% \end{itemize}
+
+% Examples of convergence studies:
+% 
+% \begin{itemize}
+%   \item \cite{ChenZ2015}: Pitting corrosion
+% \end{itemize}
+
+
+
+% \begin{itemize}
+%   \item \cite{SillingSA2008}:
+%   \begin{itemize}
+%     \item Shows that classical elasticity theory is a subset of peridynamics and that peridynamics converges to classical elasticity theory for small horizons
+%     \item If the only requirement for a peridynamic constitutive model is to reproduce the bulk properties, then horizon is essentially arbitrary.
+%     \item  The same is true of model parameters related to damage: for any horizon, these can be chosen to reproduce the energy release rate of a material, \cite{SillingSA2005} for bond-based material
+%     \item Reproduction of effects controlled by small-scale behavior: then horizon must be chosen to reflect the relevant physical length scale (Diffusion, Van-der-Waals forces)
+%     \item \cite{MarangantiR2007} have estimated the length scales at which the classical model of elasticity breaks down for some real materials. They report that in many materials, the length scale relevant to forces that determine the bulk properties of materials far exceeds the interatomic spacing. This is particularly true of heterogeneous materials.
+%   \end{itemize}
+%   \item \cite{MarangantiR2007}:
+%   \begin{itemize}
+%     \item The  two  dominant physical  mechanisms  that  lead  to  size dependency  of  elastic  behavior  at  the  nanoscale  are  surface  energy effects  and  nonlocal  interactions
+%     \item Using a combination of empirical molecular dynamics and lattice dynamics, estimation of nonlocal elasticity length scales for various classes of materials
+%     \item nonlocal elasticity is irrelevant for most crystalline metals
+%     \item Liquid crystal  elastomers  have  also  been  investigated  under  the context  of  Frank  elasticity,  and  experimental  evidence suggests  that  their  length  scales  may  lie  in  the  10nm regime. However, experiments  on  size  effects  on polystyrene did not reveal any size effects down to 150nm
+%     \item A recent work estimated  that  rubbers  should  have  nonlocal  length scale  in  the  neighborhood  of  4.5nm.
+%   \end{itemize}
+%   \item \cite{SelesonP2016b}:
+%   \begin{itemize}
+%     \item  Governing equations in peridynamics are continuum models, they can be discretized in many ways \cite{EmmrichE2007b}
+%     \item Commonly used meshfree methods in peridynamics suffer from accuracy and convergence issues, due to a rough approximation of the contribution to the  internal force density of nodes near the boundary of the neighborhood  of a given node.
+%     \item A simple particle-based discretization for the strong form of peridynamic equations was introduced in \cite{SillingSA2005}. 
+%     \item As an example, finite element discretizations of governing equations are based on weak forms, which for peridynamic  equations  double  the  number  of  spatial  dimensions  that  need  to  be  discretized \cite{ChenX2011}
+%     \item In meshfree discretizations, integrals in peridynamic equations are converted into weighted sums.  In \cite{SillingSA2005}, summation weights are taken as nodal volumes.
+%     \item Focus on the convergence of numerical solutions of static PD problems to the analytical solutions of those problems under grid refinement, while keeping the nonlocal length scale (i.e., PD horizon) fixed.
+%     \item First-order convergence for smooth solutions.
+%     \item Higher convergence rates can be achieved through higher-order discretizations (Quadrature-based finite difference discretizations with piecewise linear basis functions \cite{TianX2013} or piecewise linear finite element discretizations \cite{ChenX2011, TianX2013, DuQ2013}, which lead to a second-order convergence of numerical solutions in PD problems characterized by smooth solutions.  These higher-order methods, however, significantly increase the complexity of numerical implementations as well as the computational cost of simulations, especially in higher dimensions.
+%     \item Uniform grids
+%     \item Performing convergence studies of the type presented in this article is challenging, in particular with respect to the proper choice of PD horizon.  We found that, especially in higher dimensions, the PD horizon cannot be so small as to make computations intractable, but it cannot be too large either as this results in the boundary layer, where displacement boundary conditions are imposed, being the majority of the simulation domain.
+%     \item ?\cite{EmmrichE2007b}? showed that for this case you get discontinuous convergence behavior
+%   \end{itemize}
+%   \item \cite{BobaruF2008}:
+%   \begin{itemize}
+%     \item Adaptive refinement algorithms for the non-local method 1D bond-based peridynamics
+%     \item Scaling of the micromodulus and horizon and discuss the particular features of adaptivity in peridynamics for which multiscale modeling and grid refinement are closely connected
+%     \item Three types of numerical convergence for regular problems (without discontinuities)
+%     \item Comparsion to FEM: h-, p-, hp-(adaptive) refinement. Error estimators are required to determine where grid refinement is necessary
+%   \end{itemize}
+%   \item \cite{HaYD2010}:
+%   \begin{itemize}
+%     \item For a horizon of  $\delta=mdx$ discuss different types of convergence.
+%     The $\delta$-convergence is achieved by fixing $m$ while allowing the horizon  $\delta\rightarrow0$ or increasing $m$  at a slower rate than the decrease in $\delta$. For this type of convergence the numerical peridynamic solution converges to an approximate classical solution. 
+%     \item The larger the value of m is, in other words the smaller the grid spacing $dx$ is, the better the approximation becomes. However, this convergence may not occur in the presence of discontinuities.
+%   \end{itemize}
+%   \item \cite{AgwaiA2011a}:
+%   \begin{itemize}
+%     \item Two types of convergence: $\delta$- \& $m$-convergence \& combination in $\delta m$-convergence
+%     \item bond-based: some flexibility in the choice of the horizon. It has been reported that for macroscale numerical simulation, without fracture, for a given grid spacing $dx$, the value of  $\delta\approx3dx$ converges well to classical solution
+%     \item This value of the horizon also works well for fracture predictions \cite{SillingSA2005,BobaruF2008}
+%     \item $m$-convergence: Refinement of grid spacing, numerical peridynamic solution converges to the exact peridynamic solution for the given horizon
+%     \item $\delta m$-convergence: numerical peridynamic approximation should converge to the analytical peridynamic solution for shrinking $\delta$ and to the local classical solution if it exists.
+%     \item If the peridynamic model is used to capture small-scale effects then the horizon must be chosen to represent the physical length scale.
+%     \item peridynamics is used to model atomic-scale phenomena, the horizon becomes the cut-off radius of the atomic potential.
+%   \end{itemize}
+%   \item \cite{BobaruF2010}:
+%   \begin{itemize}
+%     \item Convergence dependent on the computation scheme of nodal amount of volume of all points in horizon of single point.
+%     \item Calculation of this is not easy to perform for nodes that are not entirely contained inside the horizon
+%     \item Simple algorithms lead to non-uniform $m$-convergence
+%     \item Convergence studies for heat transfer on square plate, 
+%   \end{itemize}
+%   \item \cite{BobaruF2012}
+%   \begin{itemize}
+% %     \item basic paper to meaning of horizon
+% %     \item horizon may be viewed as an ``effective interaction distance''
+% %     \item Selection of ``proper'' horizon size:
+%     \begin{itemize}
+%       \item For cases with no apparent length-scale effects:
+%       \begin{itemize}
+%         \item the smaller the horizon the closer the results to the classical ones
+%         \item since wave dispersion due to the size of the nonlocality is reduced as the horizon decreases
+%       \end{itemize}
+%       \item For cases with apparent length-scale effects:
+%       \begin{itemize}
+%         \item specific horizon size should be used
+%         \item value dependent on problem nature
+%         \item adjust the horizon so that the peridynamic results produce the same dispersion curves as those measured for a specific material
+%       \end{itemize}
+%       \item For bending problems sufficiently small relative to the thickness
+%       \item Peridynamic horizon does not have to be constant over the domain
+%     \end{itemize}
+%   \end{itemize}
+%   \item \cite{BreitenfeldMS2014}:
+%   \begin{itemize}
+%     \item linearly elastic static implementation of the NOSB PD
+%     \item Convergence by means of zero-energy control term
+%     \item For $\delta m$- \& $\delta$-convergence, the optimum value increases with increasing mesh size, where the magnitude of control term increases roughly linearly with the number of degrees of freedom, m. As also apparent the $\delta m$-convergence shows first-order convergence independent of the horizon size, whereas the $\delta$-convergence shows approximately half the rate of convergence.
+%   \end{itemize}
+%   \item {HuW2012}:
+%   \begin{itemize}
+%     \item Dynamic fracture in unidirectional fiber-reinforced composites
+%     \item $\delta\approx5dx$ provides a good balance between accuracy and computational cost
+%     \item horizon of about 2 mm is able to capture the damage types and the main features of the damage evolution processes
+%   \end{itemize}
+%   \item {DiehlP2016}:
+%   \begin{itemize}
+%     \item choice of the horizon influences heavily the results
+%     \item nodal spacing has to shrink faster than the horizon to obtain convergence
+%     \item results suggest that a good nodal spacing can be found for almost all materials for each horizon and vice versa if a small error is acceptable
+%     \item no regular pattern from which we could determine a simple functional relation between the horizon and the nodal spacing, which makes the choice of a suitable horizon for a given nodal spacing hard.
+%   \end{itemize}
+%   \item \cite{FosterJT2011}:
+%   \begin{itemize}
+%     \item To adequately capture the crack tip physics, $\delta$ should be at least as large as the crack tip plastic process zone
+%     \item Some experimental intuition may be required to estimate the size of $\delta$ if local measurements are not available.
+%   \end{itemize}
+%   \item \cite{SaregoG2016}:
+%   \begin{itemize}
+%     \item errors decrease as soon as the m-ratio increases
+%     \item $\delta$-convergence: if the m-ratio is kept constant, the solution does not change significantly as the horizon tends to zero
+%     \item The error in linear elasticity simulations in which the displacement field is linear (homogeneous deformation) is not influenced by $\delta$, as expected
+%     \item Therefore, choosing a large horizon is acceptable, but only for linear elastic cases in which the stress and strain fields are homogeneous or nearly so.
+%     \item Whenever fracture occurs, $\delta$ must be appropriately selected to the phenomenon in question
+%   \end{itemize}
+%   \item Further: \cite{DipasqualeD2014,WangL2017,WuCT2015}
+% \end{itemize}
+
+

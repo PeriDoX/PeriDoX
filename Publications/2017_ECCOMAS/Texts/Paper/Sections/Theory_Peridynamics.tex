@@ -1,0 +1,168 @@
+% \subsection{Peridynamics}
+
+PD is a non-local theory to describe the physics of materials. Several assumptions made by the classical continuum mechanics theory are weakened or omitted. In continuum mechanics the medium has to be continuous, the internal forces are contact forces and interact in zero distance to each other. The deformation has to be two times differentiable \cite{BobaruF2017}. These assumptions have no physical motivation. In \cite{SillingSA2009} the comparison of the continuum mechanics and the ordinary state-based PD for the linear momentum balance is shown. The main difference from a mathematical point of view is that the PD theory is an integral formulation whereas the continuum mechanical theory is a partial differential equation. Therefore, if the material is discontinuous the continuum mechanics must fail. If the integral domain is zero PD and CM will be equal, see \autoref{eq:PeridynamicLimits}. %The angular momentum balance and the energy balance is given in \cite{SillingSA2009}.
+
+Multiple PD formulations exist. The simplest, the bond based (BB) formulation, was presented in 2000 \cite{SillingSA2000}. Therein, materials are limited to a Poisson ratio of $\frac14$ for 3D and 2D plane strain problems as well es $\frac13$ for 2D plane stress problems \cite{HuangD2015}. To overcome these restrictions, enhancements of the method have been developed. The so called ordinary (OSB) and non-ordinary state-based (NOSB) formulation of PD are the result.
+
+% \subsubsection{Ordinary state-based peridynamics}
+\subsection{Ordinary state-based peridynamics}
+
+In the original BB formulations, bond forces only depend on a single pair
+of material points. The state-­based formulation considers bond forces dependent of deformations of all neighboring material points. The state-based PD is able to describe materials loosen the requirements on the Poisson ratio. It must be noted that, within the state-based peridynamic framework, there is no notion of connectivity such as a spring like force between two neighboring material points.  There simply is a potential between them. The equation of motion of the OSB-PD is represented as
+
+\begin{align}
+\label{eq:PeridynamicLimits}
+\rho\left(\mathbf{x}\right)\mathbf{\ddot u}\left(\mathbf{x},t\right)&=\int_{\mathcal{H}}\left(\underline{\mathbf{T}}[\mathbf{x},t]\langle\mathbf{x}^{'}-\mathbf{x}\rangle-\underline{\mathbf{T}}[\mathbf{x}^{'},t]\langle\mathbf{x}-\mathbf{x}^{'}\rangle\right)dV+\mathbf{b}\left(\mathbf{x},t\right)
+\end{align}
+
+where $\mathcal{H}$ is a spherical neighborhood of radius or horizon $\delta$ centred at $\mathbf{x}$ and where $\underline{\mathbf{T}}$ is the force vector state field. All points $x'$ within the horizon of $x$ are called family of $x$. It maps the force of the bond $\langle\mathbf{x}^{'}-\mathbf{x}\rangle$ to force densities per volume \cite{SillingSA2007}. The variables $\mathbf{b}$, $\rho$, $\mathbf{u}$ and $\mathbf{\ddot u}$ are the external forces, the mass density, the displacement and the acceleration.
+
+% \begin{figure}[htbp]
+% \centering
+% \input{Figures/States.tex}
+% % \input{../../Material/Figures/States.tex}
+% % \input{../../../../../Publications/Doc/PeriDoc_Common/Figures/States.tex}
+% \caption{Family: initial \& deformed configuration with deformation state $\underline{\mathbf{Y}}$ \cite{SillingSA2009}}
+% \label{fig:states}
+% \end{figure}
+% 
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}
+    % External figure
+    %\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[scale=1.0]{../../../../../Publications/Doc/PeriDoc_Common/Figures/States}};
+    \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[scale=1.0]{States.pdf}};
+    % Scope
+    \begin{scope}[
+      x={(image.south east)},
+      y={(image.north west)},
+    ]
+      % Some label
+      \node (xlabel)    at (0.19,0.35) {$\mathbf{x}$};
+      \node (xslabel)   at (0.36,0.09) {$\mathbf{x}'$};
+      \node (ylabel)    at (0.66,0.66) {$\mathbf{y}\left(\mathbf{x},t\right)$};
+      \node (yslabel)   at (0.94,0.23) {$\mathbf{y}\left(\mathbf{x}',t\right)$};
+      \node (yalllabel) at (0.48,0.94) {$\mathbf{y}\left(.,t\right)$};
+      \node (Ylabel)    at (1.02,0.71) {$\mathbf{Y}\left[\mathbf{x},t\right]\langle\mathbf{x}'-\mathbf{x}\rangle$};
+      % Help grid and labels
+      %\draw[help lines,xstep=.1,ystep=.1] (0,0) grid (1,1);
+      %\foreach \x in {0,1,...,9} {\node [anchor=north] at (\x/10,0) {0.\x};}
+      %\foreach \y in {0,1,...,9} {\node [anchor=east]  at (0,\y/10) {0.\y};}
+    \end{scope}
+  \end{tikzpicture}
+  \caption{Family: initial \& deformed configuration with deformation state $\underline{\mathbf{Y}}$ \cite{SillingSA2009}}
+  \label{fig:states}
+\end{figure}
+
+$\underline{\mathbf{T}}$ has to ensure the consistency with basic physical principles as the balance of linear momentum. This can be shown for any $\underline{\mathbf{T}}$. To describe a material, constitutive models are needed. These models map specific deformation vector state fields $\underline{\mathbf{Y}}$ in the force vector state $\underline{\mathbf{T}}$.
+
+\begin{equation}
+\label{eq:PeridynamicLimits2}
+\lim\limits_{\mathcal{H} \to 0} \int_{\mathcal{H}}\left(\underline{\mathbf{T}}[\mathbf{x},t]\langle\mathbf{x}^{'}-\mathbf{x}\rangle-\underline{\mathbf{T}}[\mathbf{x}^{'},t]\langle\mathbf{x}-\mathbf{x}^{'}\rangle\right)dV=\text{div}(\boldsymbol{\sigma})
+\end{equation}
+
+% \subsubsection{Material model}
+\subsection{Material model}
+
+It is assumed that the elastic strain energy in a PD solid is equal to the energy of the CM model. In that case, it is supposed that there is a PD strain energy density function $W(·)\,:\, V \rightarrow \Re$ such, that for some choice of the deformation gradient
+
+\begin{equation}
+ \underline{\mathbf{Y}}(\boldsymbol{\xi}) = \mathbf{F}\boldsymbol{\xi}=\mathbf{F}\langle\mathbf{x}'-\mathbf{x}\rangle\quad \forall\boldsymbol{\xi}\in \mathcal{H}.
+\end{equation}
+
+Then the PD constitutive model corresponds to the classical constitutive model at $\mathbf{F}$ \cite{SillingSA2007,AguiarAR2014}. With the extension scalar state $\underline{e}$
+
+\begin{equation}
+ \underline{e}=\underline{y}-\underline{x},\qquad \underline{y}=|\underline{\mathbf{Y}}|,\qquad\underline{x}=|\underline{\mathbf{X}}|
+\end{equation}
+
+the pairwise force density for an isotropic elastic PD solid
+
+\begin{equation}
+\label{eq:matModel}
+\underline{t}=\frac{3 K \theta}{V_w}\underline{\omega x}+\frac{15G}{V_w}\underline{\omega e}^d
+\end{equation}
+
+can be determined utilizing the bulk modulus $K$  and the shear modulus $G$. The variables $\theta$ and the deviatoric part of the extension scalar state $\underline{e}^d$ are given as
+
+\begin{equation}
+\theta=\frac{3}{V_w}\int_\mathcal{H}(\underline{\omega}\underline{x})\cdot\underline{e}dV\quad\text{and}\quad\underline{e}^d=\underline{e}-\frac{\theta\underline{x}}{3}\quad\mbox{.}
+\end{equation}
+
+The value $V_w$ is the weighted volume and $\underline{\omega}$ is the influence function which can be used to weight the bond stiffness related to the position in $\mathcal{H}$. It is a part of the constitutive response. The complete derivation is given in \cite{SillingSA2007}. The model is similar to the classical one
+
+\begin{equation}
+ \boldsymbol{\sigma}=K\mathbf{I}\text{tr}(\boldsymbol{\epsilon})+2G\boldsymbol{\epsilon}^d,
+\end{equation}
+
+where $\boldsymbol{\sigma}$ is the mechanical stress, $\text{tr}(\boldsymbol{\epsilon})$ is the trace of the mechanical strain and $\boldsymbol{\epsilon}^d$ is the deviatoric part of the mechanical strain.
+
+% \subsubsection{Damage model}
+\subsection{Damage model}
+
+One method of introducing failure into PD is through the irreversible breaking of ``bonds'' by setting the potential between them to zero. Failure is introduced by allowing the removal of this potential when certain physical variables reach a critical level \cite{FosterJT2009}.
+
+\begin{equation}
+\label{eq:DetermineMicroDamagePotential}
+w_c=\frac{4G_0}{\pi\delta^4}
+\end{equation}
+
+The critical micro potential can be determined using the energy release rate $G_0$ in \autoref{eq:DetermineMicroDamagePotential}. \cite{FosterJT2009,FosterJT2011} describe an energy-based failure criterion which is valid for state-based analysis by comparison of the critical energy density to the energy density of each state between material points. If the bonds micro potential is greater than this value the bond is deleted. With the history-dependent scalar valued function $\chi(\boldsymbol{\xi},t)$
+
+\begin{equation}
+\label{eq:checkDamage}
+\chi(\boldsymbol{\underline{e}}\langle\boldsymbol{\xi}\rangle,t)  = \begin{cases} 1 \qquad \text{if}\ w(\underline{e}\langle\boldsymbol{\xi}\rangle) < w_c\ \text{for all}\ 0 < t' < t\\
+0 \qquad \text{otherwise}\end{cases}	\quad\mbox{,}
+\end{equation}
+
+the damage model can be included in \autoref{eq:matModel}.
+
+\begin{equation}
+\label{eq:matModel2}
+\underline{t}=\chi(\boldsymbol{\underline{e}}\langle\boldsymbol{\xi},t)\left(\frac{3 K \theta}{V_w}\underline{\omega} \underline{x}+\frac{15G}{V_w}\underline{\omega} \underline{e}^d\right)
+\end{equation}
+
+Each ``bond'' has a simple damage law as shown in \autoref{fig:Damage_Models_CriticalStretch}, whereas the resulting integral material response is illustrated in \autoref{fig:Damage_Models_Integral}. It can be seen that the integral behavior corresponds to a standard analytical traction-separation law \cite{BobaruF2017}. The dissipated energy in the material is simply the integral of the bond breakage energies over all the broken bonds in the family \cite{SillingSA2010b}.
+
+\setlength{\figheight}{4.0cm}
+
+\begin{figure}[ht]
+  \begin{subfigure}{0.49\linewidth}
+    \centering
+    \begin{minipage}[b][\figheight]{\linewidth}
+      \input{../../Material/Figures/Fig_Damage_Model_CriticalStretch}
+    \end{minipage}
+    \caption{Local behavior of one bond}
+    \label{fig:Damage_Models_CriticalStretch}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.49\linewidth}
+    \centering
+    \begin{minipage}[b][\figheight]{\linewidth}
+      \input{../../Material/Figures/Fig_Integral_Damage_Model}
+    \end{minipage}
+    \caption{Integral response of the material \cite{BobaruF2017}}
+    \label{fig:Damage_Models_Integral} 
+  \end{subfigure}%
+  \caption{Comparison of the bond and integral material damage response}
+  \label{fig:Zugversuch}
+\end{figure}
+
+The damage law used in this publication is much simpler. It is assumed that for the one-dimensional cases considered, a critical bond elongation determined in CM can be used as input for the so-called critical stretch criterion, as done by \cite{GerstleW2005} for bond-based peridynamics. In that case \autoref{eq:checkDamage} is reformulated to
+
+\begin{equation}
+\label{eq:checkDamage2}
+\chi(\boldsymbol{\underline{e}}\langle\boldsymbol{\xi}\rangle,t)  = \begin{cases} 1 \qquad \text{if}\ \frac{\mathbf{y}(\mathbf{x}',t)-\mathbf{y}(\mathbf{x},t)}{|\mathbf{x}'-\mathbf{x}|} < \epsilon_{crit}\ \text{for all}\ 0 < t' < t\\
+0 \qquad \text{otherwise}\end{cases}
+\end{equation}
+
+% This method has been used, because in the actual framework only the critical stretch values as presented here has been implemented.
+with $\epsilon_{c}$ as critical stretch value. \cite{BobaruF2017} point out that this method is derived from BB-PD and that the concept may not apply in state-based material models as used in the current study. However, no other failure model has been implemented in the current numerical framework yet.
+
+% As done by \cite{GerstleW2005} for bond-based peridynamics, it is assumed that the micro elastic critical stretch is equal to the uniaxial tensile strain.
+% 
+% \begin{align}
+%   s_0 &= \varepsilon_u
+% \end{align}
+% 
+% This is usually not valid for state-based peridynamics. \cite{FosterJT2009,FosterJT2011} describe an energy-based failure criterion which is valid for state-based analysis by comparison of the critical energy density to the energy density of each state between material points. However, for isotropic material and uniaxial loading, the simple approach from \cite{GerstleW2005} gives reasonably good results.

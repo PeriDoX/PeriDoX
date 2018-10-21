@@ -1,0 +1,50 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{composites2017}
+
+\begin{document}
+\thispagestyle{empty}
+
+\vspace*{-3.4cm}
+\begin{table}[!h]
+\begin{tabular}{r}
+\hspace*{2.9cm} \scriptsize \textsf{6th ECCOMAS Thematic Conference on the Mechanical Response of Composites: COMPOSITES 2017} \\
+\hspace*{2.9cm} \tiny \textsf{J.J.C. Remmers \& A. Turon (Editors)}
+\end{tabular}
+\end{table}
+
+\vspace*{-0.7cm}
+
+\begin{center}
+\title{INFLUENCE OF PROBABILISTIC MATERIAL DISTRIBUTION IN PERIDYNAMICS TO THE CRACK INITIATION}
+\end{center}
+\begin{center}
+\textbf{Martin R\"adel$^{1}$, Anna-Janina Bednarek$^{1}$, \underline{Christian Willberg}$^{1,*}$} \\ [7pt]
+\small{$^1$}~Structural Mechanics Department, Institute for Composite Structures and Adaptive Systems, German Aerospace Center  \\  [2pt]
+\small{$^*$~\texttt{christian.willberg@dlr.de}} \\
+\end{center}
+
+\noindent
+The simulation of the structural behavior and particularly damage response is a key
+instrument for the development of lightweight structures as required in aerospace engineering
+or wind rotor blade development. The prediction of damage initiation and
+propagation is a challenging task, even for state-of-the-art numerical procedures, such as
+the finite element method. The peridynamic theory presents a promising approach for
+these requirements. It is a non-local theory which takes long-range forces between material
+points into account. The theory assumes that a material point interacts with all
+its neighboring particles within a finite radius. The formulation of its governing equations
+is based on integral equations, which are valid everywhere - whether a discontinuity
+such as a crack exists in the material or not. Damage is directly incorporated in the
+material response \cite{SillingSA2000, BednarekAJ2016}. \\
+Even for the peridynamic approach the crack initiation and the crack propagation lead to non realistic solutions. The reason for that is, that the model assume perfect symmetry which does not exist in reality. The presentation shows a framework for model creation, transfer to peridynamics and results. It will be shown that considering probabilistic distribution of material properties lead to more realistic behavior of the simulation. The framework uses commercial finite element software, own programmed finite element to peridynamic translator software, the open source software Peridigm and the post processor Paraview.
+The underlying theory and its numerical implementation will be introduced. Especially, the extension in Peridigm needed to perform the analysis will be explained.  Based on these implementations, studies regarding the effect of probabilistic material properties to the crack initiation position will be shown.
+
+\begin{thebibliography}{9}
+
+% === Replace this by your references ===
+
+\bibitem{SillingSA2000} S. Silling (2000) Reformulation of elasticity theory for discontinuities and long-range forces. \textit{Journal of the Mechanics and Physics of Solids}, \textbf{48}, 175-209.
+\bibitem{BednarekAJ2016} A.-J. Bednarek, C. Willberg and M. R\"adel (2016) \textit{Theory and Simulation of the Structural and Damage Behaviour of Lightweight Structures Using Peridynamics}. German Aerospace Center, Report Number: DLR-IB-FA-BS-2016-169.
+
+\end{thebibliography}
+\end{document}
+

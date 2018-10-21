@@ -1,0 +1,68 @@
+% ---------------------------
+% Path to common
+% ---------------------------
+
+\newcommand{\peridoccommonpath}{../../../Doc/PeriDoX_Common}
+\newcommand{\peridocliteraturepath}{../../../Literature}
+\newcommand{\materialpath}{../Material}
+
+% ---------------------------
+% Local packages
+% ---------------------------
+
+% General preamble
+\input{\peridoccommonpath/Preamble/Preamble_Presentation}
+% \input{\peridoccommonpath/Preamble/Pref_Packages}
+% \input{\peridoccommonpath/Preamble/Pref_Packages_Hyperref}
+\input{\peridoccommonpath/Preamble/Pref_Packages_BibLaTeX_Artcl}
+\input{\peridoccommonpath/Preamble/Pref_Language_English}
+\input{\peridoccommonpath/Preamble/Pref_Packages_SIUnitX}
+\input{\peridoccommonpath/Preamble/Pref_Packages_TikZ}
+\input{\peridoccommonpath/Preamble/Pref_Packages_Pgfplots}
+\input{\peridoccommonpath/Preamble/Pref_Packages_TikZ_Externalization}
+\input{\peridoccommonpath/Preamble/Pref_Commands_Operators}
+
+% ---------------------------
+% Page Layout
+% ---------------------------
+
+% \input{\peridoccommonpath/Preamble/Pref_Layout_Beamer_DLR}
+\input{\peridoccommonpath/Preamble/Pref_Layout_Beamer_Neutral}
+
+\captionsetup{labelformat=empty,labelsep=none}
+
+% ---------------------------
+% Glossaries
+% ---------------------------
+
+% ---------------------------
+% Graphics
+% ---------------------------
+
+% Graphics
+\graphicspath{%
+  {\peridoccommonpath/Figures/}%
+  {\materialpath/Figures/}%
+  {./Figures/}%
+}
+
+% ---------------------------
+% Literature
+% ---------------------------
+
+\addbibresource{\peridocliteraturepath/PeridynamicLiterature.bib}
+\addbibresource{\materialpath/Literature/Literature.bib}
+
+% ---------------------------
+% Commands
+% ---------------------------
+
+% \newcommand{\figurefontsize}{\scriptsize}
+
+% \newlength{\figwidth}
+% \newlength{\figheight}
+\newlength{\hsep}
+\newlength{\vsep}
+
+\newlength{\dx}
+\newlength{\dy}

@@ -1,0 +1,50 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{tikzpicture}
+  % nodes
+  \node (dnl) at ( 0,  0) {$u_{\delta}^h$};
+  \node (cnl) at ( 0,-\y) {$u_{\delta}^0$};
+  \node (dl)  at (\x,  0) {$u_0^h$};
+  \node (cl)  at (\x,-\y) {$u_0^0$};
+  % node labels
+  \node [ left=\labeldistance of dnl,anchor=east,align=center] (dnllabel) {Discrete\\Nonlocal};
+  \node [ left=\labeldistance of cnl,anchor=east,align=center] (cnllabel) {Continuum\\Nonlocal};
+  \node [right=\labeldistance of  dl,anchor=west,align=center] (dllabel)  {Discrete\\Local};
+  \node [right=\labeldistance of  cl,anchor=west,align=center] (cllabel)  {Continuum\\Local PDE};
+  % lines
+  \draw (dnl) -- (dl)  node [midway,above] {$\delta\longrightarrow0$};
+  \draw (cnl) -- (cl)  node [midway,below] {$\delta\longrightarrow0$};
+  \draw (dnl) -- (cnl) node [midway,sloped,below] {$h\longrightarrow0$};
+  \draw (dl)  -- (cl)  node [midway,sloped,above] {$h\longrightarrow0$};
+  % coordinates inside
+  \coordinate (ul) at ($ (dnl) !.125! (cl) $);
+  \coordinate (lr) at ($ (dnl) !.875! (cl) $);
+%     \node[circle,fill=black,minimum size=2pt] at (ul){};
+%     \node[circle,fill=black,minimum size=2pt] at (lr){};
+  
+  % Arrows inside
+  \draw[dotted,shorten >=.2em,-latex] (ul) -- (lr) node [midway,sloped,below=1ex] {$\delta\longrightarrow0$} node [midway,sloped,above=1ex] {$h\longrightarrow0$};
+  %\draw[dotted,shorten >=.2em,-latex] (ul) -- (lr) coordinate [midway] (hdc);
+  
+  \draw[dotted,shorten >=.2em,-latex] (ul) to [bend right=40] (lr);% coordinate [midway] (dc);
+  \draw[dotted,shorten >=.2em,-latex] (ul) to [bend left =40] (lr);% coordinate [midway] (hc);
+  
+  %\node at ($ (hdc) !.5! (dc) $) {$\delta\rightarrow0$};
+  %\node at ($ (hdc) !.5! (hc) $) {$h\rightarrow0$};
+\end{tikzpicture}

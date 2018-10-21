@@ -1,0 +1,168 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Default preamble for beamer presentations
+%
+% Revisions: 2016-03-06 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-----------------------------------
+% Packages
+%-----------------------------------
+
+\usepackage[latin1]{inputenx}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{adjustbox}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{coseoul}
+\usepackage{enumitem}
+\usepackage{etoolbox}
+\usepackage{filecontents}
+% \usepackage{forest}
+% \useforestlibrary{edges}
+\usepackage{ifthen}
+% \usepackage{letltxmacro}
+% \usepackage{listings}
+% \usepackage{marginnote}
+\usepackage{marvosym}
+\usepackage{media9}
+% \usepackage{multicol}
+% \usepackage{multirow}
+% \usepackage{pgfplots}
+% % \pgfplotsset{compat=1.13}
+% \usepgfplotslibrary{fillbetween}
+% \usepgfplotslibrary{groupplots}
+% \usepackage{pgfplotstable}
+% \usepackage{pifont}
+% \usepackage{siunitx}
+% \sisetup{
+%   exponent-product = \cdot,
+%   output-product = \cdot,
+%   detect-all
+% }
+\usepackage{subcaption}
+\usepackage{tabto}
+% \usepackage{tabu}
+\usepackage{tabularx}
+% \usepackage[most]{tcolorbox}
+\usepackage{textcomp}
+% \usepackage{tikz}
+% \usetikzlibrary{arrows.meta}
+% \usetikzlibrary{calc}
+% \usetikzlibrary{decorations.markings}
+% \usetikzlibrary{intersections}
+% \usetikzlibrary{trees}
+% \usetikzlibrary{matrix}
+% \usetikzlibrary{positioning}
+% \usetikzlibrary{spy}
+\usepackage{textcomp}
+\usepackage[normalem]{ulem}
+\usepackage{wasysym}
+% \usepackage{wrapfig}
+% \usepackage{xparse}
+
+%-----------------------------------
+% Boolean parameters
+%-----------------------------------
+
+% default:
+% \newbool{watermark}
+% \setbool{watermark}{false}			% true | false
+
+%-----------------------------------
+% Newcommands
+%-----------------------------------
+
+% Repository
+
+\newcommand{\repoaddress}{https://svn.dlr.de/STM-Routines/Analysis\_Tools/PeriDoc/trunk/}
+
+% Other
+
+% \def\Cpp{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.165ex}{\scriptsize\textbf{++}}}}
+
+% \newcommand{\iconsize}{0.5cm}
+% \newcommand{\slidenumberfreeheader}{}
+
+%-----------------------------------
+% Renewcommand
+%-----------------------------------
+
+%-----------------------------------
+% Counter
+%-----------------------------------
+
+%-----------------------------------
+% Hyperref
+%-----------------------------------
+
+% http://stackoverflow.com/questions/3387971/setting-pdftitle-and-pdfauthor-automatically-in-a-latex-stylesheet
+% \usepackage[%
+%   pdfusetitle,%
+%   colorlinks = true,%
+%   linkcolor  = black,%
+%   citecolor  = black,%
+%   urlcolor   = blue,%
+%   %pdfstartview = {Fit}%
+% ]{hyperref}
+\usepackage{attachfile}
+
+%-----------------------------------
+% Page Layout
+%-----------------------------------
+
+% Mainly from RM LaTeX
+\definecolor{backgroundcolor}{rgb}{255,255,255}
+
+%-----------------------------------
+% Enumitem zeugs
+%-----------------------------------
+
+\setlistdepth{9}
+
+\setlist[itemize,1]{label=\dlrhook}
+\setlist[itemize,2]{label=\dlrhook}
+\setlist[itemize,3]{label=\dlrhook}
+\setlist[itemize,4]{label=\dlrhook}
+\setlist[itemize,5]{label=\dlrhook}
+\setlist[itemize,6]{label=\dlrhook}
+\setlist[itemize,7]{label=\dlrhook}
+\setlist[itemize,8]{label=\dlrhook}
+\setlist[itemize,9]{label=\dlrhook}
+
+\renewlist{itemize}{itemize}{9}
+
+%-----------------------------------
+% eToolBox-stuff for determining if a LOF and LOT is necessary
+%-----------------------------------
+
+%-----------------------------------
+% Environments
+%-----------------------------------
+
+%-----------------------------------
+% Error-Corrections
+%-----------------------------------
+
+% https://tex.stackexchange.com/q/426088
+\makeatletter
+\let\@@magyar@captionfix\relax
+\makeatother

@@ -1,0 +1,75 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Default DLR layout for beamer presentations
+%
+% Revisions: 2016-03-06 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-----------------------------------
+% Page Layout
+%-----------------------------------
+
+% \usetheme{dlr}
+% % Some usefull standard beamer layout changes
+% \usecolortheme{orchid}
+% \setbeamerfont{block title}{size=\small}
+% \setbeamerfont{block body}{size=\small}
+% \setbeamerfont{block body alerted}{size=\small}
+% \setbeamerfont{block body example}{size=\small}
+% \setbeamerfont{caption}{size=\figurefontsize}
+% \setbeamertemplate{caption}[numbered]	% Numbered floats
+
+%-----------------------------------
+% Newcommands
+%-----------------------------------
+
+% Symbols
+% should go to Pref_Commands_Operators in PeriDoc_Common
+
+\newcommand{\slidenumberfreeheader}{%
+%   \setbeamertemplate{headline}{%
+%     % Set fonsize to 5pt to ensure that headline is always same size
+%     \fontsize{5pt}{5pt}\selectfont%
+%     %\vspace{1.763778mm}\hspace{6.8mm}
+%     \vspace{1.5mm}\hspace{2.5mm}%
+%     \href{http://www.dlr.de}{www.dlr.de} $\ >$ \insertshorttitle $\ >$ \insertshortauthor\ $\ >$ \insertshortdate%
+%   }
+}
+
+%-----------------------------------
+% Colors
+%-----------------------------------
+
+% Mainly from RM LaTeX
+\definecolor{backgroundcolor}{rgb}{255,255,255}
+
+%-----------------------------------
+% Enumitem zeugs
+%-----------------------------------
+
+\setlistdepth{9}
+
+\setlist[itemize,1]{label=\textbullet}
+\setlist[itemize,2]{label=\textbullet}
+\setlist[itemize,3]{label=\textbullet}
+\setlist[itemize,4]{label=\textbullet}
+\setlist[itemize,5]{label=\textbullet}
+\setlist[itemize,6]{label=\textbullet}
+\setlist[itemize,7]{label=\textbullet}
+\setlist[itemize,8]{label=\textbullet}
+\setlist[itemize,9]{label=\textbullet}
+
+\renewlist{itemize}{itemize}{9}

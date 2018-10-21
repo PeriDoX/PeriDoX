@@ -1,0 +1,118 @@
+# Written by FEModeller: 08/05/2017: 18:36:41
+#{HORIZON=3.015*0.5}
+
+#{LBC_TIMEINIT=0.001}
+#{LBC_FAILUREDISPLACEMENTINIT=0.01}
+#{LBC_FAILUREDISPLACEMENTFINAL=0.0101}
+#{LBC_VELOCITY_Y=0.3E2}
+
+#{SOLVER_TIMESTEP=500.8667E-06}
+#{SOLVER_NUMBER_OF_QS_STEPS=5}
+#{OUTPUT_FREQUENCY_QS=1}
+#{OUTPUT_FREQUENCY_EXPL=10}
+Verbose "false"
+
+Discretization
+    Type "Exodus"
+    Input Mesh File "mesh.g"
+
+Materials
+    testadhesivematerial
+        Material Model "Elastic"
+        Density 1.2E-9
+        Bulk Modulus 490.19607843137254
+        Shear Modulus 187.96992481203006
+    Aluminium-2024-T3
+        Material Model "Elastic"
+        Density 2.7E-9
+        Bulk Modulus 70980.39215686274
+        Shear Modulus 27218.045112781954
+
+Damage Models
+    testadhesivedamage
+        Damage Model "Critical Stretch"
+        Critical Stretch 0.002
+
+Blocks
+    block_1
+        Block Names "block_1"
+        Material "testadhesivematerial"
+        Horizon {HORIZON}
+    block_2
+        Block Names "block_2"
+        Material "testadhesivematerial"
+        Horizon {HORIZON}
+    block_3
+        Block Names "block_3"
+        Material "testadhesivematerial"
+        Damage Model "testadhesivedamage"
+        Horizon {HORIZON}
+    block_4
+        Block Names "block_4"
+        Material "testadhesivematerial"
+        Horizon {HORIZON}
+
+Boundary Conditions
+    Displacement-1-D-x
+        Type "Prescribed Displacement"
+        Node Set "bc_fix"
+        Coordinate "x"
+        Value "0.0"
+    Displacement-1-D-z
+        Type "Prescribed Displacement"
+        Node Set "bc_fix"
+        Coordinate "z"
+        Value "0.0"
+    Displacement-2-D-y
+        Type "Prescribed Displacement"
+        Node Set "nset-Layer1497983329-y"
+        Coordinate "y"
+        Value "0.0"
+    Displacement-3-D-z
+        Type "Prescribed Displacement"
+        Node Set "bc_load"
+        Coordinate "z"
+        Value "0.0"
+    Displacement-1-V-x
+        Type "Prescribed Displacement"
+        Node Set "bc_load"
+        Coordinate "x"
+        Value "value={LBC_VELOCITY_Y}*t"
+
+Solver
+    Verbose "true"
+    Initial Time 0.0
+#    Final Time {LBC_FAILUREDISPLACEMENTFINAL/LBC_VELOCITY_Y}
+    Final Time {10.0*SOLVER_TIMESTEP}
+    Verlet
+        Safety Factor 0.9
+        
+Compute Class Parameters
+    Right Reaction Force
+        Compute Class "Block_Data"
+        Calculation Type "Sum"
+        Block "block_1"
+        Variable "Force"
+        Output Label "Right_Reaction_Force"
+    Right Displacement
+        Compute Class "Block_Data"
+        Calculation Type "Sum"
+        Block "block_4"
+        Variable "Displacement"
+        Output Label "Right_Displacement"
+Output
+    Output File Type "ExodusII"
+    Output Filename "model"
+    Output Frequency 1
+    Output Variables
+        Block_Id "true"
+        Element_Id "true"
+        Number_Of_Neighbors "true"
+        Proc_Num "true"
+        Radius "true"
+        Weighted_Volume "true"
+        Damage "true"
+        Displacement "true"
+        Force "true"
+        Right_Reaction_Force "true"
+        Right_Displacement "true"

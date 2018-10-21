@@ -1,0 +1,68 @@
+\begin{frame}[t]{\secname}{\subsecname{} - Why \& Implementation}
+
+\begin{itemize}
+  \item Ensure effect causing failure adequately described \& robust solution
+  %\item Check solution dependency on underlying discretization scheme
+  \item Prove influence on damage of
+  \begin{itemize}[noitemsep]
+    \item Scatter in stress-strain-curves, micro-voids \& findings in micrographs
+    \item Varying degree of cure, disparities from machining
+  \end{itemize}
+\end{itemize}
+
+\setlength{\figheight}{0.475\textheight}
+\begin{columns}[t]
+  \begin{column}{0.5\textwidth}
+    \only<2->{
+      \begin{block}{Stochastic model}
+        \centering
+        % Variables
+        \def\nb{20}
+        \def\ne{10}
+        % Picture
+        \tikzexternalenable
+        \tikzsetnextfilename{Implementation_Stochastic_Constant}
+        \input{../Material/Figures/Fig_Implementation_Stochastic_Constant}
+        \tikzexternaldisable
+      \end{block}
+    }
+  \end{column}
+  \begin{column}{0.5\textwidth}
+    \only<3->{
+      \begin{block}{Base FE model}
+        \centering
+        \includegraphics[width=0.85\linewidth,height=\figheight,keepaspectratio]{Model_FE_Hex_0-5_Stochastic_ct}
+      \end{block}
+    }
+  \end{column}
+\end{columns}
+  
+\end{frame}
+
+
+% \begin{figure}[htbp]
+%   \setlength{\figheight}{5cm}
+%   \begin{subfigure}{0.49\linewidth}
+%     \begin{minipage}[b][\figheight]{\linewidth}
+%       \centering
+%       % Variables
+%       \def\nb{20}
+%       \def\ne{10}
+%       % Picture
+%       \input{../../Material/Figures/Fig_Implementation_Stochastic_Constant}
+%     \end{minipage}
+%     \caption{Simple stochastic model}
+%     \label{fig:Thry:Stochastic:Distribution}
+%   \end{subfigure}
+%   \hfill
+%   \begin{subfigure}{0.49\linewidth}
+%     \begin{minipage}[b][\figheight]{\linewidth}
+%       %\includegraphics[width=\linewidth,height=\figheight,keepaspectratio]{../../Material/Figures/Model_FE_Hex_0-5_Stochastic_ct.png}
+%       \includegraphics[width=\linewidth,height=\figheight,keepaspectratio]{Model_FE_Hex_0-5_Stochastic_ct}
+%     \end{minipage}
+%     \caption{Base FE mesh with stochastic block distribution}
+%     \label{fig:Thry:Stochastic:FEModel}
+%   \end{subfigure}
+%   \caption{Implementation of stochastic material distribution for PD simulations}
+%   \label{fig:Thry:Stochastic:Implementation}
+% \end{figure}

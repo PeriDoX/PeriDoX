@@ -1,0 +1,32 @@
+\begin{tikzpicture}
+  \begin{axis}[
+    width=\linewidth,
+    height=\figheight,
+    ybar,
+    bar shift=0pt,
+    %axis lines=middle,
+    axis x line=bottom,
+    axis y line=middle,
+    samples=10,
+    enlarge y limits=upper,
+    xmin=-\ne/2-0.75,
+    xmax= \ne/2+0.75,
+    ymin=0,
+    ymax=(\nb+1)*1.05,
+    xlabel=$K$,
+    ylabel=$n_e$,
+    x label style={at={(axis description cs:1.0,0.0)},anchor=south west},
+    y label style={at={(axis description cs:0.5,1.0)},anchor=south west},
+    %xtick={-\ne/2,0,\ne/2},
+    xtick={-5,0,5},
+    ymajorticks=false,
+    xticklabels={$\bar{K}-\Delta$,$\bar{K}$,$\bar{K}+\Delta$},
+    yticklabels={},
+  ]
+    %\addplot +[black,fill=gray]{rnd};
+    %\addplot coordinates {(-\ne/2,\nb)};
+    \foreach \x in {-5,-4,...,5} {
+      \addplot+[black,fill=gray] coordinates {(\x,\nb+rand)};%,bar shift=0.5
+    }
+  \end{axis}
+\end{tikzpicture}

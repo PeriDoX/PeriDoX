@@ -1,0 +1,82 @@
+%Packages
+\usepackage{geometry}
+\usepackage{subfigure}
+\usepackage{graphics}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{mathrsfs}
+\usepackage{ccaption}
+\usepackage[T1]{fontenc}
+\usepackage[dvips]{graphicx}
+\usepackage{fancyhdr}
+\usepackage{helvet}
+%\usepackage{floatflt}
+\usepackage{colortbl}
+\usepackage{fancyvrb}
+\usepackage{wrapfig}
+%\usepackage[portuguese]{babel}
+\usepackage[dvips]{graphicx}      		
+\usepackage[utf8]{inputenc} 			% linux user
+%\usepackage[latin1]{inputenc} 		% windows user
+
+%Default Fonts
+\renewcommand{\rmdefault}{ptm}
+\fontfamily{arial}
+
+%Standard of COMPOSITES margins
+
+\geometry{left=2.5cm,right=2.5cm,top=4.3cm,bottom=4.4cm}
+\setlength{\textheight}{21cm}
+\setlength{\textwidth}{16cm}
+\setlength{\voffset}{-1cm}	
+\setlength{\footskip}{2.1cm}
+\setlength{\headsep}{2.1cm}
+
+%Standard of COMPOSITES Header
+\pagestyle{fancy}
+\fancyhead{}
+\chead{\footnotesize{First A. Author, Second B. Author, Third C. Author}}
+\cfoot{\thepage}
+%No Header Line
+\renewcommand{\headrulewidth}{0pt}
+
+%Definition of COMPOSITES command
+\def\title{\large \bf}
+
+%Standard of COMPOSITES Sections
+\makeatletter
+\def\section{\@startsection{section}{1}
+          {\z@}{10pt minus 0pt}{10pt minus 0pt}{\bf}}
+\def\subsection{\@startsection{subsection}{2}
+          {\z@}{10pt minus 0pt}{10pt minus 0pt}{\bf}}
+\def\subsubsection{\@startsection{subsubsection}{3}
+          {\z@}{10pt minus 0pt}{10pt minus 0pt}{\bf}}
+\def\thesection{\arabic{section}.\hskip -1ex}	
+\def\thesubsection {\thesection\hskip 1.1ex \arabic{subsection}\hskip -1ex}
+\def\thesubsubsection {\thesubsection\hskip 1.1ex .\arabic{subsubsection}\hskip -1ex}
+\makeatother
+
+%Standart of COMPOSITES Tables and Figures - Space and Captions
+\abovecaptionskip 0pt
+\belowcaptionskip 0pt
+
+\makeatletter
+\newcommand{\@ldtable}{}
+\let\@ldtable\table
+\renewcommand{\table}{%
+\setlength{\abovecaptionskip}{\belowcaptionskip}%
+\setlength{\belowcaptionskip}{10pt}%
+\@ldtable}
+\makeatother
+\captiondelim{. }
+\captionstyle{\centering\centerlastline}
+
+\let\oldbibliography\thebibliography
+\renewcommand{\thebibliography}[1]{%
+  \oldbibliography{#1}%
+  \setlength{\itemsep}{-4pt}%
+}
+

@@ -1,0 +1,85 @@
+  % Math
+  \pgfkeys{/pgf/fpu}
+  \pgfmathsetmacro{\bondconstant}{18927.8}
+  \pgfmathsetmacro{\criticalstretch}{0.2}
+  \pgfkeys{/pgf/fpu=false}
+  % Shapes
+%   \tikzset{%
+%     myarrowdecoration1/.style={postaction={decorate,decoration={
+%       markings,
+%       mark=between positions .4 and .6 step .1pt with {\draw [thin] circle (.1pt);},
+%       mark=at position .6 with {\arrow[thin,xshift=1pt]{latex}},
+%       raise=-0.7ex,
+%     }}},
+%     myarrowdecoration2/.style={postaction={decorate,decoration={
+%       markings,
+%       mark=between positions .4 and .6 step .1pt with {\draw [thin] circle (.1pt);},
+%       mark=at position .4 with {\arrow[thin,xshift=1pt]{latex reversed}},
+%       raise=0.7ex,
+%     }}},
+%   }
+  % Axis
+\begin{tikzpicture}
+  %
+  \tikzset{%
+	myarrowdecoration/.style={postaction={decorate,decoration={
+	  markings,
+	  mark=between positions .2 and .8 step .1pt with {\draw [thin,-latex] circle (.1pt);},
+	  mark=at position .8 with {\arrow[thin,xshift=1pt]{latex}},
+	  mark=at position .2 with {\arrow[thin,xshift=1pt]{latex reversed}},
+	  raise=0.7ex,
+	}}},
+  }
+  %
+  \begin{axis}[
+%     scale only axis,
+	axis lines=middle,
+	%ticks=none,
+	domain=0:1.4*\criticalstretch,
+	%restrict y to domain=-\ultimatestrength:\ultimatestrength,
+	xmin=0.0*\criticalstretch,
+	xmax= 1.5*\criticalstretch,
+	ymin= 0.0*(\bondconstant*\criticalstretch),
+	ymax= 1.5*(\bondconstant*\criticalstretch),
+	width=0.65\linewidth,
+	%height=0.99\textwidth,
+        xlabel={Separation},
+	ylabel={Traction},
+	xtick={\criticalstretch},
+	xticklabels={Damage initiation},
+	ytick=\empty,
+	every axis x label/.style={
+	  at={(ticklabel* cs:1.005)},
+	  anchor=west,
+	},
+	every axis y label/.style={
+	  at={(ticklabel* cs:1.005)},
+	  anchor=south,
+	},
+  ]
+	% Plots
+	%\addplot[dashed] {\bondconstant*x} node[pos=0.95] (pinc) {};
+	\addplot[very thick,domain=0:\criticalstretch] {\bondconstant*x} node[pos=0.2] (c1pos) {} node[pos=0.3] (c2pos) {} node[pos=1.0] (failpos) {};
+
+	\draw[very thick] (failpos.center) -- (1.4*\criticalstretch,0);
+	%\draw[myarrowdecoration,very thick] (0.6*\criticalstretch,0) -- (\criticalstretch,0);
+	%\draw[myarrowdecoration,very thick] (\criticalstretch,0) -- (1.4*\criticalstretch,0);
+	% Label
+	%\coordinate (c12pos) at (c2pos|-c1pos);
+	%\draw[thin] (c1pos) -- (c12pos);
+	%\draw[thin] (c2pos) -- (c12pos) node[midway,right]{$c$};
+	
+	% Coordinates
+%     \coordinate (origin) at (0,0);
+%     \coordinate (yieldt) at ( \yieldstraint, \yieldstresst);
+%     \coordinate (yieldc) at (-\yieldstrainc,-\yieldstressc);
+%     % Lines
+%     \draw[thick,myarrowdecoration1,myarrowdecoration2] (origin) -- node[pos=0.8, pin=-60:{\pinlabel}](ELabel){} (yieldt);
+%     \draw[thick,myarrowdecoration1,myarrowdecoration2] (origin) -- (yieldc);
+	% Label
+	%\iftoggle{tclabel}{%
+%	  \node[anchor=north east,xshift=-0.6cm] (tensionlabel) at (rel axis cs:1,1) {\footnotesize tension};
+	  %\node[anchor=south west,xshift= 0.6cm] (compressionlabel) at (rel axis cs:0,0) {\footnotesize compression};
+	%}{}
+  \end{axis}
+\end{tikzpicture} 

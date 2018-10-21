@@ -1,0 +1,132 @@
+# Written by FEModeller: 16/05/2017: 14:56:11
+#{ESIZE=2.0/3.0}
+# No horizon <= 2*ESIZE possible since the boundary condition blocks have element edge size 2*ESIZE
+# Variable:
+#{HORIZON=0.75000001}
+# Fix:
+#{MAT_DENSITY=1.15E-9}
+#CRITICAL_STRETCH=5.78097E-03
+#{CRITICAL_STRETCH=0.02}
+#FAILUREDISPLACEMENTINIT=0.900 relativ realer Wert
+#{FAILUREDISPLACEMENTINIT=0.650}
+#{FAILUREDISPLACEMENTFINAL=0.900}
+#{VELOCITY=100.00000001}
+#{OUTPUT_EXPL_FREQUENCY=1000}
+#{SOLVER_EXPL_TIMESTEP=9.89905e-08}
+#{SOLVER_EXPL_SAFETYFACTOR=0.9}
+
+Verbose "false"
+
+Discretization
+    Type "Exodus"
+    Input Mesh File "mesh.g"
+
+Materials
+    testadhesivematerial
+        Material Model "Elastic"
+        Density {MAT_DENSITY}
+        Bulk Modulus 3202.81124497992
+        Shear Modulus 1195.6521739130435
+
+Damage Models
+    testadhesivedamage
+        Damage Model "Critical Stretch"
+        Critical Stretch {CRITICAL_STRETCH}
+
+Blocks
+    block_1
+        Block Names "block_1"
+        Material "testadhesivematerial"
+        Damage Model "testadhesivedamage"
+        Horizon {HORIZON}
+    block_2
+        Block Names "block_2"
+        Material "testadhesivematerial"
+        Horizon {HORIZON}
+
+Boundary Conditions
+    Displacement-1-D-x
+        Type "Prescribed Displacement"
+        Node Set "layer-0-bc_fix"
+        Coordinate "x"
+        Value "0.0"
+    Displacement-1-D-z
+        Type "Prescribed Displacement"
+        Node Set "layer-0-bc_fix"
+        Coordinate "z"
+        Value "0.0"
+    Displacement-2-D-y
+        Type "Prescribed Displacement"
+        Node Set "layer-0-bc_fix_y"
+        Coordinate "y"
+        Value "0.0"
+    Displacement-3-D-z
+        Type "Prescribed Displacement"
+        Node Set "layer-0-bc_load"
+        Coordinate "z"
+        Value "0.0"
+    Displacement-1-V-x
+        Type "Prescribed Displacement"
+        Node Set "layer-0-bc_load"
+        Coordinate "x"
+        Value "value={VELOCITY}*t"
+
+Compute Class Parameters
+    Strain Gage Displacement NodeSet
+        Compute Class "Node_Set_Data"
+        Calculation Type "Minimum"
+        Node Set "layer-0-bc_load"
+        Variable "Displacement"
+        Output Label "Gage_Displacement_NodeSet"
+    Load Force
+        Compute Class "Node_Set_Data"
+        Calculation Type "Sum"
+        Node Set "layer-0-bc_load"
+        Variable "Force"
+        Output Label "Reaction_Force"
+
+Solver
+    Verbose "true"
+    Final Time {FAILUREDISPLACEMENTFINAL/VELOCITY}
+    Verlet
+        Safety Factor {SOLVER_EXPL_SAFETYFACTOR}
+
+Output1
+    Output File Type "ExodusII"
+    Output Filename "output_1"
+    Output Frequency {OUTPUT_EXPL_FREQUENCY}
+    Final Output Step {nint(FAILUREDISPLACEMENTINIT/(SOLVER_EXPL_TIMESTEP*SOLVER_EXPL_SAFETYFACTOR*VELOCITY))}
+    Parallel Write true
+    Output Variables
+        Block_Id "false"
+        Element_Id "false"
+        Number_Of_Neighbors "false"
+        Proc_Num "false"
+        Radius "false"
+        Weighted_Volume "false"
+        Damage "true"
+        Displacement "true"
+        Velocity "true"
+        Force "true"
+        Gage_Displacement_NodeSet "true"
+        Reaction_Force "true"
+
+Output2
+    Output File Type "ExodusII"
+    Output Filename "output_2"
+    Output Frequency 1
+    Initial Output Step {nint(FAILUREDISPLACEMENTINIT/(SOLVER_EXPL_TIMESTEP*SOLVER_EXPL_SAFETYFACTOR*VELOCITY))+1}
+    Parallel Write true
+    Output Variables
+        Block_Id "false"
+        Element_Id "false"
+        Number_Of_Neighbors "false"
+        Proc_Num "false"
+        Radius "false"
+        Weighted_Volume "false"
+        Damage "true"
+        Displacement "true"
+        Velocity "true"
+        Force "true"
+        Gage_Displacement_NodeSet "true"
+        Reaction_Force "true"

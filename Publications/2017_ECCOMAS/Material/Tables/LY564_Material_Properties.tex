@@ -1,0 +1,25 @@
+\begin{tabularx}{\linewidth}{%
+ c%
+ X%
+ c%
+ S[table-format=3.3]%,tight-spacing=true]%
+%  S[table-format=3.1,table-figures-uncertainty=1]
+%  S[table-format=3.1,table-figures-uncertainty=1]
+%  S[table-format=3.1,table-figures-uncertainty=1]
+ S[table-format=3.3]%,tight-spacing=true]%
+ c%
+ c%
+ S[table-format=3.1]%,tight-spacing=true]%
+ S[table-format=3.3]%,tight-spacing=true]%
+}
+\toprule
+% &&&\multicolumn{4}{c}{Specimen type}	\\
+\multicolumn{2}{c}{Variable \& Description}	& Unit 						& {\cite{HuntsmanLY564DataSheet2009}}	& {Test}& \multicolumn{2}{c}{Literature}& {Model}\\
+\midrule
+$\rho$	& Density				& $\SI{1e-9}{\tonne\per\milli\meter\cubed}$	& {$\num{1.1}-\num{1.2}$}		& {-}	& \multicolumn{2}{c}{-}		& 1.15\\
+$E$	& Tensile modulus			& $\si{\newton\per\milli\meter\squared}$	& {$\num{2800}-\num{3300}$}		& 3190	& \multicolumn{2}{c}{-}		& 3190	\\
+$\nu$	& Poisson ratio				& -						& {-}					& 0.334	& \multicolumn{2}{c}{-}		& 0.334	\\
+$\varepsilon_u$ & Failure strain 		& $\si{\percent}$				& {$\num{3.5}-\num{8.0}$}		& 7.2	& \multicolumn{2}{c}{-}		& 7.2	\\
+$G_{IC}$ & Fracture energy 			& $\si{\newton\per\milli\meter}$		& {$\num{0.2}-\num{0.26}$}		& {-}	& \cite{SikoutrisDE2012}& 0.2	& 0.2	\\
+\bottomrule
+\end{tabularx}

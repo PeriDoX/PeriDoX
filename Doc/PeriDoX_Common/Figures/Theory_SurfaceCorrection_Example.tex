@@ -1,0 +1,69 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Raedel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Raedel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{tikzpicture}
+  % Coordinates
+  \coordinate (n1) at ( 0.00*\dx, 0.00*\dy);
+  \coordinate (n2) at ( 0.00*\dx,-1.00*\dy);
+  \coordinate (n3) at ( 1.00*\dx,-1.00*\dy);
+  \coordinate (n4) at ( 1.00*\dx, 0.00*\dy);
+  \coordinate (n5) at ( 1.75*\dx,-0.67*\dy);
+  \coordinate (n6) at ( 1.75*\dx, 0.00*\dy);
+  % Rectangle 1
+  \draw (n1) -- (n2);
+  \draw (n2) to[out=-60,in=190] (n3);
+  \draw (n3) -- (n4);
+  \draw (n4) -- (n1) coordinate[pos=0.9](surfacept);
+  \draw[fill=gray!80] (n1) -- (n2) to[out=-60,in=190] (n3) -- (n4) -- (n1);
+  % Rectangle 2
+  \draw (n4) -- (n3) coordinate[pos=0.2](interfacept);
+  \draw (n3) to[out=10,in=-110] (n5);
+  \draw (n5) -- (n6);
+  \draw (n6) -- (n4);
+  \draw[fill=gray!60] (n4) -- (n3) to[out=10,in=-110] (n5) -- (n6) -- (n4);
+  % Material label
+  \node[yshift=0.1*\dy,font=\nodefontsize] (mat1label) at ($(n1)!0.5!(n3)$) {Material 1};
+  \node[yshift=0.1*\dy,font=\nodefontsize] (mat2label) at ($(n6)!0.5!(n3)$) {Material 2};
+  % x1
+  \coordinate[xshift=0.1*\dx] (x1pos) at ($(n2)!0.2!(n4)$);
+  \node[circle,draw=black,fill=gray!20,minimum size=0.4*\dx,inner sep=0pt] at (x1pos.center) {};
+  \node[circle,fill=black,minimum size=2pt,inner sep=0pt] (x1pt) at (x1pos.center) {};
+  \node[anchor=north,font=\nodefontsize] (x1label) at (x1pt.south) {$\positionsymbol_1$};
+  \draw[-latex] (x1pos) -- ++(60:0.2*\dx) node[midway,xshift=-0.5ex,yshift=0.5ex,font=\nodefontsize] {\horizonsymbol};
+  % x2
+  \coordinate[yshift=-0.07*\dx] (x2pos) at ($(n1)!0.4!(n4)$);
+  \node[circle,draw=black,fill=gray!20,minimum size=0.4*\dx,inner sep=0pt] at (x2pos.center) {};
+  \node[circle,fill=black,minimum size=2pt,inner sep=0pt] (x2pt) at (x2pos.center) {};
+  \node[anchor=north,font=\nodefontsize] (x2label) at (x2pt.south) {$\positionsymbol_2$};
+  \draw[-latex] (x2pos) -- ++(60:0.2*\dx) node[midway,xshift=-0.5ex,yshift=0.5ex,font=\nodefontsize] {\horizonsymbol};
+  % x3
+  \coordinate[xshift=0.1*\dx] (x3pos) at ($(n3)!0.3!(n4)$);
+  \node[circle,draw=black,fill=gray!20,minimum size=0.4*\dx,inner sep=0pt] at (x3pos.center) {};
+  \node[circle,fill=black,minimum size=2pt,inner sep=0pt] (x3pt) at (x3pos.center) {};
+  \node[anchor=north,font=\nodefontsize] (x3label) at (x3pt.south) {$\positionsymbol_3$};
+  \draw[-latex] (x3pos) -- ++(60:0.2*\dx) node[midway,xshift=-0.5ex,yshift=0.5ex,font=\nodefontsize] {\horizonsymbol};
+  % Dashed
+  \draw[dashed] (n3) -- (n4);
+  \draw[dashed] (n4) -- (n1);
+  % Lables
+  \node[font=\nodefontsize] (surfacelabel) at ($(surfacept.center)+(-1ex,3ex)$) {Surface};
+  \coordinate (interfacelabelpt) at ($(n4)!0.5!(n6)$);
+  \node[font=\nodefontsize] (interfacelabel) at ( interfacelabelpt |- surfacelabel) {Interface};
+  \draw[-latex] (surfacelabel) -- (surfacept.center);
+  \draw[-latex] (interfacelabel) -- (interfacept.center);
+\end{tikzpicture}

@@ -43,17 +43,23 @@ Name            & Type          & Required      & Default               & Descri
 Compute Class   & string        & \checkmark    &                       & ``Node\_Set\_Data''   \\
 Calculation Type& string        & \checkmark    & -                     & ``Minimum'' | ``Maximum'' | ``Sum''   \\
 Node Set        & string        & \checkmark    & -                     & Node set name         \\
-Variable        & string        & \checkmark\textsuperscript{1,3}& -    & Output variable       \\
-Output Label    & string        & \checkmark\textsuperscript{2} & -     & Output label for output section       \\
+Variable        & string        & \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:ComputeClassParameters:Nodeset:Remark:One},\ref{enm:Peridigm:QRG:ComputeClassParameters:Nodeset:Remark:Three}}& -    & Output variable       \\
+Output Label    & string        & \checkmark\textsuperscript{\ref{enm:Peridigm:QRG:ComputeClassParameters:Nodeset:Remark:Two}} & -     & Output label for output section       \\
 \bottomrule
 \end{tabularx}
 
 \levelstay{Remarks}
 
 \begin{enumerate}[noitemsep]
-  \item The output value identifier are defined in \texttt{src/io/mesh\_output/Field.h}. Possible values are defined in \autoref{sec:Peridigm:QRG:Output:Variables}.
-  \item For the output to have any effect, the output label must be defined in the ``Output'' section of the input deck.
-  \item \input{Sections/Use_Peridigm_Output_User_All_Remark_GlobalOutputVariable}
+  \item \label{enm:Peridigm:QRG:ComputeClassParameters:Nodeset:Remark:One} The output value identifier are defined in \texttt{src/io/mesh\_output/Field.h}. Possible values are defined in \autoref{sec:Peridigm:QRG:Output:Variables}.
+  \item \label{enm:Peridigm:QRG:ComputeClassParameters:Nodeset:Remark:Two} For the output to have any effect, the output label must be defined in the ``Output'' section of the input deck.
+  \item \label{enm:Peridigm:QRG:ComputeClassParameters:Nodeset:Remark:Three} \input{Sections/Use_Peridigm_Output_User_All_Remark_GlobalOutputVariable}
+  \item \label{enm:Peridigm:QRG:ComputeClassParameters:Nodeset:Remark:Four} There seems to be a bug in the text file reader in case nodesets\myindex[\idxPDKeywordName]{\idxPDKwNodeSet} are defined by additional text files for the text file discretization from \ref{sec:Peridigm:Basics:InputFileFormat:Discretization:Textfile}\myindex[\idxPDKeywordName]{\idxPDKwTextFile}. There are two possible workarounds:
+  \begin{enumerate}
+    \item Use the python script \textit{\href{https://github.com/peridigm/peridigm/blob/master/scripts/text_to_genesis.py}{text\_to\_genesis.py}} to convert your text file into a genesis file. This script is in the \href{https://github.com/peridigm/peridigm/tree/master/scripts}{scripts directory of the Peridigm repo}, you probably will have to edit the \textit{PATH} at the top of the python file to point to your Trilinos lib directory so it can load \textit{exodus.py}.
+    \item If possible, create an individual block for the domain of the nodeset and use the compute class parameter option for blocks from \ref{sec:Peridigm:QRG:ComputeClassParameters:Block}\myindex[\idxPDKeywordName]{\idxPDKwComputeClassParameters!\idxPDKwBlocks}
+  \end{enumerate}
+
 \end{enumerate}
 
 \levelup{Exemplary input section}

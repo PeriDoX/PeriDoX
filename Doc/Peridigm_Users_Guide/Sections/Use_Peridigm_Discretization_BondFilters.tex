@@ -140,7 +140,27 @@ from \verb+/test/regression/PrecrackedPlate/PrecrackedPlate.xml+:
 
 \levelstay{Free format}
 
--
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+Discretization
+  ...
+  Bond Filters
+    bond_filter-1
+      Type "Rectangular_Plane"
+      Normal_X 0.0
+      Normal_Y -1.0
+      Normal_Z 0.0
+      Lower_Left_Corner_X -0.1
+      Lower_Left_Corner_Y 0.0
+      Lower_Left_Corner_Z -0.1
+      Bottom_Unit_Vector_X 0.0
+      Bottom_Unit_Vector_Y 0.0
+      Bottom_Unit_Vector_Z 1.0
+      Bottom_Length 0.2
+      Side_Length 10.1
+\end{code}
+\endgroup
 
 \levelstay{YAML format}
 

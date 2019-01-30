@@ -1,0 +1,198 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Compilation:
+%
+% - with pdfLaTeX:
+%   pdflatex -> biber -> makeindex/create_glossaries.cmd -> pdflatex -> pdflatex
+% - For compilation add switch -shell-escape in your LaTeX editor:
+%   pdflatex --shell-escape -synctex=1 -interaction=nonstopmode %source --extra-mem-top=60000000
+% - Compile at least 3 times for proper output
+%
+% In case of problems:
+%
+% - Increase Tex-Memory in batch with:
+%   initexmf --edit-config-file pdflatex
+%   add: main_memory=8000000
+%   initexmf --dump=pdflatex
+%
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---------------------------
+% Paths
+% ---------------------------
+
+\newcommand{\peridoccommonpath}{../PeriDoX_Common}
+\newcommand{\peridocliteraturepath}{../../Literature}
+
+% ---------------------------
+% Documentclass
+% ---------------------------
+
+% \RequirePackage{bootstrap}
+\documentclass[%
+  figures=plain,%
+  listof=totoc,%                                % List of figures, tables in TOC
+  bibliography=totoc,%                          % Bibliography in TOC
+  fleqn,%                                       % left-align equations
+]{bootstrap_dlrreprt}                           % Bootstrap of dlrreprt without Frutiger font
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Preamble                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{Sections/Preamble_local}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title and author                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Document-class independent infos
+\subject     {\toolname}
+\title       {\toolname{} Installation Guide}
+\subtitle    {For \toolname{} versions $\ge$ 1.4.1}
+\author      {Martin R\"adel}
+\date        {\today}
+
+% Document-class dependent infos for titlepage
+\telnumber   {2048}
+\faxnumber   {2232}
+\email       {martin.raedel@dlr.de}
+\reportno    {DLR-IB-FA-BS-2019-33}
+\coauthor    {Christian Willberg}
+
+% Location
+\dlrinstitute{FA-STM}
+\dlrsite     {BS}
+
+% Versions
+\addversion  {0.0.1}{04.02.2016}{Initial draft}{raed\_ma}
+\addversion  {0.0.2}{11.02.2016}{Updated draft with extended MPI support}{raed\_ma}
+\addversion  {0.0.3}{12.02.2016}{Resolved encoding issues, added FAQ}{raed\_ma}
+\addversion  {0.0.4}{14.04.2016}{Added virtual machine chapter}{raed\_ma}
+\addversion  {0.0.5}{21.04.2016}{Added FETranslator chapter}{raed\_ma}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Compilation                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Begin document
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Frontmatter                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagenumbering{roman}                          % Not in Frontmatter.tex for reusability between report and book-classes
+% \settitle{type=areas}
+\input{\peridoccommonpath/Sections/Frontmatter}
+% \input{\peridoccommonpath/Sections/Frontmatter_Glossaries}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The Package                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage                                       % Required for page number
+\pagenumbering{arabic}                         % Not in Frontmatter.tex for reusability between report and book-classes
+
+\chapter{About \texorpdfstring{\protect\marktool{\toolnameshort}}{\toolnameshort{}}}
+\setcounter{currentlevel}{6}
+\input{Sections/About}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Package Installation             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Linux in a virtual machine}
+\setcounter{currentlevel}{6}
+\input{Sections/Install_VirtualBox}
+
+\chapter{\texorpdfstring{\protect\marktool{\toolnameshort}}{\toolnameshort{}} Linux installation}
+\label{sec:Peridigm_Linux_Installation}
+\setcounter{currentlevel}{6}
+\input{Sections/Install_Tested_Combinations}
+
+\newpage
+\section{Basics}
+\setcounter{currentlevel}{5}
+
+The following section describes the installation of the required basic packages for the \marktool[\tooladdress]{\toolnameshort} libraries. The subsections are in the order required for a proper installation.
+
+\input{Sections/Install_Preliminary_Remarks}
+\input{Sections/Install_Root_bashrc}
+\input{Sections/Install_Compiler}
+\input{Sections/Install_CMake}
+\input{Sections/Install_MPI}
+\input{Sections/Install_Python}
+
+\newpage
+\section{System libraries}	\label{sec:System_libraries}
+\setcounter{currentlevel}{5}
+\input{Sections/Install_System_Libraries}
+
+\newpage
+\section{Libraries}
+\setcounter{currentlevel}{5}
+\input{Sections/Install_Boost}
+\input{Sections/Install_HDF}
+\input{Sections/Install_NetCDF}
+\input{Sections/Install_Trilinos}
+
+\newpage
+\section{\texorpdfstring{\protect\marktool{\toolnameshort}}{\toolnameshort{}}}
+\setcounter{currentlevel}{5}
+\input{Sections/Install_Peridigm}
+
+% \newpage
+% \section{\protect\marktool{\paraviewname}}
+% \setcounter{currentlevel}{5}
+% \input{Sections/Install_Paraview}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Package Usage                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Running \texorpdfstring{\protect\marktool{\toolnameshort}}{\toolnameshort{}}}
+\setcounter{currentlevel}{6}
+\input{Sections/Use_Peridigm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Package Usage                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Install \texorpdfstring{\protect\marktool{\paraviewname}}{\paraviewname{}}}
+\setcounter{currentlevel}{6}
+\input{Sections/Install_Paraview}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Package Usage                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Install everything for \texorpdfstring{\protect\marktool{\fetranslatorname}}{\fetranslatorname{}}}
+\setcounter{currentlevel}{6}
+\input{Sections/Install_for_FETranslator}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\printbibliography
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Appendix                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{Sections/Appendix}
+
+\end{document}

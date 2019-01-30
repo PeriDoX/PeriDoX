@@ -1,0 +1,115 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{\marktool{\openmpiname}}
+
+\marktool{\openmpiname} is an open source Message Passing Interface implementation that is developed and maintained by a consortium of academic, research, and industry partners. The current version and further information can be found at
+
+\href{https://www.open-mpi.org}{https://www.open-mpi.org}
+
+\paragraph{Installation with \marktool{\yastname}}
+
+To install \marktool{\openmpiname} with the package manager perform the following steps:
+
+\begin{enumerate}[itemsep=-1.5ex]
+ \item Open \marktool{\yastname}
+ \item Click on \textit{Install software}
+ \item Go to the \textit{Search} tab
+ \item Search for \openmpiname
+ \item Check \openmpiname
+ \item Click on apply
+\end{enumerate}
+
+\paragraph{Installation with \marktool{\opensusename}-repository}
+
+The \marktool{\openmpiname}-repository is part of the openSUSE distribution. Therefore, it can be directly installed from the system repositories.
+
+To use \marktool{\zyppername} open a terminal as root. Use the following commands to install  \marktool{\openmpiname} from the repositories. Answer the questions if installation shall continue with yes.
+
+\begin{code}
+zypper install openmpi
+\end{code}
+
+\paragraph{Installation from source}
+
+The Gzipped tarball source files can be obtained from
+
+\href{https://www.open-mpi.org/software/ompi/}{https://www.open-mpi.org/software/ompi/}
+
+In the subfolder choose the version of your liking. Change directory to the designated download folder, e.g. \verb+/usr/local/src/+ and perform the following steps:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+cd $DOWNLOAD_DIR
+wget https://www.open-mpi.org/software/ompi/v1.10/downloads/openmpi-1.10.2.tar.gz	
+tar xvfz openmpi-1.10.2.tar.gz	%\lstcomment{\# unzip}%
+cd openmpi-1.10.2 %\lstcomment{\# go into directory}%
+./configure --prefix=/usr/local/lib/openmpi-1.10.2 > configure_openmpi.log 2>&1
+make > make_openmpi.log 2>&1 %\lstcomment{\# build}%
+make altinstall > make_install_openmpi.log 2>&1
+\end{code}
+% make altinstall > make_install_openmpi.log 2>&1 %\lstcomment{\# install}%
+\endgroup
+
+If no previous version of \marktool{\openmpiname} exists use \verb+make install+ instead of \verb+make altinstall+.
+
+\paragraph{Set the \texttt{PATH} variables}
+
+Unfortunately the \marktool{\openmpiname} installation does not work out of the box. You need to set the \verb+PATH+ and \verb+LD_LIBRARY_PATH+ variables and edit a configuration file first.
+
+The \verb+LD_LIBRARY_PATH+ must be set so that \marktool{mpi4py} can find the \marktool{\openmpiname} libraries.% To set the variable we must first find out where the \marktool{\openmpiname} libs can be found, to do so execute:
+% For 32 bit machines:
+%
+% \begin{code}
+% mpicxx -showme:link
+% -pthread -L/usr/lib/mpi/gcc/openmpi/lib -lmpi_cxx -lmpi
+% -lopen-rte -lopen-pal -ldl -Wl,--export-dynamic -lnsl -lutil -lm -ldl
+% \end{code}
+%
+% For 64 bit machines:
+%
+% \begin{code}
+% mpicxx -showme:link
+% -pthread -L/usr/lib64/mpi/gcc/openmpi/lib64 -lmpi_cxx -lmpi
+% -lopen-rte -lopen-pal -ldl -Wl,--export-dynamic -lnsl -lutil -lm -ldl
+% \end{code}
+% We need to set \verb+LD_LIBRARY_PATH+ variable to the path after the \verb+-L+ in the output (so in this example case \verb+/usr/lib/mpi/gcc/openmpi/lib+ or \verb+/usr/lib64/mpi/gcc/openmpi/lib64+).
+
+In bash do for 32-bit
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+export PATH=$PATH:/usr/local/lib/openmpi-1.10.2/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/openmpi-1.10.2/lib
+\end{code}
+\endgroup
+
+or 64-bit
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=scriptstyle,
+  linerange={40-41},
+  nolol,
+  ]{Scripts/modified_bashrc.txt}
+\endgroup
+
+We recommend you add this line to your \verb+.bashrc+ file in case you use \marktool{Bash} or call \verb+setenv+ and edit the \verb+.cshrc+ file if you use a C shell so that the variable is set correctly for all sessions. For the modification of user \verb+.bashrc+ file for all libraries, please consult section \ref{sec:Build-script_Bashrc}. 

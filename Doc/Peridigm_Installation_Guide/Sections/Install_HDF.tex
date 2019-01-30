@@ -1,0 +1,71 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelstay{\texorpdfstring{\protect\marktool{\hdfname}}{\hdfname{}}}
+
+\marktool{\hdfname} is a data model, library, and file format for storing and managing data. It supports an unlimited variety of datatypes, and is designed for flexible and efficient I/O and for high volume and complex data. For further information visit
+
+\href{\hdfaddress}{\hdfaddress}
+
+\marktool[\hdfaddress]{\hdfname} version \textbf{1.8.9 or newer} is required by \marktool{\netcdfname} and the \marktool{SEACAS} \marktool{\trilinosname} package. \marktool[\hdfaddress]{\hdfname} should be configured with the \verb+--enable-parallel option+.
+
+\paragraph{Installation with \texorpdfstring{\protect\marktool{\opensusename}}{\opensusename}-repository}
+
+\marktool{\hdfname} is available in an \marktool{\opensusename}-repository and can be installed using \marktool{\zyppername}. However, it is recommended to use the manual install with the Gzipped tarball to make sure the correct options are set.
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+zypper addrepo http://download.opensuse.org/repositories/home:ocefpaf/openSUSE_Tumbleweed/home:ocefpaf.repo
+zypper refresh
+zypper install hdf5
+\end{code}
+\endgroup
+
+\paragraph{Installation from source} The \marktool{\hdfname} source code is available from
+
+\href{\hdfaddress}{\hdfaddress}
+
+Download the source code for your platform
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+cd $DOWNLOAD_DIR
+wget http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.16.tar.gz
+tar xvfz hdf5-1.8.16.tar.gz 	%\lstcomment{\# unzip}%
+cd hdf5-1.8.16			%\lstcomment{\# go into directory}%
+\end{code}
+\endgroup
+
+Afterwards, create the \marktool{\hdfname} build script as described in section \ref{sec:Build-script_HDF}. In order to use the script make it executable as described in section \ref{sec:Build-script_Executable}. Open a terminal as root, change directory to the created install script and execute it with
+
+\begin{code}
+./install_hdf.sh > install.log 2>&1
+\end{code}
+
+Afterwards, the \marktool{\hdfname}-directory has to be added to the \verb+PATH+ and \verb+LD_LIBRARY_PATH+ environment variable
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=scriptstyle,
+  linerange={47-48},
+  nolol,
+  ]{Scripts/modified_bashrc.txt}
+\endgroup 

@@ -1,0 +1,77 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The installation is described for \marktool{\opensusename} for version 42.1.
+
+\leveldown{\texorpdfstring{\protect\marktool{NEdit}}{NEdit}}
+
+\marktool{NEdit}, the Nirvana editor, is a text editor and source code editor for the X Window System. For the installation of the editor \marktool{NEdit} visit:
+
+\href{http://software.opensuse.org/download.html?project=editors\&package=nedit}{http://software.opensuse.org/download.html?project=editors\&package=nedit}
+
+You can either choose the 1-Click-installation or add the repository and install manually. For the latter login to a terminal as \verb+root+ and type
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+zypper addrepo http://download.opensuse.org/repositories/editors/openSUSE_Leap_42.1/editors.repo
+zypper refresh
+zypper install nedit
+\end{code}
+\endgroup
+
+% \levelstay{Script to clean tex directory}
+% 
+% \leveldown{Windows}
+% 
+% \begingroup
+% \lstset{breaklines = true}
+% \lstinputlisting[style=scriptstyle, language=command.com, extendedchars=true,]{clean_tex_directory.cmd}
+% \endgroup
+
+% \ifpdf
+% Alternatively, you can \textattachfile[author=raed_ma, color=0 0 1]{clean_tex_directory.cmd}{download} the script from within this document.
+% \fi
+
+\levelstay{RM-\LaTeX}	\label{sec:RM_LaTeX}
+
+Download the package via the intranet (from within the DLR network or via a VPN connection):
+
+\href{teamsites.dlr.de/rm/latex/SitePages/Homepage.aspx}{teamsites.dlr.de/rm/latex/SitePages/Homepage.aspx}
+
+Follow the instructions given in \verb+/doc/RM-LaTeX-Guide/RM-LaTeX-Guide.pdf+.
+
+\leveldown{Linux}
+
+Before using \verb+mktexlsr+ set
+
+\begin{code}
+chmod +t texmf/
+\end{code}
+
+and
+
+\begin{code}
+chmod go+w texmf/
+\end{code}
+
+Due to some problems in the RM-\LaTeX{} package meaningful use is only possible under Windows. If using with Linux do not use everything related to the package \verb+dlrsecondpage+.
+
+\levelstay{Windows}
+
+There should be no additional steps necessary.

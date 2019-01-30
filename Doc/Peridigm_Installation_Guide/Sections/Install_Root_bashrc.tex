@@ -1,0 +1,33 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{Root .bashrc file}
+
+You usually login as a normal user to \marktool{\opensusename} but changes to the system are performed as root user.
+
+During this installation guide modifications of the .bashrc, a hidden file in the user home directory are requested. For the installation process as root user it is necessary that these modifications also take effect for the root user.
+
+To achieve this a symbolic link is created in the root home directory to the modified .bashrc in the ordinary user directory. To achieve this open a console and perform the following steps
+
+\begin{code}
+su %\lstcomment{\# Switch to root user}%
+cd %\lstcomment{\# Change to root home}%
+ln -sf /home/$USERNAME/.bashrc . %\lstcomment{\# Create symbolic link}%
+\end{code}
+
+This way, the root .bashrc file is always an identical copy of the one of the user with the name \verb+$USERNAME+ here.

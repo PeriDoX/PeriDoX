@@ -1,0 +1,66 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelstay{Fortran \& C \& \texorpdfstring{\protect\Cpp{}}{\Cpp{}}-compiler}
+
+\marktool[\tooladdress]{\toolnameshort} as well as \marktool{\pythonname} python require an acceptable C or \Cpp-compiler. \marktool{\trilinosname} additionally needs a Fortran-compiler. Here, the free \marktool[\gccaddress]{GNU Compiler Collection} versions, short \marktool{\gccname} are used. The current release and further informations can be found on
+
+\href{\gccaddress}{\gccaddress}
+
+Currently, there are two main versions available, \marktool{\gccname}, which is basically \marktool{\gccname} version 4.8, as well as \marktool{\gccname5}. The installation of the used \marktool{\pythonname} currently seems not to work with \marktool{\gccname5}. Additionally, \marktool{\trilinosname} needs a compiler that is \verb|C++11| compliant and thus needs \marktool{\gccname} version \textbf{4.7.2 or later}. Therefore \marktool{\gccname} version 4.8 is used. If using Intel compilers, version 13 or later is required by \marktool{\trilinosname}.
+
+Normally, the \marktool[\gccaddress]{\gccname} repository is already part of an \marktool[\opensuseaddress]{\opensusename} distribution. To check the availability of the \marktool[\gccaddress]{\gccname}-repository in your \marktool[\opensuseaddress]{\opensusename} distribution open a terminal as root and use the following command to get a list of all repositories.
+
+\begin{code}
+zypper repos
+\end{code}
+
+\paragraph{Installation with \marktool{\yastname}}
+
+To install the Fortran-, C- and \Cpp-compilers of \marktool[\gccaddress]{\gccname} with the package manager perform the following steps:
+
+\begin{enumerate}[itemsep=-1.5ex]
+ \item Open \marktool{\yastname}
+ \item Click on \textit{Install software}
+ \item Go to the \textit{Search} tab
+ \item Search for \gccname
+ \item Check \marktool{gcc-fortran}, \marktool{gcc} and \marktool{gcc-c++}
+ \item Click on apply
+\end{enumerate}
+
+\paragraph{Installation from source}
+
+ToDo
+
+\paragraph{Installation with \marktool{\opensusename}-repository}
+
+To use \marktool{\zyppername} open a terminal as root. Use the following commands to install Fortran-, C- and \Cpp-compilers of \marktool[\gccaddress]{\gccname} from the repositories. Answer the questions if installation shall continue with yes.
+
+\begin{code}
+zypper install gcc-fortran
+zypper install gcc
+zypper install gcc-c++
+\end{code}
+
+The installation usually is performed to \verb+/usr/bin/+. If another installation directory is used, it has to be made sure, that this directory is part of the \verb+$PATH+-variable. To check if this is the case, open a terminal type
+
+\begin{code}
+echo $PATH
+\end{code}
+
+The installation directory has to be an entry of the printed string.

@@ -1,0 +1,81 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelstay{\texorpdfstring{\protect\marktool{\trilinosname{}}}{\trilinosname{}}}
+
+The Trilinos Project is an effort to develop algorithms and enabling technologies within an object-oriented software framework for the solution of large-scale, complex multi-physics engineering and scientific problems. A unique design feature of Trilinos is its focus on packages. For more information visit
+
+\href{\trilinosaddress}{\trilinosaddress}
+
+A number of \marktool{\trilinosname} packages are required by \marktool{\toolname}. The \marktool{\trilinosname} source code distribution includes the full set of \marktool{\trilinosname} packages, each of which may be activated or deactivated using \marktool{\cmakename} build options, as described below. It is recommended that Makefiles be created by running \verb+cmake+ from the command line, as opposed to using the \verb+ccmake+ GUI.
+
+The current release of \marktool[\trilinosaddress]{\trilinosname} can be obtained from the download section of the \marktool[\trilinosaddress]{\trilinosname} homepage. The download needs a short registration with a valid email-address. The download link is likely to be not reachable without the registration.
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+cd $DOWNLOAD_DIR
+wget http://trilinos.csbsju.edu/download/files/trilinos-12.4.2-Source.tar.gz
+tar xvfz trilinos-12.4.2-Source.tar.gz
+\end{code}
+\endgroup
+
+\marktool{\trilinosname} does not allow the use of the directory with the source-files for the further progress of the installation. Therefore, create a new folder
+
+\begin{code}
+mkdir trilinos-12.4.2
+\end{code}
+
+and copy the file from section \ref{sec:Build-script_Trilinos} to the new folder. Change the line for the \marktool{\openmpiname}- and the \marktool{\trilinosname}-source-directory (last line) if necessary.
+
+In order to use the script make it executable as described in section \ref{sec:Build-script_Executable}. Open a terminal as root, change directory to the created path and execute it with
+
+\begin{code}
+./cmake_trilinos.cmake > cmakeopts.log 2>&1
+\end{code}
+
+Once \marktool{\trilinosname} has been successfully configured, it can be compiled and installed as follows:
+
+\begin{code}
+make -j 4
+\end{code}
+
+If there occur any errors during the compilation of \marktool{\trilinosname} visit section \ref{sec:FAQ}. For comiling with \verb+make -j 4+ more than 8GB of RAM are necessary. If you do not know if there were any compilation errors have occured due to the long duration of the compilation process, repeat
+
+\begin{code}
+make
+\end{code}
+
+after the original compilation with \verb+make -j 4+. Only failed compilations are repeated. Afterwards perform
+
+\begin{code}
+make install
+\end{code}
+
+The final installation can be found in the folder specified in \verb+CMAKE_INSTALL_PREFIX:PATH+ in the script from section \ref{sec:Build-script_Trilinos}.
+
+Afterwards, \marktool{\trilinosname} has to be added to the \verb+PATH+ and \verb+LD_LIBRARY_PATH+ environment variables to later use the \marktool{\trilinosname} decomposition features for the model decomposition for calculation on multiple processors.
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=scriptstyle,
+  linerange={55-56},
+  nolol,
+  ]{Scripts/modified_bashrc.txt}
+\endgroup 

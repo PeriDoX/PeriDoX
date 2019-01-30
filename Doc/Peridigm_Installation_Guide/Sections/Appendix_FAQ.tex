@@ -1,0 +1,57 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \leveldown{FAQ}	\label{sec:FAQ}
+\label{sec:FAQ}
+
+\begin{description}[leftmargin=\parindent,labelindent=\parindent,style=nextline]
+\item[The error \texttt{g++ internal compiler error killed (program cc1plus)} occures while compiling with \texttt{make -j N}. What is that? ] \mbox{}\\[-2.5\baselineskip]
+  \begin{itemize}[noitemsep]
+  \item The problem is probably caused by insufficient memory.
+  \item Try typing \verb+free -m+ in a terminal while compiling to see the amount of free RAM
+  \item Running \verb+make -j 4+ runs lots of process which use more memory. The problem above occurs when your system runs out of memory. In this case rather than the whole system falling over, the operating systems runs a process to score each process on the system. The one that scores the highest gets killed by the operating system to free up memory. If the process that is killed is cc1plus, gcc (perhaps incorrectly) interprets this as the process crashing and hence assumes that it must be a compiler bug. But it isn't really, the problem is the OS killed cc1plus, rather than it crashed.
+  \item If this is the case, you are running out of memory. So run perhaps \verb+make -j 2+ instead. This will mean fewer parallel jobs and will mean the compilation will take longer but hopefully will not exhaust your system memory.
+  \end{itemize}
+%
+\item[When I call \texttt{make test} after the \marktool{\toolname} installation all multi-processor-tests fail. What is the problem? ]\mbox{}\\[-2.5\baselineskip]
+  \begin{itemize}[noitemsep]
+  \item Make sure you do not execute \verb+make test+ as root user. It is not allowed to call \verb+mpirun+ as root. If you call \verb+mpirun+ as root, the job is cancelled automatically.
+  \item In order to run the tests as a normal user make sure you set the permissions of the \marktool{\toolname} installation folder to allow execution for group and others
+  \end{itemize}
+%
+\item[Everything works fine, all \marktool{\toolname} tests are passed, but when I call \marktool{decomp} I get a \texttt{***HDF5 library version mismatched error***} error. Why? ]\mbox{}\\[-2.5\baselineskip]
+  \begin{itemize}[noitemsep]
+  \item It seems \marktool{decomp} finds another version of the \marktool{\hdfname} library \verb+libhdf5.so+ than the one you use to compile \marktool{\trilinosname} with.
+  \item This can be caused by installation of other tools via the \marktool{\yastname} software management which puts libraries in \verb+/usr/lib+ or \verb+/usr/lib64+. These are found in the current \verb+LD_LIBRARY_PATH+ before the \marktool{\hdfname} version installed in this guide.
+  \item Tools which bring their own version of \marktool{\hdfname} are for example:\\
+  \begin{tabular}{lc}
+    Tool/Package		& \marktool{\hdfname} version	\\
+    octave-forge-netcdf	& 1.8.15
+  \end{tabular}
+  \item If these packages are installed and you do not use them, uninstall them and the \marktool{\hdfname} libraries as described in \autoref{sec:System_Libraries_not_to_be_installed_yet}. You do not have to recompile anything. Just try using \marktool{decomp} afterwards.
+  \item In case you really really need the tool with the other \marktool{\hdfname} there seems to be nothing left to to but to compile \marktool{\trilinosname} using this version of \marktool{\hdfname}.
+  \end{itemize}
+%
+\item[I get errors when using the provided \cmakename{}-files, like \texttt{[...] command not found}. What can I do? ]\mbox{}\\[-2.5\baselineskip]
+  \begin{itemize}[noitemsep]
+  \item This problem may arise if you import the appended scripts under Windows.
+  \item The end-of-line character might be changed to \texttt{CR-LF} instead of \texttt{LF}
+  \item To check this problem, open \marktool{Notepad++} and go to \textit{Edit} $\rightarrow$ \textit{EOL Conversion} $\rightarrow$ \textit{Convert to Unix Format (LF)}
+  \item Save and try using the script again
+  \end{itemize}
+\end{description}

@@ -1,0 +1,83 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{Preliminary remarks}
+
+\leveldown{Installation shell}
+
+The following description is valid for an installation using the \verb+bash+ as shell. If you use any other shell, e.g. \verb+ksh+, \verb+csh+ or their decendants you have to modify the environment variable parts of this guide or simply type \verb+bash+ and Enter in your \verb+tcsh+ to switch shells.
+
+\levelstay{Download directories}
+
+During the course of this installation guide it will be necessary to download several source code packages. In the instructions the key \colorbox{verbgray}{\lstinline[style=inlinetexstyle]+$DOWNLOAD_DIR+} is the identifier for the download directory. The scripts in the appendix of this documents assume that
+
+\begin{code}
+$DOWNLOAD_DIR=/usr/local/src/
+\end{code}
+
+You are free to choose any other folder as the download directory. If you do so, you have to modify the source code path in the scripts in the appendix accordingly.
+
+\levelstay{\texttt{PATH} variable for user defined installation directories}
+
+It is assumed that the current installations are performed for all users of the device. Thus, the global installation directory \verb+/usr/bin/+ is used.
+
+However, the installation directory for each tool can be changed, e.g. with
+
+\begin{code}
+./configure --prefix="/home/$USER/TOOL"
+\end{code}
+
+If this is done, the path to the executables have to exported to the \verb+PATH+ variables.
+
+\begin{code}
+export PATH="$PATH:/home/$USER/TOOL/bin"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/home/$USER/TOOL/lib/"
+\end{code}
+
+This has to performed for each individual installation directory.
+
+\textcolor{red}{NEVER EVER FORGET THE \texttt{\$PATH:} AND \texttt{\$LD\_LIBRARY\_PATH:} IN THE BEGINNING OR A NEW EMPTY PATH VARIABLE WILL BE CREATED AND ADDED TO. YOU WILL NOT BE ABLE TO USE ANYTHING USEFUL ON YOUR DEVICE BECAUSE ALL ALIASES WILL BE DELETED.}
+
+\levelstay{Installation user}
+
+All installations are performed as \verb+root+ user. To make sure that the end user is allowed to use the installed programs make sure that they have the necessary permissions. The default installation directory for installations with a package manager or \marktool{\zyppername} is \verb+/usr/bin+. You can check if the permissions are correct by opening a terminal, navigation to \verb+/usr/bin+ and the command
+
+\begin{code}
+ls -l | grep PARTOFTOOLABBREVIATION
+\end{code}
+
+For \verb+ls -l | grep gcc+ the result might look something like this:
+
+\begingroup
+\lstset{keepspaces=true}
+\begin{code}
+lrwxrwxrwx 1 root root      7  5. Feb 14:07 cc -> gcc-4.8
+lrwxrwxrwx 1 root root      7  5. Feb 14:07 gcc -> gcc-4.8
+-rwxr-xr-x 1 root root 755680 29. Okt 18:02 gcc-4.8
+lrwxrwxrwx 1 root root     10  5. Feb 14:07 gcc-ar -> gcc-ar-4.8
+-rwxr-xr-x 1 root root  27136 29. Okt 18:02 gcc-ar-4.8
+lrwxrwxrwx 1 root root     10  5. Feb 14:07 gcc-nm -> gcc-nm-4.8
+-rwxr-xr-x 1 root root  27136 29. Okt 18:02 gcc-nm-4.8
+lrwxrwxrwx 1 root root     14  5. Feb 14:07 gcc-ranlib -> gcc-ranlib-4.8
+-rwxr-xr-x 1 root root  27144 29. Okt 18:02 gcc-ranlib-4.8
+\end{code}
+\endgroup
+
+In the first column the current rights are specified. The first symbol shows if the current entry is a link or not. The nine symbol afterwards are the three individual rights for user, group and other. The three individual rights are r-read, w-write and x-execute.
+
+If the permissions are not set correctly, consult the documentation of \marktool{chmod}. 

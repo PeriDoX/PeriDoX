@@ -1,0 +1,52 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\marktool{\paraviewname} is an open source multiple-platform application for interactive, scientific visualization. The current release and further informations can be found on
+
+\href{\paraviewaddress}{\paraviewaddress}
+
+\marktool{\paraviewname} was developed to analyze extremely large datasets using distributed memory computing resources.
+
+\leveldown{Linux installation}
+
+\paragraph{Use 1-click install}
+
+Go to
+
+\href{https://software.opensuse.org/download/package?project=science\&package=paraview}{https://software.opensuse.org/download/package?project=science\&package=paraview}
+
+and choose 1-Click-Install or download the rpm-file from the source.
+
+\paragraph{Installation with \marktool{\opensusename}-repository} \marktool{\paraviewname} is part of the \marktool{\opensusename} Science Repository. The repository can be included into the package management.
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+zypper addrepo http://download.opensuse.org/repositories/science/openSUSE_Leap_42.1/science.repo
+zypper refresh
+zypper install paraview
+\end{code}
+\endgroup
+
+\paragraph{Installation from source} The source code of the current \marktool{\paraviewname} release is available from the download section of the \marktool{\paraviewname} homepage. For an installation using the source code and \marktool{\cmakename} please consult
+
+\href{http://www.paraview.org/Wiki/ParaView:Build\_And\_Install}{http://www.paraview.org/Wiki/ParaView:Build\_And\_Install}
+
+\levelstay{Windows installation}
+
+Go to the download section of the \marktool[\paraviewaddress]{\paraviewname} homepage and download the binary installers for your windows operating system architecture. Afterwards, simply run the executable installer and follow the instructions.

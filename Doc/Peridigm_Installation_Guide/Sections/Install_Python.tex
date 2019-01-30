@@ -1,0 +1,96 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelup{\texorpdfstring{\protect\marktool{\pythonname}}{\pythonname{}}}
+
+\paragraph{Use the operating system distribution}
+
+\marktool{\pythonname} is already part of an openSUSE standard installation since also system components require python. The installed version can be shown in the terminal by the command
+
+\begin{code}
+python -V
+\end{code}
+
+Packages are available for both \marktool{\pythonname} 2.7 as well as \marktool{\pythonname} 3.x. A parallel installation if \marktool{\pythonname} 2 and \marktool{\pythonname} 3 possible without problems or package conflicts.
+
+To update the python distribution to the newest available state in the OS repositories, open a terminal, login as \verb+root\verb+ and use the following command
+
+\begin{code}
+zypper update python
+\end{code}
+
+Additionally, \verb+python-devel+ is required, so
+
+\begin{code}
+zypper install python-devel
+\end{code}
+
+\paragraph{Perform a new installation}
+
+If no initial version of \marktool{\pythonname} is present in the operating system it is necessary to download the source and install the source. For the latest or required version of \marktool{\pythonname} visit
+
+\href{http://www.python.org/download/}{http://www.python.org/download/}
+
+For the installation, open a terminal and change directory to \verb+/home/USERNAME/bin+ for a single-user installation or \verb+/usr/local/bin+ for an installation for all users
+
+\begin{code}
+cd $DOWNLOAD_DIR
+wget https://www.python.org/ftp/python/2.7.11/Python-2.7.11.tgz	%\lstcomment{\# Download}%
+tar xvfz Python-2.7.11.tgz 	%\lstcomment{\# unzip}%
+cd Python-2.7.11		%\lstcomment{\# go into directory}%
+./configure
+make				%\lstcomment{\# build}%
+make altinstall			%\lstcomment{\# install}%
+\end{code}
+
+Afterwards, you are free to delete the downloaded Gzipped source tarball, here
+
+\begin{code}
+cd $DOWNLOAD_DIR
+rm Python-2.7.11.tgz 		%\lstcomment{\# delete}%
+\end{code}
+
+% \paragraph{Update symbolic links}
+% 
+% In case a newer \marktool{\pythonname} version is installed locally, the \verb+alias+ or symbolic links to the binary files have to be updated. The default binaries are located in \verb+/usr/bin/+. To list all current python binaries and links open a terminal, change directory to \verb+/usr/bin/+ and type
+% 
+% \begin{code}
+% ls -l | grep python
+% \end{code}
+% 
+% The result should look something like the following:
+% 
+% \begingroup
+% \lstset{keepspaces=true}
+% \begin{code}
+% lrwxrwxrwx 1 root root           9  2. Dez 12:58 python -> python2.7
+% lrwxrwxrwx 1 root root           9  2. Dez 12:58 python2 -> python2.7
+% -rwxr-xr-x 1 root root        6296 25. Okt 09:59 python2.7
+% lrwxrwxrwx 1 root root           9  2. Dez 12:58 python3 -> python3.4
+% -rwxr-xr-x 2 root root       10448 25. Okt 09:59 python3.4
+% -rwxr-xr-x 2 root root       10448 25. Okt 09:59 python3.4m
+% \end{code}
+% \endgroup
+% 
+% Depending on the version of the new installation the path to the binaries can be updated using symbolic links to the user installation directory. Assuming the current directory is \verb+/usr/bin/+ and the new \marktool{\pythonname} installation directory is \verb+/usr/local/bin+ the links can be created with the help of \verb+ln -sf+:
+% 
+% \begin{code}
+% ln -sf python /usr/local/bin/python2.7
+% ln -sf python2 /usr/local/bin/python2.7
+% ln -sf python2.7 /usr/local/bin/python2.7
+% \end{code}

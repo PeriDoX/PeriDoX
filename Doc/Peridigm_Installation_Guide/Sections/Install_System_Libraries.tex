@@ -1,0 +1,42 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{Necessary libraries}
+
+Install or update the following system libraries in advance of the \protect\marktool{\toolname} library installation.
+
+% apt-get install zlib1g-dev
+\begin{code}
+zypper install libbz2-devel
+zypper install zlib-devel
+
+zypper install m4
+
+zypper install blas
+zypper install lapack
+zypper install libX11-devel
+\end{code}
+
+\levelstay{Libraries that are not supposed to be installed yet}
+\label{sec:System_Libraries_not_to_be_installed_yet}
+
+Open \marktool{\yastname} and go to \textit{Software Management}. In the \textit{Search} field type \marktool{\hdfname} and look whether an older version than the \marktool{\hdfname} version you want to use is already installed on the system.
+
+This is the case if you have \textit{octave-forge-netcdf} installed on your system. If you do not really use this package you can uninstall it in  \marktool{\yastname} together with the installed \marktool{\hdfname} libraries.
+
+If you really need \textit{octave-forge-netcdf} which comes with \marktool{\hdfname}-1.8.15 and have it installed already you can skip the installation of \marktool{\hdfname} described here and change the rest of the installation to use version 1.8.15 of \marktool{\hdfname}.

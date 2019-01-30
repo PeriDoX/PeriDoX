@@ -1,0 +1,91 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelstay{\texorpdfstring{\protect\marktool{\cmakename}}{\cmakename{}}}
+
+\marktool{\cmakename} is cross-platform free and open-source software for managing the build process of software using a compiler-independent method. It is maintained by Kitware. The official homepage of is \marktool{\cmakename}
+
+\href{https://cmake.org/}{https://cmake.org/}
+
+\marktool{\trilinosname} release 12.4 and higher use a \marktool{\cmakename} build system, which requires \marktool{\cmakename} version \textbf{2.8.11 or newer}.
+
+\paragraph{Installation from source}
+
+In order to install \marktool{\cmakename} from the official or any other binary source open a terminal and login as root. Change directory to the designated download folder, e.g. \verb+/usr/local/src/+ and perform the following steps:
+
+\begin{code}
+cd $DOWNLOAD_DIR
+wget http://www.cmake.org/files/v3.4/cmake-3.4.3.tar.gz	%\lstcomment{\# Download}%
+tar xvfz cmake-3.4.3.tar.gz 	%\lstcomment{\# unzip}%
+cd cmake-3.4.3			%\lstcomment{\# go into directory}%
+./configure --prefix=/usr/local/bin/cmake-3.4.3 > configure_cmake.log 2>&1
+make > make_cmake.log 2>&1		%\lstcomment{\# build}%
+make install > make_install_cmake.log 2>&1 %\lstcomment{\# install}%
+\end{code}
+
+If you want to see the available configuration options, run the command below in the terminal.
+
+\begin{code}
+./configure --help
+\end{code}
+
+In order to configure the installation directory of \marktool{\cmakename} before installation, run the command below
+
+\begin{code}
+./configure --prefix=/opt/cmake
+\end{code}
+
+After installation without any errors you can verify the installation by running the command below:
+
+\begin{code}
+/usr/local/bin/cmake-3.4.3/bin/cmake -version
+\end{code}
+
+The output should look something like below (depending upon \marktool{\cmakename} version you are installing).
+
+\begin{code}
+cmake version 3.4.3
+\end{code}
+
+Afterwards, the \marktool{\cmakename}-directory has to be added to the \verb+PATH+ environment variable
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=scriptstyle,
+  linerange={37-37},
+  nolol,
+  ]{Scripts/modified_bashrc.txt}
+\endgroup
+
+\paragraph{Installation with \texorpdfstring{\protect\marktool{\opensusename}}{\opensusename{}}-repository}
+
+For the installation of the build process manager \marktool{\zyppername} visit:
+
+\href{http://software.opensuse.org/download.html?project=server\%3Airc\&package=cmake}{http://software.opensuse.org/download.html?project=server\%3Airc\&package=cmake}
+
+You can either choose the 1-Click-installation or add the repository and install manually. For the latter login to a terminal as \verb+root+ and type
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+zypper addrepo http://download.opensuse.org/repositories/server:irc/openSUSE_Leap_42.1/server:irc.repo
+zypper refresh
+zypper install cmake
+\end{code}
+\endgroup 

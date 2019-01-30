@@ -1,0 +1,99 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{\texorpdfstring{\protect\marktool{\boostname}}{\boostname{}}}
+
+\marktool{\boostname} provides free peer-reviewed portable C++ source libraries. \marktool{\boostname} libraries are intended to be widely useful, and usable across a broad spectrum of applications. For more informations and the current release visit
+
+\href{\boostaddress}{\boostaddress}
+
+\marktool{\toolname} requires \marktool{\boostname}, version \textbf{1.37 or later}, including the \marktool{regex} and \marktool{unit\_test} compiled libraries. \marktool{\boostname} installations on many systems include header files only.  This is not sufficient, the required libraries must be compiled and installed. To ensure proper execution of \marktool{\toolname} and its unit tests, add the \marktool{\boostname} directory \verb+$INSTALL_DIR/lib+ to your \verb+LD_LIBRARY_PATH+ (Linux) and/or \verb+DYLD_LIBRARY_PATH+ (Mac) environment variables.
+
+\paragraph{Use 1-click install}
+
+There is a \marktool{RPM Package Manager} file available on the \marktool{\opensusename} homepage. However, \marktool{\boostname} requires some additional libraries to be compiled specifically. Therefore, it is not tested if the following installation with the 1-click install option is sufficient for \marktool{\toolname}. It is recommended to use the installation using the source files from a Gzipped tarball as described in the next paragraph.
+
+Go to
+
+\href{https://software.opensuse.org/package/boost}{https://software.opensuse.org/package/boost}
+
+and choose 1-Click-Install or download the rpm-file from the source. Be cautious, the version offered is not necessarily up to date. Consult
+
+\href{\boostaddress}{\boostaddress}
+
+for the current release.
+
+\paragraph{Installation from source}
+
+The current release of \marktool{\boostname} is available from
+
+\href{\boostaddress}{\boostaddress}
+
+and sourceforge:
+
+\href{http://sourceforge.net/projects/boost/files/boost/}{http://sourceforge.net/projects/boost/files/boost/}
+
+Originally, I tried to install the then-current version 1.60. Unfortunately, this led to compilation errors in combination with the current version of the \marktool{\gccname}-compiler. After searching for a solution of the issue, version 1.55 is recommended.
+
+First, the additional libraries \verb+libbz2-devel+ and \verb+zlib1g-dev+ have to be installed in section \ref{sec:System_libraries} before we can install \marktool{\boostname}. Additional a new root shell must be opened to load the new environment variable additions for \marktool{\openmpiname}.
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+cd $DOWNLOAD_DIR
+wget http://sourceforge.net/projects/boost/files/boost/1.55.0/boost_1_55_0.tar.gz	
+tar xvfz boost_1_55_0.tar.gz 	%\lstcomment{\# unzip}%
+cd boost_1_55_0			%\lstcomment{\# go into directory}%
+\end{code}
+\endgroup
+
+Afterwards, create the \marktool{\boostname} build script as described in section \ref{sec:Build-script_Boost}. In order to use the script make it executable as described in section \ref{sec:Build-script_Executable}. Open a terminal as root, change directory to the created install script and execute it with
+
+\begin{code}
+./install_boost-1.55.0.sh > install_boost.log 2>&1
+\end{code}
+
+The printout of the installation is written to \verb+install.log+. It should be checked if all components of \marktool{\boostname} are compiled correctly.
+
+% For the current installation there remain two little glitches caused by the same file. Currently, there is no fix.
+%
+% \begingroup
+% \lstset{breaklines=true}
+% \begin{code}
+% ...failed gcc.compile.c++ bin.v2/libs/atomic/build/gcc-4.8/release/threading-multi/lockpool.o...
+% ...skipped <pbin.v2/libs/atomic/build/gcc-4.8/release/threading-multi>libboost_atomic.so.1.53.0 for lack of <pbin.v2/libs/atomic/build/gcc-4.8/release/threading-multi>lockpool.o...
+% ...skipped <p/usr/local/boost/lib>libboost_atomic.so.1.53.0 for lack of <pbin.v2/libs/atomic/build/gcc-4.8/release/threading-multi>libboost_atomic.so.1.53.0...
+%
+% ...failed gcc.compile.c++ bin.v2/libs/atomic/build/gcc-4.8/release/link-static/threading-multi/lockpool.o...
+% ...skipped <pbin.v2/libs/atomic/build/gcc-4.8/release/link-static/threading-multi>libboost_atomic.a(clean) for lack of <pbin.v2/libs/atomic/build/gcc-4.8/release/link-static/threading-multi>lockpool.o...
+% ...skipped <pbin.v2/libs/atomic/build/gcc-4.8/release/link-static/threading-multi>libboost_atomic.a for lack of <pbin.v2/libs/atomic/build/gcc-4.8/release/link-static/threading-multi>lockpool.o...
+% ...skipped <p/usr/local/boost/lib>libboost_atomic.a for lack of <pbin.v2/libs/atomic/build/gcc-4.8/release/link-static/threading-multi>libboost_atomic.a...
+% ...on 10600th target...
+% \end{code}
+% \endgroup
+
+Afterwards, the \marktool{\boostname}-directory has to be added to the \verb+LD_LIBRARY_PATH+ environment variable
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=scriptstyle,
+  linerange={44-44},
+  nolol,
+  ]{Scripts/modified_bashrc.txt}
+\endgroup 

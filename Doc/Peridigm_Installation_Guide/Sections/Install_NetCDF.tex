@@ -1,0 +1,77 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelstay{\texorpdfstring{\protect\marktool{\netcdfname{}}}{\netcdfname{}}}
+\label{sec:Install_netcdf}
+
+\marktool{\netcdfname} (Network Common Data Form) is a set of software libraries and machine-independent data formats that support the creation, access, and sharing of array-oriented scientific data. Distributions are provided for Java and C/C++/Fortran. For more information visit
+
+\href{\netcdfaddress}{\netcdfaddress}
+
+\marktool{\netcdfname} is required by the \marktool{\trilinosname} \marktool{SEACAS} package. \marktool{\netcdfname} should be configured with the \verb+--disable-netcdf-4+ and \verb+--disable-dap+ options.
+
+\paragraph{Installation from source} The \marktool{\netcdfname} source code is available from the \marktool[\netcdfaddress]{\netcdfname} homepage. Download the source code for your platform
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+cd $DOWNLOAD_DIR
+wget ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.4.0.tar.gz
+tar xvfz netcdf-4.4.0.tar.gz 	%\lstcomment{\# unzip}%
+cd netcdf-4.4.0			%\lstcomment{\# go into directory}%
+\end{code}
+\endgroup
+
+Prior to compiling \marktool{\netcdfname}, it is recommended that you modify the file \verb+netcdf.h+ in \\\verb+$DOWNLOAD_DIR/netcdf-4.4.0/include/+ to better support large-scale \marktool{\toolname} simulations. Modify the following \verb+#define+ statements in the \verb+netcdf.h+ file. Change the values to match what is given below.
+
+\begingroup
+\lstset{keepspaces=true}
+\begin{code}
+#define NC_MAX_DIMS      65536
+#define NC_MAX_ATTRS      8192
+#define NC_MAX_VARS     524288
+#define NC_MAX_NAME        256
+#define NC_MAX_VAR_DIMS      8
+\end{code}
+\endgroup
+
+Afterwards, create the \marktool{\netcdfname} build script as described in section \ref{sec:Build-script_NetCDF}. In order to use the script make it executable as described in section \ref{sec:Build-script_Executable}. Open a terminal as root, change directory to the created install script and execute it with
+
+\begin{code}
+./install_netcdf.sh > install.log 2>&1
+\end{code}
+
+Due to an apparent glitch in the \marktool{\netcdfname} installer, in some cases it may be necessary to manually copy the file \verb+$DOWNLOAD_DIR/netcdf-4.4.0/include/netcdf_par.h+ from the source distribution into the installation \verb+include+ subdirectory.
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+cp $DOWNLOAD_DIR/netcdf-4.4.0/include/netcdf_par.h /usr/local/bin/netcdf-4.4.0/include/
+\end{code}
+\endgroup
+
+Afterwards, the \marktool{\netcdfname}-directory has to be added to the \verb+PATH+ and \verb+LD_LIBRARY_PATH+ environment variable
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=scriptstyle,
+  linerange={51-52},
+  nolol,
+  ]{Scripts/modified_bashrc.txt}
+\endgroup 

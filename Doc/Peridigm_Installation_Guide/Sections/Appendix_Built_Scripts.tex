@@ -1,0 +1,227 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In the following sections, the build scripts for the libraries for \marktool{\toolname} are collected. These are Bash-scripts or \marktool{\cmakename}-files.
+
+The scripts are taken from \href{https://peridigm.sandia.gov/}{https://peridigm.sandia.gov/} and modified slightly if necessary.
+
+The files are provided with UTF-8 encoding. Please modify to your needs if necessary.
+
+\leveldown{\texorpdfstring{\protect\marktool{\boostname{}}}{\boostname{}}}
+\label{sec:Build-script_Boost}
+
+\leveldown{\texorpdfstring{\protect\marktool{\boostname{}}}{\boostname{}} 1.55.0}
+
+Open a text editor, copy the following code into a file and save as \verb+install_boost-1.55.0.sh+
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=scriptstyle,
+  caption=Install script for \protect\marktool{\boostname} 1.55.0,
+  label=lst:install_boost
+]{Scripts/install_boost-1.55.0.sh}
+\endgroup
+
+\ifpdf
+Alternatively, you can \textattachfile[author=raed_ma, color=0 0 1]{Scripts/install_boost-1.55.0.sh}{download} the script from within this document.
+\fi
+
+\levelstay{\texorpdfstring{\protect\marktool{\boostname{}}}{\boostname{}} 1.60.0}
+
+Open a text editor, copy the following code into a file and save as \verb+install_boost-1.60.0.sh+
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=scriptstyle,
+  caption=Install script for \protect\marktool{\boostname} 1.60.0,
+  label=lst:install_boost-1.60.0
+]{Scripts/install_boost-1.60.0.sh}
+\endgroup
+
+\ifpdf
+Alternatively, you can \textattachfile[author=raed_ma, color=0 0 1]{Scripts/install_boost-1.60.0.sh}{download} the script from within this document.
+\fi
+
+\levelup{\texorpdfstring{\protect\marktool{\hdfname{}}}{\hdfname{}}}
+\label{sec:Build-script_HDF}
+
+Open a text editor, copy the following code into a file and save as \verb+install_hdf.sh+
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=scriptstyle,
+  caption=Install script for \protect\marktool{\hdfname},
+  label=lst:install_hdf
+]{Scripts/install_hdf.sh}
+\endgroup
+
+\ifpdf
+Alternatively, you can \textattachfile[author=raed_ma, color=0 0 1]{Scripts/install_hdf.sh}{download} the script from within this document.
+\fi
+
+\levelstay{\texorpdfstring{\protect\marktool{\netcdfname{}}}{\netcdfname{}}}
+\label{sec:Build-script_NetCDF}
+
+Open a text editor, copy the following code into a file and save as \verb+install_netcdf.sh+
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=scriptstyle,
+  caption=Install script for \protect\marktool{\netcdfname},
+  label=lst:install_netcdf
+]{Scripts/install_netcdf.sh}
+\endgroup
+
+\ifpdf
+Alternatively, you can \textattachfile[author=raed_ma, color=0 0 1]{Scripts/install_netcdf.sh}{download} the script from within this document.
+\fi
+
+% Other proposal from \href{http://diehlpk.github.io/2015/06/22/builing-peridigm.html}{http://diehlpk.github.io/2015/06/22/builing-peridigm.html}
+% 
+% \begin{code}
+% # Set environment variables for MPI compilers
+% export CC=mpicc
+% export CXX=mpicxx
+% export FC=mpif90
+% export F77=mpif77
+% 
+% # 
+% H5DIR=/usr/local/hdf5/ \
+% export CPPFLAGS="-I${H5DIR}/include" \
+% export LDFLAGS=-L${H5DIR}/lib \
+% 
+% # Configure NetCDF \
+% CPPFLAGS="-I${H5DIR}/include" LDFLAGS=-L${H5DIR}/lib  ../configure --prefix=/usr/local/netcdf/  --disable-netcdf-4 --disable-dap --enable-parallel \
+% 
+% # Make, test, and install NetCDF
+% make -j 8
+% make check
+% make install
+% \end{code}
+
+\levelstay{\texorpdfstring{\protect\marktool{\trilinosname{}}}{\trilinosname{}}}
+\label{sec:Build-script_Trilinos}
+
+Open an editor, copy the following code into the file and save as \verb+cmake_trilinos.cmake+. The final line marks the path to the \marktool{\trilinosname} source directory, which is named \verb+$DOWNLOAD_DIR+ in the documentation.
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=scriptstyle,
+  caption=\protect\marktool{\cmakename} script for \protect\marktool{\trilinosname},
+  label=lst:cmake_trilinos
+]{Scripts/cmake_trilinos.cmake}
+\endgroup
+
+\ifpdf
+Alternatively, you can \textattachfile[author=raed_ma, color=0 0 1]{Scripts/cmake_trilinos.cmake}{download} the script from within this document.
+\fi
+
+\levelstay{\texorpdfstring{\protect\marktool{\toolname{}}}{\toolname{}}}
+\label{sec:Build-script_Peridigm}
+
+\leveldown{\texorpdfstring{\protect\marktool{\cmakename{}}}{\cmakename{}} script for \texorpdfstring{\protect\marktool{\toolnameshort{}}}{\toolnameshort{}}}
+\label{sec:Build-script_Peridigm:cmake}
+
+Open an editor, copy the following code into the file and save as \verb+cmake_peridigm.cmake+. The final line marks the path to the \marktool{\toolname} source directory, which is named \verb+$DOWNLOAD_DIR+ in the documentation.
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=scriptstyle,
+  caption=\protect\marktool{\cmakename} script for \protect\marktool{\toolnameshort},
+  label=lst:cmake_peridigm
+  ]{Scripts/cmake_peridigm.cmake}
+\endgroup
+
+\ifpdf
+Alternatively, you can \textattachfile[author=raed_ma, color=0 0 1]{Scripts/cmake_peridigm.cmake}{download} the script from within this document.
+\fi
+
+\levelstay{Script for cloning \texorpdfstring{\protect\marktool{\toolnameshort{}}}{\toolnameshort{}} from GitHub and compiling on the STM-Cluster}
+\label{sec:Build-script_Peridigm:Cluster}
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=scriptstyle,
+  caption=Script for cloning \protect\marktool{\toolnameshort} from GitHub and compiling on the STM-Cluster,
+  label=lst:shell_peridigm
+  ]{Scripts/install_peridigm_github.sh}
+\endgroup
+
+\ifpdf
+Alternatively, you can \textattachfile[author=raed_ma, color=0 0 1]{Scripts/install_peridigm_github.sh}{download} the script from within this document.
+\fi
+
+\levelup{Make a script executable}	\label{sec:Build-script_Executable}
+
+In order to use a script file in the shell for installation you must first make the text file executable. Therefore, open a terminal, change directory to the folder the individual script is located and make the script executable for the user with
+
+\begin{code}
+chmod u+x $SCRIPTNAME.sh
+\end{code}
+
+\levelstay{Modifications of \texttt{.bashrc}}	\label{sec:Build-script_Bashrc}
+
+When an interactive shell that is not a login shell is started, bash reads and executes commands from \verb+~/.bashrc+, if that file exists. You can find the \verb+.bashrc+ file in your user home directory \verb+/home/$USER/+ with \verb+ls -al+.
+
+The following listings shows a modified \verb+.bashrc+ file which includes the exportation of the significant libraries in the \verb+$PATH+ and \verb+$LD_LIBRARY_PATH+ environment variables. The header is not printed.
+
+\textbf{Be aware}:
+
+\begin{itemize}[noitemsep]
+ \item In case you use a 32bit operating system, or in some cases also for 64bit operating system, the lib64-folders must be changed to lib.
+ \item The entries to the \verb+$PATH+ and \verb+$LD_LIBRARY_PATH+ variables should be added step-by-step \textbf{after} the installation of the individual tool. Otherwise, the install scripts might find pre-compiled items and use these instead of creating new binaries with the current settings.
+\end{itemize}
+
+\leveldown{\texttt{.bashrc} for \texorpdfstring{\protect\marktool{\toolnameshort{}}}{\toolnameshort{}} 1.4.1}
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=scriptstyle,
+  firstline=28,
+  caption=Modified .bashrc-file to set environment variables for \marktool{\toolname} 1.4.1,
+  label=lst:bashrc_mod_1.4.1
+]{Scripts/modified_bashrc.txt}
+\endgroup
+
+\ifpdf
+You can \textattachfile[author=raed_ma, color=0 0 1]{Scripts/modified_bashrc.txt}{download} the file from within this document.
+\fi
+
+\levelstay{\texttt{.bashrc} for \texorpdfstring{\protect\marktool{\toolnameshort{}}}{\toolnameshort{}} 1.5}
+
+\begingroup
+\lstset{breaklines = true}
+\lstinputlisting[
+  style=scriptstyle,
+  firstline=28,
+  caption=Modified .bashrc-file to set environment variables for \marktool{\toolname} 1.5,
+  label=lst:bashrc_mod_1.5
+]{Scripts/modified_bashrc_Peridigm_1.5.txt}
+\endgroup
+
+\ifpdf
+You can \textattachfile[author=raed_ma, color=0 0 1]{Scripts/modified_bashrc_Peridigm_1.5.txt}{download} the file from within this document.
+\fi

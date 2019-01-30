@@ -1,0 +1,104 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\leveldown{Tested combinations}
+
+\leveldown{CPU-Architecture \& operating system}
+
+\leveldown{System 1 - STM-Laptop}
+
+\begingroup
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\linewidth}{@{}lllX}
+Hardware:	& CPU:	& Name:		& Intel Core i7 M620	\\
+		&	& Architecture:	& x86\_64		\\
+		&	& Cores:	& 4			\\
+		&	& Threads:	& 4			\\
+		&	& Clock rate:	& 2.67GHz		\\
+		& RAM:	& Amount:	& 8Gb			\\[0.5ex]
+Software:	& OS:	& Name:		& openSUSE		\\
+		&	& Version:	& 42.1			\\
+		&	& Type:		& 64bit
+\end{tabularx}
+\endgroup
+
+\levelstay{System 2 - Virtual machine}
+
+\begingroup
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\linewidth}{@{}llllX}
+Hardware:	& Host:	& CPU:	& Name:		& Intel Core i7-4600U	\\
+		&	&	& Architecture:	& x86\_64		\\
+		&	&	& Cores:	& 2			\\
+		&	&	& Threads:	& 4			\\
+		&	&	& Clock rate:	& 2.1GHz		\\
+		&	& RAM:	& Amount:	& 8Gb			\\[0.5ex]
+		& VM:	& CPU:	& Cores:	& 2			\\
+		&	& RAM:	& Amount:	& 6Gb			\\[0.5ex]
+Software:	& Host:	&	&		& VirtualBox 5.0	\\ 
+		& VM:	& OS:	& Name:		& openSUSE		\\
+		&	&	& Version:	& 42.1			\\
+		&	&	& Type:		& 64bit
+\end{tabularx}
+\endgroup
+
+\levelstay{System 3 - STM-Cluster}
+
+\begingroup
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\linewidth}{@{}lllX}
+Hardware:	& CPU:	& Name:		& Intel Xeon E5-2407	\\
+		&	& Architecture:	& x86\_64		\\
+		&	& Number:	& 8			\\
+		&	& Cores:	& 4			\\
+		&	& Threads:	& 4			\\
+		&	& Clock rate:	& 2.2GHz		\\
+		& RAM:	& Amount:	& 32Gb			\\[0.5ex]
+Software:	& OS:	& Name:		& SUSE Linux Enterprise Server	\\
+		&	& Version:	& 11			\\
+		&	& Patchlevel:	& 3			\\
+		&	& Type:		& 64bit
+\end{tabularx}
+\endgroup
+
+\levelup{Library and system combinations}
+
+\begingroup
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\linewidth}{cllYYYY}
+\toprule
+& \multicolumn{2}{l}{Setup}					& 1			& 2			& 3			& 4		\\
+\midrule
+& \multicolumn{2}{l}{System}					& STM-Laptop		& VirtualBox		& VirtualBox		& STM-Cluster	\\[2ex]
+\multirow{7}{*}{\rotatebox{90}{Basics}}
+& Compiler	& Fortran					& gcc-fortran 4.8.5	& gcc-fortran 4.8.5	& gcc-fortran 4.8.5	& gcc-fortran 4.8.5	\\
+&	 	& C						& gcc 4.8.5		& gcc 4.8.5		& gcc 4.8.5		& gcc 4.8.5	\\
+&	 	& \Cpp						& gcc-c++ 4.8.5		& gcc-c++ 4.8.5		& gcc-c++ 4.8.5		& gcc-c++ 4.8.5	\\
+& \multicolumn{2}{l}{\marktool[\cmakeaddress]{\cmakename}}	& 3.4.3			& 3.4.3			& 3.5.1			& 3.5.2		\\
+& \marktool{MPI}& \marktool[\openmpiaddress]{\openmpiname}	& 1.10.2		& 1.10.2		& 1.10.2		& 1.10.4	\\
+& 		& \marktool[\mpichaddress]{\mpichname}		& -			& -			& -			& -		\\
+& \multicolumn{2}{l}{\marktool[\pythonaddress]{\pythonname}}	& 2.7.11		& 2.7.9			& 2.7.9			& 2.6.9		\\[2ex]
+\multirow{4}{*}{\rotatebox{90}{Libraries}}
+& \multicolumn{2}{l}{\marktool[\boostaddress]{\boostname}}	& 1.55.0		& 1.55.0		& 1.60.0		& ?		\\
+& \multicolumn{2}{l}{\marktool[\hdfaddress]{\hdfname}}		& 1.8.16		& 1.8.16		& 1.10.0		& ?		\\
+& \multicolumn{2}{l}{\marktool[\netcdfaddress]{\netcdfname}}	& 4.4.0			& 4.4.0			& 4.4.0			& 4.4.1		\\
+& \multicolumn{2}{l}{\marktool[\trilinosaddress]{\trilinosname}}& 12.4.2		& 12.4.2		& 12.6.1		& ?		\\[2ex]
+& \multicolumn{2}{l}{\marktool[\tooladdress]{\toolname}}	& 1.4.1			& 1.4.1			& 1.5.0			& 1.4.1\\
+\bottomrule
+\end{tabularx}
+\endgroup

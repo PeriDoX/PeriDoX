@@ -1,0 +1,56 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\levelstay{\marktool{MPICH}}
+
+\marktool{MPICH} is a high performance and widely portable implementation of the Message Passing Interface (MPI) standard.
+
+\paragraph{Use the operating system distribution}
+
+ToDo
+
+\paragraph{Use 1-click install}
+
+Go to
+
+\href{https://software.opensuse.org/package/mpich}{https://software.opensuse.org/package/mpich}
+
+and choose 1-Click-Install or download the rpm-file from the source.
+
+\paragraph{Installation with \marktool{\opensusename}-repository}
+
+ToDo
+
+\paragraph{Installation from source}
+
+Try
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+cd $DOWNLOAD_DIR
+zypper si -d mpich2		%\lstcomment{\# install the build deps}%
+				%\lstcomment{\# for the previous version}%
+wget http://www.mpich.org/static/downloads/3.2/mpich-3.2.tar.gz	
+tar xvfz mpich-3.2.tar.gz 		%\lstcomment{\# unzip}%
+cd mpich-3.2			%\lstcomment{\# go into directory}%
+./configure > configure_mpich.log 2>&1
+make > make_mpich.log 2>&1 %\lstcomment{\# build}%
+make altinstall > make_install_mpich.log 2>&1 %\lstcomment{\# install}%
+\end{code}
+\endgroup 

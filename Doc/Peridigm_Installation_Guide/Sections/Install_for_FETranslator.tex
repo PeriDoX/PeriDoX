@@ -1,0 +1,197 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Revisions: 2017-04-10 Martin Rädel <martin.raedel@dlr.de>
+%                       Initial draft
+%               
+% Contact:   Martin Rädel,  martin.raedel@dlr.de
+%            DLR Composite Structures and Adaptive Systems
+%          
+%                                 __/|__
+%                                /_/_/_/  
+%            www.dlr.de/fa/en      |/ DLR
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\marktool{\fetranslatorname} is a \marktool{\javaname}-based tool to translate models between finite element software. \marktool{\fetranslatorname} implements the conversion of meshes from commercial FE tools into the format that \marktool{\toolname} is capable of using as a discretization for the creation of peridynamic collocation points.
+
+In order to use the \marktool{\fetranslatorname} an implementation of the \marktool{\javaname} Runtime Environment (JRE) is necessary. To translate the mesh into binary format the tool \marktool{\ncgenname} from \marktool{\netcdfname} is required.
+
+\leveldown{Linux}
+
+\leveldown{Java}
+
+\marktool{\opensusename} comes with a pre-installed version of the \marktool{openJDK} which is a free and open source implementation of the Java Platform, Standard Edition (Java SE). \marktool{openJDK} should be perfectly capable of running \marktool{\fetranslatorname}. To see if and which version of \marktool{\javaname} is installed on your system open a shell and type:
+
+\begin{code}
+java -version
+\end{code}
+
+However, since additions and changes to the \marktool{\fetranslatorname} can be necessary, a \marktool{\javaname}-capable IDE is required. The Oracle \marktool{\javaname} Development Kit (JDK) offers an integrated solution with the JRE and \marktool{\netbeansname} as IDE.
+
+\leveldown{Install only \marktool{\javaname} development kit (JDK)}
+
+\begin{enumerate}[noitemsep]
+ \item Go to: \href{http://www.oracle.com/technetwork/java/javase/downloads/index.html}{http://www.oracle.com/technetwork/java/javase/downloads/index.html}
+ \item Click on \textit{Java Platform (JDK)}
+ \item Accept the License Agreement
+ \item Open a shell and type \lstinline[style=inlinecodestyle]+lsb_release -a+ and check your operating system architecture (32bit: i586; 64bit: x86\_64)
+ \item Click on the according \verb+rpm+ file for your Linux version (here: jdk-8u91-linux-i586.rpm for 32bit or jdk-8u91-linux-x64.rpm for 64bit, we use 64bit)
+ \item In the dialog choose \textit{Save File} and save the file somewhere convenient on your system
+ \item Open a root shell or a normal shell and switch to root user with
+\begin{code}
+su -
+\end{code}
+ \item Change directory to the folder where the RPM file is located
+ \item Type
+\begingroup
+\lstset{breaklines = true}
+\begin{code}
+zypper install jdk-8u91-linux-x64.rpm
+zypper install update-alternatives
+update-alternatives --install /usr/bin/java java /usr/java/jdk1.8.0_91/bin/java 1065
+update-alternatives --install /usr/bin/javac javac /usr/java/jdk1.8.0_91/bin/javac 1065
+update-alternatives --install /usr/bin/jar jar /usr/java/jdk1.8.0_91/bin/jar 1065
+update-alternatives --install /usr/bin/javaws javaws /usr/java/jdk1.8.0_91/bin/javaws 1065
+update-alternatives --config java
+java -version
+nedit /home/$USERNAME/.bashrc &
+\end{code}
+\endgroup
+ \item Add \lstinline[style=inlinecodestyle]+export JAVA_HOME=/usr/java/jdk1.8.0_91/+ to the \verb+.bashrc+-file
+\end{enumerate}
+
+\levelstay{Install \marktool{\javaname} development kit (JDK) with \marktool{\netbeansname}}
+
+\begin{enumerate}[noitemsep]
+ \item Go to: \href{http://www.oracle.com/technetwork/java/javase/downloads/index.html}{http://www.oracle.com/technetwork/java/javase/downloads/index.html}
+ \item Click on \textit{NetBeans with JDK}
+ \item Accept the License Agreement
+ \item Open a shell and type \lstinline[style=inlinecodestyle]+lsb_release -a+ and check your operating system architecture (32bit: i586; 64bit: x86\_64)
+ \item Click on the according \verb+sh+ file for your Linux version\\
+ (here: \verb+jdk-8u91-nb-8_1-linux-x64.sh+)
+ \item In the dialog choose \textit{Save File} and save the file somewhere convenient on your system
+ \item Open a root shell or a normal shell and switch to root user with
+\begin{code}
+su -
+\end{code}
+ \item Change directory to the folder where the .sh file is located
+ \item Change the installer file's permissions so it can be executed:
+\begin{code}
+chmod u+x <installer-file-name>
+\end{code}
+ \item Type
+\begin{code}
+./<installer-file-name>
+\end{code}
+ \item In the installation wizard:
+ \begin{enumerate}
+  \item At the Welcome page of the installation wizard, click \textit{Next}.
+  \item At the JDK Installation page, specify the directory where to install the JDK, here \verb+/usr/local/java/jdk1.8.0_91+, and click \textit{Next}.
+  \item At the \marktool{\netbeansname} IDE Installation page, do the following:
+  \begin{itemize}
+   \item Specify the directory for the \marktool{\netbeansname} IDE installation\\
+   (here \verb+/usr/local/java/netbeans-8.1+)
+   \item Accept the default JDK installation to use with the IDE or specify another JDK location.
+  \end{itemize}
+  \item Accept the default JDK installation to use with the IDE or specify another JDK location.
+  \item Click \textit{Next}
+  \item Review the Summary page to ensure the software installation locations are correct.
+  \item Click \textit{Intall} to begin the installation.
+  \item At the Setup Complete page, provide anonymous usage data if desired, and click \textit{Finish}
+  \item When the installation is complete, you can view the log file, which resides in the following directory: \verb+~/.nbi/log.+
+ \end{enumerate}
+ \item Type
+\begingroup
+\lstset{breaklines = true}
+\begin{code}
+zypper install update-alternatives
+update-alternatives --install /usr/bin/java java /usr/local/java/jdk1.8.0_91/bin/java 1065
+update-alternatives --install /usr/bin/javac javac /usr/local/java/jdk1.8.0_91/bin/javac 1065
+update-alternatives --install /usr/bin/jar jar /usr/local/java/jdk1.8.0_91/bin/jar 1065
+update-alternatives --install /usr/bin/javaws javaws /usr/local/java/jdk1.8.0_91/bin/javaws 1065
+update-alternatives --config java
+java -version
+nedit /home/$USERNAME/.bashrc &
+\end{code}
+\endgroup
+ \item Add
+\begin{code}
+export JAVA_HOME=/usr/java/jdk1.8.0_91/
+\end{code}
+ and
+\begin{code}
+export PATH=$PATH:/usr/local/java/netbeans-8.1/bin
+\end{code}
+ to the \verb+.bashrc+-file
+ \item Start a new shell with \verb+su - $USERNAME+ and type \verb+java -version+ to see if the correct version is active
+ \item Start a new shell with \verb+su - $USERNAME+ and type \verb+netbeans &+ to start the IDE
+ \item Perform update inside the IDE if asked for
+\end{enumerate}
+
+If problems occur during any \verb+update-alternatives --install+ try
+
+% https://hschwarz77.wordpress.com/2015/08/14/install-java-alternatives/
+\begingroup
+\lstset{breaklines = true}
+\begin{code}
+update-alternatives --install /usr/bin/java java /usr/local/java/jdk1.8.0_91/bin/java 1
+update-alternatives --install /usr/lib64/browser-plugins/javaplugin.so javaplugin /usr/local/java/jdk1.8.0_91/jre/lib/amd64/libnpjp2.so 1 --slave /usr/bin/javaws javaws /usr/local/java/jdk1.8.0_91/bin/javaws
+update-alternatives --install /usr/bin/javac javac /usr/local/java/jdk1.8.0_91/bin/javac 1 --slave /usr/bin/jar jar /usr/local/java/jdk1.8.0_91/bin/jar
+\end{code}
+\endgroup
+
+Now you can set the \marktool{\javaname} priorities with:
+
+\begin{code}
+update-alternatives --config java
+update-alternatives --config javac
+update-alternatives --config javaplugin
+\end{code}
+
+\levelup{\texorpdfstring{\protect\marktool{\netcdfname{}}}{\netcdfname{}}}
+
+The \marktool{\netcdfname}-tool \marktool{\ncgenname} is required to convert the ascii mesh file into the binary format readable by \marktool{\toolname}. \marktool{\netcdfname} should already be installed to use \marktool{\toolname}. If the additions to the \verb+PATH+-variable from \autoref{sec:Install_netcdf} are set, no further actions have to be performed.
+
+\levelup{Windows}
+
+\leveldown{Java}
+
+\begin{enumerate}[noitemsep]
+ \item Go to: \href{http://www.oracle.com/technetwork/java/javase/downloads/index.html}{http://www.oracle.com/technetwork/java/javase/downloads/index.html}
+ \item Click on \textit{NetBeans with JDK} for Development Kit and Netbeans or just \textit{Java Platform (JDK)}
+ \item Perform the installation
+\end{enumerate}
+
+\levelstay{\texorpdfstring{\protect\marktool{\netcdfname{}}}{\netcdfname{}}}
+
+To test the \marktool{\fetranslatorname} under Windows it is necessary to have \marktool{\ncgenname} available. \marktool{\ncgenname} is available as part of pre-built \marktool{\netcdfname} libraries. To install the latest release
+
+\begin{enumerate}[noitemsep]
+ \item Go to: \href{\netcdfaddress}{\netcdfaddress}
+ \item Click \textit{Pre-built Windows Binaries for the latest version of \netcdfname}
+ \item Go to \textit{Latest Release (\netcdfname{} X.Y.Z)}, here \netcdfname{} 4.4.0
+ \item Download the executable matching your system, here netCDF4.4.0-NC4-64.exe
+ \item Execute the installer
+ \item Add the \verb+bin+ folder of the installation path, here \verb+D:\Programme\netCDF 4.4.0\+ to the Windows \verb+PATH+-Variable:
+ \begin{enumerate}
+  \item Open the \textit{Windows Control Panel} (Systemsteuerung)
+  \item Open \textit{System}
+  \item Click \textit{Advanced System Settings} (Erweiterte Systemeinstellungen)
+  \item In the \textit{Advanced} tab open \textit{Environment Variables}
+  \item Under \textit{User variables for USERNAME} select \verb+PATH+
+  \item Click \textit{Edit}
+  \item Under \textit{Value of the variable} add the path to the \verb+bin+ folder of the \marktool{\netcdfname} installation separated by a semicolon (\textit{;}), here: \verb+;D:\Programme\netCDF 4.4.0\bin\+
+  \item Click \textit{OK} multiple times
+ \end{enumerate}
+\end{enumerate}
+
+Now you can use \marktool{\ncgenname} in a command-window:
+
+\begin{code}
+ncgen.exe -o $OUTPUTFILENAME.g $INPUTFILENAME.g.ascii
+\end{code}
+

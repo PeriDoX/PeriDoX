@@ -79,3 +79,10 @@
 }{%
   \par\xdef\tpd{\the\prevdepth}\egroup\prevdepth=\tpd%
 }
+
+% https://tex.stackexchange.com/a/8695
+\newenvironment{warning}
+  {\par\begin{mdframed}[linewidth=2pt,linecolor=gray]%
+    \begin{list}{}{\leftmargin=1cm
+                   \labelwidth=\leftmargin}\item[\Large\ding{43}]}
+  {\end{list}\end{mdframed}\par}

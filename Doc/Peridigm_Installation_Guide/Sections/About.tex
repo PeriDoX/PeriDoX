@@ -147,14 +147,15 @@ This installation guide focusses on the installation of the core program \markto
 	}
 	child {node {Libraries}
 	  child {node[color=gray] {\marktool[\boostaddress]{\boostname}}}
-	  child {node {\marktool[\hdfaddress]{\hdfname}}}
 	  child {node {\marktool[\netcdfaddress]{\netcdfname}}
 	    child {node {\marktool{m4}}}
 	  }
+	  child {node {\marktool[\hdfaddress]{\hdfname}}}
 	  child {node {\marktool[\trilinosaddress]{\trilinosname}}
 	    child {node {\marktool{BLAS}}}
 	    child {node {\marktool{LAPACK}}}
 	    child {node {\marktool{X11}}}
+	    child {node {\marktool{yaml}}}
 	  }
 	}
 	  }
@@ -194,6 +195,7 @@ Below the dependencies between the individual tools and packages are shown.
 \draw (7.75*360/9:\orad) node (BLAS)   {BLAS};
 \draw (8.00*360/9:\orad) node (LAPACK) {LAPACK};
 \draw (8.25*360/9:\orad) node (X11)    {X11};
+\draw (8.50*360/9:\orad) node (yaml)   {yaml};
 %
 \draw (7*360/9:\orad) node (m4)   {m4};
 % Striche
@@ -226,6 +228,7 @@ Below the dependencies between the individual tools and packages are shown.
 \draw[-latex] (HDF5)   -- (Trilinos);
 \draw[-latex] (Boost)  -- (Trilinos);
 \draw[-latex] (NetCDF) -- (Trilinos);
+\draw[-latex] (yaml)   -- (Trilinos);
 %
 \draw[-latex] (Boost)    -- (Peridigm);
 \draw[-latex] (Trilinos) -- (Peridigm);

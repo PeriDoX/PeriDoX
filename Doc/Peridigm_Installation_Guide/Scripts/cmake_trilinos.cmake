@@ -49,6 +49,9 @@ cmake -D CMAKE_INSTALL_PREFIX:PATH=/usr/local/bin/trilinos-12.4.2/ \
 -D TPL_ENABLE_Boost:BOOL=ON \
 -D Boost_INCLUDE_DIRS:PATH="/usr/local/lib/boost-1.55.0/include" \
 -D Boost_LIBRARY_DIRS:PATH="/usr/local/lib/boost-1.55.0/lib" \
+-D TPL_ENABLE_yaml-cpp:BOOL=ON \
+-D yaml-cpp_INCLUDE_DIRS:PATH="/usr/local/lib/yaml/include" \
+-D yaml-cpp_LIBRARY_DIRS:PATH="/usr/local/lib/yaml/lib" \
 -D CMAKE_VERBOSE_MAKEFILE:BOOL=OFF \
 -D Trilinos_VERBOSE_CONFIGURE:BOOL=OFF \
 /usr/local/src/trilinos-12.4.2-Source/

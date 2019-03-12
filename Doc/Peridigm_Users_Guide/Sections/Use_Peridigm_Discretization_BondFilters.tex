@@ -19,6 +19,10 @@
 \levelstay{\idxPDKwBondFilters}
 \label{sec:Peridigm:QRG:Discretization:Tools:BondFilters}
 \myindex[\idxPDKeywordName]{\idxPDKwBondFilters}
+\myindex[\idxPDKeywordName]{\idxPDKwRectangularPlane}
+\myindex[\idxPDKeywordName]{\idxPDKwBondFilters!\idxPDKwRectangularPlane|see{\idxPDKwRectangularPlane}}
+\myindex[\idxPDKeywordName]{\idxPDKwDisk}
+\myindex[\idxPDKeywordName]{\idxPDKwBondFilters!\idxPDKwDisk|see{\idxPDKwDisk}}
 
 \leveldown{Description}
 
@@ -61,7 +65,16 @@ Each class uses the method from the super-class :
 \toprule
 Name                    & Type   & Required   & Default & Description           \\
 \midrule
-Type                    & string & \checkmark & - & ``\idxPDKwRectangularPlane'' \\
+Type                    & string & \checkmark & - & ``\idxPDKwRectangularPlane{} |\idxPDKwDisk'' \\
+\bottomrule
+\end{tabularx}
+
+For type \idxPDKwRectangularPlane{} additionally:
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name                    & Type   & Required   & Default & Description           \\
+\midrule
 Normal\_X               & double & \checkmark & - & $\glssymbol{symb:scalar:coord:global:x}$-component of the cutting plane normal vector\\
 Normal\_Y               & double & \checkmark & - & $\glssymbol{symb:scalar:coord:global:y}$-component of the cutting plane normal vector\\
 Normal\_Z               & double & \checkmark & - & $\glssymbol{symb:scalar:coord:global:z}$-component of the cutting plane normal vector\\
@@ -76,18 +89,43 @@ Side\_Length            & double & \checkmark & - & Length of rectangle left and
 \bottomrule
 \end{tabularx}
 
+For type \idxPDKwDisk{} additionally:
+
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Name                    & Type   & Required   & Default & Description           \\
+\midrule
+Normal\_X               & double & \checkmark & - & $\glssymbol{symb:scalar:coord:global:x}$-component of the cutting plane normal vector\\
+Normal\_Y               & double & \checkmark & - & $\glssymbol{symb:scalar:coord:global:y}$-component of the cutting plane normal vector\\
+Normal\_Z               & double & \checkmark & - & $\glssymbol{symb:scalar:coord:global:z}$-component of the cutting plane normal vector\\
+Center\_X               & double & \checkmark & - & $\glssymbol{symb:scalar:coord:global:x}$-component of the base point\\
+Center\_Y               & double & \checkmark & - & $\glssymbol{symb:scalar:coord:global:y}$-component of the base point\\
+Center\_Z               & double & \checkmark & - & $\glssymbol{symb:scalar:coord:global:z}$-component of the base point\\
+Radius                  & double & \checkmark & - & Disk radius\\
+\bottomrule
+\end{tabularx}
+
 \levelstay{Remarks}
 
 \begin{enumerate}[noitemsep]
   \item \idxPDKwBondFilters{} cause the bonds to not be created in the first place
-  \item For type ``\idxPDKwRectangularPlane'':
-  \begin{itemize}[noitemsep]
-    \item Define a rectangular cut plane where all bonds are released prior to the simulation.
+  \item For type 
+  \begin{itemize}
+    \item ``\idxPDKwRectangularPlane'':
+    \begin{itemize}[noitemsep]
+      \item Define a rectangular cut plane where all bonds are released prior to the simulation.
+    \end{itemize}
+    \item ``\idxPDKwDisk'':
+    \begin{itemize}[noitemsep]
+      \item Define a circular cut plane where all bonds are released prior to the simulation.
+    \end{itemize}
   \end{itemize}
   \item It is suggested to define the output variable Number\_Of\_Neighbors in order to confirm that the bond filter is in the right place. It always seems to take me multiple tries to get it right.
 \end{enumerate}
 
 \levelstay{Usage}
+
+\leveldown{\idxPDKwRectangularPlane}
 
 The input parameters form a 2D rectangle in 3D space. Bonds that would pass through the rectangle are not formed, which creates a pre-crack.
 
@@ -106,7 +144,11 @@ The input parameters form a 2D rectangle in 3D space. Bonds that would pass thro
 \textit{Side\_Length}         & Length of the others two sides, here ``1'' to ``4'' and ``2'' to ``3''.
 \end{tabularx}
 
-\levelup{Exemplary input section}
+\levelstay{\idxPDKwDisk}
+
+The input parameters form a 2D circular disk in 3D space. Bonds that would pass through the rectangle are not formed, which creates a pre-crack.
+
+\levelmultiup{Exemplary input section}{2}
 
 \leveldown{XML-format}
 
@@ -132,6 +174,30 @@ from \verb+/test/regression/PrecrackedPlate/PrecrackedPlate.xml+:
       <Parameter name="Bottom_Unit_Vector_Z" type="double" value="0.0"/>
       <Parameter name="Bottom_Length" type="double" value="10"/>
       <Parameter name="Side_Length" type="double" value="20"/>
+    </ParameterList>
+  </ParameterList>
+</ParameterList>
+\end{code}
+\endgroup
+
+from \verb+/test/regression/DiskFilter/DiskFilter.xml+:
+
+\begingroup
+\lstset{breaklines=true}
+\begin{code}
+<ParameterList name="Discretization">
+  <Parameter name="Type" type="string" value="Exodus" />
+  <Parameter name="Input Mesh File" type="string" value="DiskFilter.g"/>
+  <ParameterList name="Bond Filters">
+    <ParameterList name="My First Bond Filter">
+      <Parameter name="Type" type="string" value="Disk"/>
+      <Parameter name="Center_X" type="double" value="0.0"/>
+      <Parameter name="Center_Y" type="double" value="0.0"/>
+      <Parameter name="Center_Z" type="double" value="0.0"/>
+      <Parameter name="Normal_X" type="double" value="0.0"/>
+      <Parameter name="Normal_Y" type="double" value="1.0"/>
+      <Parameter name="Normal_Z" type="double" value="0.0"/>
+      <Parameter name="Radius" type="double" value="2.5"/>
     </ParameterList>
   </ParameterList>
 </ParameterList>

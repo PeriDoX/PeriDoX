@@ -24,7 +24,7 @@
 
 \begin{itemize}[noitemsep]
   \item XML format
-  \item Free format
+  \item \textcolor{gray}{Peridigm/Free format}
   \item YAML format
 \end{itemize}
 
@@ -79,12 +79,28 @@ instead of
 \levelstay{Free format}
 \label{sec:Peridigm:QRG:InputFileFormat:FormatSpecificRemarks:Free}
 
+\begin{warning}
+This format is no longer supported in the GitHub master.
+
+For users that have existing .peridigm input decks, a utility for converting them to .yaml is available at
+
+\texttt{scripts/peridigm\_to\_yaml.py}
+
+This script was used for conversion of all the .peridigm files in the repository, with the exception of
+twist\_and\_pull.peridigm, which required manual editing to remove aprepro commands.  Aprepro is not supported
+for .yaml or .xml input decks, and all aprepro support will go away when support for .peridigm files is removed.
+\end{warning}
+
 \paragraph{Comment sign}
 
 A comment line is started with the hash sign: \#.
 
 \levelstay{YAML format}
 \label{sec:Peridigm:QRG:InputFileFormat:FormatSpecificRemarks:YAML}
+
+\paragraph{Build requirements}
+
+Note that using the new .yaml input files requires that Trilinos be built with YAML support. See the installation guide for instructions.
 
 \paragraph{Comment sign}
 

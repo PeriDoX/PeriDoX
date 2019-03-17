@@ -1,0 +1,4 @@
+!config
+paths:
+#- 'e:\users\raed_ma\S_SVN\PeriDoX_DLR\src\Publications\Doc\Peridigm_Installation_Guide\'
+- '../PeriDoX_Common/Scripts/.'

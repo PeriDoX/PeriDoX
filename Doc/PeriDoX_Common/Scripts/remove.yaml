@@ -1,0 +1,52 @@
+!config
+identifier: remove
+name: Remove
+authors:
+- Paulo Cereda
+commands:
+- name: The removal feature
+  command: >
+    @{
+      entries = listFilesByExtensions(
+                    toFile(directory),
+                    extensions,
+                    recursive);
+      prefix = [];
+        if (isUnix()) {
+            prefix = [ 'rm', '-f' ];
+        }
+        else {
+            prefix = [ 'cmd', '/c', 'del' ];
+        }
+        removals = [];
+        for (entry : entries) {
+            removals.add(getCommand(prefix,
+                     entry.getCanonicalPath()));
+        }
+        return removals;
+    }
+arguments:
+- identifier: directory
+  flag: >
+    @{
+        return parameters.directory
+    }
+  default: '.'
+- identifier: recursive
+  flag: >
+    @{
+        return isTrue(parameters.recursive)
+    }
+  default: >
+    @{
+        return false
+    }
+- identifier: extensions
+  flag: >
+    @{
+        if (!isList(parameters.extensions)) {
+            throwError('I was expecting a list!');
+        }
+        return parameters.extensions;
+    }
+  required: true

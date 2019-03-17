@@ -1,0 +1,36 @@
+!config
+# Call script to build 
+# author: Martin Raedel
+# last edited by: cmh, June 14th 2013
+# requires arara 3.0+
+#
+# Sample usage: 
+#
+# % arara: clean_tex_directory
+#
+identifier: clean_tex_directory
+name: clean_tex_directory
+commands: 
+- name: Clean TeX directory
+  command: <arara> cmd /c clean_tex_directory.cmd
+arguments: 
+- identifier: name
+  flag: <arara> @{parameters.name}
+  default: "create_glossaries"  
+#commands: 
+#- name: Create glossaries
+#  command: >
+#    @{
+##      prefix = isWindows( [ 'cmd', '/c', 'create_glossaries.cmd' ], [ 'xdg-open' ] );
+##      view = getBasename(file) + '.' + format;
+##      return getCommand(prefix, view);
+##      return getCommand(prefix);
+#      return isWindows( [ 'cmd', '/c', 'create_glossaries.cmd' ], [ 'xdg-open' ] );
+#    }
+#arguments:
+#- identifier: format
+#  flag: >
+#    @{
+#        return parameters.format;
+#    }
+#  default: pdf

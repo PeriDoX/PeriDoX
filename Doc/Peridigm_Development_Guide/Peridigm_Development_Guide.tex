@@ -4,11 +4,13 @@
 %
 % Compilation:
 %
-% - with pdfLaTeX:
-%   pdflatex -> biber -> makeindex/create_glossaries.cmd -> pdflatex -> pdflatex
-% - For compilation add switch -shell-escape in your LaTeX editor:
-%   pdflatex --shell-escape -synctex=1 -interaction=nonstopmode %source --extra-mem-top=60000000
-% - Compile at least 3 times for proper output
+% - Automated (Requires arara package):
+%   - call: arara Peridigm_Installation_Guide.tex
+% - Manual:
+%   - pdflatex -> biber -> makeindex/create_glossaries.cmd -> pdflatex -> pdflatex
+%   - For compilation add switch -shell-escape in your LaTeX editor:
+%     pdflatex --shell-escape -synctex=1 -interaction=nonstopmode %source --extra-mem-top=60000000
+%   - Compile at least 3 times for proper output
 %
 % In case of problems:
 %
@@ -28,6 +30,22 @@
 %            www.dlr.de/fa/en      |/ DLR
 % 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---------------------------
+% Build automation
+% ---------------------------
+
+% arara: pdflatex: {shell: yes, synctex: yes, interaction: nonstopmode}
+% arara: pdflatex: {shell: yes, synctex: yes, interaction: nonstopmode}
+% arara: biber
+% arara: biber
+% arara: create_glossaries
+% arara: pdflatex: {shell: yes, synctex: yes, interaction: nonstopmode}
+% arara: pdflatex: {shell: yes, synctex: yes, interaction: nonstopmode}
+% arara: clean: { extensions: [ acn, acr, alg, aux, bbl, bcf, blg, dvi, glg, glo, gls, idx, ilg, ind, ist, lock, lof, log, lol, lot, mw, nlo, out, ps, toc, run.xml, slg, syg, syi, synctex, synctex.gz, tex.backup, user.adi ] }
+% arara: clean_tex_directory
+% This will work in a future release (delete the % in a%rara):
+% a%rara: remove: { recursive, extensions: [ acn, acr, alg, aux, bbl, bcf, blg, dvi, glg, glo, gls, idx, ilg, ind, ist, lock, lof, log, lol, lot, mw, nlo, out, ps, toc, run.xml, slg, syg, syi, synctex, synctex.gz, tex.backup, user.adi ], directory: [ ZZZ_TikZ, ZZZ_Table ] }
 
 % ---------------------------
 % Paths

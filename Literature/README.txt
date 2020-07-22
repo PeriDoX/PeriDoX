@@ -33,26 +33,26 @@ Contact:   Martin Rädel,  martin.raedel@dlr.de
 - Several projects use the file "PeridynamicLiterature.bib" from this folder
 - Do's:
     - In case you add a pdf to one of the Literature subfolders, please add the proper BibTeX-entry in the .bib-file right away
-        - Usually literature sources allow some kind of BibTeX-export:
-            - Use it if available
-		    - Adapt the formatting to the existing entries
+    - Usually literature sources allow some kind of BibTeX-export:
+        - Use it if available
+        - Adapt the formatting to the existing entries
         - Add the document:
             - In the proper BibTeX-subcategory
-		    - Sorted alphabetically according to BibTeX-Key
-	    - Check if the:
+            - Sorted alphabetically according to BibTeX-Key
+       - Check if the:
             - Document information is as complete as it gets
-			- BibTeX-key for the new document is not used already
+            - BibTeX-key for the new document is not used already
     - Test ALL projects for proper compilation after you made changes to the document
 - Dont's:
     - Do not mess around with this file unless you know what you are doing!
-	- NEVER EVER EVER change existing BibTeX-keys
+    - NEVER EVER EVER change existing BibTeX-keys
 - Conventions:
     - BibTeX-Key:
-	    1. Last name of the first author
-		2. Initials of first author first name
-		3. Year of publication
-		4. Optional: Counter a,b,c... in case of multiple identical combinations of 1.-3.
+        1. Last name of the first author
+        2. Initials of first author first name
+        3. Year of publication
+        4. Optional: Counter a,b,c... in case of multiple identical combinations of 1.-3.
     - If known, type author first names in full length in Author entry
     - Do not save the abstract
     - Add a comma after each entry, even the last one, for copy-paste-reasons
-	- Convert any umlaut or other encoding-dependent symbols to the corresponding base LaTeX command (ä -> \"a, ö -> \"o, ü -> \"u, ß -> \ss{})
+    - Convert any umlaut or other encoding-dependent symbols to the corresponding base LaTeX command (ä -> \"a, ö -> \"o, ü -> \"u, ß -> \ss{})

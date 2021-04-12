@@ -1,0 +1,138 @@
+<?xml version="1.0" ?>
+<ParameterList>
+  <Parameter name="Verbose" type="bool" value="false"/>
+  <ParameterList name="Discretization">
+    <Parameter name="Type" type="string" value="Text File"/>
+    <Parameter name="Input Mesh File" type="string" value="FEModel.txt"/>
+  </ParameterList>
+  <ParameterList name="Materials">
+    <ParameterList name="mat_1">
+      <Parameter name="Material Model" type="string" value="Linear Elastic Correspondence"/>
+      <!--Parameter name="Material Model" type="string" value="Elastic"/-->
+
+      <Parameter name="Plane Stress" type="bool" value="true"/>
+      <Parameter name="Incremental" type="bool" value="false"/>
+      <Parameter name="Non linear" type="bool" value="false"/>
+      <Parameter name="Density" type="double" value="2.78e-09"/>
+      <Parameter name="Young's Modulus" type="double" value="165000.0"/>
+      <Parameter name="Poisson's Ratio" type="double" value="0.3400000000000001"/>
+      <Parameter name="Stabilizaton Type" type="string" value="Global Stiffness"/>
+      <Parameter name="Thickness" type="double" value="1.0"/>
+      <Parameter name="Hourglass Coefficient" type="double" value="1.0"/>
+      <Parameter name="Material Symmetry" type="string" value="Anisotropic"/>
+      <Parameter name="C11" type="double" value="168977.79883095546"/>
+      <Parameter name="C12" type="double" value="5849.70416316603"/>
+      <Parameter name="C13" type="double" value="5849.70416316603"/>
+      <Parameter name="C14" type="double" value="0.0"/>
+      <Parameter name="C15" type="double" value="0.0"/>
+      <Parameter name="C16" type="double" value="0.0"/>
+      <Parameter name="C22" type="double" value="11402.506122302915"/>
+      <Parameter name="C23" type="double" value="5802.506122303131"/>
+      <Parameter name="C24" type="double" value="0.0"/>
+      <Parameter name="C25" type="double" value="0.0"/>
+      <Parameter name="C26" type="double" value="0.0"/>
+      <Parameter name="C33" type="double" value="11402.506122302915"/>
+      <Parameter name="C34" type="double" value="0.0"/>
+      <Parameter name="C35" type="double" value="0.0"/>
+      <Parameter name="C36" type="double" value="0.0"/>
+      <Parameter name="C44" type="double" value="2800.0"/>
+      <Parameter name="C45" type="double" value="0.0"/>
+      <Parameter name="C46" type="double" value="0.0"/>
+      <Parameter name="C55" type="double" value="5600.0"/>
+      <Parameter name="C56" type="double" value="0.0"/>
+      <Parameter name="C66" type="double" value="5600.0"/>
+    </ParameterList>
+    
+  </ParameterList>
+  <ParameterList name="Damage Models">
+    <ParameterList name="dam_1">
+      <Parameter name="Damage Model" type="string" value="Critical Energy Correspondence"/>
+      <Parameter name="Critical Energy" type="double" value="0.005"/>
+      <Parameter name="Plane Stress" type="bool" value="true"/>
+      <Parameter name="Detached Nodes Check" type="bool" value="true"/>
+      <Parameter name="Thickness" type="double" value="1.0"/>
+      <Parameter name="Hourglass Coefficient" type="double" value="1.0"/>
+    </ParameterList>
+  </ParameterList>
+  <ParameterList name="Blocks">
+    <ParameterList name="BlockDefinition_1">
+      <Parameter name="Block Names" type="string" value="block_1"/>
+      <Parameter name="Material" type="string" value="mat_1"/>
+      <!--Parameter name="Damage Model" type="string" value="dam_1"/-->
+      <Parameter name="Horizon" type="double" value="0.25895861827756852"/>
+    </ParameterList>
+    
+  </ParameterList>
+  <ParameterList name="Boundary Conditions">
+    <Parameter name="Node Set 0" type="string" value="nodesMinX_set.txt"/>
+    <Parameter name="Node Set 1" type="string" value="nodesMaxX_set.txt"/>
+    <ParameterList name="Initial Velocity 0">
+      <Parameter name="Type" type="string" value="Prescribed Displacement"/>
+        <!--Parameter name="Type" type="string" value="Body Force"/-->
+      <Parameter name="Node Set" type="string" value="Node Set 0"/>
+      <Parameter name="Coordinate" type="string" value="x"/>
+      <Parameter name="Value" type="string" value="-3*t"/>
+    </ParameterList>
+    <!--ParameterList name="Initial Velocity 1">
+      <Parameter name="Type" type="string" value="Prescribed Displacement"/>
+      <Parameter name="Node Set" type="string" value="Node Set 0"/>
+      <Parameter name="Coordinate" type="string" value="y"/>
+      <Parameter name="Value" type="string" value="0.0"/>
+    </ParameterList-->
+    <ParameterList name="Initial Velocity 2">
+      <Parameter name="Type" type="string" value="Prescribed Displacement"/>
+      <Parameter name="Node Set" type="string" value="Node Set 1"/>
+      <Parameter name="Coordinate" type="string" value="x"/>
+      <Parameter name="Value" type="string" value="0.0"/>
+    </ParameterList>
+    <!--ParameterList name="Initial Velocity 3">
+      <Parameter name="Type" type="string" value="Prescribed Displacement"/>
+      <Parameter name="Node Set" type="string" value="Node Set 1"/>
+      <Parameter name="Coordinate" type="string" value="y"/>
+      <Parameter name="Value" type="string" value="0.0"/>
+    </ParameterList-->
+  </ParameterList>
+  <ParameterList name="Solver">
+    <Parameter name="Verbose" type="bool" value="false"/>
+    <Parameter name="Initial Time" type="double" value="0.0"/>
+    <Parameter name="Final Time" type="double" value="3e-06"/>
+    <ParameterList name="Verlet">
+      <Parameter name="Safety Factor" type="double" value="0.8"/>
+      <Parameter name="Fixed dt" type="double" value="1e-6"/>
+      <Parameter name="Numerical Damping" type="double" value="0.002"/>
+    </ParameterList>
+  </ParameterList>
+  
+    <!--ParameterList name="Solver">
+        <Parameter name="Verbose" type="bool" value="true"/>
+        <Parameter name="Initial Time" type="double" value="0.0"/>
+        <Parameter name="Final Time" type="double" value="1e-04"/>
+        <ParameterList name="Implicit">
+          <Parameter name="Fixed dt" type="double" value="1e-5"/>
+          <Parameter name="Beta" type="double" value="0.25"/>
+          <Parameter name="Gamma" type="double" value="0.50"/>
+          <Parameter name="Absolute Tolerance" type="double" value="1.0e-11"/>
+          <Parameter name="Maximum Solver Iterations" type="int" value="8"/>
+          <Parameter name="CWillberg" type="bool" value="true"/>
+          
+        </ParameterList>
+  </ParameterList-->
+  
+  
+  <ParameterList name="Output">
+    <Parameter name="Output File Type" type="string" value="ExodusII"/>
+    <Parameter name="Output Format" type="string" value="BINARY"/>
+    <Parameter name="Output Filename" type="string" value="BondBreakingInitialVelocity"/>
+    <Parameter name="Output Frequency" type="int" value="2"/>
+    <Parameter name="Parallel Write" type="bool" value="true"/>
+    <ParameterList name="Output Variables">
+      <Parameter name="Displacement" type="bool" value="true"/>
+      <Parameter name="Velocity" type="bool" value="true"/>
+      <Parameter name="Force" type="bool" value="true"/>
+      <Parameter name="Partial_Stress" type="bool" value="true"/>
+      <Parameter name="Damage" type="bool" value="true"/>
+      <Parameter name="External_Force_Density" type="bool" value="true"/>
+      
+    </ParameterList>
+  </ParameterList>
+</ParameterList>

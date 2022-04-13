@@ -1,0 +1,106 @@
+Peridigm:
+    Discretization: 
+        Type: "Text File"
+        Input Mesh File: "Dogbone.txt"
+    Materials: 
+        Aluminium: 
+            Material Model: "User Correspondence"
+            Plane Stress: True
+            Density: 2.7e+03
+            Young's Modulus: 7.24e+10
+            Poisson's Ratio: 3.3e-01
+            Stabilizaton Type: "Global Stiffness"
+            Thickness: 0.01
+            Hourglass Coefficient: 1.0
+            Non linear: True
+            Number of Properties: 3
+            Prop_1: 1.0727111897390533e+11
+            Prop_2: 5.2835028748341446e+10
+            Prop_3: 2.721804511278195e+10
+    Blocks: 
+        block_1: 
+            Block Names: "block_1"
+            Material: "Aluminium"
+            Horizon: 0.0019095238095238095
+        block_2: 
+            Block Names: "block_2"
+            Material: "Aluminium"
+            Horizon: 0.0019095238095238095
+        block_3: 
+            Block Names: "block_3"
+            Material: "Aluminium"
+            Horizon: 0.0019095238095238095
+        block_4: 
+            Block Names: "block_4"
+            Material: "Aluminium"
+            Horizon: 0.0019095238095238095
+        block_5: 
+            Block Names: "block_5"
+            Material: "Aluminium"
+            Horizon: 0.0019095238095238095
+    Boundary Conditions: 
+        Node Set 1: "ns_Dogbone_1.txt"
+        Node Set 2: "ns_Dogbone_2.txt"
+        BC_1: 
+            Type: "Prescribed Displacement"
+            Node Set: "Node Set 1"
+            Coordinate: "x"
+            Value: "0"
+        BC_2: 
+            Type: "Prescribed Displacement"
+            Node Set: "Node Set 1"
+            Coordinate: "y"
+            Value: "0"
+        BC_3: 
+            Type: "Prescribed Displacement"
+            Node Set: "Node Set 1"
+            Coordinate: "z"
+            Value: "0"
+        BC_8: 
+            Type: "Prescribed Displacement"
+            Node Set: "Node Set 2"
+            Coordinate: "x"
+            Value: "1*t"
+    Solver: 
+        Verbose: False
+        Initial Time: 0.0
+        Final Time: 0.01
+        Peridigm Preconditioner: "None"
+        NOXQuasiStatic: 
+            Nonlinear Solver: "Line Search Based"
+            Number of Load Steps: 10
+            Max Solver Iterations: 50
+            Relative Tolerance: 1e-08
+            Max Age Of Prec: 100
+            Direction: 
+                 Method: "Newton"
+                 Newton: 
+                      Linear Solver: 
+                           Jacobian Operator: "Matrix-Free"
+                           Preconditioner: "None"
+            Line Search: 
+                 Method: "Polynomial"
+    Compute Class Parameters: 
+        External_Displacement: 
+            Compute Class: "Block_Data"
+            Calculation Type: "Maximum"
+            Block: "block_5"
+            Variable: "Displacement"
+            Output Label: "External_Displacement"
+        External_Force: 
+            Compute Class: "Block_Data"
+            Calculation Type: "Sum"
+            Block: "block_5"
+            Variable: "Force"
+            Output Label: "External_Force"
+    Output1: 
+        Output File Type: "ExodusII"
+        Output Format: "BINARY"
+        Output Filename: "Dogbone_Umat_Output1"
+        Output Frequency: 1
+        Parallel Write: true
+        Output Variables: 
+            Displacement: true
+            Partial_Stress: true
+            Force: true
+            External_Displacement: true

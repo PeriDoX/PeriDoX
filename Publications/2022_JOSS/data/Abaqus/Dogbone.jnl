@@ -1,0 +1,20 @@
+# Save by hess_ja on 2022_04_04-11.43.51; build 2021 2020_03_06-15.50.37 167380
+from abaqus import *
+upgradeMdb('C:/Users/hess_ja/Desktop/AbaqusJobs/Dogbone/dogbone_1-2020.cae', 
+    'C:/Users/hess_ja/Desktop/AbaqusJobs/Dogbone/dogbone_1.cae')
+# Save by hess_ja on 2022_04_04-11.43.51; build 2021 2020_03_06-15.50.37 167380
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.jobs['Job-9'].submit(consistencyChecking=OFF)
+# Save by hess_ja on 2022_04_04-14.57.32; build 2021 2020_03_06-15.50.37 167380

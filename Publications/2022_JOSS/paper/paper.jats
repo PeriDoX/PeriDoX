@@ -1,0 +1,957 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE article PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Publishing DTD v1.2 20190208//EN"
+                  "JATS-publishing1.dtd">
+<article xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink" dtd-version="1.2" article-type="other">
+<front>
+<journal-meta>
+<journal-id></journal-id>
+<journal-title-group>
+<journal-title>Journal of Open Source Software</journal-title>
+<abbrev-journal-title>JOSS</abbrev-journal-title>
+</journal-title-group>
+<issn publication-format="electronic">2475-9066</issn>
+<publisher>
+<publisher-name>Open Journals</publisher-name>
+</publisher>
+</journal-meta>
+<article-meta>
+<article-id pub-id-type="publisher-id">0</article-id>
+<article-id pub-id-type="doi">N/A</article-id>
+<title-group>
+<article-title>Why develop twice? User material interface for the
+Peridynamic Peridigm framework</article-title>
+</title-group>
+<contrib-group>
+<contrib contrib-type="author">
+<contrib-id contrib-id-type="orcid">0000-0003-2433-9183</contrib-id>
+<name>
+<surname>Willberg</surname>
+<given-names>Christian</given-names>
+</name>
+<xref ref-type="aff" rid="aff-1"/>
+</contrib>
+<contrib contrib-type="author">
+<contrib-id contrib-id-type="orcid">0000-0002-3006-1520</contrib-id>
+<name>
+<surname>Hesse</surname>
+<given-names>Jan-Timo</given-names>
+</name>
+<xref ref-type="aff" rid="aff-1"/>
+</contrib>
+<contrib contrib-type="author">
+<contrib-id contrib-id-type="orcid">0000-0002-3465-7700</contrib-id>
+<name>
+<surname>Garbade</surname>
+<given-names>Marc</given-names>
+</name>
+<xref ref-type="aff" rid="aff-1"/>
+</contrib>
+<contrib contrib-type="author">
+<contrib-id contrib-id-type="orcid">0000-0002-3181-3202</contrib-id>
+<name>
+<surname>Rädel</surname>
+<given-names>Martin</given-names>
+</name>
+<xref ref-type="aff" rid="aff-1"/>
+</contrib>
+<contrib contrib-type="author">
+<contrib-id contrib-id-type="orcid">0000-0002-9299-4078</contrib-id>
+<name>
+<surname>Heinecke</surname>
+<given-names>Falk</given-names>
+</name>
+<xref ref-type="aff" rid="aff-1"/>
+</contrib>
+<contrib contrib-type="author">
+<name>
+<surname>Schuster</surname>
+<given-names>Andreas</given-names>
+</name>
+<xref ref-type="aff" rid="aff-1"/>
+</contrib>
+<contrib contrib-type="author">
+<name>
+<surname>Pernatii</surname>
+<given-names>Anna</given-names>
+</name>
+<xref ref-type="aff" rid="aff-2"/>
+</contrib>
+<aff id="aff-1">
+<institution-wrap>
+<institution>Department of Structural Mechanics, Institute for Composite
+Structures and Adaptive Systems, German Aerospace Center</institution>
+</institution-wrap>
+</aff>
+<aff id="aff-2">
+<institution-wrap>
+<institution>Institute of Mechanics, Otto von Guericke University
+Magdeburg</institution>
+</institution-wrap>
+</aff>
+</contrib-group>
+<pub-date date-type="pub" publication-format="electronic" iso-8601-date="2022-04-13">
+<day>13</day>
+<month>4</month>
+<year>2022</year>
+</pub-date>
+<volume>¿VOL?</volume>
+<issue>¿ISSUE?</issue>
+<fpage>¿PAGE?</fpage>
+<permissions>
+<copyright-statement>Authors of papers retain copyright and release the
+work under a Creative Commons Attribution 4.0 International License (CC
+BY 4.0)</copyright-statement>
+<copyright-year>2022</copyright-year>
+<copyright-holder>The article authors</copyright-holder>
+<license license-type="open-access" xlink:href="https://creativecommons.org/licenses/by/4.0/">
+<license-p>Authors of papers retain copyright and release the work under
+a Creative Commons Attribution 4.0 International License (CC BY
+4.0)</license-p>
+</license>
+</permissions>
+<kwd-group kwd-group-type="author">
+<kwd>Peridynamics</kwd>
+<kwd>User Material</kwd>
+<kwd>UMAT</kwd>
+<kwd>Interface</kwd>
+<kwd>Material modeling</kwd>
+<kwd>Damage</kwd>
+<kwd>model</kwd>
+<kwd>Fortran</kwd>
+<kwd>C++</kwd>
+</kwd-group>
+</article-meta>
+</front>
+<body>
+<sec id="summary">
+  <title>Summary</title>
+  <p>In order to analyze complex and large scale structural mechanical
+  problems, simulation frameworks are required. These require material
+  models to assess the response of a medium to loading conditions. The
+  type of material model necessary depends on the physical problem, its
+  implementation and idealization in a structural model. Therefore, an
+  efficient way of using different kinds of material models in a
+  peridynamic simulation is required. In this paper a generalized user
+  material interface is presented that allows the usage of existing as
+  well as novel material models. In order to implement this interface,
+  the material modeling of the correspondence formulation in Peridigm
+  was restructured. Local coordinates were added and the unit tests were
+  extended.</p>
+</sec>
+<sec id="statement-of-need">
+  <title>Statement of need</title>
+  <p>The user material interface allows the simplified use of already
+  existing material routines in the peridynamic framework Peridigm. The
+  interface is based on the Abaqus UMAT definition
+  (<xref alt="UMAT, 2022" rid="ref-Abaqus" ref-type="bibr"><italic>UMAT</italic>,
+  2022</xref>) and allows the integration of Fortran routines directly
+  into Peridigm. The integration of UMAT routines based on finite
+  elements in Peridigm eliminates the need for parallel development of
+  existing material models from classical continuum mechanics theory.
+  Thus, the same material model implementations are applicable in finite
+  element as well as peridynamic simulations. This opens up new
+  possibilities for analysis, verification and comparison. With this
+  interface many material routines can be reused and applied to
+  progressive failure analysis. The source code is stored in a GitHub
+  repository
+  (<xref alt="2022" rid="ref-PeridigmGithub" ref-type="bibr">2022</xref>).
+  </p>
+</sec>
+<sec id="introduction">
+  <title>Introduction</title>
+  <p>Peridynamics is a non-local theory which overcomes the problems of
+  classical continuum mechanics at discontinuities due to the necessity
+  of spatial derivations of the underlying partial differential
+  equations. The latter are not defined at discontinuities such as
+  cracks. It is solved by using an integral formulation instead of a
+  differential one. As a result, existing material models have to be
+  rewritten. To improve the usability of the Peridynamic theory in 2007
+  the so-called correspondence formulation was developed by Silling et
+  al.
+  (<xref alt="Silling et al., 2007" rid="ref-SillingSA2007" ref-type="bibr">Silling
+  et al., 2007</xref>). This formulation introduces a non-local integral
+  deformation gradient which allows the use of classical continuum
+  mechanical models in Peridynamics. The non-local deformation gradient
+  allows the calculation of classical strain and stress measures.
+  Since, Peridynamics is motivated by the analysis of crack propagation
+  processes, a mesh-free method is usually used for the numerical
+  solving process. One of the more advanced frameworks is provided by
+  Sandia National Labs and is called Peridigm
+  (<xref alt="Parks et al., 2012" rid="ref-Parks2012" ref-type="bibr">Parks
+  et al., 2012</xref>;
+  <xref alt="Rädel &amp; Willberg, 2018" rid="ref-PeriDoX" ref-type="bibr">Rädel
+  &amp; Willberg, 2018</xref>). The framework allows the parallelization
+  of large scale models and has a post processing interface to the open
+  source software
+  ParaView<ext-link ext-link-type="uri" xlink:href="https://www.paraview.org/%20access%20date:%2007/03/2022">1</ext-link>.
+  Some extensions were introduced in the recent years. Within this
+  software publication, e.g. energy based ordinary state-based damage
+  model, anisotropy, correspondence energy damage model
+  (<xref alt="Willberg et al., 2019" rid="ref-WillbergC2019" ref-type="bibr">Willberg
+  et al., 2019</xref>,
+  <xref alt="2022" rid="ref-WillbergC2022" ref-type="bibr">2022</xref>;
+  <xref alt="Willberg &amp; Heinecke, 2021" rid="ref-WillbergC2021" ref-type="bibr">Willberg
+  &amp; Heinecke, 2021</xref>) will be added to Peridigm. However, the
+  current structure of Peridigm does not allow the direct use of already
+  existing material models. Material models have to be rewritten to use
+  them in Peridigm. This holds true for classical peridynamic as well as
+  correspondence material models. Abaqus is a general finite element
+  solver that can be used to model different material behaviors. This
+  software provides an interface to include user materials (UMAT). UMATs
+  usually are written in Fortran and it is the quasi standard in this
+  research domain, although alternative formats exist. Therefore, the
+  goal of this publication is the provision of a direct Peridigm -
+  Abaqus UMAT interface. This interface reduces the hurdle of material
+  modeling in Peridynamics and increases the advantages of the Peridigm
+  framework significantly. The approach presented here follows a setup
+  that allows easy extension to other material models as well as
+  languages.</p>
+</sec>
+<sec id="implementation-and-architecture">
+  <title>Implementation and architecture</title>
+  <p>The user material interface is motivated by the Abaqus UMAT
+  interface. Before the material routine can be used, the strain values
+  have to be transformed into local coordinates. The stress values,
+  which are calculated via the fortran routine, are transformed back
+  into the original coordinates. The
+  <xref alt="Table 1" rid="tbU003AInterfaceparameter">Table 1</xref>
+  gives an overview about the interface and supported parameters.
+  Obviously not all parameters are valid, because they are specific to
+  the finite element format.</p>
+  <table-wrap>
+    <caption>
+      <p>Interface parameter of the UMAT in Peridigm (PD). In
+      Dogbone_Umat.yaml it is shown how to call a user material with a
+      user defined number of properties and state
+      variables.<styled-content id="tbU003AInterfaceparameter"></styled-content></p>
+    </caption>
+    <table>
+      <colgroup>
+        <col width="20%" />
+        <col width="20%" />
+        <col width="20%" />
+        <col width="20%" />
+        <col width="20%" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Size</th>
+          <th>Description</th>
+          <th>Supported</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>sigmaNP1</td>
+          <td>double[ ]</td>
+          <td>ntens</td>
+          <td>Mechanical stresses</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>statev</td>
+          <td>double[ ]</td>
+          <td>nstatev</td>
+          <td>User defined state variables</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>DDSDDE</td>
+          <td>double[ ]</td>
+          <td>ntens<inline-formula><alternatives>
+          <tex-math><![CDATA[\times]]></tex-math>
+          <mml:math display="inline" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mo>×</mml:mo></mml:math></alternatives></inline-formula>ntens</td>
+          <td>Jacobian matrix of the constitutive model
+          <inline-formula><alternatives>
+          <tex-math><![CDATA[\partial\boldsymbol{\sigma}/\partial\boldsymbol{\varepsilon}]]></tex-math>
+          <mml:math display="inline" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>∂</mml:mi><mml:mstyle mathvariant="bold"><mml:mi>𝛔</mml:mi></mml:mstyle><mml:mi>/</mml:mi><mml:mi>∂</mml:mi><mml:mstyle mathvariant="bold"><mml:mi>𝛆</mml:mi></mml:mstyle></mml:mrow></mml:math></alternatives></inline-formula></td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>SSE</td>
+          <td>double</td>
+          <td>1</td>
+          <td>Specific elastic strain energy</td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>SPD</td>
+          <td>double</td>
+          <td>1</td>
+          <td>Specific plastic dissipation</td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>SCD</td>
+          <td>double</td>
+          <td>1</td>
+          <td>Specific creep dissipation energy</td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>RPL</td>
+          <td>double</td>
+          <td>1</td>
+          <td>Volumetric heat generation per unit time</td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>DDSDDT</td>
+          <td>double[ ]</td>
+          <td>ntens</td>
+          <td>Variation of the stress increments with respect to the
+          temperature</td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>DRPLDE</td>
+          <td>double[ ]</td>
+          <td>ntens</td>
+          <td>Variation of RPL with respect to the strain
+          increment.</td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>DRPLDT</td>
+          <td>double</td>
+          <td>1</td>
+          <td>Variation of RPL with respect to the temperature</td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>stran</td>
+          <td>double[ ]</td>
+          <td>ntens<inline-formula><alternatives>
+          <tex-math><![CDATA[\times]]></tex-math>
+          <mml:math display="inline" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mo>×</mml:mo></mml:math></alternatives></inline-formula>ntens</td>
+          <td>strain</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>dstran</td>
+          <td>double[ ]</td>
+          <td>ntens<inline-formula><alternatives>
+          <tex-math><![CDATA[\times]]></tex-math>
+          <mml:math display="inline" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mo>×</mml:mo></mml:math></alternatives></inline-formula>ntens</td>
+          <td>Strain increment</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>time(1)</td>
+          <td>double</td>
+          <td>1</td>
+          <td>Step time at the beginning of the current increment</td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>time(2)</td>
+          <td>double</td>
+          <td>1</td>
+          <td>Total time at the beginning of the current increment</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>dtime</td>
+          <td>double</td>
+          <td>1</td>
+          <td>Time increment</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>temp</td>
+          <td>double</td>
+          <td>1</td>
+          <td>Temperature</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>dtemp</td>
+          <td>double</td>
+          <td>1</td>
+          <td>Temperature increment</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>PREDEF</td>
+          <td>double[ ]</td>
+          <td>-</td>
+          <td>Predefined fields</td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>DPRED</td>
+          <td>double[ ]</td>
+          <td>-</td>
+          <td>Array of increments of predefined field variables</td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>CMNAME</td>
+          <td>string</td>
+          <td>80</td>
+          <td>Material name</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>ndi</td>
+          <td>int</td>
+          <td>2 or 3</td>
+          <td>Number of direct stress components at this point</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>nshr</td>
+          <td>int</td>
+          <td>1 or 3</td>
+          <td>Number of engineering shear stress components</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>ntens</td>
+          <td>int</td>
+          <td>ndi+nshr</td>
+          <td>Size of the stress or strain component array</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>nstatev</td>
+          <td>int</td>
+          <td></td>
+          <td>Number of state variables</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>props</td>
+          <td>double[ ]</td>
+          <td>nprops</td>
+          <td>Property values</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>nprops</td>
+          <td>int</td>
+          <td>1</td>
+          <td>Number of properties</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>coords</td>
+          <td>double[ ]</td>
+          <td>2 or 3</td>
+          <td>Coordinates</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>drot</td>
+          <td>double[ ]</td>
+          <td>3 <inline-formula><alternatives>
+          <tex-math><![CDATA[\times]]></tex-math>
+          <mml:math display="inline" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mo>×</mml:mo></mml:math></alternatives></inline-formula>
+          3</td>
+          <td>Rotation increment matrix</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>PNEWDT</td>
+          <td>double</td>
+          <td>1</td>
+          <td>Ratio of suggested new time increment</td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>CELENT</td>
+          <td>double</td>
+          <td>1</td>
+          <td>Characteristic element length</td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>DFGRD0</td>
+          <td>double[ ]</td>
+          <td>3 <inline-formula><alternatives>
+          <tex-math><![CDATA[\times]]></tex-math>
+          <mml:math display="inline" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mo>×</mml:mo></mml:math></alternatives></inline-formula>
+          3</td>
+          <td>Deformation gradient N</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>DFGRD1</td>
+          <td>double[ ]</td>
+          <td>3 <inline-formula><alternatives>
+          <tex-math><![CDATA[\times]]></tex-math>
+          <mml:math display="inline" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mo>×</mml:mo></mml:math></alternatives></inline-formula>
+          3</td>
+          <td>Deformation gradient N+1</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>NOEL</td>
+          <td>int</td>
+          <td>1</td>
+          <td>Element number</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>NPT</td>
+          <td>int</td>
+          <td>1</td>
+          <td>Integration point number</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>KSLAY</td>
+          <td>int</td>
+          <td>1</td>
+          <td>Layer number</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>KSPT</td>
+          <td>int</td>
+          <td>1</td>
+          <td>Section point number</td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>JSTEP</td>
+          <td>int</td>
+          <td>1</td>
+          <td>Step number</td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>KINC</td>
+          <td>int</td>
+          <td>1</td>
+          <td>Increment number</td>
+          <td>no</td>
+        </tr>
+      </tbody>
+    </table>
+  </table-wrap>
+  <p>The overall interface architecture is given in
+  <xref alt="Figure 1" rid="figU003Aumlschema">Figure 1</xref>. The
+  Peridigm user material is structured like a typical material used in
+  Peridigm. In order to be able to use a material routine, the UMAT file
+  must be precompiled and copied to a specific folder. An additional
+  interface layer is introduced. It is used to transform or calculate
+  specific parameters for the UMAT. Because, the material name is not
+  transferable directly from Peridigm which is written in C++ to
+  Fortran, a dedicated Fortran routine is provided. This routine
+  transforms the string definition of C++ to the character field
+  definition of Fortran.
+  The interface allows an arbitrary number of properties and state
+  variables. The definition is shown in the Listing below or in the
+  example, which is given in the repository. The state variables allow
+  specific calculations, e.g. the history of a discrete material
+  response or property. These state variables can be saved and requested
+  for output in the output section of the Peridigm input file.</p>
+  <fig>
+    <caption><p>UML
+    schema<styled-content id="figU003Aumlschema"></styled-content></p></caption>
+    <graphic mimetype="application" mime-subtype="pdf" xlink:href="figures/uml-rotated.pdf" xlink:title="" />
+  </fig>
+  <p>Listing 1: Yaml interface to call the UMAT with name (User Material
+  Name), three properties and three state
+  variables.<styled-content id="lstU003Amat"></styled-content></p>
+  <preformat>Materials:
+  User Material Name:
+    Material Model: &quot;User Correspondence&quot;
+    Plane Strain: false
+    Plane Stress: True
+    Density: 2.7e+03
+    Young's Modulus: 7.24e+10
+    Poisson's Ratio: 3.3e-01
+    Number of Properties: 3
+    Prop_1: 1.0727111897390535e+11
+    Prop_2: 5.2835028748341446e+10
+    Prop_3: 2.721804511278195e+10
+    Number of State Vars: 3</preformat>
+  <p>Listing 2: Yaml interface export state
+  parameter.<styled-content id="lstU003Aout"></styled-content></p>
+  <preformat>Output:
+    Output File Type: &quot;ExodusII&quot;
+    Output Filename: &quot;Example&quot;
+    Output Frequency: 1
+    Output Variables:
+      State_Parameter_Field_1: true
+      State_Parameter_Field_2: true
+      State_Parameter_Field_3: false
+      Displacements: true</preformat>
+</sec>
+<sec id="example">
+  <title>Example</title>
+  <p><xref alt="Figure 2" rid="figU003Adogbone">Figure 2</xref> shows
+  the example provided in the repository. The user material is defined
+  with properties the above properties. Property one is the P-wave
+  modulus, property 2 is Lames first parameter and the third property is
+  the Shear Modulus. The dogbone is loaded under tension by applying a
+  <inline-formula><alternatives>
+  <tex-math><![CDATA[u_1(x_1 = l)=0.01m]]></tex-math>
+  <mml:math display="inline" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:msub><mml:mi>u</mml:mi><mml:mn>1</mml:mn></mml:msub><mml:mrow><mml:mo stretchy="true" form="prefix">(</mml:mo><mml:msub><mml:mi>x</mml:mi><mml:mn>1</mml:mn></mml:msub><mml:mo>=</mml:mo><mml:mi>l</mml:mi><mml:mo stretchy="true" form="postfix">)</mml:mo></mml:mrow><mml:mo>=</mml:mo><mml:mn>0.01</mml:mn><mml:mi>m</mml:mi></mml:mrow></mml:math></alternatives></inline-formula>
+  displacement at the right-hand side. All translations on the boundary
+  condition application region on the left of the specimen are
+  fixed.</p>
+  <fig>
+    <caption><p>Dogbone block
+    definition<styled-content id="figU003Adogbone"></styled-content></p></caption>
+    <graphic mimetype="image" mime-subtype="png" xlink:href="figures/DogboneBlocks.png" xlink:title="" />
+  </fig>
+  <p>The material routine is utilized in Peridigm and Abaqus.
+  <xref alt="Figure 3" rid="figU003AdisplacementPeridigm">Figure 3</xref>
+  and
+  <xref alt="Figure 4" rid="figU003AdisplacementAbaqus">Figure 4</xref>
+  shows the resulting displacement. As expected the results are
+  identical. This is because the <inline-formula><alternatives>
+  <tex-math><![CDATA[u_1]]></tex-math>
+  <mml:math display="inline" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:msub><mml:mi>u</mml:mi><mml:mn>1</mml:mn></mml:msub></mml:math></alternatives></inline-formula>
+  displacement was applied as boundary condition.
+  <xref alt="Figure 5" rid="figU003Astress11Peridigm">Figure 5</xref>
+  and <xref alt="Figure 6" rid="figU003Astress11Abaqus">Figure 6</xref>
+  illustrate the <inline-formula><alternatives>
+  <tex-math><![CDATA[\sigma_{11}]]></tex-math>
+  <mml:math display="inline" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:msub><mml:mi>σ</mml:mi><mml:mn>11</mml:mn></mml:msub></mml:math></alternatives></inline-formula>
+  stress distribution. There are some differences between both results.
+  The numerical representation between Peridigm and Abaqus is different.
+  Boundary conditions cannot be applied in the same way, because each
+  point in the peridynamic model represents a volume. Surface boundary
+  conditions lead to an error. Another difference is not of numerical
+  nature. The classical continuum mechanics theory and Peridynamics are
+  different formulations and also if fully converged will lead to minor
+  differences.</p>
+  <fig>
+    <caption><p>Resulting displacements using
+    Peridigm<styled-content id="figU003AdisplacementPeridigm"></styled-content></p></caption>
+    <graphic mimetype="image" mime-subtype="png" xlink:href="figures/PeridigmUserMaterialDisplacement.png" xlink:title="" />
+  </fig>
+  <fig>
+    <caption><p>Resulting displacements using
+    Abaqus<styled-content id="figU003AdisplacementAbaqus"></styled-content></p></caption>
+    <graphic mimetype="image" mime-subtype="png" xlink:href="figures/AbaqusUserMaterialDisplacement.png" xlink:title="" />
+  </fig>
+  <fig>
+    <caption><p>Resulting S11 stresses using
+    Peridigm<styled-content id="figU003Astress11Peridigm"></styled-content></p></caption>
+    <graphic mimetype="image" mime-subtype="png" xlink:href="figures/PeridigmUserMaterialStressXX.png" xlink:title="" />
+  </fig>
+  <fig>
+    <caption><p>Resulting S11 stresses using
+    Abaqus<styled-content id="figU003Astress11Abaqus"></styled-content></p></caption>
+    <graphic mimetype="image" mime-subtype="png" xlink:href="figures/AbaqusUserMaterialStressXX.png" xlink:title="" />
+  </fig>
+</sec>
+<sec id="quality-control">
+  <title>Quality control</title>
+  <p>Multiple test routines are provided for the interface. They are
+  based on the existing Peridigm CMake test environment. In combination
+  with the use of CTest the user can make sure that the Fortran
+  interface is working as expected.</p>
+  <p>Two unit tests and one functional test are implemented. The first
+  unit test is required to ensure that all tensors are translated into a
+  Voigt notation and returned as a full tensor. The second unit test is
+  able to control the correct passing of variables in and from the
+  Fortran interface. Therefore, a test user material library, which
+  modifies every parameter by a defined value, was compiled. If the
+  returned values are as expected the Fortran interface and the property
+  definition is working.</p>
+  <p>In addition, full testing ensures that the user material
+  implementation works across the Peridigm framework. Hence, the test
+  will compare an exodus result file which is based on a predefined
+  Peridigm material model and a file which is the result of the user
+  material model. Both material models are similar. If the exodus
+  results are within a defined tolerance the test will pass. As
+  reference a dogbone model as shown in
+  <xref alt="Figure 2" rid="figU003Adogbone">Figure 2</xref>, the
+  compiled fortran routine and the exodus result file can be found in
+  the referenced Zenodo archive.</p>
+</sec>
+<sec id="availability">
+  <title>Availability</title>
+</sec>
+<sec id="operating-system">
+  <title>Operating system</title>
+  <p>Linux</p>
+</sec>
+<sec id="programming-language">
+  <title>Programming language</title>
+  <p><bold>C++</bold>, Fortran 90</p>
+</sec>
+<sec id="additional-system-requirements">
+  <title>Additional system requirements</title>
+  <p>2 GHz (Dual Core), 2 GB RAM, 5 GB available space</p>
+</sec>
+<sec id="dependencies">
+  <title>Dependencies</title>
+  <p>Trilinos 13.2.0, HDF5 1.12.0, NetCDF 4.8.0, CMake 3.20.5</p>
+</sec>
+<sec id="list-of-contributors">
+  <title>List of contributors</title>
+  <p>Christian Willberg, christian.willberg@dlr.de, German Aerospace
+  Center
+  Jan-Timo Hesse, jan-timo.hesse@dlr.de, German Aerospace Center
+  </p>
+  <sec id="software-location">
+    <title>Software location:</title>
+    <sec id="name">
+      <title>Name:</title>
+      <list list-type="bullet">
+        <list-item>
+          <p>Zenodo</p>
+        </list-item>
+      </list>
+    </sec>
+    <sec id="persistent-identifier">
+      <title>Persistent identifier:</title>
+      <list list-type="bullet">
+        <list-item>
+          <p>https://doi.org/10.5281/zenodo.6418265</p>
+        </list-item>
+      </list>
+    </sec>
+    <sec id="license">
+      <title>License:</title>
+      <list list-type="bullet">
+        <list-item>
+          <p>BSD</p>
+        </list-item>
+      </list>
+    </sec>
+    <sec id="publisher">
+      <title>Publisher:</title>
+      <list list-type="bullet">
+        <list-item>
+          <p>Jan-Timo Hesse</p>
+        </list-item>
+      </list>
+    </sec>
+    <sec id="version-published">
+      <title>Version published:</title>
+      <list list-type="bullet">
+        <list-item>
+          <p>0.1</p>
+        </list-item>
+      </list>
+    </sec>
+    <sec id="date-published">
+      <title>Date published:</title>
+      <list list-type="bullet">
+        <list-item>
+          <p>06/04/2022</p>
+        </list-item>
+      </list>
+    </sec>
+  </sec>
+  <sec id="code-repository">
+    <title>Code repository</title>
+    <sec id="name-1">
+      <title>Name:</title>
+      <list list-type="bullet">
+        <list-item>
+          <p>GitHub</p>
+        </list-item>
+      </list>
+    </sec>
+    <sec id="persistent-identifier-1">
+      <title>Persistent identifier:</title>
+      <list list-type="bullet">
+        <list-item>
+          <p>https://github.com/PeriHub/Peridigm</p>
+        </list-item>
+      </list>
+    </sec>
+    <sec id="license-1">
+      <title>License:</title>
+      <list list-type="bullet">
+        <list-item>
+          <p>BSD</p>
+        </list-item>
+      </list>
+    </sec>
+    <sec id="date-published-1">
+      <title>Date published:</title>
+      <list list-type="bullet">
+        <list-item>
+          <p>04/04/2022</p>
+        </list-item>
+      </list>
+    </sec>
+  </sec>
+  <sec id="language">
+    <title>Language</title>
+    <list list-type="bullet">
+      <list-item>
+        <p>English</p>
+      </list-item>
+    </list>
+  </sec>
+</sec>
+<sec id="reuse-potential">
+  <title>Reuse potential</title>
+  <p>A possibility to directly apply user defined material models in
+  Peridigm eliminates the need for duplicate development of existing
+  material models from classical continuum mechanics. Many material
+  models can now be used both in finite element methods and in
+  Peridynamics. This opens up new analysis, verification and comparison
+  possibilities. The application of the UMAT interface is done by a
+  pre-compiled Fortran material routine. This is deposited in the
+  calculation folder. This library is copied to the correct place and
+  used for the calculation of the material.</p>
+</sec>
+<sec id="acknowledgements">
+  <title>Acknowledgements</title>
+  <p>The authors like to acknowledge the development team of the
+  original Peridigm framework (David J. Littlewood, djlittl@sandia.gov,
+  John A. Mitchell, jamitch@sandia.gov, Michael L. Parks,
+  mlparks@sandia.gov,Stewart A. Silling, sasilli@sandia.gov)
+  (<xref alt="Parks et al., 2012" rid="ref-Parks2012" ref-type="bibr">Parks
+  et al., 2012</xref>).</p>
+</sec>
+<sec id="funding-statement">
+  <title>Funding statement</title>
+  <p>The work was funded by the German Research Foundation funded
+  project: “Gekoppelte Peridynamik-Finite-Elemente-Simulationen zur
+  Schädigungsanalyse von Faserverbundstrukturen” Grant number: WI
+  4835/5-1 and the M-ERA.NET funded project Exploring Multi-Method
+  Analysis of composite structures and joints under consideration of
+  uncertainties engineering and processing (EMMA)
+  <inline-graphic mimetype="image" mime-subtype="jpeg" xlink:href="figures/Wappen_sachsen.jpg" />
+  This measure is co-financed with tax funds on the basis of the budget
+  passed by the Saxon state parliament. Grant number: 3028223. The
+  authors like to thank for the funding.</p>
+</sec>
+<sec id="competing-interests">
+  <title>Competing interests</title>
+  <p>The authors declare that they have no competing interests.</p>
+  <p><bold>Copyright Notice</bold>
+  Authors who publish with this journal agree to the following terms:
+  Authors retain copyright and grant the journal right of first
+  publication with the work simultaneously licensed under a
+  <ext-link ext-link-type="uri" xlink:href="http://creativecommons.org/licenses/by/3.0/">Creative
+  Commons Attribution License</ext-link> that allows others to share the
+  work with an acknowledgement of the work’s authorship and initial
+  publication in this journal.
+  Authors are able to enter into separate, additional contractual
+  arrangements for the non-exclusive distribution of the journal’s
+  published version of the work (e.g., post it to an institutional
+  repository or publish it in a book), with an acknowledgement of its
+  initial publication in this journal.
+  By submitting this paper you agree to the terms of this Copyright
+  Notice, which will apply to this submission if and when it is
+  published by this journal.</p>
+</sec>
+</body>
+<back>
+<ref-list>
+  <ref id="ref-SillingSA2007">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Silling</surname><given-names>Stewart A.</given-names></name>
+        <name><surname>Epton</surname><given-names>M.</given-names></name>
+        <name><surname>Weckner</surname><given-names>Olaf</given-names></name>
+        <name><surname>Xu</surname><given-names>J.</given-names></name>
+        <name><surname>Askari</surname><given-names>Ebrahim</given-names></name>
+      </person-group>
+      <article-title>Peridynamic states and constitutive modeling</article-title>
+      <source>Journal of Elasticity</source>
+      <year iso-8601-date="2007">2007</year>
+      <volume>88</volume>
+      <pub-id pub-id-type="doi">10.1007/s10659-007-9125-1</pub-id>
+      <fpage>151</fpage>
+      <lpage>184</lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-WillbergC2021">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Willberg</surname><given-names>Christian</given-names></name>
+        <name><surname>Heinecke</surname><given-names>Falk</given-names></name>
+      </person-group>
+      <article-title>Evaluation of manufacturing deviations of composite materials</article-title>
+      <source>PAMM</source>
+      <year iso-8601-date="2021">2021</year>
+      <volume>20</volume>
+      <issue>1</issue>
+      <pub-id pub-id-type="doi">10.1002/pamm.202000345</pub-id>
+      <fpage>e202000345</fpage>
+      <lpage></lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-PeriDoX">
+    <element-citation>
+      <person-group person-group-type="author">
+        <name><surname>Rädel</surname><given-names>Martin</given-names></name>
+        <name><surname>Willberg</surname><given-names>Christian</given-names></name>
+      </person-group>
+      <article-title>PeriDoX</article-title>
+      <source></source>
+      <publisher-name>GitHub repository; GitHub</publisher-name>
+      <year iso-8601-date="2018-03-06">2018</year><month>03</month><day>06</day>
+      <uri>https://github.com/PeriDoX/PeriDoX</uri>
+      <pub-id pub-id-type="doi">10.5281/zenodo.1403015</pub-id>
+    </element-citation>
+  </ref>
+  <ref id="ref-WillbergC2019">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Willberg</surname><given-names>Christian</given-names></name>
+        <name><surname>Wiedemann</surname><given-names>Lasse</given-names></name>
+        <name><surname>Rädel</surname><given-names>Martin</given-names></name>
+      </person-group>
+      <article-title>A mode-dependent energy-based damage model for peridynamics and its implementation</article-title>
+      <source>Journal of Mechanics of Materials and Structures</source>
+      <year iso-8601-date="2019">2019</year>
+      <volume>14</volume>
+      <issue>2</issue>
+      <issn>1559-3959</issn>
+      <pub-id pub-id-type="doi">10.2140/jomms.2019.14.193</pub-id>
+      <fpage>193</fpage>
+      <lpage>217</lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-WillbergC2022">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Willberg</surname><given-names>Christian</given-names></name>
+        <name><surname>Hesse</surname><given-names>Jan-Timo</given-names></name>
+        <name><surname>Heinecke</surname><given-names>Falk</given-names></name>
+      </person-group>
+      <article-title>Peridynamic simulation of a mixed-mode fracture experiment in PMMA utilizing an adaptive-time stepping for an explicit solver</article-title>
+      <source>Journal of Peridynamics and Nonlocal Modeling</source>
+      <year iso-8601-date="2022">2022</year>
+      <pub-id pub-id-type="doi">10.1007/s42102-021-00079-6</pub-id>
+    </element-citation>
+  </ref>
+  <ref id="ref-Parks2012">
+    <element-citation publication-type="report">
+      <person-group person-group-type="author">
+        <name><surname>Parks</surname><given-names>M. L.</given-names></name>
+        <name><surname>Littlewood</surname><given-names>D. J.</given-names></name>
+        <name><surname>Mitchell</surname><given-names>J. A.</given-names></name>
+        <name><surname>Silling</surname><given-names>S. A.</given-names></name>
+      </person-group>
+      <article-title>Peridigm users’ guide</article-title>
+      <publisher-name>Report SAND2012-7800, Sandia National Laboratories</publisher-name>
+      <year iso-8601-date="2012">2012</year>
+    </element-citation>
+  </ref>
+  <ref id="ref-Abaqus">
+    <element-citation publication-type="webpage">
+      <article-title>UMAT</article-title>
+      <publisher-name>Dassault; online</publisher-name>
+      <year iso-8601-date="2022-03">2022</year><month>03</month>
+      <uri>https://abaqus-docs.mit.edu/2017/English/SIMACAESUBRefMap/simasub-c-umat.htm#simasub-c-umat</uri>
+    </element-citation>
+  </ref>
+  <ref id="ref-PeridigmGithub">
+    <element-citation publication-type="webpage">
+      <article-title></article-title>
+      <publisher-name>online</publisher-name>
+      <year iso-8601-date="2022-03">2022</year><month>03</month>
+    </element-citation>
+  </ref>
+</ref-list>
+</back>
+</article>
